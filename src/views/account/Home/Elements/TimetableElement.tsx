@@ -243,7 +243,7 @@ const SeparatorCourse: React.FC<{
             top: "-20%",
             left: "-20%",
             width: "200%",
-            height: "200%",
+            height: "220%",
             opacity: 0.05,
           }}
         />
