@@ -30,7 +30,7 @@ export const getChatMessages = async (account: PronoteAccount, chat: Chat): Prom
   if (!account.instance)
     throw new ErrorServiceUnauthenticated("pronote");
 
-  const messages = await pronote.discussionMessages(account.instance, <pronote.Discussion>chat._handle);
+  const messages = await pronote.discussionMessages(account.instance, chat._handle);
   info("PRONOTE->getChatMessages(): OK", "pronote");
 
   const studentName = account.instance.user.resources[0].name;
@@ -41,7 +41,8 @@ export const getChatMessages = async (account: PronoteAccount, chat: Chat): Prom
       content: message.content,
       author: message.author?.name ?? studentName,
       date: message.creationDate,
-      attachments: message.files.map(decodeAttachment)
+      attachments: message.files.map(decodeAttachment),
+      isAuthor: message.author?.name === undefined
     };
   });
 };

@@ -22,4 +22,5 @@ export interface ChatMessage {
   author: string
   date: Date
   attachments: Attachment[]
+  isAuthor: boolean
 }
