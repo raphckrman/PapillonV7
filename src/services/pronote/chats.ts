@@ -131,3 +131,39 @@ export const markDiscussionAsRead = async (account: PronoteAccount, chat: Chat):
   await pronote.discussionRead(account.instance, chat._handle);
   info("PRONOTE->markDiscussionAsRead(): OK", "pronote");
 };
+
+export const getDiscussionParticipants = async (account: PronoteAccount, chat: Chat): Promise<Recipient[]> => {
+  if (!account.instance)
+    throw new ErrorServiceUnauthenticated("pronote");
+
+  const participants = await pronote.discussionRecipients(account.instance, chat._handle);
+  info("PRONOTE->getDiscussionParticipants(): OK", "pronote");
+
+  return participants.map((participant) => ({
+    name: participant.name
+      .replaceAll("M. ", "")
+      .replaceAll("Mme ", "")
+      .split(" ")
+      .reverse()
+      .join(" ")
+      .replace(/\(([^;]*)\)/g, "")
+      .trim()
+    ,
+    kind:
+            participant.kind === pronote.EntityKind.Teacher ? "Professeur" :
+              participant.kind === pronote.EntityKind.Personal ? "Personnel" :
+                participant.kind === pronote.EntityKind.Student ? "Étudiant" : "Inconnu"
+    ,
+    _handle: participant
+  }));
+};
+
+export const deleteDiscussion = async (account: PronoteAccount, chat: Chat): Promise<void> => {
+  if (!account.instance)
+    throw new ErrorServiceUnauthenticated("pronote");
+
+  await pronote.discussionDelete(account.instance, chat._handle);
+  info("PRONOTE->deleteDiscussion(): OK", "pronote");
+
+  return;
+};
