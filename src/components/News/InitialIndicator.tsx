@@ -20,6 +20,7 @@ const InitialIndicator = ({ initial, color, textColor = "#FFF", size = 42 }: { i
         <NativeText variant="title" style={{
           color: textColor,
           fontSize: size / 2.25,
+          lineHeight: size,
         }}>
           {initial
             .substr(0, 2)
