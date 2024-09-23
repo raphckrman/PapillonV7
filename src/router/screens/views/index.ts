@@ -10,8 +10,9 @@ import GradeSubjectScreen from "@/views/account/Grades/Modals/Subject";
 import GradeDocument from "@/views/account/Grades/Document";
 import RestaurantHistory from "@/views/account/Restaurant/Modals/History";
 import ChatCreate from "@/views/account/Chat/Modals/ChatCreate";
-import Chat from "@/views/account/Chat/Modals/Chat";
+import Chat from "@/views/account/Chat/Chat";
 import HomeworksDocument from "@/views/account/Homeworks/Document";
+import ChatDetails from "@/views/account/Chat/Modals/ChatDetails";
 
 export default [
   createScreen("NoteReaction", NoteReaction, {
@@ -62,4 +63,9 @@ export default [
   createScreen("Chat", Chat, {
     headerTitle: "",
   }),
+  createScreen("ChatDetails", ChatDetails, {
+    headerTitle: "Nouvelle discussion",
+    presentation: "modal",
+    headerShown: false,
+  })
 ] as const;
