@@ -33,7 +33,6 @@ const Chat: Screen<"Chat"> = ({
   const theme = useTheme();
   const { colors } = theme;
   const insets = useSafeAreaInsets();
-  var fetchingInterval: any;
 
   const flatListRef = useRef<FlatList<ChatMessage> | null>(null);
   const account = useCurrentAccount(state => state.account!);
@@ -71,19 +70,22 @@ const Chat: Screen<"Chat"> = ({
       setMessages([]);
       return;
     }
+    var timeout: any;
     refreshMessages()
       .then(() => {
         setIsFirstLoad(false);
         markDiscussionAsRead(account, route.params.handle);
-        fetchingInterval = setInterval(() => {
-          refreshMessages(true);
-        }, 2000);
+        timeout = setTimeout(() => {
+          refreshMessages(true)
+            .then(() => {
+              timeout = setTimeout(() => {
+                refreshMessages(true);
+              }, 5000);
+            });
+        }, 5000);
       });
+    return () => clearTimeout(timeout);
   }, [route.params.handle]);
-
-  navigation.addListener("blur", () => {
-    clearInterval(fetchingInterval);
-  });
 
   return (
     <View style={{flex: 1, paddingBottom: insets.bottom}}>
@@ -93,17 +95,21 @@ const Chat: Screen<"Chat"> = ({
       >
         <PapillonModernHeader outsideNav={false}>
           <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
-            <ChevronLeft color={colors.text + "80"} size={26} onPress={() => navigation.goBack()} />
-            <InitialIndicator
-              initial={parse_initials(route.params.handle.recipient)}
-              color={getProfileColorByName(route.params.handle.recipient).bright}
-              textColor={getProfileColorByName(route.params.handle.recipient).dark}
-              size={38}
-            />
-            <View style={{flex: 1}}>
-              <NativeText variant="subtitle" numberOfLines={1}>{route.params.handle.subject ? route.params.handle.recipient: "Conversation avec"}</NativeText>
-              <NativeText variant="title" numberOfLines={1}>{route.params.handle.subject || route.params.handle.recipient}</NativeText>
-            </View>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <ChevronLeft color={colors.text + "80"} size={26}  />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("ChatDetails", {handle: route.params.handle})} style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
+              <InitialIndicator
+                initial={route.params.handle.isGroup ? "group":parse_initials(route.params.handle.recipient)}
+                color={getProfileColorByName(route.params.handle.recipient).bright}
+                textColor={getProfileColorByName(route.params.handle.recipient).dark}
+                size={38}
+              />
+              <View style={{flex: 1}}>
+                <NativeText variant="subtitle" numberOfLines={1}>{route.params.handle.subject ? route.params.handle.recipient: "Conversation avec"}</NativeText>
+                <NativeText variant="title" numberOfLines={1}>{route.params.handle.subject || route.params.handle.recipient}</NativeText>
+              </View>
+            </TouchableOpacity>
           </View>
         </PapillonModernHeader>
         {!loading ? messages.length > 0 ? (
