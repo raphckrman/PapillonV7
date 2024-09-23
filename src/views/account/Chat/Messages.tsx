@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   TouchableOpacity,
   ScrollView,
-  LogBox, RefreshControl, Platform, ActivityIndicator, Text
+  LogBox, RefreshControl, Platform, ActivityIndicator, Text, View
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import type { Screen } from "@/router/helpers/types";
@@ -40,8 +40,12 @@ const Messages: Screen<"Messages"> = ({
   const { colors } = theme;
 
   const account = useCurrentAccount(state => state.account!);
-  const [chats, setChats] = useState<Chat[] | null>(null);
+  const [chats, setChats] = useState<Chat[] | null>([]);
   const [refreshing, setRefreshing] = useState(false);
+
+  navigation.addListener("focus", () => {
+    refreshChats();
+  });
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -84,6 +88,7 @@ const Messages: Screen<"Messages"> = ({
       }}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={() => {
+          setRefreshing(true);
           refreshChats()
             .then(() => setRefreshing(false));
         }}/>
@@ -136,31 +141,37 @@ const Messages: Screen<"Messages"> = ({
           style={{paddingVertical: 26}}
         />
       ) : (
-        <NativeList>
+        <NativeList style={{marginBottom: 20}}>
           {chats.map((chat) => (
-
             <NativeItem
               key={chat.id}
               onPress={() => navigation.navigate("Chat", { handle: chat })}
               leading={
                 <InitialIndicator
-                  initial={parse_initials(chat.recipient)}
+                  initial={chat.isGroup ? "group":parse_initials(chat.recipient)}
                   color={getProfileColorByName(chat.recipient).bright}
                   textColor={getProfileColorByName(chat.recipient).dark}
                 />
               }
             >
               <NativeText variant={"subtitle"}>
-                {chat.recipient
-                  .replaceAll("Mme ", "").replaceAll("M. ", "")
-                  .split(" ")
-                  .reverse()
-                  .join(" ")
-                }
+                {chat.recipient}
               </NativeText>
-              <NativeText>
-                {chat.subject || "Aucun sujet"}
-              </NativeText>
+              <View style={{flexDirection: "row", alignItems: "center", gap: 5}}>
+                {chat.unreadMessages > 0 && (
+                  <View
+                    style={{
+                      backgroundColor: getProfileColorByName(chat.recipient).dark,
+                      borderRadius: 5,
+                      height: 10,
+                      width: 10,
+                    }}
+                  />
+                )}
+                <NativeText>
+                  {chat.subject || "Aucun sujet"}
+                </NativeText>
+              </View>
             </NativeItem>
           ))}
         </NativeList>
