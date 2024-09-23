@@ -43,10 +43,6 @@ const Messages: Screen<"Messages"> = ({
   const [chats, setChats] = useState<Chat[] | null>([]);
   const [refreshing, setRefreshing] = useState(false);
 
-  navigation.addListener("focus", () => {
-    refreshChats();
-  });
-
   useLayoutEffect(() => {
     navigation.setOptions({
       ...TabAnimatedTitle({ theme, route, navigation }),
@@ -79,6 +75,7 @@ const Messages: Screen<"Messages"> = ({
 
   useEffect(() => {
     refreshChats();
+    navigation.addListener("focus", refreshChats);
   }, [account?.instance]);
 
   return (
