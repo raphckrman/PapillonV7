@@ -99,7 +99,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           label: "Services externes",
           description: "Disponible prochainement",
           onPress: () => navigation.navigate("SettingsExternalServices"),
-          disabled: !defined("enable_external_services"),
+          disabled: false,
         },
       ],
     },
