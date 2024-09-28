@@ -5,17 +5,15 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import * as WebBrowser from "expo-web-browser";
 import {
-  X,
   Clock2,
   QrCode,
   ChevronLeft,
   ChevronRight,
   Calendar,
-  Wallet,
 } from "lucide-react-native";
 
 import type { Screen } from "@/router/helpers/types";
@@ -33,15 +31,20 @@ import TabAnimatedTitle from "@/components/Global/TabAnimatedTitle";
 import { Balance } from "@/services/shared/Balance";
 import { balanceFromExternal } from "@/services/balance";
 
-const Menu: Screen<"Menu"> = ({
-  route,
-  navigation,
-}) => {
+const Menu: Screen<"Menu"> = ({ route, navigation }) => {
   const theme = useTheme();
   const { colors } = theme;
 
-  const account = useCurrentAccount(store => store.account);
-  const linkedAccounts = useCurrentAccount(store => store.linkedAccounts);
+  const account = useCurrentAccount((store) => store.account);
+  const linkedAccounts = useCurrentAccount((store) => store.linkedAccounts);
+
+  const screenWidth = Dimensions.get("window").width;
+  const [activeIndex, setActiveIndex] = useState(0);
+  const handleScroll = (event: { nativeEvent: { contentOffset: { x: any; }; }; }) => {
+    const contentOffsetX = event.nativeEvent.contentOffset.x;
+    const index = Math.floor(contentOffsetX / (screenWidth - 200));
+    setActiveIndex(Math.max(0, Math.min(index, balances ? balances.length - 1 : 0)));
+  };
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -65,14 +68,41 @@ const Menu: Screen<"Menu"> = ({
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
-      {balances ? balances.map((balance, index) => (
-        <RestaurantCard
-          key={index}
-          theme={theme}
-          solde={balance.amount}
-          repas={balance.remaining}
-        />
-      )) : <View />}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        snapToInterval={screenWidth}
+        onScroll={handleScroll}
+        decelerationRate="fast"
+        scrollEnabled={(balances ?? []).length > 1}
+        contentContainerStyle={{ alignItems: "center", gap: 16 }}
+      >
+        {balances?.map((item, index) => (
+          <View style={{ width: screenWidth - 32 }}>
+            <RestaurantCard
+              theme={theme}
+              solde={item.amount}
+              repas={item.remaining}
+              accountName={item.label ?? null}
+            />
+          </View>
+        ))}
+      </ScrollView>
+
+      {balances && balances.length > 1 && (
+        <View style={styles.dotsContainer}>
+          {balances.map((_, index) => (
+            <View
+              key={index}
+              style={[
+                styles.dot,
+                index === activeIndex ? styles.activeDot : styles.inactiveDot,
+              ]}
+            />
+          ))}
+        </View>
+      )}
+
 
       <HorizontalList style={styles.horizontalList}>
         <Item
@@ -92,15 +122,10 @@ const Menu: Screen<"Menu"> = ({
           <ChevronLeft color={colors.text + "70"} />
         </TouchableOpacity>
         <View
-          style={[
-            styles.calendarTextContainer,
-            { backgroundColor: colors.primary + "22" },
-          ]}
+          style={[styles.calendarTextContainer, { backgroundColor: colors.primary + "22" }]}
         >
           <Calendar size={20} color={colors.primary} />
-          <Text
-            style={[styles.calendarText, { color: colors.primary }]}
-          >
+          <Text style={[styles.calendarText, { color: colors.primary }]}>
             vendredi 03 avril
           </Text>
         </View>
@@ -137,27 +162,9 @@ const Menu: Screen<"Menu"> = ({
 };
 
 const styles = StyleSheet.create({
-  headerTitleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-  },
-  lottieIcon: {
-    width: 26,
-    height: 26,
-  },
-  headerTitleText: {
-    fontFamily: "semibold",
-    fontSize: 17.5,
-  },
-  headerRightButton: {
-    padding: 6,
-    borderRadius: 18,
-    opacity: 0.6,
-  },
   scrollViewContent: {
     padding: 16,
+    gap: 16,
   },
   horizontalList: {
     marginTop: 10,
@@ -188,6 +195,23 @@ const styles = StyleSheet.create({
     fontFamily: "semibold",
     fontSize: 17,
   },
+  dotsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  dot: {
+    width: 7,
+    height: 7,
+    borderRadius: 5,
+    marginHorizontal: 4,
+  },
+  activeDot: {
+    backgroundColor: "#ffffff",
+  },
+  inactiveDot: {
+    backgroundColor: "#ffffff25",
+  }
 });
 
 export default Menu;

@@ -5,6 +5,7 @@ import type { Client as ARDClient } from "pawrd";
 import type ScolengoAPI from "scolengo-api";
 import { SkolengoAuthConfig } from "@/services/skolengo/skolengo-types";
 import { User as ScolengoAPIUser } from "scolengo-api/types/models/Common";
+import { Client } from "turboself-api";
 
 export interface Tab {
   name: string
@@ -143,8 +144,9 @@ export interface TurboselfAccount extends BaseExternalAccount {
   service: AccountService.Turboself
   instance: undefined
   authentication: {
-    auth: TSAuthentication
-    session: TSSession
+    session: Client
+    username: string
+    password: string
   }
 }
 

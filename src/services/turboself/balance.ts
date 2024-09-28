@@ -1,17 +1,19 @@
 import type { TurboselfAccount } from "@/stores/account/types";
-import { balance, host } from "turbawself";
 import type { Balance } from "../shared/Balance";
 
-export const getBalance = async (account: TurboselfAccount): Promise<Balance> => {
-  const b = await balance(account.authentication.auth, account.authentication.session);
-  const h = await host(account.authentication.auth, account.authentication.session);
+export const getBalance = async (account: TurboselfAccount): Promise<Balance[]> => {
+  const balances = await account.authentication.session.balances ?? [];
+  const mealPrice = await account.authentication.session.host?.lunchPrice;
 
-  return {
-    amount: b.amount / 100,
-    currency: "€",
-    remaining: Math.floor(b.amount / h.lunchPrice)
+  const result: Balance[] = [];
+  for (const balance of balances) {
+    result.push({
+      amount: balance.amount / 100,
+      currency: "€",
+      remaining: Math.floor(balance.amount / (mealPrice ?? 0)),
+      label: balance.label
+    });
+  }
 
-    // since turboself is french, we can assume the currency is always euro.
-    // note: would need more information to be sure.
-  };
+  return result as Balance[];
 };

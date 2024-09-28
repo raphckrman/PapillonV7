@@ -8,7 +8,7 @@ interface RestaurantCardProps {
   repas: number
 }
 
-const RestaurantCard: React.FC<RestaurantCardProps> = ({ solde, repas }) => {
+const RestaurantCard: React.FC<RestaurantCardProps> = ({ solde, repas, accountName }) => {
   const theme = useTheme();
   const { colors } = theme;
 
@@ -31,11 +31,12 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ solde, repas }) => {
         }}
       >
         <NativeText
+          numberOfLines={1}
           style={{
             textAlign: "left",
           }}
         >
-          Solde actuel
+          Solde actuel { (accountName ? `(${accountName})` : "") }
         </NativeText>
         <Text
           style={{
@@ -45,7 +46,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ solde, repas }) => {
             fontSize: 30,
           }}
         >
-          {solde} €
+          {solde.toFixed(2)} €
         </Text>
       </View>
 
@@ -71,7 +72,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ solde, repas }) => {
             fontSize: 30,
           }}
         >
-          {repas} €
+          {repas}
         </Text>
       </View>
     </View>
