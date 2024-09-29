@@ -107,7 +107,7 @@ export type RouteParameters = {
   SettingsDonorsList: undefined;
 
   Menu?: undefined;
-  RestaurantQrCode: undefined;
+  RestaurantQrCode: { qrCodes: number[] };
   RestaurantHistory: undefined;
 
   Messages: undefined;

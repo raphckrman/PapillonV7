@@ -30,6 +30,7 @@ import { AccountService } from "@/stores/account/types";
 import TabAnimatedTitle from "@/components/Global/TabAnimatedTitle";
 import { Balance } from "@/services/shared/Balance";
 import { balanceFromExternal } from "@/services/balance";
+import { QRCodeFromExternal } from "@/services/qrcode";
 
 const Menu: Screen<"Menu"> = ({ route, navigation }) => {
   const theme = useTheme();
@@ -53,16 +54,23 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
   }, [navigation, route.params, theme.colors.text]);
 
   const [balances, setBalances] = useState<Balance[] | null>(null);
+  const [qrCodes, setQrCodes] = useState<number[] | null>(null);
 
   useEffect(() => {
     void async function () {
       const balances: Balance[] = [];
+      const qrCodes: number[] = [];
       for (const account of linkedAccounts) {
         const balance = await balanceFromExternal(account);
+        const qrcode = await QRCodeFromExternal(account);
         balances.push(...balance);
+        if (qrcode !== null) {
+          qrCodes.push(qrcode);
+        }
       }
 
       setBalances(balances);
+      setQrCodes(qrCodes);
     }();
   }, [linkedAccounts]);
 
@@ -113,7 +121,8 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
         <Item
           title="QR-Code"
           icon={<QrCode color={colors.text} />}
-          onPress={() => navigation.navigate("RestaurantQrCode")}
+          onPress={() => navigation.navigate("RestaurantQrCode", { qrCodes: qrCodes ? qrCodes : [] })}
+          enable={qrCodes?.length !== 0}
         />
       </HorizontalList>
 
