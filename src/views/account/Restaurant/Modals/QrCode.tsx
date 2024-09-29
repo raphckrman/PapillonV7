@@ -106,7 +106,7 @@ const RestaurantQrCode: Screen<"RestaurantQrCode"> = ({ route, navigation }) => 
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle={"dark-content"} />
+      <StatusBar barStyle={"default"} />
       <View style={styles.qrCodeContainer}>
         <ScrollView
           horizontal

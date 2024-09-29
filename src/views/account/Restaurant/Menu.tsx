@@ -104,7 +104,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
               key={index}
               style={[
                 styles.dot,
-                index === activeIndex ? styles.activeDot : styles.inactiveDot,
+                index === activeIndex ? { backgroundColor: colors.text } : { backgroundColor: colors.text + "25" },
               ]}
             />
           ))}
@@ -214,12 +214,6 @@ const styles = StyleSheet.create({
     height: 7,
     borderRadius: 5,
     marginHorizontal: 4,
-  },
-  activeDot: {
-    backgroundColor: "#ffffff",
-  },
-  inactiveDot: {
-    backgroundColor: "#ffffff25",
   }
 });
 
