@@ -13,6 +13,26 @@ import ChatCreate from "@/views/account/Chat/Modals/ChatCreate";
 import Chat from "@/views/account/Chat/Chat";
 import HomeworksDocument from "@/views/account/Homeworks/Document";
 import ChatDetails from "@/views/account/Chat/Modals/ChatDetails";
+import ChatThemes from "@/views/account/Chat/Modals/ChatThemes";
+import {createStackNavigator} from "@react-navigation/stack";
+
+const ModalStack = createStackNavigator();
+
+const ModalNavigator = ({ route }) => (
+  <ModalStack.Navigator initialRouteName="ChatDetails">
+    <ModalStack.Screen
+      name="ChatDetails"
+      component={ChatDetails}
+      options={{ headerShown: false }}
+      initialParams={{ ...route.params }}
+    />
+    <ModalStack.Screen
+      name="ChatThemes"
+      component={ChatThemes}
+      options={{ headerShown: false }}
+    />
+  </ModalStack.Navigator>
+);
 
 export default [
   createScreen("NoteReaction", NoteReaction, {
@@ -61,11 +81,11 @@ export default [
     presentation: "modal",
   }),
   createScreen("Chat", Chat, {
+    headerShown: false,
     headerTitle: "",
   }),
-  createScreen("ChatDetails", ChatDetails, {
-    headerTitle: "Nouvelle discussion",
-    presentation: "modal",
+  createScreen("ChatModal", (props) => <ModalNavigator {...props} />, {
     headerShown: false,
-  })
+    presentation: "modal",
+  }),
 ] as const;

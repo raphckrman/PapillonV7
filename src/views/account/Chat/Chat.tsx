@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
 import {
-  Button,
   FlatList, Image, KeyboardAvoidingView,
   TextInput, TouchableOpacity, View,
 } from "react-native";
@@ -25,6 +24,8 @@ import {markDiscussionAsRead, sendDiscussionMessage} from "@/services/pronote/ch
 import Animated, {FadeIn, FadeInDown, FadeOut} from "react-native-reanimated";
 import {animPapillon} from "@/utils/ui/animations";
 import MissingItem from "@/components/Global/MissingItem";
+import {DefaultTheme} from "@/consts/DefaultTheme";
+import GetThemeForChatId from "@/utils/chat/themes/GetThemeForChatId";
 
 const Chat: Screen<"Chat"> = ({
   navigation,
@@ -40,16 +41,12 @@ const Chat: Screen<"Chat"> = ({
   const [text, setText] = useState("");
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
+  const [chatTheme, setChatTheme] = useState(DefaultTheme);
 
   async function refreshMessages (handlerRefresh = false) {
     if (route.params.handle.id === "new") return;
 
+    console.log(route.params.handle.id);
     if (handlerRefresh) {
       let chats = await getChats(account);
       let chat = chats.find(chat => chat.id === route.params.handle.id);
@@ -70,6 +67,10 @@ const Chat: Screen<"Chat"> = ({
       setMessages([]);
       return;
     }
+    GetThemeForChatId(route.params.handle.id)
+      .then(theme => {
+        setChatTheme(theme);
+      });
     var timeout: any;
     refreshMessages()
       .then(() => {
@@ -88,17 +89,23 @@ const Chat: Screen<"Chat"> = ({
   }, [route.params.handle]);
 
   return (
-    <View style={{flex: 1, paddingBottom: insets.bottom}}>
+    <View style={{
+      flex: 1,
+      paddingBottom: insets.bottom,
+      backgroundColor: theme.dark ? chatTheme.darkModifier.inputBarBackgroundColor : chatTheme.lightModifier.inputBarBackgroundColor,
+    }}>
       <KeyboardAvoidingView
         style={{flex: 1}}
         behavior="padding"
       >
-        <PapillonModernHeader outsideNav={false}>
+        <PapillonModernHeader outsideNav={false} color={theme.dark ? chatTheme.darkModifier.headerBackgroundColor: chatTheme.lightModifier.headerBackgroundColor}>
           <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <ChevronLeft color={colors.text + "80"} size={26}  />
+              <ChevronLeft color={
+                (theme.dark ? chatTheme.darkModifier.headerTextColor: chatTheme.lightModifier.headerTextColor) + "80"
+              } size={26}  />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("ChatDetails", {handle: route.params.handle})} style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
+            <TouchableOpacity onPress={() => navigation.navigate("ChatModal", {handle: route.params.handle, theme: chatTheme})} style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
               <InitialIndicator
                 initial={route.params.handle.isGroup ? "group":parse_initials(route.params.handle.recipient)}
                 color={getProfileColorByName(route.params.handle.recipient).bright}
@@ -106,12 +113,56 @@ const Chat: Screen<"Chat"> = ({
                 size={38}
               />
               <View style={{flex: 1}}>
-                <NativeText variant="subtitle" numberOfLines={1}>{route.params.handle.subject ? route.params.handle.recipient: "Conversation avec"}</NativeText>
-                <NativeText variant="title" numberOfLines={1}>{route.params.handle.subject || route.params.handle.recipient}</NativeText>
+                <NativeText
+                  variant="subtitle"
+                  numberOfLines={1}
+                  style={{
+                    color: theme.dark ? chatTheme.darkModifier.headerTextColor : chatTheme.lightModifier.headerTextColor,
+                  }}
+                >
+                  {route.params.handle.subject ? route.params.handle.recipient: "Conversation avec"}
+                </NativeText>
+                <NativeText
+                  variant="title"
+                  numberOfLines={1}
+                  style={{
+                    color: theme.dark ? chatTheme.darkModifier.headerTextColor : chatTheme.lightModifier.headerTextColor,
+                  }}
+                >
+                  {route.params.handle.subject || route.params.handle.recipient}
+                </NativeText>
               </View>
             </TouchableOpacity>
           </View>
         </PapillonModernHeader>
+        {theme.dark ?
+          chatTheme.darkModifier.chatBackgroundImage && (
+            <Image
+              source={{uri: chatTheme.darkModifier.chatBackgroundImage}}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: -1,
+              }}
+            />
+          )
+          : chatTheme.lightModifier.chatBackgroundImage && (
+            <Image
+              source={{uri: chatTheme.lightModifier.chatBackgroundImage}}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: -1,
+              }}
+            />
+          )
+        }
         {!loading ? messages.length > 0 ? (
           <FlatList
             data={messages}
@@ -193,12 +244,22 @@ const Chat: Screen<"Chat"> = ({
                                   )}
                   <View
                     style={{
-                      backgroundColor: item.item.isAuthor ? "#0099D1": colors.background,
+                      backgroundColor: item.item.isAuthor ?
+                        theme.dark ? chatTheme.darkModifier.sentMessageBackgroundColor : chatTheme.lightModifier.sentMessageBackgroundColor
+                        :
+                        theme.dark ? chatTheme.darkModifier.receivedMessageBackgroundColor : chatTheme.lightModifier.receivedMessageBackgroundColor,
                       paddingVertical: 14,
                       paddingHorizontal: 18,
-                      borderRadius: 25,
-                      borderWidth: item.item.isAuthor ? 0: 1,
-                      borderColor: colors.text + "22",
+                      borderWidth: item.item.isAuthor ?
+                        theme.dark ? chatTheme.darkModifier.sentMessageBorderSize : chatTheme.lightModifier.sentMessageBorderSize
+                        :
+                        theme.dark ? chatTheme.darkModifier.receivedMessageBorderSize : chatTheme.lightModifier.receivedMessageBorderSize
+                      ,
+                      borderColor: item.item.isAuthor ?
+                        theme.dark ? chatTheme.darkModifier.sentMessageBorderColor : chatTheme.lightModifier.sentMessageBorderColor
+                        :
+                        theme.dark ? chatTheme.darkModifier.receivedMessageBorderColor : chatTheme.lightModifier.receivedMessageBorderColor
+                      ,
                       shadowRadius: 6,
                       shadowColor: "#000",
                       shadowOffset: {width: 0, height: 5},
@@ -207,32 +268,50 @@ const Chat: Screen<"Chat"> = ({
                       borderTopStartRadius: !item.item.isAuthor ?
                         (
                           messages[item.index - 1] ?
-                            (messages[item.index - 1].isAuthor ? 25 : 5)
-                            : 25
+                            (messages[item.index - 1].isAuthor ?
+                              theme.dark ? chatTheme.darkModifier.receivedMessageborderRadiusDefault : chatTheme.lightModifier.receivedMessageborderRadiusDefault
+                              :
+                              theme.dark ? chatTheme.darkModifier.receivedMessageBorderRadiusLinked : chatTheme.lightModifier.receivedMessageBorderRadiusLinked
+                            )
+                            :
+                            theme.dark ? chatTheme.darkModifier.receivedMessageborderRadiusDefault : chatTheme.lightModifier.receivedMessageborderRadiusDefault
                         )
-                        : 25,
+                        : theme.dark ? chatTheme.darkModifier.sentMessageborderRadiusDefault : chatTheme.lightModifier.sentMessageborderRadiusDefault,
                       borderBottomStartRadius: !item.item.isAuthor ?
                         (
                           messages[item.index + 1] ?
-                            (messages[item.index + 1].isAuthor ? 25 : 5)
-                            : 25
+                            (messages[item.index + 1].isAuthor ?
+                              theme.dark ? chatTheme.darkModifier.receivedMessageborderRadiusDefault : chatTheme.lightModifier.receivedMessageborderRadiusDefault
+                              :
+                              theme.dark ? chatTheme.darkModifier.receivedMessageBorderRadiusLinked : chatTheme.lightModifier.receivedMessageBorderRadiusLinked
+                            )
+                            :
+                            theme.dark ? chatTheme.darkModifier.receivedMessageborderRadiusDefault : chatTheme.lightModifier.receivedMessageborderRadiusDefault
                         )
-                        : 25,
+                        : theme.dark ? chatTheme.darkModifier.sentMessageborderRadiusDefault : chatTheme.lightModifier.sentMessageborderRadiusDefault,
                       //FOR AUTHOR
                       borderTopEndRadius: item.item.isAuthor ?
                         (
                           messages[item.index - 1] ?
-                            (messages[item.index - 1].isAuthor ? 5 : 25)
-                            : 25
+                            (messages[item.index - 1].isAuthor ?
+                              theme.dark ? chatTheme.darkModifier.sentMessageborderRadiusDefault : chatTheme.lightModifier.sentMessageborderRadiusDefault
+                              :
+                              theme.dark ? chatTheme.darkModifier.sentMessageBorderRadiusLinked : chatTheme.lightModifier.sentMessageBorderRadiusLinked
+                            )
+                            : theme.dark ? chatTheme.darkModifier.sentMessageborderRadiusDefault : chatTheme.lightModifier.sentMessageborderRadiusDefault
                         )
-                        : 25,
+                        : theme.dark ? chatTheme.darkModifier.receivedMessageborderRadiusDefault : chatTheme.lightModifier.receivedMessageborderRadiusDefault,
                       borderBottomEndRadius: item.item.isAuthor ?
                         (
                           messages[item.index + 1] ?
-                            (messages[item.index + 1].isAuthor ? 5 : 25)
-                            : 25
+                            (messages[item.index + 1].isAuthor ?
+                              theme.dark ? chatTheme.darkModifier.sentMessageborderRadiusDefault : chatTheme.lightModifier.sentMessageborderRadiusDefault
+                              :
+                              theme.dark ? chatTheme.darkModifier.sentMessageBorderRadiusLinked : chatTheme.lightModifier.sentMessageBorderRadiusLinked
+                            )
+                            : theme.dark ? chatTheme.darkModifier.sentMessageborderRadiusDefault : chatTheme.lightModifier.sentMessageborderRadiusDefault
                         )
-                        : 25,
+                        : theme.dark ? chatTheme.darkModifier.receivedMessageborderRadiusDefault : chatTheme.lightModifier.receivedMessageborderRadiusDefault,
                     }}
                   >
                     <RenderHTML
@@ -240,7 +319,11 @@ const Chat: Screen<"Chat"> = ({
                       contentWidth={300}
                       defaultTextProps={{
                         style: {
-                          color: item.item.isAuthor ? "#FFF": colors.text,
+                          color: item.item.isAuthor ?
+                            theme.dark ? chatTheme.darkModifier.sentMessageTextColor : chatTheme.lightModifier.sentMessageTextColor
+                            :
+                            theme.dark ? chatTheme.darkModifier.receivedMessageTextColor : chatTheme.lightModifier.receivedMessageTextColor
+                          ,
                           fontFamily: "medium",
                           fontSize: 16,
                           lineHeight: 22,
@@ -272,7 +355,6 @@ const Chat: Screen<"Chat"> = ({
               exiting={animPapillon(FadeOut)}
               style={{paddingVertical: 26}}
             />
-            <Button title={"Rafraîchir"} onPress={refreshMessages} />
           </View>
         ): <View style={{flex: 1}}/>}
         <View style={{
@@ -281,14 +363,18 @@ const Chat: Screen<"Chat"> = ({
           paddingVertical: 10,
           paddingHorizontal: 20,
           borderTopWidth: 0.5,
-          borderTopColor: colors.border,
+          borderTopColor: colors.text + "22",
+          backgroundColor: theme.dark ?
+            chatTheme.darkModifier.inputBarBackgroundColor
+            :
+            chatTheme.lightModifier.inputBarBackgroundColor,
           flexDirection: "row",
           alignItems: "center",
         }}>
           <TextInput
             placeholder={"Écrivez un message..."}
             style={{
-              backgroundColor: colors.background,
+              backgroundColor: "transparent",
               borderRadius: 25,
               flex: 1,
               marginRight: 10,
@@ -309,7 +395,10 @@ const Chat: Screen<"Chat"> = ({
           />
           <TouchableOpacity
             style={{
-              backgroundColor: "#0099D1",
+              backgroundColor: theme.dark ?
+                chatTheme.darkModifier.sendButtonBackgroundColor
+                :
+                chatTheme.lightModifier.sendButtonBackgroundColor,
               width: 56,
               height: 40,
               borderRadius: 32,

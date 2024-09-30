@@ -2,7 +2,7 @@ import type {Screen} from "@/router/helpers/types";
 import {Alert, Animated, Image, ScrollView, TouchableOpacity, View} from "react-native";
 import {useCurrentAccount} from "@/stores/account";
 import {useTheme} from "@react-navigation/native";
-import {ChevronLeft, Trash} from "lucide-react-native";
+import {Trash} from "lucide-react-native";
 import InitialIndicator from "@/components/News/InitialIndicator";
 import parse_initials from "@/utils/format/format_pronote_initials";
 import {getProfileColorByName} from "@/services/local/default-personalization";
@@ -23,7 +23,6 @@ const ChatDetails: Screen<"ChatDetails"> = ({
   const account = useCurrentAccount(state => state.account!);
 
   const [participants, setParticipants] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
     getDiscussionParticipants(account, route.params.handle)
@@ -86,10 +85,12 @@ const ChatDetails: Screen<"ChatDetails"> = ({
         </View>
         <NativeList>
           <NativeItem
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate("ChatThemes", route.params);
+            }}
             leading={
               <Image
-                source={{uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Auto_Racing_White_Black.svg/1600px-Auto_Racing_White_Black.svg.png"}}
+                source={{uri: theme.dark ? route.params.theme.meta.darkIcon:route.params.theme.meta.lightIcon}}
                 style={{
                   width: 30,
                   height: 30,
@@ -101,7 +102,7 @@ const ChatDetails: Screen<"ChatDetails"> = ({
             }
           >
             <NativeText variant="title">Thème</NativeText>
-            <NativeText>Defaut</NativeText>
+            <NativeText>{route.params.theme.meta.name}</NativeText>
           </NativeItem>
         </NativeList>
         <NativeListHeader label={"Destinataires (" + participants.length + ")"}/>

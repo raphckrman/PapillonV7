@@ -1,6 +1,6 @@
 import { PronoteAccount } from "@/stores/account/types";
 import { Chat, ChatMessage } from "../shared/Chat";
-import pronote, {Discussion, DiscussionMessages, DiscussionRecipient, DiscussionSentMessage} from "pawnote";
+import pronote, {Discussion, DiscussionRecipient} from "pawnote";
 import { ErrorServiceUnauthenticated } from "../shared/errors";
 import { decodeAttachment } from "./attachment";
 import { Recipient } from "../shared/Recipient";
