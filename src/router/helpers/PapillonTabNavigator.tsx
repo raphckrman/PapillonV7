@@ -8,7 +8,7 @@ import {
 } from "@react-navigation/native";
 import { Text } from "react-native";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Dimensions } from "react-native";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -430,11 +430,21 @@ const BottomTabNavigator: React.ComponentType<any> = ({
   screenOptions,
   ...rest
 }) => {
-  const dims = Dimensions.get("screen");
-  const tabletWidth = dims.width;
-  const tabletHeight = dims.height;
-  const tabletDiagl = (tabletWidth / tabletHeight) * 10;
-  const tablet = tabletDiagl >= 6.9;
+  const [tablet, setTablet] = useState<boolean>(false);
+
+  useEffect(() => {
+    const updateTabletOrientation = () => {
+      const dims = Dimensions.get("screen");
+      const tabletWidth = dims.width;
+      const tabletHeight = dims.height;
+      const tabletDiagl = (tabletWidth / tabletHeight) * 10;
+      setTablet(tabletDiagl >= 6.9);
+    };
+    updateTabletOrientation(); // 1ère fois qu'on arrive sur la page
+
+    const subscription = Dimensions.addEventListener("change", updateTabletOrientation); // Dès qu'on change de rotation
+    return () => subscription.remove(); // Permet d'éviter les fuites de mémoire
+  }, []);
 
   const { state, descriptors, navigation, NavigationContent } =
     useNavigationBuilder(TabRouter, {
