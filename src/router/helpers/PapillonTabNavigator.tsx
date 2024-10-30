@@ -233,32 +233,20 @@ const BasePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "N
   );
 };
 
-export const LargePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "NavigationContent">> = ({ state, descriptors, navigation }) => {
+const LargePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "NavigationContent">> = ({ state, descriptors, navigation }) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
 
   const account = useCurrentAccount(store => store.account!);
-  const [shouldShowLabel, setShouldShowLabel] = React.useState(true);
-
-  const [transparentTabBar, setTransparentTabBar] = React.useState(false);
-  const [hideTabBar, setHideTabBar] = React.useState(false);
-
-  const [showTabBackground, setShowTabBackground] = React.useState(false);
+  const [hideTabBar, setHideTabBar] = useState(false);
 
   useEffect(() => {
-    setShouldShowLabel(!account.personalization.hideTabTitles);
-    setShowTabBackground(account.personalization.showTabBackground ?? false);
-    setTransparentTabBar(account.personalization.transparentTabBar ?? false);
     setHideTabBar(account.personalization.hideTabBar ?? false);
   }, [account.personalization]);
 
   const bottomAnim = useSharedValue(1);
 
-  const animatedStyles = useAnimatedStyle(() => ({
-    opacity: withTiming(bottomAnim.value, { duration: 200 }),
-  }));
-
-  React.useEffect(() => {
+  useEffect(() => {
     bottomAnim.value = hideTabBar ? 0 : 1;
   }, [hideTabBar]);
 
@@ -446,6 +434,39 @@ const BottomTabNavigator: React.ComponentType<any> = ({
     return () => subscription.remove(); // Permet d'éviter les fuites de mémoire
   }, []);
 
+  if (tablet) {
+    const { state, descriptors, navigation, NavigationContent } =
+    useNavigationBuilder(TabRouter, {
+      initialRouteName,
+      backBehavior,
+      children,
+      screenOptions,
+    });
+
+    return (
+      <NavigationContent>
+        <View
+          style={[
+            {
+              flex: 1,
+            },
+            tablet && {
+              flexDirection: "row-reverse",
+            },
+          ]}
+        >
+          <BottomTabView
+            {...rest}
+            state = { state }
+            navigation = { navigation }
+            descriptors = { descriptors }
+          />
+          <LargePapillonBar state={state} descriptors={descriptors} navigation={navigation} />
+        </View>
+      </NavigationContent>
+    );
+  }
+
   const { state, descriptors, navigation, NavigationContent } =
     useNavigationBuilder(TabRouter, {
       initialRouteName,
@@ -472,11 +493,7 @@ const BottomTabNavigator: React.ComponentType<any> = ({
           navigation = { navigation }
           descriptors = { descriptors }
         />
-        {!tablet ?
-          <BasePapillonBar state={state} descriptors={descriptors} navigation={navigation} />
-          :
-          <LargePapillonBar state={state} descriptors={descriptors} navigation={navigation} />
-        }
+        <BasePapillonBar state={state} descriptors={descriptors} navigation={navigation} />
       </View>
     </NavigationContent>
   );
