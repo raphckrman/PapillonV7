@@ -19,7 +19,6 @@ import Reanimated, {
 import {
   Bell,
   Cable,
-  HandCoins,
   Info,
   Laptop,
   LogOut,
