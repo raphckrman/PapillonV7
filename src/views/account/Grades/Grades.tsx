@@ -13,7 +13,6 @@ import type { GradesPerSubject } from "@/services/shared/Grade";
 import { useCurrentAccount } from "@/stores/account";
 import { useGradesStore } from "@/stores/grades";
 import { animPapillon } from "@/utils/ui/animations";
-import BackgroundIUTLannion from "@/views/login/IdentityProvider/actions/BackgroundIUTLannion";
 import { useTheme } from "@react-navigation/native";
 import { ChevronDown } from "lucide-react-native";
 import React from "react";
