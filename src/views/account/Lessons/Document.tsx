@@ -12,7 +12,6 @@ import {
   Platform,
   Linking,
 } from "react-native";
-import { Homework, HomeworkReturnType } from "@/services/shared/Homework";
 import { getSubjectData } from "@/services/shared/Subject";
 import { Screen } from "@/router/helpers/types";
 
@@ -31,7 +30,7 @@ import {
 } from "lucide-react-native";
 
 import * as WebBrowser from "expo-web-browser";
-import { Link, useTheme } from "@react-navigation/native";
+import { useTheme } from "@react-navigation/native";
 import RenderHTML from "react-native-render-html";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PapillonModernHeader } from "@/components/Global/PapillonModernHeader";
