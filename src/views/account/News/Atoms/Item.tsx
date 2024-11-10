@@ -1,9 +1,6 @@
-import {RouteProp, useTheme} from "@react-navigation/native";
+import { useTheme } from "@react-navigation/native";
 import React from "react";
-import {
-  Dimensions,
-  View,
-} from "react-native";
+import { View } from "react-native";
 import {
   NativeItem,
   NativeText,
@@ -16,7 +13,6 @@ import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RouteParameters} from "@/router/helpers/types";
 import {Information} from "@/services/shared/Information";
 import { selectColorSeed } from "@/utils/format/select_color_seed";
-import RenderHTML from "react-native-render-html";
 
 type NewsItem = Omit<Information, "date"> & { date: string, important: boolean };
 
