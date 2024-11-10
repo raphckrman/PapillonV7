@@ -1,8 +1,6 @@
 import { BottomTabView } from "@react-navigation/bottom-tabs";
 import {
   createNavigatorFactory,
-  ParamListBase,
-  TabNavigationState,
   TabRouter,
   useNavigationBuilder,
 } from "@react-navigation/native";
@@ -23,8 +21,6 @@ import colorsList from "@/utils/data/colors.json";
 import Reanimated, {
   useAnimatedStyle,
   withTiming,
-  withSpring,
-  interpolate,
   useSharedValue,
   Easing,
 } from "react-native-reanimated";
