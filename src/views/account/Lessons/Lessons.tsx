@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FlatList, View, Dimensions, ViewToken } from "react-native";
-import { Button, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { useCurrentAccount } from "@/stores/account";
 import { useTimetableStore } from "@/stores/timetable";
