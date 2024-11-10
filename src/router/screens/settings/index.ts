@@ -10,7 +10,6 @@ import SettingsExternalServices from "@/views/settings/SettingsExternalServices"
 import SettingsMagic from "@/views/settings/SettingsMagic";
 import SettingsAddons from "@/views/settings/SettingsAddons";
 import AddonPage from "@/views/addon/AddonPage";
-import { create } from "lodash";
 import ExternalAccountSelectMethod from "@/views/settings/ExternalAccount/SelectMethod";
 import SettingsFlags from "@/views/settings/SettingsFlags";
 import SettingsDevLogs from "@/views/settings/SettingsDevLogs";
