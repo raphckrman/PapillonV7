@@ -5,7 +5,7 @@ import { useTheme } from "@react-navigation/native";
 import React from "react";
 import { View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import {type RouteParameters, Screen} from "@/router/helpers/types";
+import { type RouteParameters } from "@/router/helpers/types";
 import type {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import type {Grade, GradesPerSubject} from "@/services/shared/Grade";
 
