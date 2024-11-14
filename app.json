@@ -13,12 +13,17 @@
       "resizeMode": "cover",
       "backgroundColor": "#32AB8E"
     },
-    "assetBundlePatterns": ["**/*"],
+    "newArchEnabled": true,
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "appStoreUrl": "https://apps.apple.com/us/app/papillon-lappli-scolaire/id6477761165",
       "bundleIdentifier": "xyz.getpapillon.ios",
-      "associatedDomains": ["applinks:getpapillon.xyz"],
+      "associatedDomains": [
+        "applinks:getpapillon.xyz"
+      ],
       "splash": {
         "backgroundColor": "#32AB8E",
         "image": "./assets/launch/splash.png",
@@ -59,7 +64,6 @@
     },
     "plugins": [
       "expo-font",
-      "expo-barcode-scanner",
       [
         "expo-location",
         {
@@ -86,7 +90,8 @@
         {
           "photosPermission": "Papillon utilise tes photos et vidéos pour personnaliser ton profil, ta gestion des cours et bien plus."
         }
-      ]
+      ],
+      "expo-asset"
     ]
   }
 }
