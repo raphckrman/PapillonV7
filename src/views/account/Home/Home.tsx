@@ -59,7 +59,7 @@ import Header from "@/components/Home/Header";
 import {useBottomTabBarHeight} from "@react-navigation/bottom-tabs";
 import * as Haptics from "expo-haptics";
 import ModalContent from "@/views/account/Home/ModalContent";
-import {AnimatedScrollView} from "react-native-reanimated/lib/typescript/reanimated2/component/ScrollView";
+import {AnimatedScrollView} from "react-native-reanimated/lib/typescript/component/ScrollView";
 
 const Home: Screen<"HomeScreen"> = ({ navigation }) => {
   const { colors } = useTheme();
