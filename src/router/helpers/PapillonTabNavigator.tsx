@@ -556,15 +556,17 @@ const BottomTabNavigator: React.ComponentType<any> = ({
 
         {!tablet ? (
           <BasePapillonBar
+            {...rest}
             state={state}
             descriptors={descriptors}
             navigation={navigation}
           />
         ) : (
           <LargePapillonBar
+            {...rest}
             state={state}
-            descriptors={descriptors}
             navigation={navigation}
+            descriptors={descriptors}
           />
         )}
       </View>
