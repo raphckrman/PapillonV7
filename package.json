@@ -9,7 +9,7 @@
     "lint": "tsc && eslint .",
     "prebuild": "npx expo prebuild && npm run restore-app-icon",
     "restore-app-icon": "cp -a ./AppIcon.appiconset.backup/. ios/Papillon/Images.xcassets/AppIcon.appiconset/",
-    "update": "ncu"
+    "update": "ncu -u"
   },
   "dependencies": {
     "@birdwingo/react-native-reanimated-graph": "^1.1.3",
