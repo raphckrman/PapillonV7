@@ -93,7 +93,6 @@ export const PressableScale = forwardRef<View, PressableScaleProps>(
         delayPressIn={delayPressIn}
         onPressIn={onPressIn}
         onPressOut={onPressOut}
-        ref={ref}
       >
         <AnimatedView style={[style, animatedStyle]}>{children}</AnimatedView>
       </TouchableWithoutFeedback>
