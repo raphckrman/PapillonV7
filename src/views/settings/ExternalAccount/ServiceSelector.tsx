@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 16,
     gap: 9,
-    marginBottom: 16,
+    marginBottom: 100,
   },
 
   image: {
