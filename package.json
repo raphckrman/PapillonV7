@@ -3,13 +3,13 @@
   "version": "7.5.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
+    "update": "ncu -u && npm i",
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "lint": "tsc && eslint .",
     "prebuild": "npx expo prebuild && npm run restore-app-icon",
-    "restore-app-icon": "cp -a ./AppIcon.appiconset.backup/. ios/Papillon/Images.xcassets/AppIcon.appiconset/",
-    "update": "ncu -u && npm i"
+    "restore-app-icon": "cp -a ./AppIcon.appiconset.backup/. ios/Papillon/Images.xcassets/AppIcon.appiconset/"
   },
   "dependencies": {
     "@birdwingo/react-native-reanimated-graph": "^1.1.3",
