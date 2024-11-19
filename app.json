@@ -77,7 +77,6 @@
           ]
         }
       ],
-      "expo-barcode-scanner",
       [
         "expo-location",
         {
