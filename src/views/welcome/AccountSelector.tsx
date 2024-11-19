@@ -229,7 +229,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
 
       <Reanimated.ScrollView
         style={{
-          paddingBottom: insets.bottom + 16,
+          paddingBottom: insets.bottom + 100,
           paddingTop: 0,
           flex: 1
         }}

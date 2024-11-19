@@ -49,7 +49,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
     <ScrollView
       contentContainerStyle={{
         padding: 16,
-        paddingBottom: 16 + insets.bottom,
+        paddingBottom: 100 + insets.bottom,
         paddingTop: 0,
       }}
     >

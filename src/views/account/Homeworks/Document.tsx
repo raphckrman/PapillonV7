@@ -155,7 +155,7 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
         contentContainerStyle={{
           padding: 16,
           paddingTop: 70 + 16,
-          paddingBottom: useSafeAreaInsets().bottom + 16,
+          paddingBottom: useSafeAreaInsets().bottom + 100,
         }}
         style={{ flex: 1 }}
       >

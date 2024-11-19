@@ -89,7 +89,7 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
         contentContainerStyle={{
           padding: 16,
           paddingTop: 0,
-          paddingBottom: 16 + insets.bottom,
+          paddingBottom: 100 + insets.bottom,
         }}
       >
 
