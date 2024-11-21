@@ -285,11 +285,12 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
           <Animated.View
             style={modalIndicatorAnimatedStyle}
           />
-          <Animated.View style={modalContentAnimatedStyle}>
+          <Animated.View style={modalContentAnimatedStyle} key={"modalctcontainer"}>
             <ModalContent
               navigation={navigation}
               refresh={refreshing}
               endRefresh={() => setRefreshing(false)}
+              key={"modalct"}
             />
           </Animated.View>
         </Animated.View>

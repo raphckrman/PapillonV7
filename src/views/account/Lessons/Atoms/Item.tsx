@@ -45,7 +45,7 @@ export const TimetableItem: React.FC<{
       style={styles.itemContainer}
       entering={Platform.OS === "ios" ? FadeInDown.delay((50 * index)).springify().mass(1).damping(20).stiffness(300) : void 0}
       exiting={Platform.OS === "ios" ? FadeOut.duration(300) : void 0}
-      key={item.title + item.startTimestamp + "lessonsitemtitleelement"}
+      key={item.title + item.startTimestamp + "lessonsitemtitleelement" + item.id}
       layout={animPapillon(LinearTransition)}
     >
       <View style={[styles.timeContainer, small && styles.timeContainerSmall]}>
@@ -60,6 +60,7 @@ export const TimetableItem: React.FC<{
           PapillonNavigation.current.navigate("LessonDocument", { lesson: item });
 
         }}
+        key={item.title + item.startTimestamp + "nativtouchlesson" + item.id}
       >
         <View style={[{ flex: 1, flexDirection: "column", overflow: "hidden", borderRadius: 10 }]}>
           {item.statusText && (

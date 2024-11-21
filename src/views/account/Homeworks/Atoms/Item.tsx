@@ -139,7 +139,7 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
       animated
       onPress={() => navigation.navigate("HomeworksDocument", { homework })}
       chevron={false}
-      key={homework.content + "hwcontenitem"}
+      key={homework.content + "hwcontenitem" + index}
       entering={FadeIn}
       exiting={FadeOut}
       separator={index !== total - 1}

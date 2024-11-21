@@ -175,7 +175,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   );
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 }} key={"lessons_scr"}>
       <PapillonModernHeader outsideNav={outsideNav}>
         <PapillonHeaderSelector
           loading={loading}
