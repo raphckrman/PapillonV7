@@ -452,6 +452,7 @@ export const NativeText: React.FC<NativeTextProps> = (props) => {
       layout={props.animated && animPapillon(LinearTransition)}
       entering={props.entering}
       exiting={props.exiting}
+      key={(props.children||"" + props.style||"" + props.variant).toString()}
     >
       {props.children}
     </Reanimated.Text>

@@ -163,10 +163,11 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
       <Reanimated.View
         layout={animPapillon(LinearTransition)}
         style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}
+        key={homework.content + "hwcontenitemview2" + index}
       >
-        <Reanimated.View style={{ flex: 1, gap: 4 }} layout={animPapillon(LinearTransition)}>
+        <Reanimated.View style={{ flex: 1, gap: 4 }} layout={animPapillon(LinearTransition)} key={homework.content + "hwcontenitemview1" + index}>
           <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
-            <NativeText variant="overtitle" style={{ color: subjectData.color, flex: 1 }} numberOfLines={1}>
+            <NativeText key={subjectData.pretty+"subjectDataOvertitle"} variant="overtitle" style={{ color: subjectData.color, flex: 1 }} numberOfLines={1}>
               {subjectData.pretty}
             </NativeText>
             {renderCategoryOrReturnType()}

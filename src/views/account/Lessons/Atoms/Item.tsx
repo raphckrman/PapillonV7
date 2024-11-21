@@ -48,7 +48,7 @@ export const TimetableItem: React.FC<{
       key={item.title + item.startTimestamp + "lessonsitemtitleelement" + item.id}
       layout={animPapillon(LinearTransition)}
     >
-      <View style={[styles.timeContainer, small && styles.timeContainerSmall]}>
+      <View style={[styles.timeContainer, small && styles.timeContainerSmall]} key={item.title + item.startTimestamp + "timecontainer" + item.id}>
         <Text style={[styles.timeText, { color: colors.text }]}>{formattedStartTime}</Text>
         <Text style={[styles.timeTextSec, { color: colors.text }]}>{formattedEndTime}</Text>
       </View>
@@ -84,7 +84,7 @@ export const TimetableItem: React.FC<{
                 </Text>
               )}
 
-              <View style={[styles.roomTextContainer, { backgroundColor: subjectData.color + "33" }]}>
+              <View style={[styles.roomTextContainer, { backgroundColor: subjectData.color + "33" }]} key={item.title + item.startTimestamp + "roomtextcontainer" + item.id}>
                 <Text numberOfLines={1} style={[styles.roomText, { color: subjectData.color }]}>{item.room || "Salle inconnue"}</Text>
               </View>
 

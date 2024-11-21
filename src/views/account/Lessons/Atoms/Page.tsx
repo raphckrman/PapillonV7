@@ -63,6 +63,7 @@ export const Page = ({ day, date, current, paddingTop, refreshAction, loading, w
     >
       {current &&
         <View
+          key={date.toString() + "timetableitemdate_currentPage"}
           style={{
             paddingHorizontal: 10,
             paddingVertical: 10,
