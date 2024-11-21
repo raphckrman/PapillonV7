@@ -139,7 +139,7 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
       animated
       onPress={() => navigation.navigate("HomeworksDocument", { homework })}
       chevron={false}
-      key={homework.content}
+      key={homework.content + "hwcontenitem"}
       entering={FadeIn}
       exiting={FadeOut}
       separator={index !== total - 1}
@@ -173,7 +173,7 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
           </View>
           <Reanimated.View
             layout={animPapillon(LinearTransition)}
-            key={homework.content}
+            key={homework.content + "hwcontenitemview"}
             entering={FadeIn.duration(200)}
             exiting={FadeOut.duration(200).delay(50)}
           >

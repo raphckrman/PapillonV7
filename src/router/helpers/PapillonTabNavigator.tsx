@@ -6,7 +6,7 @@ import {
   TabRouter,
   useNavigationBuilder,
 } from "@react-navigation/native";
-import { Platform, Text } from "react-native";
+import { Platform, Text, TouchableOpacity } from "react-native";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { View, Dimensions } from "react-native";
@@ -16,7 +16,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCurrentAccount } from "@/stores/account";
 import { useTheme } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
-import { PressableScale } from "react-native-pressable-scale";
 
 import colorsList from "@/utils/data/colors.json";
 
@@ -154,8 +153,8 @@ const BasePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "N
             (theme.dark ? autoColor.hex.lighter : autoColor.hex.dark) : (theme.dark ? "#656c72" : "#8C9398");
 
           return (
-            <PressableScale
-              key={route.key}
+            <TouchableOpacity
+              key={route.key+"_tabrt"}
               accessibilityRole="button"
               accessibilityState={isFocused ? { selected: true } : {}}
               accessibilityLabel={options.tabBarAccessibilityLabel}
@@ -229,7 +228,7 @@ const BasePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "N
                   {label}
                 </Text>
               )}
-            </PressableScale>
+            </TouchableOpacity>
           );
         })}
       </Reanimated.View>
@@ -358,8 +357,8 @@ export const LargePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuil
               (theme.dark ? autoColor.hex.lighter : autoColor.hex.dark) : (theme.dark ? theme.colors.text : autoColor.hex.darker);
 
             return (
-              <PressableScale
-                key={route.key}
+              <TouchableOpacity
+                key={route.key+"_tabrt2"}
                 accessibilityRole="button"
                 accessibilityState={isFocused ? { selected: true } : {}}
                 accessibilityLabel={options.tabBarAccessibilityLabel}
@@ -418,7 +417,7 @@ export const LargePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuil
                   {label}
                 </Text>
 
-              </PressableScale>
+              </TouchableOpacity>
             );
           })}
         </View>

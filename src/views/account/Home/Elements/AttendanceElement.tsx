@@ -5,11 +5,11 @@ import { updateGradesPeriodsInCache } from "@/services/grades";
 import { useCurrentAccount } from "@/stores/account";
 import { useAttendanceStore } from "@/stores/attendance";
 import TotalMissed from "../../Attendance/Atoms/TotalMissed";
-import { PressableScale } from "react-native-pressable-scale";
 import RedirectButton from "@/components/Home/RedirectButton";
 import { PapillonNavigation } from "@/router/refs";
 import { log } from "@/utils/logger/logger";
 import type { Attendance } from "@/services/shared/Attendance";
+import { TouchableOpacity } from "react-native";
 
 
 interface AttendanceElementProps {
@@ -99,11 +99,11 @@ const AttendanceElement: React.FC<AttendanceElementProps> = ({ onImportance }) =
           <RedirectButton navigation={PapillonNavigation.current} redirect="Attendance" />
         )}
       />
-      <PressableScale
+      <TouchableOpacity
         onPress={() => PapillonNavigation.current.navigate("Attendance")}
       >
         {totalMissed && <TotalMissed totalMissed={formatTotalMissed(totalMissed)} />}
-      </PressableScale>
+      </TouchableOpacity>
     </>
   );
 };

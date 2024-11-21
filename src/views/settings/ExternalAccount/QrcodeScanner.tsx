@@ -16,7 +16,6 @@ import { AccountService, ExternalAccount } from "@/stores/account/types";
 import { useAccounts, useCurrentAccount } from "@/stores/account";
 import DuoListPressable from "@/components/FirstInstallation/DuoListPressable";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
-import { BarCodeScanner } from "expo-barcode-scanner";
 import MaskedView from "@react-native-masked-view/masked-view";
 import * as Haptics from "expo-haptics";
 
@@ -24,6 +23,8 @@ type Props = {
   navigation: any;
   route: { params: { accountID: string } };
 };
+
+const BarCodeScanner = () => null;
 
 const QrcodeScanner: Screen<"QrcodeScanner"> = ({ navigation, route }) => {
   const theme = useTheme();

@@ -35,7 +35,7 @@ const GradesLatestList = (props: GradesLatestListProps) => {
       >
         {latestGrades.map((grade: Grade, index: number) => (
           <GradesLatestItem
-            key={grade.id + index}
+            key={grade.id + index + "gradeslatestitem"}
             grade={grade}
             i={index}
             navigation={navigation}

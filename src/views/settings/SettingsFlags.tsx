@@ -34,7 +34,7 @@ const SettingsFlags: Screen<"SettingsFlags"> = ({ navigation }) => {
 
       return (
         <NativeItem
-          key={key}
+          key={key + "mainflag"}
           onPress={() => navigation.navigate("SettingsFlagsInfos", { title: key, value: value })}
         >
           <NativeText>{key}</NativeText>
@@ -91,7 +91,7 @@ const SettingsFlags: Screen<"SettingsFlags"> = ({ navigation }) => {
             <NativeList>
               {flags.map((flag) => (
                 <NativeItem
-                  key={flag}
+                  key={flag + "flag"}
                   icon={<Code color={colors.text} />}
                   onPress={() => confirmRemoveFlag(flag)}
                 >

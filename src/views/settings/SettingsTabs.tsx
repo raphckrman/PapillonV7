@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Switch, Platform, Alert } from "react-native";
+import { View, Switch, Platform, Alert, TouchableOpacity } from "react-native";
 import {
   NativeItem,
   NativeList,
@@ -22,7 +22,6 @@ import {
   NestableScrollContainer,
   ShadowDecorator,
 } from "react-native-draggable-flatlist";
-import { PressableScale } from "react-native-pressable-scale";
 import Reanimated, {
   FadeIn,
   FadeOut,
@@ -251,13 +250,13 @@ const SettingsTabs = () => {
                 {tabs.filter((tab) => tab.enabled).map((tab, index) => {
                   return (
                     <Reanimated.View
-                      key={tab.tab}
+                      key={tab.tab + "settingtab"}
                       style={{ flex: 1 }}
                       layout={LinearTransition.springify().mass(1).damping(20).stiffness(300)}
                       entering={ZoomIn}
                       exiting={ZoomOut}
                     >
-                      <PressableScale
+                      <TouchableOpacity
                         activeScale={0.85}
                         weight="light"
                         style={{
@@ -335,7 +334,7 @@ const SettingsTabs = () => {
                             {tab.label}
                           </Reanimated.Text>
                         )}
-                      </PressableScale>
+                      </TouchableOpacity>
                     </Reanimated.View>
                   );
                 })}

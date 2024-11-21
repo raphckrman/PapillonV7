@@ -15,7 +15,6 @@ import Reanimated, { FadeIn, FadeInDown, FadeInLeft, FadeOut, FadeOutLeft, FadeO
 import { animPapillon } from "@/utils/ui/animations";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
-import { PressableScale } from "react-native-pressable-scale";
 import { useTheme } from "@react-navigation/native";
 import { BlurView } from "expo-blur";
 import AnimatedNumber from "@/components/Global/AnimatedNumber";
@@ -191,7 +190,7 @@ export const PapillonHeaderAction: React.FC<{
       entering={entering && entering}
       exiting={exiting && exiting}
     >
-      <PressableScale
+      <TouchableOpacity
         activeScale={0.85}
         weight="light"
         onPress={onPress}
@@ -215,7 +214,7 @@ export const PapillonHeaderAction: React.FC<{
       >
         {newIcon}
         {children}
-      </PressableScale>
+      </TouchableOpacity>
     </Reanimated.View>
   );
 };
@@ -248,7 +247,7 @@ export const PapillonHeaderSelector: React.FC<{
     <Reanimated.View
       layout={animPapillon(LinearTransition)}
     >
-      <PressableScale
+      <TouchableOpacity
         onPress={onPress}
         onLongPress={onLongPress}
       >
@@ -282,7 +281,7 @@ export const PapillonHeaderSelector: React.FC<{
             }
           </BlurView>
         </Reanimated.View>
-      </PressableScale>
+      </TouchableOpacity>
     </Reanimated.View>
   );
 };

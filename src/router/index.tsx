@@ -87,7 +87,7 @@ const Router: React.FC = () => {
               <Stack.Navigator initialRouteName="AccountSelector" screenOptions={navigatorScreenOptions}>
                 {screens.map((screen) => (
                   // @ts-expect-error : type not compatible, but it works fine.
-                  <Stack.Screen key={screen.name} {...screen}/>
+                  <Stack.Screen key={screen.name + "_scr"} {...screen}/>
                 ))}
               </Stack.Navigator>
             </AlertProvider>

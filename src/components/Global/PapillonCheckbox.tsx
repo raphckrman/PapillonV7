@@ -1,9 +1,8 @@
-import { View, Animated, Easing, type ViewStyle, type StyleProp } from "react-native";
+import { View, Animated, Easing, type ViewStyle, type StyleProp, TouchableOpacity } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "@react-navigation/native";
 
 import Reanimated, { LinearTransition, ZoomIn, ZoomOut } from "react-native-reanimated";
-import { PressableScale } from "react-native-pressable-scale";
 import { Svg, Circle, G } from "react-native-svg";
 import { Check } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
@@ -56,7 +55,7 @@ const PapillonCheckbox: React.FC<CheckboxProps> = ({
     <Reanimated.View
       layout={animPapillon(LinearTransition)}
     >
-      <PressableScale
+      <TouchableOpacity
         style={[{
           width: 26,
           height: 26,
@@ -131,7 +130,7 @@ const PapillonCheckbox: React.FC<CheckboxProps> = ({
             )}
           </Reanimated.View>
         )}
-      </PressableScale>
+      </TouchableOpacity>
     </Reanimated.View>
   );
 };

@@ -12,6 +12,7 @@ import {
   StatusBar,
   Text,
   TouchableHighlight,
+  TouchableOpacity,
   View
 } from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
@@ -35,7 +36,6 @@ import {LinearGradient} from "expo-linear-gradient";
 import {animPapillon} from "@/utils/ui/animations";
 import {Screen} from "@/router/helpers/types";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
-import {PressableScale} from "react-native-pressable-scale";
 
 import datasets from "@/consts/datasets.json";
 import Animated from "react-native-reanimated";
@@ -167,7 +167,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
             zIndex: 5,
           }}
         />
-        <PressableScale
+        <TouchableOpacity
           style={{
             zIndex: 99999999,
             position: "absolute",
@@ -198,7 +198,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
           >
             Ajouter un compte
           </Text>
-        </PressableScale>
+        </TouchableOpacity>
 
         <TouchableHighlight
           style={{
@@ -356,7 +356,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
               {accounts.map((account, index) => {
                 return !account.isExternal && (
                   <NativeItem
-                    key={index}
+                    key={index + "selectoraccount"}
                     leading={
                       <PapillonAvatar
                         source={account.personalization.profilePictureB64 ? { uri: account.personalization.profilePictureB64 } : defaultProfilePicture(account.service, account.identityProvider?.name || "")}

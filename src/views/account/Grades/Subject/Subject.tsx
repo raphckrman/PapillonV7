@@ -25,7 +25,7 @@ const Subject: React.FC<SubjectProps> = ({
 
       {gradesPerSubject.map((subject, index) => (
         <SubjectItem
-          key={subject.average.subjectName + index}
+          key={subject.average.subjectName + index + "subjectitemname"}
           subject={subject}
           navigation={navigation}
           allGrades={allGrades}

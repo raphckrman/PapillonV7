@@ -3,7 +3,6 @@ import { ActivityIndicator, Text, View, StyleSheet, Modal, Alert, KeyboardAvoidi
 import type { Screen } from "@/router/helpers/types";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
-import { BarCodeScanner } from "expo-barcode-scanner";
 import MaskedView from "@react-native-masked-view/masked-view";
 import * as Haptics from "expo-haptics";
 
@@ -19,6 +18,9 @@ import { Account, AccountService } from "@/stores/account/types";
 import { Audio } from "expo-av";
 import defaultPersonalization from "@/services/pronote/default-personalization";
 import extract_pronote_name from "@/utils/format/extract_pronote_name";
+
+// TODO: use expo camera
+const BarCodeScanner = () => null;
 
 const makeUUID = (): string => {
   let dt = new Date().getTime();

@@ -45,7 +45,7 @@ export const TimetableItem: React.FC<{
       style={styles.itemContainer}
       entering={Platform.OS === "ios" ? FadeInDown.delay((50 * index)).springify().mass(1).damping(20).stiffness(300) : void 0}
       exiting={Platform.OS === "ios" ? FadeOut.duration(300) : void 0}
-      key={item.title + item.startTimestamp}
+      key={item.title + item.startTimestamp + "lessonsitemtitleelement"}
       layout={animPapillon(LinearTransition)}
     >
       <View style={[styles.timeContainer, small && styles.timeContainerSmall]}>

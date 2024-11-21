@@ -143,7 +143,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
               <View style={[styles.buttons, { borderColor: colors.border, backgroundColor: colors.text + "0a" }]}>
                 {(alert.actions ?? []).map(({ title, onPress, icon, primary, backgroundColor }) => (
                   <Pressable
-                    key={title}
+                    key={title + "alertbutton"}
                     onPress={() => {
                       onPress();
                       hideAlert();

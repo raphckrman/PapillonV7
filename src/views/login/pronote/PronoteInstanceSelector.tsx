@@ -239,7 +239,7 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
                       : ZoomInEasyDown.duration(400).easing(Easing.bezier(0.25, 0.1, 0.25, 1)).delay(30 * index)
                   }
                   exiting={index < 10 ? FadeOutUp : void 0}
-                  key={instance.url}
+                  key={instance.url + "instanceurlindex"}
                 >
                   <DuoListPressable
                     leading={

@@ -1,5 +1,5 @@
 import React, { type FunctionComponent, RefAttributes, useRef, useState } from "react";
-import { ActivityIndicator, StyleSheet } from "react-native";
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
 
 import { useTheme } from "@react-navigation/native";
 
@@ -11,7 +11,6 @@ import Reanimated, {
 } from "react-native-reanimated";
 
 import { animPapillon } from "@/utils/ui/animations";
-import { PressableScale } from "react-native-pressable-scale";
 import { NativeText } from "../Global/NativeComponents";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import type { RouteParameters } from "@/router/helpers/types";
@@ -53,7 +52,7 @@ const Widget: React.FC<WidgetContainerProps> = ({ widget: DynamicWidget, navigat
       entering={animPapillon(ZoomIn).withInitialValues({ transform: [{ scale: 0.7 }], opacity: 0 })}
       exiting={FadeOut.duration(150)}
     >
-      <PressableScale
+      <TouchableOpacity
         onPress={() => handlePress()}
       >
         <Reanimated.View
@@ -111,7 +110,7 @@ const Widget: React.FC<WidgetContainerProps> = ({ widget: DynamicWidget, navigat
           </Reanimated.View>
 
         </Reanimated.View>
-      </PressableScale>
+      </TouchableOpacity>
     </Reanimated.View>
   );
 };

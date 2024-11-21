@@ -21,7 +21,6 @@ import { dateToEpochWeekNumber, epochWNToDate } from "@/utils/epochWeekNumber";
 
 import HomeworksNoHomeworksItem from "./Atoms/NoHomeworks";
 import HomeworkItem from "./Atoms/Item";
-import { PressableScale } from "react-native-pressable-scale";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Book, Check, CheckCircle, CheckCircle2, CheckSquare, ChevronLeft, ChevronRight, CircleDashed, CircleDotDashed, Search, X } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -218,7 +217,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
       >
         {groupedHomework && Object.keys(groupedHomework).map((day, index) => (
           <Reanimated.View
-            key={day}
+            key={day + "homeworkday2"}
             entering={animPapillon(FadeInUp)}
             exiting={animPapillon(FadeOutDown)}
             layout={animPapillon(LinearTransition)}
@@ -228,7 +227,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
             <NativeList animated>
               {groupedHomework[day].map((homework, idx) => (
                 <HomeworkItem
-                  key={homework.id}
+                  key={homework.id + "homeworkid2"}
                   index={idx}
                   navigation={navigation}
                   total={groupedHomework[day].length}
@@ -250,7 +249,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
               width: "100%",
             }}
             layout={animPapillon(LinearTransition)}
-            key={searchTerms + hideDone}
+            key={searchTerms + hideDone + "homeworkssearch"}
           >
             {searchTerms.length > 0 ?
               <MissingItem
@@ -342,7 +341,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
             entering={animPapillon(ZoomIn)}
             exiting={animPapillon(ZoomOut)}
           >
-            <PressableScale
+            <TouchableOpacity
               onPress={() => goToWeek(selectedWeek - 1)}
               activeScale={0.8}
             >
@@ -358,7 +357,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
                   strokeWidth={2.5}
                 />
               </BlurView>
-            </PressableScale>
+            </TouchableOpacity>
           </Reanimated.View>
         }
 
@@ -368,7 +367,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
           entering={animPapillon(FadeIn).delay(100)}
           exiting={animPapillon(FadeOutLeft)}
         >
-          <PressableScale
+          <TouchableOpacity
             style={[styles.weekPickerContainer]}
             onPress={() => setShowPickerButtons(!showPickerButtons)}
             onLongPress={() => {
@@ -463,7 +462,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
                 }
               </BlurView>
             </Reanimated.View>
-          </PressableScale>
+          </TouchableOpacity>
         </Reanimated.View>
         }
 
@@ -473,7 +472,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
             entering={animPapillon(ZoomIn).delay(100)}
             exiting={animPapillon(FadeOutLeft)}
           >
-            <PressableScale
+            <TouchableOpacity
               onPress={() => goToWeek(selectedWeek + 1)}
               activeScale={0.8}
             >
@@ -489,7 +488,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
                   strokeWidth={2.5}
                 />
               </BlurView>
-            </PressableScale>
+            </TouchableOpacity>
           </Reanimated.View>
         }
 

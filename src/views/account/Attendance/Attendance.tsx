@@ -255,7 +255,7 @@ const Attendance: Screen<"Attendance"> = ({ route, navigation }) => {
 
         {Object.keys(attendances_observations_details).map(sectionName => (
           <AttendanceItem
-            key={sectionName}
+            key={sectionName+"_tabrt5"}
             title={sectionName}
             icon={<Eye />}
             attendances={attendances_observations_details[sectionName]}
