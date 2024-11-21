@@ -70,7 +70,7 @@ const Router: React.FC = () => {
 
       <SafeAreaProvider>
         <GestureHandlerRootView>
-          <NavigationContainer linking={linking} theme={theme} ref={PapillonNavigation}
+          <NavigationContainer navigationInChildEnabled linking={linking} theme={theme} ref={PapillonNavigation}
             onStateChange={(state) => {
               let str = "";
               let view: NavigationState | PartialState<NavigationState> | undefined = state;
