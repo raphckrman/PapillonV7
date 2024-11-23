@@ -1,3 +1,4 @@
+import React from "react";
 import { Image, Text, View } from "react-native";
 
 import { Account } from "@/stores/account/types";
