@@ -1,3 +1,4 @@
+import React from "react";
 import { NativeListHeader } from "@/components/Global/NativeComponents";
 import { animPapillon } from "@/utils/ui/animations";
 import Reanimated, { LinearTransition } from "react-native-reanimated";
