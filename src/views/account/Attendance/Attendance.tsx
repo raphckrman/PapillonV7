@@ -1,6 +1,6 @@
-import { useTheme } from "@react-navigation/native";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { View, ActivityIndicator, Platform } from "react-native";
+import { useTheme } from "@react-navigation/native";
 
 import type { Screen } from "@/router/helpers/types";
 import { useCurrentAccount } from "@/stores/account";
