@@ -359,7 +359,7 @@ interface NativeTextProps {
   exiting?: EntryOrExitLayoutType;
 }
 
-export const NativeText: React.FC<NativeTextProps> = (props) => {
+export const NativeText = (props: NativeTextProps) => {
   const theme = useTheme();
   const { colors } = theme;
 
