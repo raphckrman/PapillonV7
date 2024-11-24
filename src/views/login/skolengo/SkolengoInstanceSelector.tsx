@@ -161,7 +161,13 @@ const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
         ]}
         layout={LinearTransition.springify().mass(1).stiffness(100).damping(40)}
       >
-        <Search size={24} color={colors.text + "55"} />
+        <Search
+          size={24}
+          color={colors.text + "55"}
+          style={{
+            marginTop: 7.5,
+          }}
+        />
 
         <TextInput
           ref={searchInputRef}
