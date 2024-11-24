@@ -208,7 +208,7 @@ const SettingsTabs = () => {
     <View>
       <NestableScrollContainer
         contentContainerStyle={{
-          paddingBottom: 16 + insets.bottom,
+          paddingBottom: 100 + insets.bottom,
         }}
       >
         <View
