@@ -148,6 +148,9 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
                 fontSize: 16,
                 fontFamily: "semibold",
                 color: theme.colors.text,
+                marginTop: -7.5,
+                marginBottom: -7.5,
+                marginLeft: -4,
               }}
               placeholder="Théo"
               placeholderTextColor={theme.colors.text + "80"}
@@ -170,6 +173,9 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
                 fontSize: 16,
                 fontFamily: "semibold",
                 color: theme.colors.text,
+                marginTop: -7.5,
+                marginBottom: -7.5,
+                marginLeft: -4,
               }}
               placeholder="Dubois"
               placeholderTextColor={theme.colors.text + "80"}
@@ -193,6 +199,11 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
               <Switch
                 value={!hideNameOnHomeScreen}
                 onValueChange={() => setHideNameOnHomeScreen(!hideNameOnHomeScreen)}
+                style={{
+                  marginTop: -7.5,
+                  marginBottom: -7.5,
+                  marginLeft: -4,
+                }}
               />
             }
           >
@@ -212,6 +223,11 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
               <Switch
                 value={!hideProfilePicOnHomeScreen}
                 onValueChange={() => setHideProfilePicOnHomeScreen(!hideProfilePicOnHomeScreen)}
+                style={{
+                  marginTop: -7.5,
+                  marginBottom: -7.5,
+                  marginLeft: -4,
+                }}
               />
             }
           >
