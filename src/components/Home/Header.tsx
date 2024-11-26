@@ -196,8 +196,8 @@ const Header: React.FC<{
                     size={18}
                     color="white"
                     strokeWidth={2.8}
-                    entering={animPapillon(ZoomIn)}
-                    exiting={animPapillon(ZoomOut)}
+                    
+                    
                   />
                 ) : (
                   <CopyPlus

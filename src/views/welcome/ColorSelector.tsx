@@ -127,8 +127,8 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
               zIndex: 99,
             }
           ]}
-          entering={ZoomIn.springify().mass(1).stiffness(150)}
-          exiting={ZoomOut}
+          
+          
         />
       )}
     </View>
@@ -137,8 +137,8 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <Reanimated.View
-        entering={Platform.OS === "ios" ? FadeIn.duration(400) : void 0}
-        exiting={Platform.OS === "ios" ? FadeOut.duration(2000) : void 0}
+        
+        
         key={account?.personalization?.color?.hex.primary || ""}
         style={{
           position: "absolute",
@@ -177,8 +177,8 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
 
         <Reanimated.View
           layout={LinearTransition}
-          entering={FlipInXDown.springify().delay(50)}
-          exiting={FadeOutUp.springify()}
+          
+          
           key={account?.personalization?.color?.hex.primary || ""}
           style={[styles.message, {
             backgroundColor: account?.personalization?.color?.hex.primary + "33",
@@ -207,8 +207,8 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
 
       <Reanimated.View
         style={styles.done}
-        entering={Platform.OS === "ios" ? FadeIn.duration(200) : void 0}
-        exiting={Platform.OS === "ios" ? FadeOut.duration(1000) : void 0}
+        
+        
         key={(account?.personalization?.color?.hex.primary || "") + "_btn"}
       >
         <ButtonCta

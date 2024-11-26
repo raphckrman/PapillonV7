@@ -40,8 +40,8 @@ const AttendanceItem: React.FC<AttendanceItemProps> = ({
   return (
     <NativeList
       animated
-      entering={animPapillon(FadeIn)}
-      exiting={animPapillon(FadeOut)}
+      
+      
     >
       <NativeItem
         animated
@@ -87,8 +87,8 @@ const AttendanceItem: React.FC<AttendanceItemProps> = ({
         return (
           <NativeItem
             key={timestamp}
-            entering={animPapillon(FadeInUp).delay((showMore ? index - 3 : index) * 20 + 50)}
-            exiting={animPapillon(FadeOutDown).delay(index * 20)}
+            
+            
             animated
             endPadding={16}
             trailing={

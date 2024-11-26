@@ -135,8 +135,8 @@ const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => 
           {instanceURL.length > 0 && (
             <Reanimated.View
               layout={LinearTransition}
-              entering={ZoomIn.springify()}
-              exiting={ZoomOut.springify()}
+              
+              
             >
               <TouchableOpacity onPress={() => {
                 setInstanceURL("");

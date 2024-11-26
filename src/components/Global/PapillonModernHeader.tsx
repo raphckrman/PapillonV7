@@ -188,8 +188,8 @@ export const PapillonHeaderAction: React.FC<{
   return (
     <Reanimated.View
       layout={animated && animPapillon(LinearTransition)}
-      entering={entering && entering}
-      exiting={exiting && exiting}
+      
+      
     >
       <PressableScale
         activeScale={0.85}
@@ -273,8 +273,8 @@ export const PapillonHeaderSelector: React.FC<{
                 size={18}
                 color={theme.colors.text}
                 strokeWidth={2.8}
-                entering={animPapillon(ZoomIn)}
-                exiting={animPapillon(ZoomOut)}
+                
+                
                 style={{
                   marginLeft: 5,
                 }}

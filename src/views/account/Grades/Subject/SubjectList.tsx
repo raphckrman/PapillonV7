@@ -46,8 +46,8 @@ const SubjectItem: React.FC<SubjectItemProps> = ({
   return (
     <NativeList
       animated
-      entering={animPapillon(FadeInUp)}
-      exiting={animPapillon(FadeOutUp)}
+      
+      
     >
       <SubjectTitle
         navigation={navigation}
@@ -59,8 +59,8 @@ const SubjectItem: React.FC<SubjectItemProps> = ({
       {subject.grades.map((grade: Grade, index: number) => (
         <Reanimated.View
           key={grade.id + index}
-          entering={animPapillon(FadeInDown).delay(50 * index + 100)}
-          exiting={animPapillon(FadeOutUp).delay(50 * index)}
+          
+          
         >
           <NativeItem
             separator={index < subject.grades.length - 1}

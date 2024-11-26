@@ -227,8 +227,8 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
           <Reanimated.View layout={animPapillon(LinearTransition)}>
             <Reanimated.View
               key={pickerDate.toLocaleDateString("fr-FR", { weekday: "short" })}
-              entering={FadeIn.duration(150)}
-              exiting={FadeOut.duration(150)}
+              
+              
             >
               <Reanimated.Text
                 style={[
@@ -287,8 +287,8 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
         >
           <PapillonHeaderAction
             icon={<MoreVertical />}
-            entering={animPapillon(ZoomIn)}
-            exiting={FadeOut.duration(130)}
+            
+            
           />
         </PapillonPicker>
       </PapillonModernHeader>

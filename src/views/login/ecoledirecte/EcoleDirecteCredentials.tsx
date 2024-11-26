@@ -199,7 +199,7 @@ const EcoleDirecteCredentials: Screen<"EcoleDirecteCredentials"> = ({ navigation
                       height: 50,
                     }}
                     layout={LinearTransition}
-                    entering={FlipInXDown.springify().delay(50 * index)}
+                    
                   >
                     <DuoListPressable
                       text={answer}

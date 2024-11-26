@@ -255,8 +255,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         {groupedHomework && Object.keys(groupedHomework).map((day, index) => (
           <Reanimated.View
             key={day}
-            entering={animPapillon(FadeInUp)}
-            exiting={animPapillon(FadeOutDown)}
+            
+            
             layout={animPapillon(LinearTransition)}
           >
             <NativeListHeader animated label={day} />
@@ -376,8 +376,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         {showPickerButtons && !searchHasFocus &&
           <Reanimated.View
             layout={animPapillon(LinearTransition)}
-            entering={animPapillon(ZoomIn)}
-            exiting={animPapillon(ZoomOut)}
+            
+            
           >
             <PressableScale
               onPress={() => goToWeek(selectedWeek - 1)}
@@ -402,8 +402,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         {!searchHasFocus &&
         <Reanimated.View
           layout={animPapillon(LinearTransition)}
-          entering={animPapillon(FadeIn).delay(100)}
-          exiting={animPapillon(FadeOutLeft)}
+          
+          
         >
           <PressableScale
             style={[styles.weekPickerContainer]}
@@ -432,8 +432,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
               >
                 {showPickerButtons && !loading &&
                   <Reanimated.View
-                    entering={animPapillon(FadeIn)}
-                    exiting={animPapillon(FadeOut)}
+                    
+                    
                     style={{
                       marginRight: 2,
                     }}
@@ -448,8 +448,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
 
                 {!showPickerButtons && hideDone &&
                     <Reanimated.View
-                      entering={animPapillon(ZoomIn)}
-                      exiting={animPapillon(FadeOut)}
+                      
+                      
                       style={{
                         marginRight: 2,
                       }}
@@ -491,8 +491,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
                     size={18}
                     color={showPickerButtons ? theme.colors.primary : theme.colors.text}
                     strokeWidth={2.8}
-                    entering={animPapillon(ZoomIn)}
-                    exiting={animPapillon(ZoomOut)}
+                    
+                    
                     style={{
                       marginLeft: 5,
                     }}
@@ -507,8 +507,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         {showPickerButtons && !searchHasFocus &&
           <Reanimated.View
             layout={animPapillon(LinearTransition)}
-            entering={animPapillon(ZoomIn).delay(100)}
-            exiting={animPapillon(FadeOutLeft)}
+            
+            
           >
             <PressableScale
               onPress={() => goToWeek(selectedWeek + 1)}
@@ -542,8 +542,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         {showPickerButtons && !searchHasFocus && width > 330 &&
         <Reanimated.View
           layout={animPapillon(LinearTransition)}
-          entering={animPapillon(FadeInLeft).delay(100)}
-          exiting={animPapillon(FadeOutLeft)}
+          
+          
           style={{
             alignItems: "center",
             justifyContent: "center",
@@ -629,8 +629,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
               overflow: "hidden",
               borderRadius: 80,
             }}
-            entering={FadeIn.duration(250).delay(20)}
-            exiting={FadeOut.duration(100)}
+            
+            
           >
             <TextInput
               placeholder={
@@ -663,8 +663,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
           >
             <Reanimated.View
               layout={animPapillon(LinearTransition)}
-              entering={FadeIn.duration(100)}
-              exiting={FadeOut.duration(100)}
+              
+              
             >
               <X
                 size={20}

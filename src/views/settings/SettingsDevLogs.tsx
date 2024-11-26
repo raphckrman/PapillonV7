@@ -58,8 +58,8 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
       {loading && (
         <NativeList
           animated
-          entering={animPapillon(FadeInDown)}
-          exiting={animPapillon(FadeOutUp)}
+          
+          
         >
           <NativeItem
             leading={
@@ -80,8 +80,8 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
       {logs.length !== 0 && (
         <NativeList
           animated
-          entering={animPapillon(FadeInDown)}
-          exiting={animPapillon(FadeOutUp)}
+          
+          
         >
           {logs.map((log, index) => (
             <NativeItem

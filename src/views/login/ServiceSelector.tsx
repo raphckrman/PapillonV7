@@ -170,7 +170,7 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
             <Reanimated.View
               style={{ width: "100%" }}
               layout={LinearTransition}
-              entering={FlipInXDown.springify().delay(100 * i)}
+              
               key={srv.name}
             >
               <DuoListPressable

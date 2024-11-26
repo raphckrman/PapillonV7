@@ -70,8 +70,8 @@ export const NativeList: React.FC<NativeListProps> = ({
         style,
       ]}
       layout={animated && animPapillon(LinearTransition)}
-      entering={entering}
-      exiting={exiting}
+      
+      
     >
       <Reanimated.View
         style={[{
@@ -116,8 +116,8 @@ export const NativeListHeader: React.FC<NativeListHeaderProps> = ({ icon, label,
     <Reanimated.View
       style={[list_header_styles.container, style]}
       layout={animated && animPapillon(LinearTransition)}
-      entering={entering}
-      exiting={exiting}
+      
+      
     >
       {icon && (
         <View
@@ -226,8 +226,8 @@ export const NativeItem: React.FC<NativeItemProps> = ({
   return (
     <Reanimated.View
       layout={animated && animPapillon(LinearTransition)}
-      entering={entering && entering}
-      exiting={exiting && exiting}
+      
+      
       pointerEvents={pointerEvents}
     >
       <NativePressable
@@ -450,8 +450,8 @@ export const NativeText: React.FC<NativeTextProps> = (props) => {
         color: props.color || colors.text,
       }, fontStyle, props.style]}
       layout={props.animated && animPapillon(LinearTransition)}
-      entering={props.entering}
-      exiting={props.exiting}
+      
+      
     >
       {props.children}
     </Reanimated.Text>

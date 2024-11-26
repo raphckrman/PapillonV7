@@ -79,8 +79,8 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
               top: contentHeight + 10,
             }
           ]}
-          entering={PapillonContextEnter}
-          exiting={PapillonContextExit}
+          
+          
         >
           <BlurView
             intensity={70}

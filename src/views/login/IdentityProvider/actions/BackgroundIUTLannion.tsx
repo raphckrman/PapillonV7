@@ -170,8 +170,8 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
         <View style={{ height: 10 }} />
         <NativeText variant="title" key={step}
           animated
-          entering={animPapillon(FadeInDown)}
-          exiting={animPapillon(FadeOutUp)}
+          
+          
         >
           {step}
         </NativeText>

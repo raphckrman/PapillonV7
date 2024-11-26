@@ -50,8 +50,7 @@ const Widget: React.FC<WidgetContainerProps> = ({ widget: DynamicWidget, navigat
         opacity: loading ? 0.5 : 1,
         display: hidden ? "none" : "flex",
       }}
-      entering={animPapillon(ZoomIn).withInitialValues({ transform: [{ scale: 0.7 }], opacity: 0 })}
-      exiting={FadeOut.duration(150)}
+
     >
       <PressableScale
         onPress={() => handlePress()}
@@ -82,8 +81,8 @@ const Widget: React.FC<WidgetContainerProps> = ({ widget: DynamicWidget, navigat
                 borderRadius: 17,
                 borderCurve: "continuous",
               }}
-              entering={FadeIn.duration(150)}
-              exiting={FadeOut.duration(150)}
+
+
             >
               <ActivityIndicator />
               <NativeText variant="subtitle">

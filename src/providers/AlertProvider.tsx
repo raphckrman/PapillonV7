@@ -118,8 +118,8 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                     width: Dimensions.get("window").width - 20,
                   }
                 ]}
-                entering={FadeInDown.duration(200)}
-                exiting={FadeOutDown.duration(100)}
+                
+                
               >
                 <View style={styles.contentContainer}>
                   <Text style={[styles.title, { color: colors.text }]}>

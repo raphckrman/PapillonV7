@@ -189,8 +189,8 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
               emoji="🤔"
               title="Vous n'avez lié aucun compte"
               description="Pour accéder à la cantine, vous devez lier un compte dans l'onglet services externes."
-              entering={animPapillon(FadeInDown)}
-              exiting={animPapillon(FadeOut)}
+              
+              
             />
           ) : (
             <>
@@ -208,8 +208,8 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
 
               {selectedIndex !== null && allBalances?.[selectedIndex] && (
                 <Reanimated.View
-                  entering={FadeInUp}
-                  exiting={FadeOutDown}
+                  
+                  
                   layout={LinearTransition.springify().mass(1).damping(20).stiffness(300)}
                 >
                   <RestaurantCard
@@ -241,8 +241,8 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
               <Reanimated.View layout={animPapillon(LinearTransition)}>
                 <Reanimated.View
                   key={pickerDate.toLocaleDateString("fr-FR", { weekday: "short" })}
-                  entering={FadeIn.duration(150)}
-                  exiting={FadeOut.duration(150)}
+                  
+                  
                 >
                   <Reanimated.Text style={[styles.weekPickerText, { color: theme.colors.text }]}>
                     {pickerDate.toLocaleDateString("fr-FR", { weekday: "long" })}
@@ -331,8 +331,8 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                 day: "numeric",
                 year: "numeric",
               })}.`}
-              entering={animPapillon(FadeInDown)}
-              exiting={animPapillon(FadeOut)}
+              
+              
               style={{ marginTop: 16 }}
             />
           )}

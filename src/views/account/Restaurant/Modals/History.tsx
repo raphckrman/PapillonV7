@@ -48,8 +48,8 @@ const RestaurantHistory = ({ route }: { route: NavigationProps }) => {
           emoji="🧾"
           title="Aucune réservation"
           description="Effectuez une réservation pour la voir apparaître ici."
-          entering={animPapillon(FadeInDown)}
-          exiting={animPapillon(FadeOut)}
+          
+          
         />
       ) : (
         groupedHistories.map(([date, reservations], i) => (

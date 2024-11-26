@@ -66,8 +66,8 @@ const SettingsDonorsList = () => {
 
       {loading && (
         <NativeList inline animated
-          entering={FadeIn}
-          exiting={FadeOut}
+          
+          
         >
           <NativeItem
             leading={
@@ -83,8 +83,8 @@ const SettingsDonorsList = () => {
 
       {!loading && (
         <NativeList inline animated
-          entering={FadeIn}
-          exiting={FadeOut}
+          
+          
         >
           <NativeItem
             endPadding={16}
@@ -123,8 +123,8 @@ const SettingsDonorsList = () => {
 
       {!loading && donors.length > 0 && (
         <NativeList inline animated
-          entering={FadeIn}
-          exiting={FadeOut}
+          
+          
         >
           {donors.map((donor, index) => (
             <NativeItem

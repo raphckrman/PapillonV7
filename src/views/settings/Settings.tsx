@@ -160,8 +160,8 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
               size={18}
               color="white"
               strokeWidth={2.8}
-              entering={animPapillon(ZoomIn)}
-              exiting={animPapillon(ZoomOut)}
+              
+              
             />) : <Route />,
           color: "#7E1174",
           label: "Onglets & Navigation",
@@ -290,8 +290,8 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
     <>
       {!scrolled && Platform.OS === "ios" &&
         <Reanimated.View
-          exiting={FadeOut.duration(100)}
-          entering={FadeIn.duration(100)}
+          
+          
           style={{
             zIndex: 1000,
           }}

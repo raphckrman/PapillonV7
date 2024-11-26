@@ -127,8 +127,8 @@ const NewsScreen: Screen<"News"> = ({ route, navigation }) => {
     >
       {importantMessages.length > 0 && (
         <Reanimated.View
-          entering={animPapillon(FadeInUp)}
-          exiting={animPapillon(FadeOut)}
+          
+          
           layout={animPapillon(LinearTransition)}
         >
           <NativeListHeader
@@ -163,8 +163,8 @@ const NewsScreen: Screen<"News"> = ({ route, navigation }) => {
 
       {sortedMessages.length > 0 && (
         <Reanimated.View
-          entering={animPapillon(FadeInUp)}
-          exiting={animPapillon(FadeOut)}
+          
+          
           layout={animPapillon(LinearTransition)}
         >
           <NativeList animated inline>

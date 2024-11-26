@@ -112,16 +112,16 @@ const HeaderWeekComponent: React.FC<{ epochWeekNumber: number, active: boolean, 
                 bottom: 0,
                 backgroundColor: colors.primary + "21",
               }}
-              entering={ZoomIn.springify().mass(1).damping(20).stiffness(300)}
-              exiting={ZoomOut.springify().mass(1).damping(20).stiffness(300)}
+              
+              
             />
           }
 
           {active &&
             <Reanimated.View
               layout={LinearTransition.springify().mass(1).damping(20).stiffness(300)}
-              entering={ZoomIn.duration(200)}
-              exiting={ZoomOut.duration(200)}
+              
+              
             >
               <Calendar
                 size={20}

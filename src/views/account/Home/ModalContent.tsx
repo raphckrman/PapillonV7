@@ -148,8 +148,8 @@ const ModalContent: React.FC<ModalContentProps> = ({ navigation, refresh, endRef
       {(defined("force_changelog") || updatedRecently) && (
         <NativeList
           animated
-          entering={animPapillon(FadeInUp)}
-          exiting={animPapillon(FadeOutDown)}
+          
+          
         >
           <NativeItem
             leading={
@@ -179,8 +179,8 @@ const ModalContent: React.FC<ModalContentProps> = ({ navigation, refresh, endRef
 
       {!isOnline &&
   <Reanimated.View
-    entering={FlipInXDown.springify().mass(1).damping(20).stiffness(300)}
-    exiting={FadeOutUp.springify().mass(1).damping(20).stiffness(300)}
+    
+    
     layout={animPapillon(LinearTransition)}
   >
     <NativeList inline>
@@ -205,8 +205,8 @@ const ModalContent: React.FC<ModalContentProps> = ({ navigation, refresh, endRef
         <Reanimated.View
           key={index}
           layout={animPapillon(LinearTransition)}
-          entering={animPapillon(FadeInUp)}
-          exiting={animPapillon(FadeOutDown)}
+          
+          
         >
           <Element.component
             navigation={navigation}

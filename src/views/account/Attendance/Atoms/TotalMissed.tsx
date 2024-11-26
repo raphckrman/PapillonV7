@@ -25,8 +25,8 @@ const TotalMissed = ({ totalMissed }: TotalMissedProps) => {
   return (
     <NativeList
       animated
-      entering={animPapillon(FadeIn)}
-      exiting={animPapillon(FadeOut)}
+      
+      
     >
       <View
         style={{

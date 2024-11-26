@@ -94,7 +94,7 @@ const BottomSheet = ({ children, opened, setOpened, ...props }: BottomSheetProps
                 animatedStyle,
                 props.contentContainerStyle,
               ]}
-              exiting={SlideOutDown}
+              
             >
               {children}
             </Reanimated.View>

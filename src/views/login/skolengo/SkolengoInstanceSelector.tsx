@@ -134,8 +134,8 @@ const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
 
       {!keyboardOpen &&
         <Reanimated.View
-          entering={FadeInUp.duration(250).delay(200)}
-          exiting={FadeOutUp.duration(150)}
+          
+          
           style={{ zIndex: 9999 }}
           layout={LinearTransition}
         >
@@ -186,8 +186,8 @@ const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
         {search.length > 0 && (
           <Reanimated.View
             layout={LinearTransition.springify().mass(1).stiffness(100).damping(40)}
-            entering={ZoomIn.springify()}
-            exiting={ZoomOut.springify()}
+            
+            
           >
             <TouchableOpacity onPress={() => {
               setSearch("");
@@ -237,8 +237,8 @@ const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
                   fontFamily: "medium",
                   fontSize: 16,
                 }}
-                entering={FadeInUp.springify()}
-                exiting={FadeOutUp.springify()}
+                
+                
               >
                 Aucun établissement trouvé.
               </Reanimated.Text>
@@ -253,8 +253,8 @@ const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
                   fontFamily: "medium",
                   fontSize: 16,
                 }}
-                entering={FadeInUp.springify()}
-                exiting={FadeOutUp.springify()}
+                
+                
               >
                 {hasSearched ? "Aucun établissement trouvé, modifiez votre recherche." : "Recherchez un établissement."}
               </Reanimated.Text>
@@ -279,7 +279,7 @@ const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
                       // @ts-expect-error
                       : ZoomInEasyDown.duration(400).easing(Easing.bezier(0.25, 0.1, 0.25, 1)).delay(30 * index)
                   }
-                  exiting={index < 10 ? FadeOutUp : void 0}
+                  
                   key={instance.id}
                 >
                   <DuoListPressable

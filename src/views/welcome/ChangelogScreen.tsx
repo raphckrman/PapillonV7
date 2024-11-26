@@ -113,8 +113,8 @@ const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
         <NativeList
           inline
           animated
-          entering={animPapillon(FadeInUp)}
-          exiting={animPapillon(FadeOutUp)}
+          
+          
         >
           <NativeItem
             leading={<PapillonSpinner color={theme.colors.primary} size={24} strokeWidth={3.5} />}
@@ -133,8 +133,8 @@ const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
         <NativeList
           inline
           animated
-          entering={animPapillon(FadeInUp)}
-          exiting={animPapillon(FadeOutUp)}
+          
+          
         >
           <NativeItem
             icon={<AlertTriangle />}
@@ -151,8 +151,8 @@ const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
 
       {changelog && (
         <Reanimated.View
-          entering={animPapillon(FadeInUp)}
-          exiting={animPapillon(FadeOutUp)}
+          
+          
           layout={animPapillon(LinearTransition)}
         >
           <PressableScale>

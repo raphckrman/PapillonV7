@@ -45,7 +45,7 @@ const ExternalAccountSelector: Screen<"ExternalAccountSelector"> = ({ navigation
         <Reanimated.View
           style={{ width: "100%" }}
           layout={LinearTransition}
-          entering={FlipInXDown.springify().delay(100)}
+          
         >
           <DuoListPressable
             leading={<Image source={require("../../../../assets/images/service_turboself.png")} style={styles.image} />}
@@ -58,7 +58,7 @@ const ExternalAccountSelector: Screen<"ExternalAccountSelector"> = ({ navigation
         <Reanimated.View
           style={{ width: "100%" }}
           layout={LinearTransition}
-          entering={FlipInXDown.springify().delay(200)}
+          
         >
           <DuoListPressable
             leading={<Image source={require("../../../../assets/images/service_ard.png")} style={styles.image} />}
@@ -71,7 +71,7 @@ const ExternalAccountSelector: Screen<"ExternalAccountSelector"> = ({ navigation
         <Reanimated.View
           style={{ width: "100%" }}
           layout={LinearTransition}
-          entering={FlipInXDown.springify().delay(200)}
+          
         >
           <DuoListPressable
             leading={<Image source={require("../../../../assets/images/service_izly.png")} style={styles.image} />}
@@ -84,7 +84,7 @@ const ExternalAccountSelector: Screen<"ExternalAccountSelector"> = ({ navigation
         <Reanimated.View
           style={{ width: "100%" }}
           layout={LinearTransition}
-          entering={FlipInXDown.springify().delay(300)}
+          
         >
           <DuoListPressable
             leading={<CircleDashed style={styles.image} />}

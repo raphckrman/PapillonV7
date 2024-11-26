@@ -202,8 +202,8 @@ const Attendance: Screen<"Attendance"> = ({ route, navigation }) => {
 
           {isLoading && !isRefreshing &&
             <Reanimated.View
-              entering={FadeIn}
-              exiting={FadeOut.duration(1000)}
+              
+              
               layout={LinearTransition}
               style={{ marginRight: 6 }}
             >

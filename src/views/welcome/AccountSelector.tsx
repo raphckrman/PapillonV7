@@ -276,7 +276,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
               backgroundColor: "#1E212D",
               zIndex: 3,
             }}
-            exiting={FadeOut}
+            
           />
           }
 
@@ -347,7 +347,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
 
         {accounts.filter((account) => !account.isExternal).length > 0 && (
           <Reanimated.View
-            entering={animPapillon(FadeInDown)}
+            
             layout={animPapillon(LinearTransition)}
             style={{paddingHorizontal: 16}}
           >
@@ -382,7 +382,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
                           strokeWidth={3.5}
                           color={theme.colors.primary}
                           animated
-                          entering={animPapillon(ZoomIn)}
+                          
                         />
                       )
                     }

@@ -340,8 +340,8 @@ const SettingsSubjects: Screen<"SettingsSubjects"> = ({ navigation }) => {
                                   borderColor: colors.background,
                                   borderWidth: 3,
                                 }}
-                                entering={ZoomIn.springify().mass(1).damping(20).stiffness(300)}
-                                exiting={ZoomOut.springify().mass(1).damping(20).stiffness(300)}
+                                
+                                
                               />
                             )}
                           </View>

@@ -51,7 +51,7 @@ const QrcodeAnswer: Screen<"QrcodeAnswer"> = ({ navigation, route }) => {
         <Reanimated.View
           style={{ width: "100%" }}
           layout={LinearTransition}
-          entering={FlipInXDown.springify().delay(100)}
+          
         >
           <DuoListPressable
             text="Oui"
@@ -63,7 +63,7 @@ const QrcodeAnswer: Screen<"QrcodeAnswer"> = ({ navigation, route }) => {
         <Reanimated.View
           style={{ width: "100%" }}
           layout={LinearTransition}
-          entering={FlipInXDown.springify().delay(200)}
+          
         >
           <DuoListPressable
             text="Non"
