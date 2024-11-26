@@ -358,8 +358,8 @@ interface NativeIconGradientprops {
 export const NativeIconGradient: React.FC<NativeIconGradientprops> = ({ icon, colors, locations, style }) => {
   return (
     <LinearGradient
-      colors={colors || ["#000", "#000"]}
-      locations={locations || [0, 1]}
+      colors={[colors || ["#000", "#000"]]}
+      locations={[locations || [0, 1]]}
       style={[{
         backgroundColor: "#000",
         borderRadius: 9,
