@@ -96,7 +96,8 @@
     "scolengo-api": "^3.0.5",
     "text-encoding": "^0.7.0",
     "turboself-api": "^2.1.4",
-    "zustand": "^5.0.1"
+    "zustand": "^5.0.1",
+    "expo-store-review": "~7.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
