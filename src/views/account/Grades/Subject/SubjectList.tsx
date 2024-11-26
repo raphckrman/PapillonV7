@@ -43,11 +43,15 @@ const SubjectItem: React.FC<SubjectItemProps> = ({
     fetchSubjectData();
   }, [subject.average.subjectName]);
 
+  if (!subjectData) {
+    return null;
+  }
+
   return (
     <NativeList
       animated
-      
-      
+
+
     >
       <SubjectTitle
         navigation={navigation}
@@ -59,8 +63,8 @@ const SubjectItem: React.FC<SubjectItemProps> = ({
       {subject.grades.map((grade: Grade, index: number) => (
         <Reanimated.View
           key={grade.id + index}
-          
-          
+
+
         >
           <NativeItem
             separator={index < subject.grades.length - 1}
