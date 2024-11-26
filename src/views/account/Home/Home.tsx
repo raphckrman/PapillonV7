@@ -263,6 +263,7 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
           setModalOpen(e.nativeEvent.contentOffset.y >= 195 + insets.top);
           setModalFull(e.nativeEvent.contentOffset.y >= 265 + insets.top);
         }}
+        scrollEventThrottle={Platform.OS === "ios" ? 16 : 32}
         refreshControl={<RefreshControl
           refreshing={refreshing}
           onRefresh={() => setRefreshing(true)}
