@@ -106,7 +106,7 @@ const GradeItem: React.FC<GradeItemProps> = memo(({
 
   // Memoized max grade
   const maxGrade = useMemo(() =>
-    `/${grade.outOf.value?.toFixed(0) ?? "??"}`,
+    `/${grade.outOf.value ?? "??"}`,
   [grade.outOf.value]
   );
 
