@@ -87,7 +87,6 @@ const Messages: Screen<"Messages"> = ({ navigation, route }) => {
     >
       {!chats ? (
         <Reanimated.View
-          
           exiting={
             Platform.OS === "ios"
               ? FadeOut.springify().mass(1).damping(20).stiffness(300)
@@ -131,8 +130,6 @@ const Messages: Screen<"Messages"> = ({ navigation, route }) => {
           emoji="💬"
           title="Aucune discussion"
           description="Commencez une nouvelle discussion pour les afficher ici."
-          
-          
           style={{ paddingVertical: 26 }}
         />
       ) : (

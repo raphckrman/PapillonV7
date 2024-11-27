@@ -202,16 +202,12 @@ const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
                 paddingHorizontal: 20,
                 backgroundColor: theme.colors.card,
               }}
-              
-              
             >
               <PapillonSpinner
                 animated={true}
                 size={48}
                 color={theme.colors.primary}
                 strokeWidth={6}
-                
-                
               />
 
               <Reanimated.Text
@@ -222,8 +218,6 @@ const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
                   fontFamily: "semibold",
                   textAlign: "center",
                 }}
-                
-                
                 layout={animPapillon(LinearTransition)}
               >
                 Connexion à Pronote
@@ -231,8 +225,6 @@ const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
 
               <Reanimated.View
                 layout={animPapillon(LinearTransition)}
-                
-                
                 key={loginStep + "stp"}
               >
                 <Reanimated.Text

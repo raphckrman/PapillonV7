@@ -94,7 +94,6 @@ const BottomSheet = ({ children, opened, setOpened, ...props }: BottomSheetProps
                 animatedStyle,
                 props.contentContainerStyle,
               ]}
-              
             >
               {children}
             </Reanimated.View>

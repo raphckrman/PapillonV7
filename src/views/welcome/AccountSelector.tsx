@@ -266,20 +266,19 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
             height: headerRatioHeight,
           }, headerAnimatedStyle]}
         >
-          {!illustrationLoaded &&
-          <Reanimated.View
-            style={{
-              width: "100%",
-              height: "100%",
-              position: "absolute",
-              top: 0,
-              left: 0,
-              backgroundColor: "#1E212D",
-              zIndex: 3,
-            }}
-            
-          />
-          }
+          {!illustrationLoaded && (
+            <Reanimated.View
+              style={{
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                top: 0,
+                left: 0,
+                backgroundColor: "#1E212D",
+                zIndex: 3,
+              }}
+            />
+          )}
 
           <Reanimated.Image
             source={illustration && { uri: illustration.image }}
@@ -348,7 +347,6 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
 
         {accounts.filter((account) => !account.isExternal).length > 0 && (
           <Reanimated.View
-            
             layout={animPapillon(LinearTransition)}
             style={{paddingHorizontal: 16}}
           >
@@ -383,7 +381,6 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
                           strokeWidth={3.5}
                           color={theme.colors.primary}
                           animated
-                          
                         />
                       )
                     }

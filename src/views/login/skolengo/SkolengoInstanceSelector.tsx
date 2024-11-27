@@ -134,8 +134,6 @@ const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
 
       {!keyboardOpen &&
         <Reanimated.View
-          
-          
           style={{ zIndex: 9999 }}
           layout={LinearTransition}
         >
@@ -186,8 +184,6 @@ const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
         {search.length > 0 && (
           <Reanimated.View
             layout={LinearTransition.springify().mass(1).stiffness(100).damping(40)}
-            
-            
           >
             <TouchableOpacity onPress={() => {
               setSearch("");
@@ -237,8 +233,6 @@ const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
                   fontFamily: "medium",
                   fontSize: 16,
                 }}
-                
-                
               >
                 Aucun établissement trouvé.
               </Reanimated.Text>
@@ -253,8 +247,6 @@ const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
                   fontFamily: "medium",
                   fontSize: 16,
                 }}
-                
-                
               >
                 {hasSearched ? "Aucun établissement trouvé, modifiez votre recherche." : "Recherchez un établissement."}
               </Reanimated.Text>

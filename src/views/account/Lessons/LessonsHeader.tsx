@@ -114,8 +114,6 @@ const LessonsDateModal: React.FC<LessonsDateModalProps> = ({
               borderRadius: 16,
               borderCurve: "continuous",
             }}
-            
-            
           >
             <View
               style={{

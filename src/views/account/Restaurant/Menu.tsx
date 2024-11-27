@@ -189,8 +189,6 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
               emoji="🤔"
               title="Vous n'avez lié aucun compte"
               description="Pour accéder à la cantine, vous devez lier un compte dans l'onglet services externes."
-              
-              
             />
           ) : (
             <>
@@ -208,8 +206,6 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
 
               {selectedIndex !== null && allBalances?.[selectedIndex] && (
                 <Reanimated.View
-                  
-                  
                   layout={LinearTransition.springify().mass(1).damping(20).stiffness(300)}
                 >
                   <RestaurantCard
@@ -335,8 +331,6 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                 day: "numeric",
                 year: "numeric",
               })}.`}
-              
-              
               style={{ marginTop: 16 }}
             />
           )}

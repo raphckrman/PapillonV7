@@ -53,8 +53,6 @@ const PapillonSpinner: React.FC<PapillonSpinnerProps> = ({
     <Reanimated.View
       style={style}
       layout={animated ? animPapillon(LinearTransition) : undefined}
-      
-      
     >
       <Animated.View style={{ transform: [{ rotate: spin }] }}>
         <Svg width={size} height={size}>

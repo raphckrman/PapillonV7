@@ -14,8 +14,6 @@ const HomeworksNoHomeworksItem = () => {
 
   return (
     <Reanimated.View
-      
-      
       style={{
         justifyContent: "center",
         alignItems: "center",

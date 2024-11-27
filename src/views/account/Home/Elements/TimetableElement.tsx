@@ -120,8 +120,6 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
       <NativeList
         animated
         key="loadingCourses"
-        
-        
       >
         <NativeItem animated style={{ paddingVertical: 10 }}>
           <MissingItem
@@ -139,8 +137,6 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
       <NativeList
         animated
         key="emptyCourses"
-        
-        
       >
         <NativeItem animated style={{ paddingVertical: 10 }}>
           <MissingItem

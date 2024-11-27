@@ -28,8 +28,6 @@ const MissingItem: React.FC<MissingItemProps> = ({
         gap: 4,
         paddingHorizontal: 40,
       }, style]}
-      
-      
     >
       <Text style={{ fontSize: 32 }}>
         {emoji}

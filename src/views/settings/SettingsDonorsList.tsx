@@ -65,10 +65,7 @@ const SettingsDonorsList = () => {
 
 
       {loading && (
-        <NativeList inline animated
-          
-          
-        >
+        <NativeList inline animated>
           <NativeItem
             leading={
               <PapillonSpinner size={20} strokeWidth={3} />
@@ -82,10 +79,7 @@ const SettingsDonorsList = () => {
       )}
 
       {!loading && (
-        <NativeList inline animated
-          
-          
-        >
+        <NativeList inline animated>
           <NativeItem
             endPadding={16}
             leading={
@@ -122,10 +116,7 @@ const SettingsDonorsList = () => {
       )}
 
       {!loading && donors.length > 0 && (
-        <NativeList inline animated
-          
-          
-        >
+        <NativeList inline animated>
           {donors.map((donor, index) => (
             <NativeItem
               key={index + "donor"}

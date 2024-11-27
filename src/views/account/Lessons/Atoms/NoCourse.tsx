@@ -14,8 +14,6 @@ const LessonsNoCourseItem = () => {
 
   return (
     <Reanimated.View
-      
-      
       style={{
         justifyContent: "center",
         alignItems: "center",

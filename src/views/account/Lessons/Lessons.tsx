@@ -285,11 +285,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
             }
           ]}
         >
-          <PapillonHeaderAction
-            icon={<MoreVertical />}
-            
-            
-          />
+          <PapillonHeaderAction icon={<MoreVertical />} />
         </PapillonPicker>
       </PapillonModernHeader>
 

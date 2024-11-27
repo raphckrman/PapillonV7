@@ -110,12 +110,7 @@ const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
       contentInsetAdjustmentBehavior="automatic"
     >
       {loading && (
-        <NativeList
-          inline
-          animated
-          
-          
-        >
+        <NativeList inline animated>
           <NativeItem
             leading={<PapillonSpinner color={theme.colors.primary} size={24} strokeWidth={3.5} />}
           >
@@ -130,12 +125,7 @@ const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
       )}
 
       {notFound && (
-        <NativeList
-          inline
-          animated
-          
-          
-        >
+        <NativeList inline animated>
           <NativeItem
             icon={<AlertTriangle />}
           >
@@ -150,11 +140,7 @@ const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
       )}
 
       {changelog && (
-        <Reanimated.View
-          
-          
-          layout={animPapillon(LinearTransition)}
-        >
+        <Reanimated.View layout={animPapillon(LinearTransition)}>
           <TouchableOpacity>
             <NativeList
               animated inline

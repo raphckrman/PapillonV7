@@ -117,10 +117,8 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                     marginBottom: 10 + insets.bottom,
                     width: Dimensions.get("window").width - 20,
                     maxWidth: 600,
-                }
+                  }
                 ]}
-                
-                
               >
                 <View style={styles.contentContainer}>
                   <Text style={[styles.title, { color: colors.text }]}>
@@ -132,26 +130,26 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                   </Text>
                 </View>
 
-              <View style={[styles.buttons, { borderColor: colors.border, backgroundColor: colors.text + "0a" }]}>
-                {(alert.actions ?? []).map(({ title, onPress, icon, primary, backgroundColor }) => (
-                  <Pressable
-                    key={title + "alertbutton"}
-                    onPress={() => {
-                      onPress();
-                      hideAlert();
-                    }}
-                    style={({ pressed }) => [
-                      styles.button,
-                      primary && styles.primaryButton,
-                      primary && {
-                        backgroundColor: backgroundColor ? backgroundColor : colors.primary,
-                      },
-                      {
-                        opacity: primary ? (pressed ? 0.6 : 1) : (pressed ? 0.3 : 0.6),
-                      }
-                    ]}
-                  >
-                    {icon ? icon : null}
+                <View style={[styles.buttons, { borderColor: colors.border, backgroundColor: colors.text + "0a" }]}>
+                  {(alert.actions ?? []).map(({ title, onPress, icon, primary, backgroundColor }) => (
+                    <Pressable
+                      key={title + "alertbutton"}
+                      onPress={() => {
+                        onPress();
+                        hideAlert();
+                      }}
+                      style={({ pressed }) => [
+                        styles.button,
+                        primary && styles.primaryButton,
+                        primary && {
+                          backgroundColor: backgroundColor ? backgroundColor : colors.primary,
+                        },
+                        {
+                          opacity: primary ? (pressed ? 0.6 : 1) : (pressed ? 0.3 : 0.6),
+                        }
+                      ]}
+                    >
+                      {icon ? icon : null}
 
                       <Text style={[styles.buttonText, { color: colors.text }, primary && styles.primaryButtonText]}>
                         {title}

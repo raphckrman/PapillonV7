@@ -340,8 +340,6 @@ const SettingsSubjects: Screen<"SettingsSubjects"> = ({ navigation }) => {
                                   borderColor: colors.background,
                                   borderWidth: 3,
                                 }}
-                                
-                                
                               />
                             )}
                           </View>

@@ -199,7 +199,6 @@ const EcoleDirecteCredentials: Screen<"EcoleDirecteCredentials"> = ({ navigation
                       height: 50,
                     }}
                     layout={LinearTransition}
-                    
                   >
                     <DuoListPressable
                       text={answer}

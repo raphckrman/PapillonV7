@@ -38,11 +38,7 @@ const AttendanceItem: React.FC<AttendanceItemProps> = ({
   });
 
   return (
-    <NativeList
-      animated
-      
-      
-    >
+    <NativeList animated>
       <NativeItem
         animated
         endPadding={16}

@@ -127,8 +127,6 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
               zIndex: 99,
             }
           ]}
-          
-          
         />
       )}
     </View>
@@ -207,8 +205,6 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
 
       <Reanimated.View
         style={styles.done}
-        
-        
         key={(account?.personalization?.color?.hex.primary || "") + "_btn"}
       >
         <ButtonCta

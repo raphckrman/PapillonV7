@@ -160,9 +160,10 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
               size={18}
               color="white"
               strokeWidth={2.8}
-              
-              
-            />) : <Route />,
+            />
+          ) : (
+            <Route />
+          ),
           color: "#7E1174",
           label: "Onglets & Navigation",
           onPress: async () => {
@@ -288,17 +289,15 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
 
   return (
     <>
-      {!scrolled && Platform.OS === "ios" &&
+      {!scrolled && Platform.OS === "ios" && (
         <Reanimated.View
-          
-          
           style={{
             zIndex: 1000,
           }}
         >
           <ModalHandle />
         </Reanimated.View>
-      }
+      )}
 
       <Reanimated.ScrollView
         onScroll={scrollHandler}

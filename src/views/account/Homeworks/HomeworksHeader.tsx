@@ -112,23 +112,19 @@ const HeaderWeekComponent: React.FC<{ epochWeekNumber: number, active: boolean, 
                 bottom: 0,
                 backgroundColor: colors.primary + "21",
               }}
-              
-              
             />
           }
 
-          {active &&
+          {active && (
             <Reanimated.View
               layout={LinearTransition.springify().mass(1).damping(20).stiffness(300)}
-              
-              
             >
               <Calendar
                 size={20}
                 color={colors.primary}
               />
             </Reanimated.View>
-          }
+          )}
 
           <Reanimated.Text
             numberOfLines={1}

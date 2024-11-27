@@ -133,11 +133,7 @@ const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => 
           />
 
           {instanceURL.length > 0 && (
-            <Reanimated.View
-              layout={LinearTransition}
-              
-              
-            >
+            <Reanimated.View layout={LinearTransition}>
               <TouchableOpacity onPress={() => {
                 setInstanceURL("");
               }}>

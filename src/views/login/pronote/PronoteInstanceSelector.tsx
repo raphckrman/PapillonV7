@@ -115,8 +115,6 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
 
       {!keyboardOpen &&
         <Reanimated.View
-          
-          
           style={{ zIndex: 9999 }}
           layout={LinearTransition}
         >
@@ -167,8 +165,6 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
         {search.length > 0 && (
           <Reanimated.View
             layout={LinearTransition.springify().mass(1).stiffness(100).damping(40)}
-            
-            
           >
             <TouchableOpacity onPress={() => {
               setSearch("");
@@ -218,8 +214,6 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
                   fontFamily: "medium",
                   fontSize: 16,
                 }}
-                
-                
               >
                 Aucun établissement trouvé.
               </Reanimated.Text>

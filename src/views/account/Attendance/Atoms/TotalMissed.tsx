@@ -23,11 +23,7 @@ const TotalMissed = ({ totalMissed }: TotalMissedProps) => {
   const theme = useTheme();
 
   return (
-    <NativeList
-      animated
-      
-      
-    >
+    <NativeList animated>
       <View
         style={{
           flexDirection: "row",

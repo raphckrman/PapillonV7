@@ -196,8 +196,6 @@ const Header: React.FC<{
                     size={18}
                     color="white"
                     strokeWidth={2.8}
-                    
-                    
                   />
                 ) : (
                   <CopyPlus

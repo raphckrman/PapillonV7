@@ -146,11 +146,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ navigation, refresh, endRef
       }}
     >
       {(defined("force_changelog") || updatedRecently) && (
-        <NativeList
-          animated
-          
-          
-        >
+        <NativeList animated>
           <NativeItem
             leading={
               <Gift
@@ -177,26 +173,24 @@ const ModalContent: React.FC<ModalContentProps> = ({ navigation, refresh, endRef
         </NativeList>
       )}
 
-      {!isOnline &&
-  <Reanimated.View
-    
-    
-    layout={animPapillon(LinearTransition)}
-  >
-    <NativeList inline>
-      <NativeItem
-        icon={<WifiOff />}
-      >
-        <NativeText variant="title" style={{ paddingVertical: 2, marginBottom: -4 }}>
-          {errorTitle.label} {errorTitle.emoji}
-        </NativeText>
-        <NativeText variant="subtitle">
-          Vous êtes hors ligne. Les données affichées peuvent être obsolètes.
-        </NativeText>
-      </NativeItem>
-    </NativeList>
-  </Reanimated.View>
-      }
+      {!isOnline && (
+        <Reanimated.View
+          layout={animPapillon(LinearTransition)}
+        >
+          <NativeList inline>
+            <NativeItem
+              icon={<WifiOff />}
+            >
+              <NativeText variant="title" style={{ paddingVertical: 2, marginBottom: -4 }}>
+                {errorTitle.label} {errorTitle.emoji}
+              </NativeText>
+              <NativeText variant="subtitle">
+                Vous êtes hors ligne. Les données affichées peuvent être obsolètes.
+              </NativeText>
+            </NativeItem>
+          </NativeList>
+        </Reanimated.View>
+      )}
 
       <Reanimated.View
         layout={animPapillon(LinearTransition)}
@@ -205,8 +199,6 @@ const ModalContent: React.FC<ModalContentProps> = ({ navigation, refresh, endRef
         <Reanimated.View
           key={index + "modctidx"}
           layout={animPapillon(LinearTransition)}
-          
-          
         >
           <Element.component
             navigation={navigation}

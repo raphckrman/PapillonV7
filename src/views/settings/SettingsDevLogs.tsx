@@ -56,11 +56,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
       <NativeListHeader animated label={"Logs"} />
 
       {loading && (
-        <NativeList
-          animated
-          
-          
-        >
+        <NativeList animated>
           <NativeItem
             leading={
               <ActivityIndicator />
@@ -78,11 +74,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
       )}
 
       {logs.length !== 0 && (
-        <NativeList
-          animated
-          
-          
-        >
+        <NativeList animated>
           {logs.map((log, index) => (
             <NativeItem
               animated

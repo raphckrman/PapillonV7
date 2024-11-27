@@ -117,8 +117,6 @@ const PronoteManualLocation: Screen<"PronoteManualLocation"> = ({ navigation }) 
 
         {municipalities.results.length == 0 && (
           <Reanimated.View
-            
-            
             style={{ zIndex: 9999 }}
             layout={LinearTransition}
           >
@@ -168,11 +166,7 @@ const PronoteManualLocation: Screen<"PronoteManualLocation"> = ({ navigation }) 
           />
 
           { search.length > 0 && (
-            <Reanimated.View
-              layout={LinearTransition}
-              
-              
-            >
+            <Reanimated.View layout={LinearTransition}>
               <TouchableOpacity onPress={() => {
                 setSearch("");
                 searchInputRef.current?.focus();
@@ -198,8 +192,6 @@ const PronoteManualLocation: Screen<"PronoteManualLocation"> = ({ navigation }) 
               <Reanimated.View
                 style={styles.loadingContainer}
                 layout={LinearTransition}
-                
-                
               >
                 <ActivityIndicator />
                 <Text
@@ -216,8 +208,6 @@ const PronoteManualLocation: Screen<"PronoteManualLocation"> = ({ navigation }) 
               municipalities.results.map((municipality, index) => (
                 <Reanimated.View
                   style={{ width: "100%" }}
-                  
-                  
                   layout={LinearTransition}
                   key={index + "municipality"}
                 >

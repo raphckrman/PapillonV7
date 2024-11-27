@@ -160,8 +160,6 @@ const Grades: Screen<"Grades"> = ({ route, navigation }) => {
                 }}
                 numberOfLines={1}
                 key={`${selectedPeriod}sel`}
-                
-                
               >
                 {userSelectedPeriod ?? selectedPeriod}
               </Reanimated.Text>
@@ -218,8 +216,6 @@ const Grades: Screen<"Grades"> = ({ route, navigation }) => {
 							grades[selectedPeriod].length > 1 && (
                 <Reanimated.View
                   layout={animPapillon(LinearTransition)}
-                  
-                  
                   key={account.instance + "graph"}
                 >
                   <GradesAverageGraph

@@ -126,11 +126,7 @@ const NewsScreen: Screen<"News"> = ({ route, navigation }) => {
       }
     >
       {importantMessages.length > 0 && (
-        <Reanimated.View
-          
-          
-          layout={animPapillon(LinearTransition)}
-        >
+        <Reanimated.View layout={animPapillon(LinearTransition)}>
           <NativeListHeader
             label="Peut-être Important"
             animated
@@ -162,11 +158,7 @@ const NewsScreen: Screen<"News"> = ({ route, navigation }) => {
       )}
 
       {sortedMessages.length > 0 && (
-        <Reanimated.View
-          
-          
-          layout={animPapillon(LinearTransition)}
-        >
+        <Reanimated.View layout={animPapillon(LinearTransition)}>
           <NativeList animated inline>
             <FlatList
               data={sortedMessages}
