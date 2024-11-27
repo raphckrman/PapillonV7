@@ -68,7 +68,6 @@ const SkolengoAuthenticationSelector: Screen<"SkolengoAuthenticationSelector"> =
         <Reanimated.View
           style={{ width: "100%" }}
           layout={LinearTransition}
-          
         >
           <DuoListPressable
             leading={
@@ -85,7 +84,6 @@ const SkolengoAuthenticationSelector: Screen<"SkolengoAuthenticationSelector"> =
         <Reanimated.View
           style={{ width: "100%" }}
           layout={LinearTransition}
-          
         >
           <DuoListPressable
             leading={

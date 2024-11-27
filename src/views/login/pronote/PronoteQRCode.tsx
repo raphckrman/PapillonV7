@@ -314,8 +314,6 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
           >
             {!inputFocus && (
               <Reanimated.View
-                
-                
                 style={{ zIndex: 9999 }}
                 layout={LinearTransition}
               >

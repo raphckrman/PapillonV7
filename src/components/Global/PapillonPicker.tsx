@@ -79,8 +79,6 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
               top: contentHeight + 10,
             }
           ]}
-          
-          
         >
           <BlurView
             intensity={70}

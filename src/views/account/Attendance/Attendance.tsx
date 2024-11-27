@@ -200,16 +200,14 @@ const Attendance: Screen<"Attendance"> = ({ route, navigation }) => {
             </PapillonPicker>
           </Reanimated.View>
 
-          {isLoading && !isRefreshing &&
+          {isLoading && !isRefreshing && (
             <Reanimated.View
-              
-              
               layout={LinearTransition}
               style={{ marginRight: 6 }}
             >
               <ActivityIndicator color={Platform.OS === "android" ? theme.colors.primary : void 0} />
             </Reanimated.View>
-          }
+          )}
         </Reanimated.View>
       </PapillonHeader>
 

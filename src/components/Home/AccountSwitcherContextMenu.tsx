@@ -118,8 +118,6 @@ const ContextMenu: React.FC<{
               },
               styles.menu,
             ]}
-            
-            
           >
             <View
               style={{
@@ -350,8 +348,6 @@ const ContextMenu: React.FC<{
                 backgroundColor: "#00000050"
               },
             ]}
-            
-            
           >
             <BlurView
               tint="dark"
