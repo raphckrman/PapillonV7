@@ -287,18 +287,12 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
             style={modalIndicatorAnimatedStyle}
           />
           <Animated.View style={modalContentAnimatedStyle} key={"modalctcontainer"}>
-            {/*<ModalContent
+            <ModalContent
               navigation={navigation}
               refresh={refreshing}
               endRefresh={() => setRefreshing(false)}
               key={"modalct"}
             />
-
-            ///
-            @ecnivtwelve: TODO, fix that
-            ///
-
-            */}
           </Animated.View>
         </Animated.View>
       </Reanimated.ScrollView>
