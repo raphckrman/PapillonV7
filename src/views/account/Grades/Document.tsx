@@ -25,6 +25,7 @@ import type { AverageDiffGrade } from "@/utils/grades/getAverages";
 import { Screen } from "@/router/helpers/types";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
   const { grade, allGrades = [] } = route.params;
@@ -225,7 +226,7 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
       <View
         style={{
           borderCurve: "continuous",
-          minHeight: 180,
+          minHeight: 150,
           backgroundColor: subjectData.color,
         }}
       >
@@ -359,9 +360,8 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
           flex: 1,
           borderCurve: "continuous",
         }}
-        contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
+        contentContainerStyle={{ flexGrow: 1, alignItems: "center", paddingBottom: 100 + useSafeAreaInsets().bottom, }}
         contentInsetAdjustmentBehavior="automatic"
-        showsVerticalScrollIndicator={false}
       >
         <View
           style={{
