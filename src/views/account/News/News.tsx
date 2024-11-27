@@ -93,7 +93,7 @@ const NewsScreen: Screen<"News"> = ({ route, navigation }) => {
 
   const renderItem: ListRenderItem<NewsItem> = useCallback(({ item, index }) => (
     <NewsListItem
-      key={index}
+      key={index + "newslistitemindex"}
       index={index}
       message={item}
       navigation={navigation}

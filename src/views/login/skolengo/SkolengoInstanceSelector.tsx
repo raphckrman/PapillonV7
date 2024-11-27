@@ -279,8 +279,8 @@ const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
                       // @ts-expect-error
                       : ZoomInEasyDown.duration(400).easing(Easing.bezier(0.25, 0.1, 0.25, 1)).delay(30 * index)
                   }
-                  
-                  key={instance.id}
+                  exiting={index < 10 ? FadeOutUp : void 0}
+                  key={instance.id + "skolenginstanceindex"}
                 >
                   <DuoListPressable
                     leading={

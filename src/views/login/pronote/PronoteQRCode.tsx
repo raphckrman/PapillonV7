@@ -20,6 +20,9 @@ import { Audio } from "expo-av";
 import defaultPersonalization from "@/services/pronote/default-personalization";
 import extract_pronote_name from "@/utils/format/extract_pronote_name";
 
+// TODO: use expo camera
+const BarCodeScanner = () => null;
+
 const makeUUID = (): string => {
   let dt = new Date().getTime();
   const uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(

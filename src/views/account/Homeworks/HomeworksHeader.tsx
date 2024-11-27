@@ -38,34 +38,34 @@ const HeaderCalendar: React.FC<{ epochWeekNumber: number, oldPageIndex: number, 
         <HeaderWeekComponent
           epochWeekNumber={epochWeekNumber - 2}
           active={false}
-          key={index - 2}
+          key={index - 2 + "hwheader"}
           location="left"
           onPress={() => changeIndex(epochWeekNumber - 2)}
         />
         <HeaderWeekComponent
           epochWeekNumber={epochWeekNumber - 1}
           active={false}
-          key={index - 1}
+          key={index - 1 + "hwheader"}
           location="left"
           onPress={() => changeIndex(epochWeekNumber - 1)}
         />
         <HeaderWeekComponent
           epochWeekNumber={epochWeekNumber}
           active={true}
-          key={index}
+          key={index + "hwheader"}
           onPress={showPicker}
         />
         <HeaderWeekComponent
           epochWeekNumber={epochWeekNumber + 1}
           active={false}
-          key={index + 1}
+          key={index + 1 + "hwheader"}
           location="right"
           onPress={() => changeIndex(epochWeekNumber + 1)}
         />
         <HeaderWeekComponent
           epochWeekNumber={epochWeekNumber + 2}
           active={false}
-          key={index + 2}
+          key={index + 2 + "hwheader"}
           location="right"
           onPress={() => changeIndex(epochWeekNumber + 2)}
         />

@@ -63,6 +63,7 @@ export const Page = ({ day, date, current, paddingTop, refreshAction, loading, w
     >
       {current &&
         <View
+          key={date.toString() + "timetableitemdate_currentPage"}
           style={{
             paddingHorizontal: 10,
             paddingVertical: 10,
@@ -71,8 +72,8 @@ export const Page = ({ day, date, current, paddingTop, refreshAction, loading, w
           }}
         >
           {day && day.length > 0 && day[0].type !== "vacation" && day.map((item, i) => (
-            <View key={item.startTimestamp + i.toString()} style={{ gap: 10 }}>
-              <TimetableItem key={item.startTimestamp} item={item} index={i} />
+            <View key={item.startTimestamp + i.toString() + "timetableitemdateindex"} style={{ gap: 10 }}>
+              <TimetableItem key={item.startTimestamp + "timetableitemdate"} item={item} index={i} />
 
               {day[i + 1] &&
                 day[i + 1].startTimestamp - item.endTimestamp > 1740000 && (

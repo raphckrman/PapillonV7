@@ -252,7 +252,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
 
           return (
             <View key={index}>
-              <NativeListHeader label={info.title} key={index} />
+              <NativeListHeader label={info.title} key={index + "newslabel"} />
 
               <NativeList>
                 {info.informations.map((item, index) => {
@@ -282,7 +282,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
               {classSubjects.map((subject, index) => {
                 return (
                   <>
-                    <NativeItem key={index}>
+                    <NativeItem key={index + "newscontentitem"}>
                       <HTMLView value={`<body>${subject.content}</body>`} stylesheet={stylesText} />
                       {subject.attachments.map((attachment, index) => (
                         <NativeItem

@@ -254,9 +254,9 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
       >
         {groupedHomework && Object.keys(groupedHomework).map((day, index) => (
           <Reanimated.View
-            key={day}
-            
-            
+            key={day + "homeworkday2"}
+            entering={animPapillon(FadeInUp)}
+            exiting={animPapillon(FadeOutDown)}
             layout={animPapillon(LinearTransition)}
           >
             <NativeListHeader animated label={day} />
@@ -264,7 +264,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
             <NativeList animated>
               {groupedHomework[day].map((homework, idx) => (
                 <HomeworkItem
-                  key={homework.id}
+                  key={homework.id + "homeworkid2"}
                   index={idx}
                   navigation={navigation}
                   total={groupedHomework[day].length}
@@ -287,7 +287,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
               width: "100%",
             }}
             layout={animPapillon(LinearTransition)}
-            key={searchTerms + hideDone}
+            key={searchTerms + hideDone + "homeworkssearch"}
           >
             {searchTerms.length > 0 ?
               <MissingItem
@@ -376,8 +376,6 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         {showPickerButtons && !searchHasFocus &&
           <Reanimated.View
             layout={animPapillon(LinearTransition)}
-            
-            
           >
             <PressableScale
               onPress={() => goToWeek(selectedWeek - 1)}
@@ -402,10 +400,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         {!searchHasFocus &&
         <Reanimated.View
           layout={animPapillon(LinearTransition)}
-          
-          
         >
-          <PressableScale
+          <TouchableOpacity
             style={[styles.weekPickerContainer]}
             onPress={() => setShowPickerButtons(!showPickerButtons)}
             onLongPress={() => {
@@ -432,8 +428,6 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
               >
                 {showPickerButtons && !loading &&
                   <Reanimated.View
-                    
-                    
                     style={{
                       marginRight: 2,
                     }}
@@ -448,8 +442,6 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
 
                 {!showPickerButtons && hideDone &&
                     <Reanimated.View
-                      
-                      
                       style={{
                         marginRight: 2,
                       }}
@@ -491,8 +483,6 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
                     size={18}
                     color={showPickerButtons ? theme.colors.primary : theme.colors.text}
                     strokeWidth={2.8}
-                    
-                    
                     style={{
                       marginLeft: 5,
                     }}
@@ -500,15 +490,13 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
                 }
               </BlurView>
             </Reanimated.View>
-          </PressableScale>
+          </TouchableOpacity>
         </Reanimated.View>
         }
 
         {showPickerButtons && !searchHasFocus &&
           <Reanimated.View
             layout={animPapillon(LinearTransition)}
-            
-            
           >
             <PressableScale
               onPress={() => goToWeek(selectedWeek + 1)}
@@ -542,8 +530,6 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         {showPickerButtons && !searchHasFocus && width > 330 &&
         <Reanimated.View
           layout={animPapillon(LinearTransition)}
-          
-          
           style={{
             alignItems: "center",
             justifyContent: "center",
@@ -629,8 +615,6 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
               overflow: "hidden",
               borderRadius: 80,
             }}
-            
-            
           >
             <TextInput
               placeholder={
@@ -663,8 +647,6 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
           >
             <Reanimated.View
               layout={animPapillon(LinearTransition)}
-              
-              
             >
               <X
                 size={20}

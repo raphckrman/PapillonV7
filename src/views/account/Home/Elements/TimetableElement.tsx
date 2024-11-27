@@ -171,7 +171,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
         style={{ marginTop: 24, gap: 10 }}
       >
         {nextCourses.map((course, index) => (
-          <React.Fragment key={course.id || index}>
+          <React.Fragment key={course.id || index + "course"}>
             <TimetableItem item={course} index={index} small />
           </React.Fragment>
         ))}

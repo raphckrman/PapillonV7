@@ -203,7 +203,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ navigation, refresh, endRef
       >
         {elements.map((Element, index) => (Element &&
         <Reanimated.View
-          key={index}
+          key={index + "modctidx"}
           layout={animPapillon(LinearTransition)}
           
           

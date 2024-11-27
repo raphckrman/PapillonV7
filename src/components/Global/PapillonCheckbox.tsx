@@ -1,4 +1,4 @@
-import { View, Animated, Easing, type ViewStyle, type StyleProp } from "react-native";
+import { View, Animated, Easing, type ViewStyle, type StyleProp, TouchableOpacity } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "@react-navigation/native";
 

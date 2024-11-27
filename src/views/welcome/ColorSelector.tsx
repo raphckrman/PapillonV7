@@ -137,9 +137,9 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <Reanimated.View
-        
-        
-        key={account?.personalization?.color?.hex.primary || ""}
+        entering={Platform.OS === "ios" ? FadeIn.duration(400) : void 0}
+        exiting={Platform.OS === "ios" ? FadeOut.duration(2000) : void 0}
+        key={account?.personalization?.color?.hex.primary || "" + "_bg"}
         style={{
           position: "absolute",
           top: 0,
@@ -169,17 +169,17 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
       <MaskStarsColored color={account?.personalization?.color?.hex.primary || colors.text}/>
       <View style={styles.colors}>
         <View style={styles.row}>
-          {colorsList.slice(0, 3).map((color) => <ColorButton key={color.id} color={color} />)}
+          {colorsList.slice(0, 3).map((color) => <ColorButton key={color.id + "_colid"} color={color} />)}
         </View>
         <View style={styles.row}>
-          {colorsList.slice(3, 6).map((color) => <ColorButton key={color.id} color={color} />)}
+          {colorsList.slice(3, 6).map((color) => <ColorButton key={color.id + "_colid"} color={color} />)}
         </View>
 
         <Reanimated.View
           layout={LinearTransition}
-          
-          
-          key={account?.personalization?.color?.hex.primary || ""}
+          entering={FlipInXDown.springify().delay(50)}
+          exiting={FadeOutUp.springify()}
+          key={account?.personalization?.color?.hex.primary || "" + "_colprimid"}
           style={[styles.message, {
             backgroundColor: account?.personalization?.color?.hex.primary + "33",
             overflow: "hidden",

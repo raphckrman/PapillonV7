@@ -88,7 +88,7 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
   }, []);
 
   const windowHeight = Dimensions.get("window").height;
-  const tabbarHeight = useBottomTabBarHeight();
+  const tabbarHeight = 44;
 
   const widgetAnimatedStyle = useAnimatedStyle(() => ({
     paddingTop: insets.top,
@@ -286,12 +286,19 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
           <Animated.View
             style={modalIndicatorAnimatedStyle}
           />
-          <Animated.View style={modalContentAnimatedStyle}>
-            <ModalContent
+          <Animated.View style={modalContentAnimatedStyle} key={"modalctcontainer"}>
+            {/*<ModalContent
               navigation={navigation}
               refresh={refreshing}
               endRefresh={() => setRefreshing(false)}
+              key={"modalct"}
             />
+
+            ///
+            @ecnivtwelve: TODO, fix that
+            ///
+
+            */}
           </Animated.View>
         </Animated.View>
       </Reanimated.ScrollView>

@@ -1,5 +1,5 @@
 import React, { type FunctionComponent, RefAttributes, useRef, useState } from "react";
-import { ActivityIndicator, StyleSheet } from "react-native";
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
 
 import { useTheme } from "@react-navigation/native";
 
@@ -52,7 +52,7 @@ const Widget: React.FC<WidgetContainerProps> = ({ widget: DynamicWidget, navigat
       }}
 
     >
-      <PressableScale
+      <TouchableOpacity
         onPress={() => handlePress()}
       >
         <Reanimated.View
@@ -110,7 +110,7 @@ const Widget: React.FC<WidgetContainerProps> = ({ widget: DynamicWidget, navigat
           </Reanimated.View>
 
         </Reanimated.View>
-      </PressableScale>
+      </TouchableOpacity>
     </Reanimated.View>
   );
 };

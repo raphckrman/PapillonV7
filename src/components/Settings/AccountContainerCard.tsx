@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Text, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import { Account } from "@/stores/account/types";
 import { defaultProfilePicture } from "@/utils/ui/default-profile-picture";
@@ -30,7 +30,7 @@ const AccountContainerCard = ({ account, onPress }: {
       }}
     />
 
-    <PressableScale
+    <TouchableOpacity
       style={{
         shadowColor: "#000",
         shadowOffset: {
@@ -171,7 +171,7 @@ const AccountContainerCard = ({ account, onPress }: {
           </View>
         </View>
       </View>
-    </PressableScale>
+    </TouchableOpacity>
   </>);
 };
 

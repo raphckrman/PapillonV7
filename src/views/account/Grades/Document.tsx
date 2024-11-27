@@ -379,32 +379,32 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
             }}
           >
 
-            {lists.map((list, index) => (
-              <View key={index}>
-                <NativeListHeader label={list.title} />
+          {lists.map((list, index) => (
+            <View key={index+"gradedocidx"}>
+              <NativeListHeader label={list.title} />
 
-                <NativeList>
-                  {list.items.map(
-                    (item, index) =>
-                      item && (
-                        <NativeItem
-                          key={index}
-                          icon={item.icon}
-                          trailing={
-                            <View
+              <NativeList>
+                {list.items.map(
+                  (item, index) =>
+                    item && (
+                      <NativeItem
+                        key={index + "gradedocitemidx"}
+                        icon={item.icon}
+                        trailing={
+                          <View
+                            style={{
+                              marginRight: 10,
+                              alignItems: "flex-end",
+                              flexDirection: "row",
+                              gap: 2,
+                            }}
+                          >
+                            <NativeText
                               style={{
-                                marginRight: 10,
-                                alignItems: "flex-end",
-                                flexDirection: "row",
-                                gap: 2,
-                              }}
-                            >
-                              <NativeText
-                                style={{
-                                  fontSize: 18,
-                                  lineHeight: 22,
-                                  fontFamily: "semibold",
-                                  color:
+                                fontSize: 18,
+                                lineHeight: 22,
+                                fontFamily: "semibold",
+                                color:
 															"color" in item ? item.color : theme.colors.text,
                                 }}
                               >

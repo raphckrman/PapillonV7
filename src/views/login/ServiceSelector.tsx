@@ -170,11 +170,11 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
             <Reanimated.View
               style={{ width: "100%" }}
               layout={LinearTransition}
-              
-              key={srv.name}
+              entering={FlipInXDown.springify().delay(100 * i)}
+              key={srv.name + "servicenameindex"}
             >
               <DuoListPressable
-                key={srv.name}
+                key={srv.name + "servicenameindexct"}
                 leading={
                   srv.icon ?
                     <View

@@ -1,5 +1,5 @@
 import type { Screen } from "@/router/helpers/types";
-import { ActivityIndicator, ScrollView, Share, ShareContent } from "react-native";
+import { ActivityIndicator, ScrollView, Share, ShareContent, TouchableOpacity } from "react-native";
 import {
   NativeIcon,
   NativeItem,
@@ -36,11 +36,11 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
 
     navigation.setOptions({
       headerRight: (props) => (
-        <PressableScale
+        <TouchableOpacity
           onPress={() => delete_logs()}
         >
           <Delete />
-        </PressableScale>
+        </TouchableOpacity>
       ),
     });
   }, [navigation]);
@@ -86,7 +86,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
           {logs.map((log, index) => (
             <NativeItem
               animated
-              key={index}
+              key={index + "log"}
               leading={
                 <NativeIcon
                   icon={

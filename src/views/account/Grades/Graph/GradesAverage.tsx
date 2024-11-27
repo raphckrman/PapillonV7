@@ -10,7 +10,7 @@ import {
 } from "@/utils/grades/getAverages";
 import { useTheme } from "@react-navigation/native";
 import React, { useRef, useCallback, useEffect, useState } from "react";
-import { View, StyleSheet, Platform, Alert } from "react-native";
+import { View, StyleSheet, Platform, Alert, TouchableOpacity } from "react-native";
 
 import Reanimated, {
   FadeIn,
@@ -140,7 +140,7 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
         <NativeList animated>
           <Reanimated.View
             layout={animPapillon(LinearTransition)}
-            key={theme.colors.primary + account.instance}
+            key={theme.colors.primary + account.instance + "G"}
           >
             {((showDetails && !overall) || selectedDate) && (
               <Reanimated.View
@@ -163,8 +163,6 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
                   borderCurve: "continuous",
                   zIndex: 100,
                 }}
-                
-                
               >
                 <Reanimated.Text
                   style={{
@@ -181,8 +179,6 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
             {hLength > 1 ? (
               <Reanimated.View
                 layout={animPapillon(LinearTransition)}
-                
-                
                 style={{
                   paddingTop: 16,
                   marginVertical: -16,
@@ -232,8 +228,6 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
                 {selectedDate ? (
                   <Reanimated.View
                     key={"sDateG"}
-                    
-                    
                   >
                     <NativeText
                       style={{ color: theme.colors.primary }}
@@ -250,8 +244,6 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
                 ) : (
                   <Reanimated.View
                     key={"cAvgG"}
-                    
-                    
                   >
                     <NativeText numberOfLines={1}>Moyenne gén.</NativeText>
                   </Reanimated.View>
@@ -292,8 +284,6 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
             {showDetails && maxAvg > 0 && minAvg > 0 ? (
               <Reanimated.View
                 layout={animPapillon(LinearTransition)}
-                
-                
                 key={"detailsG"}
                 style={{
                   borderTopColor: theme.colors.border,

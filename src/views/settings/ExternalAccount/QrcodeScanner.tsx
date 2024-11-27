@@ -16,6 +16,8 @@ type Props = {
   route: { params: { accountID: string } };
 };
 
+const BarCodeScanner = () => null;
+
 const QrcodeScanner: Screen<"QrcodeScanner"> = ({ navigation, route }) => {
   const theme = useTheme();
   const { colors } = theme;

@@ -126,7 +126,7 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
                 <NativeList>
                   {messages[0].attachments.map((attachment, index) => (
                     <NativeItem
-                      key={index}
+                      key={index+"chatidx"}
                       onPress={() => openUrl(attachment.url)}
                       icon={
                         attachment.type === "file" ? <FileText /> : <Link />

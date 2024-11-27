@@ -219,7 +219,7 @@ const PronoteManualLocation: Screen<"PronoteManualLocation"> = ({ navigation }) 
                   
                   
                   layout={LinearTransition}
-                  key={index}
+                  key={index + "municipality"}
                 >
                   <DuoListPressable
                     text={`${municipality.properties.name} (${municipality.properties.postcode})`}

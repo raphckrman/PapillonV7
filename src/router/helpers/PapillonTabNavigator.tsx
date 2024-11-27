@@ -6,7 +6,7 @@ import {
   TabRouter,
   useNavigationBuilder,
 } from "@react-navigation/native";
-import { Platform, Text } from "react-native";
+import { Platform, Text, TouchableOpacity } from "react-native";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { View, Dimensions } from "react-native";
@@ -155,7 +155,7 @@ const BasePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "N
 
           return (
             <PressableScale
-              key={route.key}
+              key={route.key+"_tabrt"}
               accessibilityRole="button"
               accessibilityState={isFocused ? { selected: true } : {}}
               accessibilityLabel={options.tabBarAccessibilityLabel}
@@ -359,7 +359,7 @@ export const LargePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuil
 
             return (
               <PressableScale
-                key={route.key}
+                key={route.key+"_tabrt2"}
                 accessibilityRole="button"
                 accessibilityState={isFocused ? { selected: true } : {}}
                 accessibilityLabel={options.tabBarAccessibilityLabel}

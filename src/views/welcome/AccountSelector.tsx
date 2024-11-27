@@ -12,6 +12,7 @@ import {
   StatusBar,
   Text,
   TouchableHighlight,
+  TouchableOpacity,
   View
 } from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
@@ -167,7 +168,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
             zIndex: 5,
           }}
         />
-        <PressableScale
+        <TouchableOpacity
           style={{
             zIndex: 99999999,
             position: "absolute",
@@ -198,7 +199,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
           >
             Ajouter un compte
           </Text>
-        </PressableScale>
+        </TouchableOpacity>
 
         <TouchableHighlight
           style={{
@@ -356,7 +357,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
               {accounts.map((account, index) => {
                 return !account.isExternal && (
                   <NativeItem
-                    key={index}
+                    key={index + "selectoraccount"}
                     leading={
                       <PapillonAvatar
                         source={account.personalization.profilePictureB64 ? { uri: account.personalization.profilePictureB64 } : defaultProfilePicture(account.service, account.identityProvider?.name || "")}

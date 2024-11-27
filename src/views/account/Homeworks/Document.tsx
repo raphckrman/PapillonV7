@@ -180,7 +180,7 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
             <NativeList>
               {homework.attachments.map((attachment, index) => (
                 <NativeItem
-                  key={index}
+                  key={index + "homework"}
                   onPress={() => openUrl(attachment.url)}
                   icon={attachment.type === "file" ? <FileText /> : <Link />}
                 >

@@ -188,8 +188,6 @@ export const PapillonHeaderAction: React.FC<{
   return (
     <Reanimated.View
       layout={animated && animPapillon(LinearTransition)}
-      
-      
     >
       <PressableScale
         activeScale={0.85}
@@ -248,7 +246,7 @@ export const PapillonHeaderSelector: React.FC<{
     <Reanimated.View
       layout={animPapillon(LinearTransition)}
     >
-      <PressableScale
+      <TouchableOpacity
         onPress={onPress}
         onLongPress={onLongPress}
       >
@@ -273,8 +271,6 @@ export const PapillonHeaderSelector: React.FC<{
                 size={18}
                 color={theme.colors.text}
                 strokeWidth={2.8}
-                
-                
                 style={{
                   marginLeft: 5,
                 }}
@@ -282,7 +278,7 @@ export const PapillonHeaderSelector: React.FC<{
             }
           </BlurView>
         </Reanimated.View>
-      </PressableScale>
+      </TouchableOpacity>
     </Reanimated.View>
   );
 };
