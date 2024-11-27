@@ -156,7 +156,12 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
         style={{
           flex: 1,
           paddingBottom: 100 + insets.bottom,
-          marginTop: 106 - 16,
+          marginTop:
+            106 -
+            (account.service === AccountService.Pronote &&
+            message.ref.needToAcknowledge
+              ? 16
+              : 0),
         }}
       >
         <View
