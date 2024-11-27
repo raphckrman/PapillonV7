@@ -155,8 +155,8 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
       <ScrollView
         style={{
           flex: 1,
-          paddingBottom: 16 + insets.bottom,
-          paddingTop: 106 - 16,
+          paddingBottom: 100 + insets.bottom,
+          marginTop: 106 - 16,
         }}
       >
         <View
