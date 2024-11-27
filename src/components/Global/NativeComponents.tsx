@@ -70,8 +70,6 @@ export const NativeList: React.FC<NativeListProps> = ({
         style,
       ]}
       layout={animated && animPapillon(LinearTransition)}
-      
-      
     >
       <Reanimated.View
         style={[{
@@ -116,8 +114,6 @@ export const NativeListHeader: React.FC<NativeListHeaderProps> = ({ icon, label,
     <Reanimated.View
       style={[list_header_styles.container, style]}
       layout={animated && animPapillon(LinearTransition)}
-      
-      
     >
       {icon && (
         <View
@@ -226,8 +222,6 @@ export const NativeItem: React.FC<NativeItemProps> = ({
   return (
     <Reanimated.View
       layout={animated && animPapillon(LinearTransition)}
-      
-      
       pointerEvents={pointerEvents}
       key={children ? children.toString() : null + "_nitem"}
     >
@@ -352,7 +346,7 @@ export const NativeIcon: React.FC<NativeIconProps> = ({ icon, color, style }) =>
 
 interface NativeIconGradientprops {
   icon: ReactNode;
-  colors?: string[];
+  colors: string[];
   locations?: number[];
   style?: StyleProp<ViewStyle>;
 }
@@ -360,8 +354,8 @@ interface NativeIconGradientprops {
 export const NativeIconGradient: React.FC<NativeIconGradientprops> = ({ icon, colors, locations, style }) => {
   return (
     <LinearGradient
-      colors={[colors || ["#000", "#000"]]}
-      locations={[locations || [0, 1]]}
+      colors={[colors[0], colors[1]]}
+      locations={locations ? [locations[0], locations[1]] : [0, 1]}
       style={[{
         backgroundColor: "#000",
         borderRadius: 9,
