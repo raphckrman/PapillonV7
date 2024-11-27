@@ -246,7 +246,7 @@ export const PapillonHeaderSelector: React.FC<{
     <Reanimated.View
       layout={animPapillon(LinearTransition)}
     >
-      <TouchableOpacity
+      <PressableScale
         onPress={onPress}
         onLongPress={onLongPress}
       >
@@ -278,7 +278,7 @@ export const PapillonHeaderSelector: React.FC<{
             }
           </BlurView>
         </Reanimated.View>
-      </TouchableOpacity>
+      </PressableScale>
     </Reanimated.View>
   );
 };
