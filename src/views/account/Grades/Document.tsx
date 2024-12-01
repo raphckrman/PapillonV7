@@ -381,13 +381,14 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
 
             {lists.map((list, index) => (
               <View key={index+"gradedocidx"}>
-                <NativeListHeader label={list.title} />
+                <NativeListHeader label={list.title} animated={false} />
 
-                <NativeList>
+                <NativeList animated={false}>
                   {list.items.map(
                     (item, index) =>
                       item && (
                         <NativeItem
+                          animated={false}
                           key={index + "gradedocitemidx"}
                           icon={item.icon}
                           trailing={
@@ -400,6 +401,7 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
                               }}
                             >
                               <NativeText
+                                animated={false}
                                 style={{
                                   fontSize: 18,
                                   lineHeight: 22,
@@ -411,17 +413,17 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
                               </NativeText>
 
                               {"bareme" in item && (
-                                <NativeText variant="subtitle">
+                                <NativeText variant="subtitle" animated={false}>
                                   {item.bareme}
                                 </NativeText>
                               )}
                             </View>
                           }
                         >
-                          <NativeText variant="overtitle">{item.title}</NativeText>
+                          <NativeText variant="overtitle" animated={false}>{item.title}</NativeText>
 
                           {item.description && (
-                            <NativeText variant="subtitle">
+                            <NativeText variant="subtitle" animated={false}>
                               {item.description}
                             </NativeText>
                           )}
