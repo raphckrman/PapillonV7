@@ -101,12 +101,11 @@ const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
 
   return (
     <ScrollView
-      style={[
-        {
-          padding: 16,
-          paddingTop: 0
-        }
-      ]}
+      contentContainerStyle={{
+        padding: 16,
+        paddingTop: 0,
+        paddingBottom: insets.bottom + 100,
+      }}
       contentInsetAdjustmentBehavior="automatic"
     >
       {loading && (
