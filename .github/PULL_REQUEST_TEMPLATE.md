@@ -1,29 +1,49 @@
-# 🚀 Nouvelle Pull Request
+# ✨ Nouvelle Pull Request
 
-Proposez vos modifications pour améliorer Papillon
+Merci de contribuer à l'amélioration de Papillon !
 
-## Informations importantes
+Tu te poses des questions sur les pull requests (PR) ? Une documentation a spécialement été crée ici => https://gitbook.getpapillon.xyz/organisation/outils-internes/github
 
-Merci de vous référer à la documentation sur la contribution si vous avez des questions à propos des pull requests (https://gitbook.getpapillon.xyz/organisation/outils-internes/github)
+## Avant toute chose...
 
-## Checklist d'avant pull request
+Pour nous aider à tester ta PR, merci de cocher une des cases suivantes (_en rajoutant un `x` dans les crochets_) :
 
-Veuillez cocher toutes les cases applicables en remplaçant [ ] par [x].
+Type de pull request :
 
-- [ ] Vous avez testé de build le projet avec vos modifications et ce build **a réussi**
-- [ ] Vous respectez les conventions de codage et de nommage du projet
-- [ ] Vous utilisez la **tabulation** pour l'indentation afin de maintenir un code lisible
-- [ ] Cette pull request **n'est pas un duplicata** d'une autre
-- [ ] Cette pull request est prête à être **revue** (review) et **fusionnée** (merge)
-- [ ] Il n'y a pas de **`TODO`** (aka des annotations pour du code manquant) dans vos modifications
-- [ ] Il n'y a pas **d'erreurs de langue** dans votre code (grammaire, vocabulaire, conjugaison, orthographe)
-- [ ] Les détails des changements ont été décrits ci-dessous
-- [ ] Cette pull-request n'est pas une **"breaking-change"** (des modifications qui vont entraîner la modification du fonctionnement de certaines fonctionnalités déjà existantes)
+- [ ] **Breaking change** (_des modifications avec un impact sur les fonctionnalités actuelles_)
+- [ ] **Feat** (_ajoute une amélioration/nouveauté_)
+- [ ] **Fix** (_permet de corriger un bug_)
+- [ ] **Chore** (_des modifications en dehors du dossier `src`_)
+- [ ] **Styles** (_change/ajoute du style_)
 
-## Changelogs proposés
+## Résumé des changements effectués
 
-Décrivez les modifications que vous avez effectuées.
+<!-- > [!NOTE]
+>
+> Un bot détaillera dans la section `Autres informations` toutes les modifications que tu as effectué.
+>
+> Mais un bot reste un bot, ça peut bugger 😉. C'est pour ça qu'il est demandé un **résumé** des modifications effectuées -->
 
-## Informations supplémentaires
+_Les modifications_
 
-Ajoutez ici toute information supplémentaire si nécessaire.
+## Capture(s) d'écran (pour rendre le test de ta PR rapide)
+
+_Le(s) capture(s) d'écran_
+
+## Issue(s) en rapport
+
+> [!NOTE]
+>
+> Cette section permet de "linker" des issues à ta PR. Cela signifie qu'une fois ta PR mergée, les issues listées ci-dessous seront automatiquement fermées
+
+- Closed #(_le numéro de l'issue_)
+
+_S'il y en a plusieurs, continuer à les lister_
+
+- Closed #(_le numéro de l'issue_)
+
+<!-- ### Autres informations
+
+> [!WARNING]
+>
+> Cette section est réservé aux bots (_liste des bots_), merci de laisser la section comme elle est -->
