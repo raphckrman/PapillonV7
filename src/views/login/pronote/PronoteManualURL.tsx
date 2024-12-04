@@ -113,7 +113,13 @@ const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => 
             }
           ]}
         >
-          <Link2 size={24} color={colors.text + "55"} />
+          <Link2
+            size={24}
+            color={colors.text + "55"}
+            style={{
+              marginTop: 7.5,
+            }}
+          />
 
           <TextInput
             keyboardType="url"
