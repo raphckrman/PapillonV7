@@ -41,7 +41,7 @@ body:
   - type: input
     attributes:
       label: Version du système d'exploitation
-      description: Tu trouveras ce détail dans : Paramètres (Téléphone) -> À propos (Android)/Général (Apple)
+      description: Paramètres (du Téléphone) -> À propos (Android)/Général (Apple)
       placeholder: iOS 18, Android 15...
     validations:
       required: true
@@ -60,7 +60,7 @@ body:
   - type: input
     attributes:
       label: Version utilisée
-      description: Pour trouver la version de Papillon il faut aller :  Paramètres (de Papillon) -> Version affichée en bas de la page
+      description: Paramètres (de Papillon) -> Version affichée en bas de la page
       placeholder: "7.5.0"
     validations:
       required: true
