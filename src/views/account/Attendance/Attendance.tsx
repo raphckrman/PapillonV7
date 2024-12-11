@@ -19,7 +19,6 @@ import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import { protectScreenComponent } from "@/router/helpers/protected-screen";
 import { Observation } from "@/services/shared/Observation";
 import MissingItem from "@/components/Global/MissingItem";
-import React from "react";
 
 const Attendance: Screen<"Attendance"> = ({ route, navigation }) => {
   const theme = useTheme();
