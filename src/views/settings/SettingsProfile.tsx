@@ -5,7 +5,7 @@ import { useTheme } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import { Camera, Plus, TextCursorInput, User2, UserCircle2, WholeWord } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Image, KeyboardAvoidingView, ScrollView, Switch, TextInput } from "react-native";
+import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, ScrollView, Switch, TextInput } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
@@ -148,9 +148,9 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
                 fontSize: 16,
                 fontFamily: "semibold",
                 color: theme.colors.text,
-                marginTop: -7.5,
-                marginBottom: -7.5,
-                marginLeft: -4,
+                marginTop: Platform.OS === "android" ? -7.5 : 0,
+                marginBottom: Platform.OS === "android" ? -7.5 : 0,
+                marginLeft: Platform.OS === "android" ? -4 : 0,
               }}
               placeholder="Théo"
               placeholderTextColor={theme.colors.text + "80"}
@@ -173,9 +173,9 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
                 fontSize: 16,
                 fontFamily: "semibold",
                 color: theme.colors.text,
-                marginTop: -7.5,
-                marginBottom: -7.5,
-                marginLeft: -4,
+                marginTop: Platform.OS === "android" ? -7.5 : 0,
+                marginBottom: Platform.OS === "android" ? -7.5 : 0,
+                marginLeft: Platform.OS === "android" ? -4 : 0,
               }}
               placeholder="Dubois"
               placeholderTextColor={theme.colors.text + "80"}
