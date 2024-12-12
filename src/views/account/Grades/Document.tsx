@@ -435,12 +435,12 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
                           )}
                         </NativeItem>
                       )
-                  )}
-                </NativeList>
-              </View>
-            ))}
+                    )}
+                  </NativeList>
+                </View>
+              ))}
+            </View>
           </View>
-
         <InsetsBottomView />
       </ScrollView>
     </View>
