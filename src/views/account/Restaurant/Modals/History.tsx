@@ -7,6 +7,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { FadeInDown, FadeOut } from "react-native-reanimated";
 import { RouteParameters } from "../../../../router/helpers/types";
 import { RouteProp } from "@react-navigation/native";
+import InsetsBottomView from "@/components/Global/InsetsBottomView";
 
 type NavigationProps = RouteProp<RouteParameters, "RestaurantHistory">;
 
@@ -83,6 +84,7 @@ const RestaurantHistory = ({ route }: { route: NavigationProps }) => {
           </Fragment>
         ))
       )}
+      <InsetsBottomView />
     </ScrollView>
   );
 };
@@ -90,6 +92,7 @@ const RestaurantHistory = ({ route }: { route: NavigationProps }) => {
 const styles = StyleSheet.create({
   scrollViewContent: {
     padding: 16,
+    paddingTop: 0,
   },
   row: {
     flexDirection: "row",

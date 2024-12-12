@@ -155,13 +155,7 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
       <ScrollView
         style={{
           flex: 1,
-          paddingBottom: 100 + insets.bottom,
-          marginTop:
-            106 -
-            (account.service === AccountService.Pronote &&
-            message.ref.needToAcknowledge
-              ? 16
-              : 0),
+          paddingTop: 106 - 16,
         }}
       >
         <View
@@ -263,6 +257,9 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
             </NativeList>
           </View>
         )}
+
+        <InsetsBottomView />
+        <InsetsBottomView />
         <InsetsBottomView />
       </ScrollView>
     </View>

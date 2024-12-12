@@ -176,7 +176,7 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
         !grade.student.disabled && {
           icon: <Scale />,
           title: "Moyenne générale",
-          description: "Impact de la note sur la moyenne générale",
+          description: "Impact estimé sur la moyenne générale",
           value:
 						gradeDiff.difference === undefined
 						  ? "???"
@@ -226,7 +226,7 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
       <View
         style={{
           borderCurve: "continuous",
-          minHeight: 150,
+          minHeight: 180,
           backgroundColor: subjectData.color,
         }}
       >
@@ -238,7 +238,7 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
             left: 0,
             width: "100%",
             height: "100%",
-            zIndex: 0,
+            zIndex: -1,
           }}
         >
           <Image
@@ -251,8 +251,7 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
               height: "100%",
               objectFit: "cover",
               tintColor: "#ffffff",
-              opacity: 0.1,
-              zIndex: 100,
+              opacity: 0.15,
             }}
           />
         </View>
@@ -356,12 +355,19 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
         </View>
       </View>
       <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        showsVerticalScrollIndicator={false}
         style={{
           flex: 1,
+          width: "100%",
+          maxWidth: 500,
+          backgroundColor: theme.colors.background,
           borderCurve: "continuous",
+          overflow: "hidden",
         }}
-        contentContainerStyle={{ flexGrow: 1, alignItems: "center", paddingBottom: 100 + useSafeAreaInsets().bottom, }}
-        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{
+          width: "100%",
+        }}
       >
         <View
           style={{
@@ -435,8 +441,7 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
             ))}
           </View>
 
-          <InsetsBottomView />
-        </View>
+        <InsetsBottomView />
       </ScrollView>
     </View>
   );
