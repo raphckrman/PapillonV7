@@ -25,16 +25,6 @@
       "associatedDomains": [
         "applinks:getpapillon.xyz"
       ],
-      "splash": {
-        "backgroundColor": "#32AB8E",
-        "image": "./assets/launch/splash.png",
-        "resizeMode": "cover",
-        "dark": {
-          "backgroundColor": "#001C0F",
-          "image": "./assets/launch/splash-dark.png",
-          "resizeMode": "cover"
-        }
-      },
       "config": {
         "usesNonExemptEncryption": false
       }
@@ -66,6 +56,19 @@
     },
     "plugins": [
       "./plugins/notifee-mod.js",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#32AB8E",
+          "image": "./assets/launch/splash.png",
+          "resizeMode": "cover",
+          "dark": {
+            "backgroundColor": "#001C0F",
+            "image": "./assets/launch/splash-dark.png",
+            "resizeMode": "cover"
+          }
+        }
+      ],
       [
         "expo-font",
         {
