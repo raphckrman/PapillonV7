@@ -13,7 +13,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "7600",
+      "buildNumber": "7700",
       "supportsTablet": true,
       "appStoreUrl": "https://apps.apple.com/us/app/papillon-lappli-scolaire/id6477761165",
       "bundleIdentifier": "xyz.getpapillon.ios",
