@@ -52,13 +52,6 @@ const NewsListItem: React.FC<NewsListItemProps> = ({ index, message, navigation,
         alignItems: "center",
         justifyContent: "space-between",
       }}>
-        <NativeText
-          numberOfLines={1}
-          variant="subtitle"
-        >
-          {message.author}
-        </NativeText>
-
         {!message.read && !isED && (
           <View style={{
             width: 8,
@@ -85,15 +78,29 @@ const NewsListItem: React.FC<NewsListItemProps> = ({ index, message, navigation,
       >
         {message.content ? parse_news_resume(message.content) : ""}
       </NativeText>
-      <NativeText
-        numberOfLines={1}
-        variant="subtitle"
+      <View
         style={{
-          marginTop: 6,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        {formatDate(message.date)}
-      </NativeText>
+        <NativeText
+          numberOfLines={1}
+          variant="subtitle"
+          style={{
+            marginTop: 6,
+          }}
+        >
+          {formatDate(message.date)}
+        </NativeText>
+        <NativeText
+          numberOfLines={1}
+          variant="subtitle"
+        >
+          {message.author}
+        </NativeText>
+      </View>
     </NativeItem>
   );
 };
