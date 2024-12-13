@@ -18,12 +18,6 @@ Type de pull request :
 
 ## Résumé des changements effectués
 
-<!-- > [!NOTE]
->
-> Un bot détaillera dans la section `Autres informations` toutes les modifications que tu as effectué.
->
-> Mais un bot reste un bot, ça peut bugger 😉. C'est pour ça qu'il est demandé un **résumé** des modifications effectuées -->
-
 _Les modifications_
 
 ## Capture(s) d'écran (pour rendre le test de ta PR rapide)
@@ -46,4 +40,4 @@ _S'il y en a plusieurs, continuer à les lister_
 
 > [!WARNING]
 >
-> Cette section est réservé aux bots (_liste des bots_), merci de laisser la section comme elle est -->
+> Cette section est réservé à un bot (qui affichera un QR Code), merci de laisser la section comme elle est -->
