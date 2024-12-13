@@ -86,7 +86,6 @@ interface SubjectGradeItemProps {
 }
 
 const SubjectGradeItem: React.FC<SubjectGradeItemProps> = ({ subject, grade, index, onPress }) => {
-  console.log(grade.student)
   return (
     <Reanimated.View
       key={grade.id + index}
