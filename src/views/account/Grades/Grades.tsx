@@ -4,6 +4,7 @@ import {
   PapillonModernHeader,
 } from "@/components/Global/PapillonModernHeader";
 import PapillonPicker from "@/components/Global/PapillonPicker";
+import { useAlert } from "@/providers/AlertProvider";
 import type { Screen } from "@/router/helpers/types";
 import {
   updateGradesAndAveragesInCache,
