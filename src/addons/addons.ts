@@ -4,7 +4,7 @@ import {AddonDomain, AddonManifest, AddonPermission, AddonPlacement, AddonPlacem
 
 async function init_addons_folder () {
   if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + "addons")).exists) {
-    await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "addons");
+    awat FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "addons");
     log("Addons folder initialized at " + FileSystem.documentDirectory + "addons", String((new Error()).stack!));
   }
 }
