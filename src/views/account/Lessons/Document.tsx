@@ -100,7 +100,6 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
   });
 
   const fetchSubjectData = () => {
-    console.log("Fetching subject data for", lesson);
     const data = getSubjectData(lesson.title || "");
     setSubjectData(data);
   };
