@@ -1,12 +1,18 @@
-import { Image, View } from "react-native";
+import {Image, ImageStyle, StyleProp, View} from "react-native";
 import * as FileSystem from "expo-file-system";
 import { useEffect, useState } from "react";
 import { Link2 } from "lucide-react-native";
 import { useTheme } from "@react-navigation/native";
 
-export const getURLDomain = (url: string, www: true) => {
+export const getURLDomain = (url: string, www: boolean = true) => {
   return url.replace("https://", "").replace("http://", "").split("/")[0].replace(www ? "www." : "", "");
 };
+
+interface LinkFaviconProps {
+  url: string;
+  size?: number;
+  style?: StyleProp<ImageStyle>;
+}
 
 const LinkFavicon = (props: LinkFaviconProps) => {
   const { url, size } = props;
