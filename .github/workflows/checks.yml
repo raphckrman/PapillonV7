@@ -25,11 +25,11 @@ jobs:
       - name: 🔍 Run TypeScript and ESLint checks
         id: lint
         run: |
-          npm run lint > lint.log 2>&1 || true
+          npm run lint > lint.log 2>&1
         continue-on-error: true
 
       - name: 📂 Post logs on failure
-        if: failure() && steps.lint.outcome == 'failure'
+        if: steps.lint.outcome == 'failure'
         run: |
           echo "### :x: TypeScript and ESLint checks failed!" >> comment.txt
           echo '```' >> comment.txt
@@ -37,7 +37,7 @@ jobs:
           echo '```' >> comment.txt
 
       - name: 👁️‍🗨️ Comment on Pull Request
-        if: failure() && steps.lint.outcome == 'failure'
+        if: steps.lint.outcome == 'failure'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: ⚠️ Erreur(s) détectée(s) par TypeScript/ESLint !
