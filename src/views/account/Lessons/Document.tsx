@@ -181,7 +181,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
         {
           icon: <Users />,
           text: lesson.group?.includes(",") ? "Groupes" : "Groupe",
-          value: lesson.group,
+          value: lesson.group?.replace(/\[|\]/g, ""),
           enabled: lesson.group != null
         },
       ],
