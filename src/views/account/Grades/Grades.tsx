@@ -11,6 +11,7 @@ import {
 } from "@/services/grades";
 import type { GradesPerSubject } from "@/services/shared/Grade";
 import { useCurrentAccount } from "@/stores/account";
+import { AccountService } from "@/stores/account/types";
 import { useGradesStore } from "@/stores/grades";
 import { animPapillon } from "@/utils/ui/animations";
 import BackgroundIUTLannion from "@/views/login/IdentityProvider/actions/BackgroundIUTLannion";
@@ -118,9 +119,11 @@ const Grades: Screen<"Grades"> = ({ route, navigation }) => {
         });
       }
 
-      gradesPerSubject.sort((a, b) =>
-        a.average.subjectName.localeCompare(b.average.subjectName)
-      );
+      if (account.service !== AccountService.EcoleDirecte) {
+        gradesPerSubject.sort((a, b) =>
+          a.average.subjectName.localeCompare(b.average.subjectName)
+        );
+      }
       setGradesPerSubject(gradesPerSubject);
     }, 1);
   }, [selectedPeriod, averages, grades]);
