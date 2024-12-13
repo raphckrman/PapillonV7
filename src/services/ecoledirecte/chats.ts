@@ -18,15 +18,20 @@ export const getChats = async (account: EcoleDirecteAccount): Promise<Chat[]> =>
   }));
 };
 
+const cleanMessage = (message: string) => {
+  return message.replace(/>\s+/g, '>').replace(/&nbsp;/g, ' ')
+}
+
 export const getChatMessages = async (account: EcoleDirecteAccount, chat: Chat): Promise<ChatMessage> => {
   if (!account.instance)
     throw new ErrorServiceUnauthenticated("ecoledirecte");
 
   const message = await ecoledirecte.readMessage(account.authentication.session, account.authentication.account, Number(chat.id));
 
+  console.log(message.content)
   return {
     id: message.id.toString(),
-    content: message.content,
+    content: cleanMessage(message.content),
     author: message.sender,
     date: message.date,
     subject: chat.subject,
