@@ -6,6 +6,7 @@ on:
 
 jobs:
   lint:
+    permissions: write-all
     name: 🛠️ TypeScript and ESLint
     runs-on: ubuntu-latest
 
