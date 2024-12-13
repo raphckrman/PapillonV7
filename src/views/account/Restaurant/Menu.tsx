@@ -350,7 +350,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                               {food.allergens.length > 0 && (
                                 <View style={styles.allergensContainer}>
                                   <AlertTriangle size={16} color={colors.text} opacity={0.6}/>
-                                  <NativeText key={"allergens-"+idx} variant="subtitle">Allergènes : {food.allergens.join(", ")}</NativeText>
+                                  <NativeText key={"allergens-"+idx} variant="subtitle">Allergènes : {food.allergens.map(allergen => allergen.name).join(", ")}</NativeText>
                                 </View>
                               )}
                             </>
