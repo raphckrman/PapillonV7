@@ -8,11 +8,6 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "primaryColor": "#32AB8E",
-    "splash": {
-      "image": "./assets/launch/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#32AB8E"
-    },
     "newArchEnabled": true,
     "assetBundlePatterns": [
       "**/*"
@@ -37,16 +32,6 @@
         "backgroundImage": "./assets/launch/adaptive-icon-background.png",
         "monochromeImage": "./assets/launch/adaptive-icon-monochrome.png",
         "backgroundColor": "#32AB8E"
-      },
-      "splash": {
-        "backgroundColor": "#32AB8E",
-        "image": "./assets/launch/splash.png",
-        "resizeMode": "cover",
-        "dark": {
-          "backgroundColor": "#001C0F",
-          "image": "./assets/launch/splash-dark.png",
-          "resizeMode": "cover"
-        }
       },
       "package": "xyz.getpapillon.app",
       "permissions": [
