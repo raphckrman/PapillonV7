@@ -39,12 +39,6 @@ const NewsListItem: React.FC<NewsListItemProps> = ({ index, message, navigation,
         });
       }}
       chevron={false}
-      leading={
-        <InitialIndicator
-          initial={parse_initials(message.author)}
-          color={selectColorSeed(message.author)}
-        />
-      }
       separator={index !== parentMessages.length - 1}
     >
       <View style={{
