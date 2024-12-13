@@ -19,7 +19,7 @@ export const getChats = async (account: EcoleDirecteAccount): Promise<Chat[]> =>
 };
 
 const cleanMessage = (message: string) => {
-  return message.replace(/>\s+/g, '>').replace(/&nbsp;/g, ' ')
+  return message.replace(/>\s+/g, '>').replace(/&nbsp;/g, ' ');
 }
 
 export const getChatMessages = async (account: EcoleDirecteAccount, chat: Chat): Promise<ChatMessage> => {
@@ -28,7 +28,6 @@ export const getChatMessages = async (account: EcoleDirecteAccount, chat: Chat):
 
   const message = await ecoledirecte.readMessage(account.authentication.session, account.authentication.account, Number(chat.id));
 
-  console.log(message.content)
   return {
     id: message.id.toString(),
     content: cleanMessage(message.content),
