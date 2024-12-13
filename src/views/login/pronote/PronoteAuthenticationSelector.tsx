@@ -161,7 +161,6 @@ const PronoteAuthenticationSelector: Screen<"PronoteAuthenticationSelector"> = (
             style={{
               flex: 1,
               color: theme.colors.text,
-              textAlign: "start",
               opacity: 0.5,
               fontSize: 13,
               lineHeight: 16,

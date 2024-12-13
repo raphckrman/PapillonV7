@@ -64,7 +64,7 @@ export const getSubjectAverage = (
   subject: Grade[],
   target: Target = "student",
   useMath: boolean = false,
-  loop?: boolean = false
+  loop: boolean = false
 ): number => {
   let calcGradesSum = 0; // Somme cumulée des notes pondérées
   let calcOutOfSum = 0; // Somme cumulée des coefficients pondérés
