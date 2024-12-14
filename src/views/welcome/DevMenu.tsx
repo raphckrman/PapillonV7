@@ -81,7 +81,7 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
               opacity: 0.7,
             }}
           >
-            Intégre tes options et paramètres de développement ici.
+            Intègre tes options et paramètres de développement ici.
           </Text>
         </View>
       )}
