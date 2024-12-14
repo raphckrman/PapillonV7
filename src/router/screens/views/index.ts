@@ -1,6 +1,5 @@
 import createScreen from "@/router/helpers/create-screen";
 
-import NoteReaction from "@/views/account/NoteReaction";
 import SettingsTabs from "@/views/settings/SettingsTabs";
 import RestaurantQrCode from "@/views/account/Restaurant/Modals/QrCode";
 import NewsItem from "@/views/account/News/Document";
@@ -18,9 +17,10 @@ import ScodocWebview from "@/views/login/IdentityProvider/actions/BackgroundIUTL
 import ScodocBackgroundWebview from "@/views/login/IdentityProvider/actions/BackgroundIUTLannion";
 import BackgroundIUTLannion from "@/views/login/IdentityProvider/actions/BackgroundIUTLannion";
 import { Platform } from "react-native";
+import GradeReaction from "@/views/account/Grades/Modals/GradeReaction";
 
 export default [
-  createScreen("NoteReaction", NoteReaction, {
+  createScreen("GradeReaction", GradeReaction, {
     headerTitle: "",
     headerTransparent: true,
     presentation: "modal",

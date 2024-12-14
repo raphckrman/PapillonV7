@@ -7,7 +7,7 @@ import {
 import { getSubjectData } from "@/services/shared/Subject";
 import { useTheme } from "@react-navigation/native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { Dimensions, Image, Pressable, ScrollView, Text, View, Platform } from "react-native";
+import { Dimensions, Image, Pressable, ScrollView, Text, View, Platform, TouchableOpacity } from "react-native";
 import { GradeTitle } from "./Atoms/GradeTitle";
 import * as SystemUI from "expo-system-ui";
 import * as StoreReview from "expo-store-review";
@@ -16,6 +16,7 @@ import {
   Calculator,
   Scale,
   School,
+  SmilePlus,
   UserMinus,
   UserPlus,
   Users,
@@ -25,10 +26,12 @@ import type { AverageDiffGrade } from "@/utils/grades/getAverages";
 import { Screen } from "@/router/helpers/types";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
   const { grade, allGrades = [] } = route.params;
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
 
   const [subjectData, setSubjectData] = useState({
     color: "#888888",
@@ -249,6 +252,21 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
             }}
           />
         </View>
+
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            top: 20,
+            right: 20,
+            padding: 8,
+            borderRadius: 500,
+            backgroundColor: "#00000043",
+            zIndex: 20,
+          }}
+          onPress={() => navigation.navigate("GradeReaction", { grade })}
+        >
+          <SmilePlus color={"white"} />
+        </TouchableOpacity>
 
         {Platform.OS === "ios" &&
             <View
