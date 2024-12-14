@@ -394,7 +394,7 @@ const SettingsTabs = () => {
               >
                 <NativeText variant="title">Nouveaux onglets disponibles !</NativeText>
                 <NativeText variant="subtitle">
-                  {newTabs.map((tab) => tab.label).join(", ")}. Appuis ici pour les ajouter.
+                  {newTabs.map((tab) => tab.label).join(", ")}. Appuie ici pour les ajouter.
                 </NativeText>
               </NativeItem>
             )}
