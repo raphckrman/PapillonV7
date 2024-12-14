@@ -1,4 +1,4 @@
-name: New Version (Build + Deploy)
+name: New Release (Build + Deploy)
 
 on:
   workflow_dispatch:
@@ -167,7 +167,7 @@ jobs:
           path: android/app/build/outputs/apk/release/*.apk
           if-no-files-found: error
 
-  deploy_to_beta_channels:
+  deploy_new_release:
     needs: [build_ios, build_android]
     runs-on: macos-latest
     steps:
