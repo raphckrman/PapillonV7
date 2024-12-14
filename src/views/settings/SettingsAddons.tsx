@@ -207,7 +207,7 @@ const SettingsAddons: Screen<"SettingsAddons"> = () => {
                               permission.name == "PERM_EDIT_PREFERENCES" ? "Modifier les préférences de l'application":
                                 permission.name == "PERM_EDIT_STUDENT_INFO" ? "Modifier les informations de l'élève":
                                   permission.name == "PERM_SCHOOLDATA_CALENDAR" ? "Accèder au calendrier de l'élève":
-                                    permission.name == "PERM_SCHOOLDATA_AUTH" ? "Accéder au données d'authentification de ton compte principal (DANGEREUX)":
+                                    permission.name == "PERM_SCHOOLDATA_AUTH" ? "Accéder aux données d'authentification de ton compte principal (DANGEREUX)":
                                       permission.name == "PERM_SCHOOLDATA_GRADES" ? "Accéder aux notes de l'élève":
                                         permission.name == "PERM_SCHOOLDATA_NEWS" ? "Accéder aux actualités de l'établissement":
                                           permission.name == "PERM_SCHOOLDATA_TIMETABLE" ? "Accéder à l'emploi du temps de l'élève":
