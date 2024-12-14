@@ -174,6 +174,35 @@ jobs:
       - name: 📥 Checkout code
         uses: actions/checkout@v3
 
+      - name: 🔍 Extract version from package.json
+        id: extract_version
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      
+      - name: 🔍 Get pull requests since last release
+        id: get_prs
+        run: |
+          LAST_TAG=$(git tag --sort=-creatordate | head -n 1)
+          REPO=${{ github.repository }}
+          PULL_REQUESTS=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/$REPO/pulls?state=closed&base=main" | \
+            jq -r --arg LAST_TAG $LAST_TAG '.[] | select(.merged_at >= $LAST_TAG) | "- PR #\(.number): \(.title) by @\(.user.login)"')
+          echo "PULL_REQUESTS<<EOF" >> $GITHUB_ENV
+          echo "$PULL_REQUESTS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      
+      - name: 🔗 Generate comparison link
+        id: comparison_link
+        run: |
+          # Récupérer le dernier tag
+          LAST_TAG=$(git describe --tags --abbrev=0 HEAD^)
+          echo "LAST_TAG=$LAST_TAG" >> $GITHUB_ENV
+
+          # Construire le lien de comparaison
+          COMPARE_URL="https://github.com/${{ github.repository }}/compare/$LAST_TAG...v${{ env.VERSION }}"
+          echo "COMPARE_URL=$COMPARE_URL" >> $GITHUB_ENV
+
       - name: 📡 Download iOS artifact
         uses: actions/download-artifact@v3
         with:
@@ -186,39 +215,53 @@ jobs:
           name: android-aab
           path: android-aab
 
-      - name: 🛠️ Prepare artifacts
-        run: |
-          mv ios-app/Papillon.ipa ./Papillon.ipa
-          mv android-aab/app-release.aab ./Papillon.aab
-
-      - name: 🛜 Upload to TestFlight
-        env:
-          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-          APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
-          APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
-        run: |
-          echo "$APP_STORE_CONNECT_API_KEY_CONTENT" | base64 --decode > appstore_connect_api_key.p8
-          
-          xcrun notarytool submit Papillon.ipa --key appstore_connect_api_key.p8 \
-            --key-id "$APP_STORE_CONNECT_API_KEY_ID" \
-            --issuer "$APP_STORE_CONNECT_API_ISSUER_ID" \
-            --wait
-          
-          echo "iOS build uploaded to TestFlight for beta testing"
-
-      - name: 🛜 Upload Android Release to Play Store Beta
-        uses: r0adkll/upload-google-play@v1.1.3
+      - name: 📡 Download Android APKs
+        uses: actions/download-artifact@v3
         with:
-          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_JSON_KEY }}
-          packageName: xyz.getpapillon.app
-          releaseFiles: Papillon.aab
-          track: beta
-          status: completed
-          changesNotSentForReview: false
+          name: split-apks
+          path: split-apks
 
-      - name: ✅ Notify successful beta deployment
-        run: |
-          echo "Both iOS and Android builds have been successfully uploaded to their respective beta channels (TestFlight and Play Store Beta)."
-          echo "To release to production:"
-          echo "- For iOS: Go to App Store Connect, test the build in TestFlight, then submit for App Store review when ready (Vince will do this)."
-          echo "- For Android: Go to the Google Play Console, test the build in the beta track, then promote to production when ready (Vince will do this)."
+      - name: 🛜 Create GitHub Release
+        uses: comnoco/create-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.VERSION }}
+          release_name: "Version ${{ env.VERSION }}"
+          body: |
+            ### Les nouveautés depuis la dernière version :
+            ${{ env.PULL_REQUESTS }}
+
+            [Pour plus de détails...](${{ env.COMPARE_URL }})
+          draft: false
+          prerelease: true
+
+      - name: 📥 Upload IPA to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ios-app/Papillon.ipa
+          asset_name: Papillon.ipa
+          asset_content_type: application/octet-stream
+
+      - name: 📥 Upload AAB to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: android-aab/app-release.aab
+          asset_name: Papillon.aab
+          asset_content_type: application/octet-stream
+
+      - name: 📥 Upload split APKs to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: android/app/build/outputs/apk/release/*.apk
+          asset_name: Papillon-{arch}.apk
+          asset_content_type: application/octet-stream
