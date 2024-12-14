@@ -218,7 +218,7 @@ const SettingsAddons: Screen<"SettingsAddons"> = () => {
                       }
                     </NativeText>
                     <NativeText variant="subtitle">
-                      {(permission.name == "PERM_SCHOOLDATA_AUTH" ? "Cette autorisation transmet à l'extension les jetons de connexion vers tes services. Avec ceci, l'extension peut éxécuter n'importe qu'elle action. Sois prudent.\n\n":"") + permission.reason}
+                      {(permission.name == "PERM_SCHOOLDATA_AUTH" ? "Cette autorisation transmet à l'extension les jetons de connexion vers tes services. Avec ceci, l'extension peut exécuter n'importe quelle action. Sois prudent.\n\n":"") + permission.reason}
                     </NativeText>
                   </NativeItem>
                 ))}
