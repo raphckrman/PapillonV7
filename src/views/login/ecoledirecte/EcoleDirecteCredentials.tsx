@@ -165,7 +165,7 @@ const EcoleDirecteCredentials: Screen<"EcoleDirecteCredentials"> = ({ navigation
           <View>
             <View style={{padding: 16, height: 60 + 16, paddingBottom: 0}}>
               <NativeText variant={"title"}>{doubleAuthChallenge.question}</NativeText>
-              <NativeText variant={"subtitle"}>Répond à la question suivante pour continuer de t'authentifier</NativeText>
+              <NativeText variant={"subtitle"}>Réponds à la question suivante pour continuer ton authentification</NativeText>
             </View>
             <SvgFromXml
               xml={`
