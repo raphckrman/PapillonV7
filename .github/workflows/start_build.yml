@@ -147,7 +147,7 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: 🚀 Build Android app
+      - name: 🚀 Build APKs for specific ABIs
         env:
           KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
@@ -156,22 +156,16 @@ jobs:
           # Decode keystore
           echo $KEYSTORE_BASE64 | base64 --decode > android/app/release.keystore
           
-          # Build APK and AAB
           cd android
-          ./gradlew assembleRelease
-          ./gradlew bundleRelease
+          ./gradlew clean assembleRelease
+          ls app/build/outputs/apk/release/
 
-      - name: 🛜 Upload APK
+      - name: 🛜 Upload split APKs
         uses: actions/upload-artifact@v3
         with:
-          name: android-apk
-          path: android/app/build/outputs/apk/release/app-release.apk
-
-      - name: 🛜 Upload AAB
-        uses: actions/upload-artifact@v3
-        with:
-          name: android-aab
-          path: android/app/build/outputs/bundle/release/app-release.aab
+          name: split-apks
+          path: android/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
 
   deploy_to_beta_channels:
     needs: [build_ios, build_android]
