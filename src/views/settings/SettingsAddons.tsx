@@ -99,7 +99,7 @@ const SettingsAddons: Screen<"SettingsAddons"> = () => {
               <TriangleAlert size={32} color={"#BE0B00"}/>
               <View style={{flex: 1}}>
                 <NativeText variant={"title"} style={{flex: 1}}>Cette extension n'est pas signé</NativeText>
-                <NativeText variant={"subtitle"} style={{flex: 1}}>Les extensions non signé ne sont pas vérifiee par nos équipes. Tu es responsable de l'installation de celle-ci.</NativeText>
+                <NativeText variant={"subtitle"} style={{flex: 1}}>Les extensions non signées ne sont pas vérifiées par nos équipes. Tu es responsable de l'installation de celle-ci.</NativeText>
               </View>
             </View>
             <View style={{
