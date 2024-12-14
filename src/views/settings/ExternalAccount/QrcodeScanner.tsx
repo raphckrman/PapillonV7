@@ -66,7 +66,7 @@ const QrcodeScanner: Screen<"QrcodeScanner"> = ({ navigation, route }) => {
       ]}>
         <QrCode size={32} color={"#fff"} />
         <Text style={styles.title}>
-          Lie ton QR Code à ton compte
+          Associe ton QR Code à ton compte
         </Text>
         <Text style={styles.text}>
           Scanne le QR code de ton self pour le lier à ton compte
