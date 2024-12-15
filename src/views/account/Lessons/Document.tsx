@@ -319,7 +319,6 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
                     12: "Visio",
                   };
                   let category = category_match[r.category ?? 0];
-                  console.log(r.category, category);
                   return (
                     <>
                       <View style={{flexDirection: "row", marginBottom: 10, paddingRight: 30}} key={"res_title_" + index}>
