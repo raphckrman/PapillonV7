@@ -331,7 +331,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                 <ActivityIndicator size="large" style={{ padding: 50 }} />
               ) : currentMenu?.lunch || currentMenu?.dinner ? (
                 <>
-                  {currentMenu?.lunch && (
+                  {currentMenu?.lunch?.main && (
                     <>
                       <NativeListHeader label="Menu du jour" />
                       <NativeList>
@@ -372,7 +372,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                     </>
                   )}
 
-                  {currentMenu?.dinner && (
+                  {currentMenu?.dinner?.main && (
                     <>
                       <NativeListHeader label="Menu du soir" />
                       <NativeList>
