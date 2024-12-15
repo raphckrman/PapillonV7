@@ -27,6 +27,8 @@ import { Screen } from "@/router/helpers/types";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useGradesStore } from "@/stores/grades";
+import { LinearGradient } from "expo-linear-gradient";
 
 const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
   const { grade, allGrades = [] } = route.params;
@@ -40,6 +42,7 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
   });
 
   const [shouldShowReviewOnClose, setShouldShowReviewOnClose] = useState(false);
+  const reels = useGradesStore((store) => store.reels);
 
   const askForReview = async () => {
     StoreReview.isAvailableAsync().then((available) => {
@@ -253,20 +256,53 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
           />
         </View>
 
-        <TouchableOpacity
-          style={{
-            position: "absolute",
-            top: 20,
-            right: 20,
-            padding: 8,
-            borderRadius: 500,
-            backgroundColor: "#00000043",
-            zIndex: 20,
-          }}
-          onPress={() => navigation.navigate("GradeReaction", { grade })}
-        >
-          <SmilePlus color={"white"} />
-        </TouchableOpacity>
+
+        {reels[grade.id] ? (
+          <>
+            <LinearGradient
+              colors={["#00000000", subjectData.color]}
+              start={[1, 0]}
+              end={[0, 0]}
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                bottom: 0,
+                width: "50%",
+                zIndex: 30,
+              }} />
+            <TouchableOpacity
+              style={{
+                position: "absolute",
+                top: -20,
+                right: 0,
+                zIndex: 20,
+              }}
+              onPress={() => navigation.navigate("GradeReaction", { grade })}
+            >
+              <Image
+                source={{ uri: `data:image/jpeg;base64,${reels[grade.id].image}` }}
+                style={{
+                  width: 200,
+                  height: 250,
+                }} />
+            </TouchableOpacity></>
+        ) : (
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              top: 20,
+              right: 20,
+              padding: 8,
+              borderRadius: reels[grade.id] ? 24 : 100,
+              backgroundColor: "#00000043",
+              zIndex: 20,
+            }}
+            onPress={() => navigation.navigate("GradeReaction", { grade })}
+          >
+            <SmilePlus color={"white"} />
+          </TouchableOpacity>
+        )}
 
         {Platform.OS === "ios" &&
             <View
@@ -278,6 +314,7 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
                 alignSelf: "center",
                 opacity: 0.3,
                 marginVertical: 8,
+                zIndex: 30,
               }}
             />
         }
