@@ -70,10 +70,17 @@ La gestion de tes repas et transactions au sein de ton établissement est simpli
 - 💬 Conversations
 - 🎒 Vie scolaire
 - 📩 Messagerie
- 
+  
+#### 🌐 Rejoins la communauté  
+
+Viens discuter avec nous, poser tes questions et te tenir informé des dernières actus sur Papillon !  
+👉 [Rejoins le Discord officiel](https://discord.com/invite/wVKWBRTbfh)  
+
 #
  
  ![À propos du projet](https://raw.githubusercontent.com/PapillonApp/Papillon/main/.github/assets/part_dev_light.svg#gh-light-mode-only)
  ![À propos du projet](https://raw.githubusercontent.com/PapillonApp/Papillon/main/.github/assets/part_dev_dark.svg#gh-dark-mode-only)
 
 Pour commencer à développer sur Papillon v7, consulte le [centre de documentation pour développeurs](https://developers.papillon.bzh/).
+
+
