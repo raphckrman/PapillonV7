@@ -206,6 +206,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
   return (
     <ScrollView
       contentContainerStyle={styles.scrollViewContent}
+      showsHorizontalScrollIndicator={false}
       refreshControl={
         <RefreshControl
           refreshing={isRefreshing}
@@ -301,7 +302,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                       bookingDay.date.toDateString() === pickerDate.toDateString() ? (
                         <NativeItem
                           separator
-                          disabled={!bookingDay.canBook || allBalances?.every((balance) => balance.remaining === 0)}
+                          disabled={!bookingDay.canBook}
                           icon={<Utensils />}
                           key={dayIndex}
                           trailing={
