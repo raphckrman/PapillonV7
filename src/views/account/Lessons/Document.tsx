@@ -305,20 +305,6 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
                 {lesson.ressource?.map((r, index) => {
                   let title = (r.title?.charAt(0).toUpperCase() ?? "") + (r.title?.slice(1) ?? ""); // S'assurer que la première lettre est en majuscule
                   let desc = r.description?.replace("\n\n", "\n") ?? ""; // Remplacer les doubles sauts de ligne par un seul
-                  let category_match = {
-                    0: undefined,
-                    1: "Cours",
-                    2: "Correction",
-                    3: "Devoir sur table",
-                    4: "Interrogation orale",
-                    5: "TD",
-                    6: "TP",
-                    7: "Évaluation",
-                    8: "EPI",
-                    9: "AP",
-                    12: "Visio",
-                  };
-                  let category = category_match[r.category ?? 0];
                   return (
                     <>
                       <View style={{flexDirection: "row", marginBottom: 10, paddingRight: 30}} key={"res_title_" + index}>
@@ -353,7 +339,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
                               }}
                               numberOfLines={1}
                               >
-                                {category}
+                                  {r.category}
                               </NativeText>
                             </View>
                           </LinearGradient>

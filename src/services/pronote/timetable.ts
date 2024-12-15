@@ -75,10 +75,11 @@ export const getTimetableForWeek = async (account: PronoteAccount, weekNumber: n
       if (c.type === "lesson" && c.ressourceID) {
         let ressource = (await pronote.resource(account.instance!, c.ressourceID)).contents;
         c.ressource = ressource.map((r) => {
+          let category = category_match[r.category] ?? r.categoryText;
           return {
             title: r.title,
             description: r.description,
-            category: r.category,
+            category,
             files: r.files.map((f) => {
               return {
                 name: f.name,
@@ -92,4 +93,18 @@ export const getTimetableForWeek = async (account: PronoteAccount, weekNumber: n
   );
 
   return timetable_formatted;
+};
+
+const category_match = {
+  0: undefined,
+  1: "Cours",
+  2: "Correction",
+  3: "Devoir sur table",
+  4: "Interrogation orale",
+  5: "TD",
+  6: "TP",
+  7: "Évaluation",
+  8: "EPI",
+  9: "AP",
+  12: "Visio",
 };
