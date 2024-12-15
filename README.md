@@ -63,7 +63,7 @@ Voici un aperçu de ce qui a été accompli et ce qui est en cours de développe
  
 #
  
-![A propos du projet](https://raw.githubusercontent.com/PapillonApp/Papillon/main/.github/assets/part_dev_light.svg#gh-light-mode-only)
+ ![À propos du projet](https://raw.githubusercontent.com/PapillonApp/Papillon/main/.github/assets/part_dev_light.svg#gh-light-mode-only)
  ![À propos du projet](https://raw.githubusercontent.com/PapillonApp/Papillon/main/.github/assets/part_dev_dark.svg#gh-dark-mode-only)
 
 Pour commencer à développer sur Papillon v7, consulte le [centre de documentation pour développeurs](https://developers.papillon.bzh/).
