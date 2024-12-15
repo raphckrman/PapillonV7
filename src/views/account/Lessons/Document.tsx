@@ -307,61 +307,70 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
                   let desc = r.description?.replace("\n\n", "\n") ?? ""; // Remplacer les doubles sauts de ligne par un seul
                   return (
                     <>
-                      <View style={{flexDirection: "row", marginBottom: 10, paddingRight: 30}} key={"res_title_" + index}>
-                        { !!category && (
-                          <LinearGradient
-                            colors={[subjectData.color + "80", subjectData.color]}
+                      {index > 0 && <View style={{height: 16}}/>}
+                      { !!r.category && (
+                        <LinearGradient
+                          colors={[subjectData.color + "80", subjectData.color]}
+                          style={{
+                            borderRadius: 50,
+                            zIndex: 10,
+                            borderWidth: 1,
+                            borderColor: theme.colors.text + "20",
+                            width: "auto",
+                            alignSelf: "flex-start",
+                          }}
+                        >
+                          <View
                             style={{
-                              borderRadius: 50,
-                              zIndex: 10,
-                              borderWidth: 1,
-                              borderColor: theme.colors.text + "20",
-                              height: 30,
-                              alignSelf: "center",
-                              marginRight: 10
+                              flexDirection: "row",
+                              alignItems: "center",
+                              gap: 4,
+                              paddingVertical: 3,
+                              paddingHorizontal: 8,
+                              borderRadius: 8,
                             }}
                           >
-                            <View
-                              style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                gap: 4,
-                                paddingVertical: 3,
-                                paddingHorizontal: 8,
-                                borderRadius: 8,
-                              }}
+                            <NativeText style={{
+                              color: "#FFF",
+                              fontFamily: "semibold",
+                              fontSize: 15,
+                              lineHeight: 18,
+                            }}
+                            numberOfLines={1}
                             >
-                              <NativeText style={{
-                                color: "#FFF",
-                                fontFamily: "semibold",
-                                fontSize: 15,
-                                lineHeight: 18,
-                              }}
-                              numberOfLines={1}
-                              >
-                                  {r.category}
-                              </NativeText>
-                            </View>
-                          </LinearGradient>
-                        )}
-                        { !!title && (
-                          <NativeText variant="titleLarge" /* style={{textAlign: "justify"}} */>{title}</NativeText>
-                        )}
-                      </View>
-                      <HTMLView value={`<body>${desc}</body>`} stylesheet={stylesText} addLineBreaks={false} onLinkPress={url => openUrl(url) } /* style={{paddingLeft: 10}} */ key={"res_html_" + index}/>
-                      {r.files?.map((file, index) => (
-                        <NativeItem
-                          key={"res_attach" + index}
-                          onPress={() =>
-                            openUrl(file.url)
-                          }
-                          icon={<FileText />}
-                        >
-                          <NativeText variant="title" numberOfLines={2}>
-                            {file.name}
+                              {r.category}
+                            </NativeText>
+                          </View>
+                        </LinearGradient>
+                      )}
+                      { !!title && (
+                        <NativeText variant="title" style={{flex: 1, flexWrap: "wrap"}}>
+                          {title}
+                        </NativeText>
+                      )}
+                      <HTMLView value={`<body>${desc}</body>`} stylesheet={stylesText} addLineBreaks={false} onLinkPress={url => openUrl(url) } style={{paddingLeft: 10}} key={"res_html_" + index}/>
+                      {(r.files?.length ?? 0) > 0 && (
+                        <>
+                          <NativeText variant="overtitle" style={{marginLeft: 10, marginTop: 5}} key={"res_files_title_" + index}>
+                            Pièces jointes
                           </NativeText>
-                        </NativeItem>
-                      ))}
+                          <NativeList style={{marginLeft: 10, marginTop: 0}}>
+                            {r.files?.map((file, index) => (
+                              <NativeItem
+                                key={"res_attach" + index}
+                                onPress={() =>
+                                  openUrl(file.url)
+                                }
+                                icon={<FileText />}
+                              >
+                                <NativeText variant="title" numberOfLines={2}>
+                                  {file.name}
+                                </NativeText>
+                              </NativeItem>
+                            ))}
+                          </NativeList>
+                        </>
+                      )}
                     </>
                   );
                 })}
