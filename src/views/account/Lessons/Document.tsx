@@ -31,6 +31,7 @@ import {
 } from "lucide-react-native";
 
 import * as WebBrowser from "expo-web-browser";
+import { LinearGradient } from "expo-linear-gradient";
 import { useTheme } from "@react-navigation/native";
 import HTMLView from "react-native-htmlview";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -304,10 +305,65 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
                 {lesson.ressource?.map((r, index) => {
                   let title = (r.title?.charAt(0).toUpperCase() ?? "") + (r.title?.slice(1) ?? ""); // S'assurer que la première lettre est en majuscule
                   let desc = r.description?.replace("\n\n", "\n") ?? ""; // Remplacer les doubles sauts de ligne par un seul
+                  let category_match = {
+                    0: undefined,
+                    1: "Cours",
+                    2: "Correction",
+                    3: "Devoir sur table",
+                    4: "Interrogation orale",
+                    5: "TD",
+                    6: "TP",
+                    7: "Évaluation",
+                    8: "EPI",
+                    9: "AP",
+                    12: "Visio",
+                  };
+                  let category = category_match[r.category ?? 0];
+                  console.log(r.category, category);
                   return (
                     <>
-                      { !!title && <NativeText variant="titleLarge" /* style={{textAlign: "justify"}} */>{title}</NativeText> }
-                      <HTMLView value={`<body>${desc}</body>`} stylesheet={stylesText} addLineBreaks={false} onLinkPress={url => openUrl(url) } style={{paddingLeft: 10}} key={"res_html_" + index}/>
+                      <View style={{flexDirection: "row", marginBottom: 10, paddingRight: 30}} key={"res_title_" + index}>
+                        { !!category && (
+                          <LinearGradient
+                            colors={[subjectData.color + "80", subjectData.color]}
+                            style={{
+                              borderRadius: 50,
+                              zIndex: 10,
+                              borderWidth: 1,
+                              borderColor: theme.colors.text + "20",
+                              height: 30,
+                              alignSelf: "center",
+                              marginRight: 10
+                            }}
+                          >
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                gap: 4,
+                                paddingVertical: 3,
+                                paddingHorizontal: 8,
+                                borderRadius: 8,
+                              }}
+                            >
+                              <NativeText style={{
+                                color: "#FFF",
+                                fontFamily: "semibold",
+                                fontSize: 15,
+                                lineHeight: 18,
+                              }}
+                              numberOfLines={1}
+                              >
+                                {category}
+                              </NativeText>
+                            </View>
+                          </LinearGradient>
+                        )}
+                        { !!title && (
+                          <NativeText variant="titleLarge" /* style={{textAlign: "justify"}} */>{title}</NativeText>
+                        )}
+                      </View>
+                      <HTMLView value={`<body>${desc}</body>`} stylesheet={stylesText} addLineBreaks={false} onLinkPress={url => openUrl(url) } /* style={{paddingLeft: 10}} */ key={"res_html_" + index}/>
                       {r.files?.map((file, index) => (
                         <NativeItem
                           key={"res_attach" + index}
