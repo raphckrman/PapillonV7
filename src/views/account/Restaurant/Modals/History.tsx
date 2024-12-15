@@ -71,7 +71,9 @@ const RestaurantHistory = ({ route }: { route: NavigationProps }) => {
                     <View style={styles.row}>
                       <View>
                         <NativeText variant="title">{history.label}</NativeText>
-                        <NativeText variant="subtitle">{time}</NativeText>
+                        {time !== "00:00" ? (
+                          <NativeText variant="subtitle">{time}</NativeText>
+                        ) : null}
                       </View>
                       <NativeText variant="titleLarge" style={{
                         color: history.amount < 0 ? "#D10000" : "#5CB21F",

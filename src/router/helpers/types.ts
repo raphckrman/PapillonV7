@@ -137,6 +137,7 @@ export type RouteParameters = {
   ExternalTurboselfLogin: undefined;
   ExternalArdLogin: undefined;
   ExternalIzlyLogin: undefined;
+  ExternalAliseLogin: undefined;
   IzlyActivation: { username: string, password: string };
   PriceError: { account: Client, accountId: string };
   QrcodeScanner: { accountID: string };

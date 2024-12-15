@@ -1,20 +1,19 @@
 import { useState } from "react";
-import {Authenticator, Client, getOnlinePayments} from "pawrd";
-import { AccountService, type ARDAccount } from "@/stores/account/types";
-import uuid from "@/utils/uuid-v4";
-import { useAccounts, useCurrentAccount } from "@/stores/account";
 import LoginView from "@/components/Templates/LoginView";
 import { Screen } from "@/router/helpers/types";
+import { authenticateWithCredentials, Client } from "alise-api";
+import { AccountService, AliseAccount } from "@/stores/account/types";
+import uuid from "@/utils/uuid-v4";
+import { useAccounts, useCurrentAccount } from "@/stores/account";
 
 async function detectMealPrice (account: Client): Promise<number | null> {
-  const uid = await account.getOnlinePayments().then((payment) => payment.user.uid);
-  const consumptionsHistory = await account.getConsumptionsHistory(uid);
+  const history = await account.getFinancialHistory();
 
   let mostFrequentAmount: number | null = null;
   let maxCount = 0;
   const amountCount: Record<number, number> = {};
 
-  for (const consumption of consumptionsHistory) {
+  for (const consumption of history) {
     const amount = consumption.amount;
 
     amountCount[amount] = (amountCount[amount] || 0) + 1;
@@ -25,36 +24,29 @@ async function detectMealPrice (account: Client): Promise<number | null> {
     }
   }
 
-  return mostFrequentAmount || null;
+  return -mostFrequentAmount! || null;
 }
 
-const ExternalArdLogin: Screen<"ExternalArdLogin"> = ({ navigation }) => {
+const ExternalAliseLogin: Screen<"ExternalAliseLogin"> = ({ navigation }) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const linkExistingExternalAccount = useCurrentAccount(store => store.linkExistingExternalAccount);
   const create = useAccounts(store => store.create);
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
   const handleLogin = async (username: string, password: string, customFields: Record<string, string>): Promise<void> => {
+    setLoading(true);
+
     try {
-      const authenticator = new Authenticator();
+      const session = await authenticateWithCredentials(username, password, customFields["schoolID"]);
+      const mealPrice = await detectMealPrice(session) ?? 100;
       const schoolID = customFields["schoolID"];
-
-      const client = await authenticator.fromCredentials(schoolID, username, password);
-      const balances = await client.getOnlinePayments();
-      const mealPrice = await detectMealPrice(client);
-
-      const new_account: ARDAccount = {
-        instance: client,
-        service: AccountService.ARD,
+      const bookings = await session.getBookings();
+      const new_account: AliseAccount = {
+        instance: undefined,
+        service: AccountService.Alise,
         username,
         authentication: {
-          schoolID,
-          username,
-          password,
-          pid: client.pid,
-          mealPrice: mealPrice ?? 100,
-          balances
+          session, username, password, schoolID, mealPrice, bookings
         },
         isExternal: true,
         localID: uuid(),
@@ -63,7 +55,7 @@ const ExternalArdLogin: Screen<"ExternalArdLogin"> = ({ navigation }) => {
 
       create(new_account);
       linkExistingExternalAccount(new_account);
-      if (!mealPrice) return navigation.navigate("PriceError", { account: client, accountId: new_account.localID });
+
       navigation.pop();
       navigation.pop();
       navigation.pop();
@@ -82,19 +74,22 @@ const ExternalArdLogin: Screen<"ExternalArdLogin"> = ({ navigation }) => {
 
   return (
     <LoginView
-      serviceIcon={require("@/../assets/images/service_ard.png")}
-      serviceName="ARD"
+      serviceIcon={require("@/../assets/images/service_alise.png")}
+      serviceName="Alise"
       onLogin={(username, password, customFields) => handleLogin(username, password, customFields)}
       loading={loading}
       error={error}
+      usernamePlaceholder="Identifiant ou adresse e-mail"
+      passwordLabel="Mot de passe"
+      passwordPlaceholder="Mot de passe"
       customFields={[{
         identifier: "schoolID",
         title: "Identifiant de l'établissement",
-        placeholder: "Identifiant de l'établissement",
+        placeholder: "aes00000",
         secureTextEntry: false
       }]}
     />
   );
 };
 
-export default ExternalArdLogin;
+export default ExternalAliseLogin;
