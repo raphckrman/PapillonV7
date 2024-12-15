@@ -25,6 +25,7 @@ const decodeTimetableClass = (c: pronote.TimetableClassLesson | pronote.Timetabl
       group: c.groupNames.join(", ") || void 0,
       status: c.status === "Cours annulé" || c.status === "Prof. absent" || c.status === "Classe absente" || c.status === "Prof./pers. absent" || c.status === "Sortie pédagogique" ? TimetableClassStatus.CANCELED : c.test ? TimetableClassStatus.TEST : void 0,
       statusText: c.test ? "Devoir Surveillé" : c.status,
+      ressourceID: c.lessonResourceID ?? void 0,
       ...base
     } satisfies TimetableClass;
   }
@@ -67,5 +68,27 @@ export const getTimetableForWeek = async (account: PronoteAccount, weekNumber: n
     withPlannedClasses: true
   });
 
-  return timetable.classes.map(decodeTimetableClass);
+  let timetable_formatted = timetable.classes.map(decodeTimetableClass);
+
+  await Promise.all(
+    timetable_formatted.map(async (c) => {
+      if (c.type === "lesson" && c.ressourceID) {
+        let ressource = (await pronote.resource(account.instance!, c.ressourceID)).contents;
+        c.ressource = ressource.map((r) => {
+          return {
+            title: r.title,
+            description: r.description,
+            files: r.files.map((f) => {
+              return {
+                name: f.name,
+                url: f.url
+              };
+            })
+          };
+        });
+      }
+    })
+  );
+
+  return timetable_formatted
 };
