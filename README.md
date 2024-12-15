@@ -47,6 +47,14 @@ Voici un aperçu de ce qui a été accompli et ce qui est en cours de développe
   - Connexion par cookie d'ENT
 - 🔐 Appel à l'API pour se connecter et conservation de la session
 
+#### 🍽️ Services de restauration  
+
+La gestion de tes repas et transactions au sein de ton établissement est simplifiée grâce aux services de cantine intégrés suivants :  
+- **Turboself**  
+- **ARD**  
+- **Izly**  
+- **Alise**  
+
 #### 📊 Affichage des données
 
 - 👤 Données utilisateur
