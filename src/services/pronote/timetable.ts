@@ -78,6 +78,7 @@ export const getTimetableForWeek = async (account: PronoteAccount, weekNumber: n
           return {
             title: r.title,
             description: r.description,
+            category: r.category,
             files: r.files.map((f) => {
               return {
                 name: f.name,
@@ -90,5 +91,5 @@ export const getTimetableForWeek = async (account: PronoteAccount, weekNumber: n
     })
   );
 
-  return timetable_formatted
+  return timetable_formatted;
 };
