@@ -31,7 +31,7 @@ import {
 } from "lucide-react-native";
 
 import * as WebBrowser from "expo-web-browser";
-import { Link, useTheme } from "@react-navigation/native";
+import { useTheme } from "@react-navigation/native";
 import HTMLView from "react-native-htmlview";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PapillonModernHeader } from "@/components/Global/PapillonModernHeader";
@@ -274,34 +274,58 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
             </View>
           );
         })}
-        {classSubjects.length > 0 && (
+        {(classSubjects.length > 0 || (lesson.ressource?.length ?? 0) > 0) && (
           <View>
             <NativeListHeader label="Contenu de séance" />
             <NativeList>
               {classSubjects.map((subject, index) => {
                 return (
-                  <>
-                    <NativeItem key={index}>
-                      <HTMLView value={`<body>${subject.content}</body>`} stylesheet={stylesText} />
-                      {subject.attachments.map((attachment, index) => (
+                  <NativeItem key={"classSubject_" + index}>
+                    <HTMLView value={`<body>${subject.content}</body>`} stylesheet={stylesText} />
+                    {subject.attachments.map((attachment, index) => (
+                      <NativeItem
+                        key={"classSubject_attachement_" + index}
+                        onPress={() =>
+                          openUrl(
+                            `${attachment.name}\\${attachment.id}\\${attachment.kind}`,
+                          )
+                        }
+                        icon={<FileText />}
+                      >
+                        <NativeText variant="title" numberOfLines={2}>
+                          {attachment.name}
+                        </NativeText>
+                      </NativeItem>
+                    ))}
+                  </NativeItem>
+                );
+              })}
+              <NativeItem>
+                {lesson.ressource?.map((r, index) => {
+                  let title = (r.title?.charAt(0).toUpperCase() ?? "") + (r.title?.slice(1) ?? ""); // S'assurer que la première lettre est en majuscule
+                  let desc = r.description?.replace("\n\n", "\n") ?? ""; // Remplacer les doubles sauts de ligne par un seul
+                  return (
+                    <>
+                      { !!title && <NativeText variant="titleLarge" /* style={{textAlign: "justify"}} */>{title}</NativeText> }
+                      <HTMLView value={`<body>${desc}</body>`} stylesheet={stylesText} addLineBreaks={false} onLinkPress={url => openUrl(url) } style={{paddingLeft: 10}} key={"res_html_" + index}/>
+                      {r.files?.map((file, index) => (
                         <NativeItem
-                          key={index}
+                          key={"res_attach" + index}
                           onPress={() =>
-                            openUrl(
-                              `${attachment.name}\\${attachment.id}\\${attachment.kind}`,
-                            )
+                            openUrl(file.url)
                           }
                           icon={<FileText />}
                         >
                           <NativeText variant="title" numberOfLines={2}>
-                            {attachment.name}
+                            {file.name}
                           </NativeText>
                         </NativeItem>
                       ))}
-                    </NativeItem>
-                  </>
-                );
-              })}
+                    </>
+                  );
+                })}
+
+              </NativeItem>
             </NativeList>
           </View>
         )}
