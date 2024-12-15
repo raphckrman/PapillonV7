@@ -20,6 +20,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { captureRef } from "react-native-view-shot";
 import { Screen } from "@/router/helpers/types";
 import { getSubjectData } from "@/services/shared/Subject";
+import { useGradesStore } from "@/stores/grades";
+import { Reel } from "@/services/shared/Reel";
 
 const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
   const inset = useSafeAreaInsets();
@@ -32,7 +34,12 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
     undefined
   );
   const account = useCurrentAccount((store) => store.account);
+  const reels = useGradesStore((store) => store.reels);
   const [grade, setGrade] = useState(route.params.grade);
+
+  const updateReels = useGradesStore((store) => (reels: { [gradeID: string]: Reel }) => {
+    store.reels = { ...store.reels, ...reels };
+  });
 
   useEffect(() => {
     const setupPermissions = async () => {
@@ -74,11 +81,32 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
         format: "png",
         quality: 0.5,
       });
-      await MediaLibrary.saveToLibraryAsync(uri);
-      Alert.alert("Success", "Image saved to gallery");
+      // Convert to base64
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      const base64: string = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+      // Create reel object
+      const reel: Reel = {
+        id: grade.id,
+        message: message,
+        timestamp: Date.now(),
+        image: base64.split(",")[1],
+        grade: {
+          value: grade.student.value !== null ? grade.student.value.toString() : "",
+          outOf: grade.outOf.value !== null ? grade.outOf.value.toString() : "",
+          coef: grade.coefficient !== null ? grade.coefficient.toString() : "",
+        }
+      };
+      updateReels({ [grade.id]: reel });
+      Alert.alert("Success", "Ta réaction a bien été enregistrée !");
     } catch (error) {
       console.error("Failed to save image:", error);
-      Alert.alert("Error", "Failed to save image");
+      Alert.alert("Erreur", "Erreur lors de l'enregistrement de l'image");
     }
   };
 

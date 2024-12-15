@@ -118,6 +118,7 @@ export type RouteParameters = {
   SettingsAddons: undefined;
   SettingsDevLogs: undefined;
   SettingsDonorsList: undefined;
+  SettingsReactions: undefined;
 
   Menu?: undefined;
   RestaurantQrCode: {

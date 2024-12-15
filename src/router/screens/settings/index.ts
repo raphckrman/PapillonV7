@@ -25,6 +25,7 @@ import PriceBeforeScan from "@/views/settings/ExternalAccount/PriceBeforeScan";
 import SettingsFlagsInfos from "@/views/settings/SettingsFlagsInfos";
 import ExternalIzlyLogin from "@/views/settings/ExternalAccount/Izly";
 import IzlyActivation from "@/views/settings/ExternalAccount/IzlyActivation";
+import SettingsReactions from "@/views/settings/SettingsReactions";
 
 const settingsScreens = [
   createScreen("Settings", Settings, {
@@ -54,6 +55,9 @@ const settingsScreens = [
 
   createScreen("SettingsSubjects", SettingsSubjects, {
     headerTitle: "Matières",
+  }),
+  createScreen("SettingsReactions", SettingsReactions, {
+    headerTitle: "Réactions",
   }),
   createScreen("SettingsExternalServices", SettingsExternalServices, {
     headerTitle: "Services externes",
