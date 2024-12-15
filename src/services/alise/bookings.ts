@@ -3,7 +3,6 @@ import type { BookingDay, BookingTerminal } from "../shared/Booking";
 
 export const getBookings = async (account: AliseAccount, force = false): Promise<BookingTerminal[]> => {
   const bookings = force ? await account.authentication.session.getBookings() : await account.authentication.bookings;
-  console.log(bookings);
   return [{
     id: "",
     terminalLabel: "Self",
