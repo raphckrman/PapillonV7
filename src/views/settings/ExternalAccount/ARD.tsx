@@ -6,7 +6,7 @@ import { useAccounts, useCurrentAccount } from "@/stores/account";
 import LoginView from "@/components/Templates/LoginView";
 import { Screen } from "@/router/helpers/types";
 
-async function detectMealPrice (account: Client): Promise<number | null> {
+export async function detectMealPrice (account: Client): Promise<number | null> {
   const uid = await account.getOnlinePayments().then((payment) => payment.user.uid);
   const consumptionsHistory = await account.getConsumptionsHistory(uid);
 
