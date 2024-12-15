@@ -318,6 +318,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
                             borderColor: theme.colors.text + "20",
                             width: "auto",
                             alignSelf: "flex-start",
+                            marginBottom: title ? 10 : void 0,
                           }}
                         >
                           <View
