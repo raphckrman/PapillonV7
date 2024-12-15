@@ -1,8 +1,10 @@
 ![Papillon, un client de vie scolaire alternatif open source](https://raw.githubusercontent.com/PapillonApp/Papillon/main/.github/assets/main_banner_light.svg#gh-light-mode-only)
 ![Papillon, un client de vie scolaire alternatif open source](https://raw.githubusercontent.com/PapillonApp/Papillon/main/.github/assets/main_banner_dark.svg#gh-dark-mode-only)
 
+<!-- 
 ![Ce projet est en cours de développement actif. Des changements majeurs peuvent survenir au cours des prochaines mises à jour.](https://raw.githubusercontent.com/PapillonApp/Papillon/main/.github/assets/warning_devt_light.svg#gh-light-mode-only)
 ![Ce projet est en cours de développement actif. Des changements majeurs peuvent survenir au cours des prochaines mises à jour.](https://raw.githubusercontent.com/PapillonApp/Papillon/main/.github/assets/warning_devt_dark.svg#gh-dark-mode-only)
+-->
 
 #
 
