@@ -7,24 +7,13 @@ import {
 import { getSubjectData } from "@/services/shared/Subject";
 import { useTheme } from "@react-navigation/native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { Dimensions, Image, Pressable, ScrollView, Text, View, Platform } from "react-native";
-import { GradeTitle } from "./Atoms/GradeTitle";
-import * as SystemUI from "expo-system-ui";
-import * as StoreReview from "expo-store-review";
+import { Image, ScrollView, Text, View, Platform } from "react-native";
 import {
-  Asterisk,
-  Calculator, MessageSquareMore,
-  Scale,
-  School, User2,
-  UserMinus,
-  UserPlus,
-  Users,
+  MessageSquareMore,
+  User2,
 } from "lucide-react-native";
-import { getAverageDiffGrade } from "@/utils/grades/getAverages";
-import type { AverageDiffGrade } from "@/utils/grades/getAverages";
 import { Screen } from "@/router/helpers/types";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Skill} from "@/services/shared/Evaluation";
 import {SkillLevelBadge} from "@/views/account/Evaluation/Atoms/SkillLevelBadge";
 
@@ -247,7 +236,6 @@ const EvaluationDocument: Screen<"EvaluationDocument"> = ({ route, navigation })
             )}
           </NativeList>
         </View>
-
         <InsetsBottomView />
       </ScrollView>
     </View>

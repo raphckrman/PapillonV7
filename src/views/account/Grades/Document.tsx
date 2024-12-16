@@ -46,7 +46,7 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
 
   // on modal closed
   useEffect(() => {
-    navigation.addListener("beforeRemove", (e) => {
+    navigation.addListener("beforeRemove", () => {
       if (shouldShowReviewOnClose) {
         AsyncStorage.getItem("review_given").then((value) => {
           if(!value) {
