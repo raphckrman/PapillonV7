@@ -77,7 +77,7 @@ const TurboselfAccountSelector: Screen<"TurboselfAccountSelector"> = ({ navigati
           style={styles.container}
         >
           <PapillonShineBubble
-            message={loading ? "Chargement en cours..." : "Tu as plusieurs comptes Turboself, choisis le tien:"}
+            message={loading ? "Chargement en cours..." : "Tu as plusieurs comptes TurboSelf, choisis le tien :"}
             width={270}
             numberOfLines={loading ? 1 : 2}
             offsetTop={insets.top}
