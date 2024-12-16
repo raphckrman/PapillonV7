@@ -56,6 +56,7 @@ export const screens = [
   }),
   createScreen("Evaluation", Evaluation, {
     headerTitle: "Evaluation",
+    headerShown: false,
     tabBarLabel: "Evaluation",
     tabBarLottie: require("@/../assets/lottie/tab_pizza.json"),
   }),
