@@ -4,7 +4,7 @@ import {info} from "@/utils/logger/logger";
 import {decodePeriod} from "@/services/pronote/period";
 import pronote from "pawnote";
 import {ErrorServiceUnauthenticated} from "@/services/shared/errors";
-import {Evaluation} from "@/services/shared/Evaluation";
+import {Evaluation, SkillLevel} from "@/services/shared/Evaluation";
 
 const getTab = (account: PronoteAccount): pronote.Tab => {
   if (!account.instance)
@@ -46,7 +46,7 @@ export const getEvaluations = async (account: PronoteAccount, periodName: string
     levels: e.levels,
     skills: e.skills.map(s => ({
       coefficient: s.coefficient,
-      level: s.level,
+      level: getLevel(s.abbreviation),
       domainName: s.domainName,
       itemName: s.itemName || "Compétence sans nom"
     })),
@@ -54,6 +54,32 @@ export const getEvaluations = async (account: PronoteAccount, periodName: string
   }));
 
   return evaluations;
+};
+
+export const getLevel = (level: string): SkillLevel => {
+  console.log(level);
+  switch (level) {
+    case "Nr":
+      return SkillLevel.NotReturned;
+    case "Dsp":
+      return SkillLevel.Dispensed;
+    case "Abs":
+      return SkillLevel.Absent;
+    case "E":
+      return SkillLevel.Insufficient;
+    case "D":
+      return SkillLevel.Beginning;
+    case "C":
+      return SkillLevel.Fragile;
+    case "B":
+      return SkillLevel.AlmostMastered;
+    case "A":
+      return SkillLevel.Satisfactory;
+    case "A+":
+      return SkillLevel.Excellent;
+    default:
+      return SkillLevel.None;
+  }
 };
 
 export const buildLocalID = (e: pronote.Evaluation): string => `${e.subject.name}:${e.date.getTime()}/${e.name}`;

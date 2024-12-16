@@ -11,9 +11,22 @@ export interface Evaluation {
   teacher: string;
 }
 
+export enum SkillLevel {
+  NotReturned = -3,      // Non rendu
+  Dispensed = -2,        // Dispensé
+  Absent = -1,           // Absent
+  None = 0,              // Aucune évaluation
+  Insufficient = 1,      // Maîtrise insuffisante
+  Beginning = 2,         // Début de maîtrise
+  Fragile = 3,           // Maîtrise fragile
+  AlmostMastered = 4,    // Presque maîtrisé
+  Satisfactory = 5,      // Maîtrise satisfaisante
+  Excellent = 6          // Très bonne maîtrise
+}
+
 export interface Skill {
   coefficient: number;
-  level: string;
+  level: SkillLevel;
 
   domainName: string;
   itemName: string;
