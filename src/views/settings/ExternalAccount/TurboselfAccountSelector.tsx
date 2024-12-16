@@ -115,7 +115,7 @@ const TurboselfAccountSelector: Screen<"TurboselfAccountSelector"> = ({ navigati
             <ButtonCta
               primary
               value="Continuer"
-              disabled={loading}
+              disabled={choosenHostId !== 0}
               onPress={() => handleLogin()}
             />
             <ButtonCta
