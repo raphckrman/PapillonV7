@@ -1,4 +1,4 @@
-import React, {Suspense, useEffect, useMemo, useState} from "react";
+import React, {Suspense, useEffect, useMemo, useRef, useState} from "react";
 import {View, ScrollView, RefreshControl, Platform, ActivityIndicator} from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import {useTheme} from "@react-navigation/native";
@@ -11,11 +11,10 @@ import {ChevronDown} from "lucide-react-native";
 import PapillonPicker from "@/components/Global/PapillonPicker";
 import {updateEvaluationPeriodsInCache, updateEvaluationsInCache} from "@/services/evaluation";
 import {useEvaluationStore} from "@/stores/evaluation";
-import {updateGradesAndAveragesInCache} from "@/services/grades";
-import type {GradesPerSubject} from "@/services/shared/Grade";
-import {AccountService} from "@/stores/account/types";
 import {EvaluationsPerSubject} from "@/services/shared/Evaluation";
 import {NativeText} from "@/components/Global/NativeComponents";
+import MissingItem from "@/components/Global/MissingItem";
+import Subject from "@/views/account/Evaluation/Subject/Subject";
 
 const Evaluation: Screen<"Evaluation"> = ({ route, navigation }) => {
   const theme = useTheme();
@@ -39,6 +38,8 @@ const Evaluation: Screen<"Evaluation"> = ({ route, navigation }) => {
   const [evaluationsPerSubject, setEvaluationsPerSubject] = useState<EvaluationsPerSubject[]>(
     []
   );
+
+  const latestEvaluationsRef = useRef<any[]>([]);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -95,6 +96,19 @@ const Evaluation: Screen<"Evaluation"> = ({ route, navigation }) => {
       }
 
       setEvaluationsPerSubject(evaluationsPerSubject);
+    }, 1);
+  }, [selectedPeriod, evaluations]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (selectedPeriod === "") return;
+
+      const latestGrades = (evaluations[selectedPeriod] || [])
+        .slice()
+        .sort((a, b) => b.timestamp - a.timestamp)
+        .slice(0, 10);
+
+      latestEvaluationsRef.current = latestGrades;
     }, 1);
   }, [selectedPeriod, evaluations]);
 
@@ -161,16 +175,33 @@ const Evaluation: Screen<"Evaluation"> = ({ route, navigation }) => {
                 paddingBottom: 16 + insets.bottom,
               }}
             >
-              {evaluationsPerSubject.map((subject) => (
-                <View>
-                  <NativeText variant={"title"}>{subject.subjectName}</NativeText>
-                  {subject.evaluations.map((evaluation) => (
-                    <View>
-                      <NativeText>{evaluation.teacher}</NativeText>
-                    </View>
-                  ))}
-                </View>
-              ))}
+              {(!evaluations[selectedPeriod] || evaluations[selectedPeriod].length === 0) &&
+                  !isLoading &&
+                  !isRefreshing && (
+                <MissingItem
+                  style={{ marginTop: 24, marginHorizontal: 16 }}
+                  emoji="📚"
+                  title="Aucune compétences disponible"
+                  description="La période sélectionnée ne contient aucune compétences."
+                />
+              )}
+
+              {latestEvaluationsRef.current.length > 2 && (
+                /*<EvaluationsLatestList
+                  latestGrades={latestEvaluationsRef.current}
+                  navigation={navigation}
+                  allGrades={evaluations[selectedPeriod] || []}
+                />*/
+                <></>
+              )}
+
+              {evaluationsPerSubject.length > 0 && (
+                <Subject
+                  navigation={navigation}
+                  evaluationsPerSubject={evaluationsPerSubject}
+                  allEvaluations={evaluations[selectedPeriod] || []}
+                />
+              )}
             </View>
           </Suspense>
         </ScrollView>
