@@ -94,6 +94,8 @@ export type RouteParameters = {
     allGrades?: Grade[];
   };
 
+  Evaluation: undefined;
+
   Attendance: undefined;
 
   // settings.externalAccount

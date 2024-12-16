@@ -8,6 +8,7 @@ import Grades from "@/views/account/Grades/Grades";
 import Attendance from "@/views/account/Attendance/Attendance";
 import Messages from "@/views/account/Chat/Messages";
 import PlaceholderScreen from "@/views/account/Home/PlaceholderScreen";
+import Evaluation from "@/views/account/Evaluation/Evaluation";
 
 export const screens = [
   createScreen("Home", () => <HomeStackScreen accountScreens={screens} />, {
@@ -52,6 +53,11 @@ export const screens = [
   createScreen("Menu", Menu, {
     headerTitle: "Cantine",
     tabBarLabel: "Cantine",
+    tabBarLottie: require("@/../assets/lottie/tab_pizza.json"),
+  }),
+  createScreen("Evaluation", Evaluation, {
+    headerTitle: "Evaluation",
+    tabBarLabel: "Evaluation",
     tabBarLottie: require("@/../assets/lottie/tab_pizza.json"),
   }),
 ] as Array<ReturnType<typeof createScreen>>;
