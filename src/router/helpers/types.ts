@@ -4,15 +4,14 @@ import type {Grade, GradesPerSubject} from "@/services/shared/Grade";
 import { Homework } from "@/services/shared/Homework";
 import { ReservationHistory } from "@/services/shared/ReservationHistory";
 import type { AccountService } from "@/stores/account/types";
-import { Log } from "@/utils/logger/logger";
 import type { CurrentPosition } from "@/utils/native/location";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type pronote from "pawnote";
 import type React from "react";
 import type { School as SkolengoSchool} from "scolengo-api/types/models/School";
-import {Information} from "@/services/shared/Information";
 import { ImageSourcePropType } from "react-native";
 import {Client} from "pawrd";
+import { Host } from "turboself-api";
 
 export type RouteParameters = {
   // welcome.index
@@ -143,7 +142,7 @@ export type RouteParameters = {
   PriceDetectionOnboarding: { accountID: string };
   PriceBeforeScan: { accountID: string };
   PriceAfterScan: { accountID: string };
-
+  TurboselfAccountSelector: { accounts: Array<Host>, username: string, password: string};
 
   AddonSettingsPage: {
     addon: AddonPlacementManifest;
