@@ -58,7 +58,6 @@ export const getEvaluations = async (account: PronoteAccount, periodName: string
 };
 
 export const getLevel = (level: string): SkillLevel => {
-  console.log(level);
   switch (level) {
     case "Nr":
       return SkillLevel.NotReturned;
