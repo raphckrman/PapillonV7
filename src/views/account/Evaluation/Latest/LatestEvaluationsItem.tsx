@@ -33,8 +33,6 @@ const EvaluationLatestItem: React.FC<EvaluationLatestItemProps> = ({
       .slice(0, 4);
     const skillLevelsMoreNumber = evaluation.skills.length - 4;
 
-    console.log("skillLevelsMoreNumber", skillLevelsMoreNumber);
-
     setSkillLevelsList(skillLevels);
     setSkillLevelsMoreNumber(skillLevelsMoreNumber);
   }, [evaluation.skills]);
