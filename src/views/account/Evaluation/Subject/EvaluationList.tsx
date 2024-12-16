@@ -13,21 +13,15 @@ import Reanimated, {
   FadeOutUp,
 } from "react-native-reanimated";
 import SubjectTitle from "./SubjectTitle";
-import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import type { RouteParameters } from "@/router/helpers/types";
-import {Evaluation, EvaluationsPerSubject, Skill, SkillLevel} from "@/services/shared/Evaluation";
+import {Evaluation, EvaluationsPerSubject, Skill} from "@/services/shared/Evaluation";
 import {SkillLevelBadge} from "@/views/account/Evaluation/Atoms/SkillLevelBadge";
 
 interface SubjectItemProps {
-  subject: EvaluationsPerSubject;
-  allEvaluation: Evaluation[];
-  navigation: NativeStackNavigationProp<RouteParameters, keyof RouteParameters>;
+  subject: EvaluationsPerSubject
 }
 
 const SubjectItem: React.FC<SubjectItemProps> = ({
-  subject,
-  allEvaluation,
-  navigation,
+  subject
 }) => {
   const [subjectData, setSubjectData] = useState({
     color: "#888888",

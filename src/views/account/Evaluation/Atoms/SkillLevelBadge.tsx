@@ -1,6 +1,5 @@
 import {SkillLevel} from "@/services/shared/Evaluation";
 import {View} from "react-native";
-import {set} from "lodash";
 import React, {useState} from "react";
 import {NativeText} from "@/components/Global/NativeComponents";
 

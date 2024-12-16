@@ -5,14 +5,13 @@ import {useTheme} from "@react-navigation/native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {PapillonHeaderSelector, PapillonModernHeader} from "@/components/Global/PapillonModernHeader";
 import {useCurrentAccount} from "@/stores/account";
-import Reanimated, {FadeInUp, FadeOut, FadeOutDown, LinearTransition} from "react-native-reanimated";
+import Reanimated, {FadeInUp, FadeOutDown} from "react-native-reanimated";
 import {animPapillon} from "@/utils/ui/animations";
 import {ChevronDown} from "lucide-react-native";
 import PapillonPicker from "@/components/Global/PapillonPicker";
 import {updateEvaluationPeriodsInCache, updateEvaluationsInCache} from "@/services/evaluation";
 import {useEvaluationStore} from "@/stores/evaluation";
 import {EvaluationsPerSubject} from "@/services/shared/Evaluation";
-import {NativeText} from "@/components/Global/NativeComponents";
 import MissingItem from "@/components/Global/MissingItem";
 import Subject from "@/views/account/Evaluation/Subject/Subject";
 
@@ -103,12 +102,10 @@ const Evaluation: Screen<"Evaluation"> = ({ route, navigation }) => {
     setTimeout(() => {
       if (selectedPeriod === "") return;
 
-      const latestGrades = (evaluations[selectedPeriod] || [])
+      latestEvaluationsRef.current = (evaluations[selectedPeriod] || [])
         .slice()
         .sort((a, b) => b.timestamp - a.timestamp)
         .slice(0, 10);
-
-      latestEvaluationsRef.current = latestGrades;
     }, 1);
   }, [selectedPeriod, evaluations]);
 
