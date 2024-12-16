@@ -8,14 +8,12 @@ import {SkillLevelBadge} from "@/views/account/Evaluation/Atoms/SkillLevelBadge"
 
 type EvaluationLatestItemProps = {
   evaluation: Evaluation;
-  i: number;
   navigation: any;
   allEvaluations: Evaluation[];
 };
 
 const EvaluationLatestItem: React.FC<EvaluationLatestItemProps> = ({
   evaluation,
-  i,
   navigation,
   allEvaluations,
 }) => {
@@ -48,7 +46,7 @@ const EvaluationLatestItem: React.FC<EvaluationLatestItemProps> = ({
 
   return (
     <PressableScale
-      //onPress={() => navigation.navigate("GradeDocument", { evaluation, allEvaluations })}
+      onPress={() => navigation.navigate("EvaluationDocument", { evaluation, allEvaluations })}
     >
       <NativeList
         animated
