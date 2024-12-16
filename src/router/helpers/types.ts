@@ -92,7 +92,7 @@ export type RouteParameters = {
     allGrades?: Grade[];
   };
 
-  Evaluation: undefined;
+  Evaluation: { outsideNav?: boolean };
 
   Attendance: undefined;
 
