@@ -14,6 +14,7 @@ import {useEvaluationStore} from "@/stores/evaluation";
 import {EvaluationsPerSubject} from "@/services/shared/Evaluation";
 import MissingItem from "@/components/Global/MissingItem";
 import Subject from "@/views/account/Evaluation/Subject/Subject";
+import EvaluationsLatestList from "@/views/account/Evaluation/Latest/LatestEvaluations";
 
 const Evaluation: Screen<"Evaluation"> = ({ route, navigation }) => {
   const theme = useTheme();
@@ -184,12 +185,11 @@ const Evaluation: Screen<"Evaluation"> = ({ route, navigation }) => {
               )}
 
               {latestEvaluationsRef.current.length > 2 && (
-                /*<EvaluationsLatestList
-                  latestGrades={latestEvaluationsRef.current}
+                <EvaluationsLatestList
+                  latestEvaluations={latestEvaluationsRef.current}
                   navigation={navigation}
-                  allGrades={evaluations[selectedPeriod] || []}
-                />*/
-                <></>
+                  allEvaluations={evaluations[selectedPeriod] || []}
+                />
               )}
 
               {evaluationsPerSubject.length > 0 && (
