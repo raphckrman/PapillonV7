@@ -11,6 +11,7 @@ import type React from "react";
 import type { School as SkolengoSchool} from "scolengo-api/types/models/School";
 import { ImageSourcePropType } from "react-native";
 import {Client} from "pawrd";
+import {Evaluation} from "@/services/shared/Evaluation";
 
 export type RouteParameters = {
   // welcome.index
@@ -93,6 +94,10 @@ export type RouteParameters = {
   };
 
   Evaluation: { outsideNav?: boolean };
+  EvaluationDocument: {
+    evaluation: Evaluation;
+    allEvaluations?: Evaluation[];
+  };
 
   Attendance: undefined;
 

@@ -27,7 +27,7 @@ export enum SkillLevel {
 export interface Skill {
   coefficient: number;
   level: SkillLevel;
-
+  pillarPrefixes: Array<string>;
   domainName: string;
   itemName: string;
 }

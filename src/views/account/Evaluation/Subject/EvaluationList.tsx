@@ -17,11 +17,15 @@ import {Evaluation, EvaluationsPerSubject, Skill} from "@/services/shared/Evalua
 import {SkillLevelBadge} from "@/views/account/Evaluation/Atoms/SkillLevelBadge";
 
 interface SubjectItemProps {
-  subject: EvaluationsPerSubject
+  subject: EvaluationsPerSubject,
+  allEvaluations: Evaluation[],
+  navigation: any,
 }
 
 const SubjectItem: React.FC<SubjectItemProps> = ({
-  subject
+  subject,
+  allEvaluations,
+  navigation,
 }) => {
   const [subjectData, setSubjectData] = useState({
     color: "#888888",
@@ -56,8 +60,7 @@ const SubjectItem: React.FC<SubjectItemProps> = ({
             evaluation={item}
             index={index}
             onPress={() => {
-              console.log("Pressed on grade", item);
-              //navigation.navigate("GradeDocument", { grade:item, allGrades });
+              navigation.navigate("EvaluationDocument", { evaluation:item, allEvaluations});
             }}
           />
         )}

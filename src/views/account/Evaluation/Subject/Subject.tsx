@@ -22,8 +22,8 @@ const Subject: React.FC<SubjectProps> = ({
     <SubjectItem
       key={item.subjectName + index}
       subject={item}
+      allEvaluations={allEvaluations}
       navigation={navigation}
-      allEvaluation={allEvaluations}
     />
   );
 

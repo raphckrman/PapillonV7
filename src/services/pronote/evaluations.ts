@@ -48,7 +48,8 @@ export const getEvaluations = async (account: PronoteAccount, periodName: string
       coefficient: s.coefficient,
       level: getLevel(s.abbreviation),
       domainName: s.domainName,
-      itemName: s.itemName || "Compétence sans nom"
+      itemName: s.itemName || "Compétence sans nom",
+      pillarPrefixes: s.pillarPrefixes,
     })),
     teacher: e.teacher
   }));
