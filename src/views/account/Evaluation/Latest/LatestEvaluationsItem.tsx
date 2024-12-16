@@ -149,7 +149,7 @@ const EvaluationLatestItem: React.FC<EvaluationLatestItemProps> = ({
                   lineHeight: 20,
                 }}
               >
-                {"+{skillLevelsMoreNumber}"}
+                {`+${skillLevelsMoreNumber}`}
               </NativeText>
             )}
           </View>
