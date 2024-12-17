@@ -11,7 +11,7 @@ import EvaluationLatestItem from "./LatestEvaluationsItem";
 interface EvaluationsLatestListProps {
   latestEvaluations: Evaluation[]
   allEvaluations: Evaluation[]
-  navigation: NativeStackNavigationProp<RouteParameters, "Grades", undefined>
+  navigation: NativeStackNavigationProp<RouteParameters, keyof RouteParameters>
 }
 
 const EvaluationsLatestList = (props: EvaluationsLatestListProps) => {
@@ -21,7 +21,6 @@ const EvaluationsLatestList = (props: EvaluationsLatestListProps) => {
     <EvaluationLatestItem
       key={item.id + index}
       evaluation={item}
-      i={index}
       navigation={navigation}
       allEvaluations={allEvaluations}
     />
