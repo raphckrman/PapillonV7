@@ -54,14 +54,21 @@ export type RouteParameters = {
 
   // login.identityProvider
   IdentityProviderSelector: undefined;
-  Multi_Login: { instanceURL: string, title: string, image: ImageSourcePropType };
+  Multi_Login: {
+    instanceURL: string;
+    title: string;
+    image: ImageSourcePropType;
+  };
   UnivRennes1_Login: undefined;
   UnivRennes2_Login: undefined;
   UnivIUTLannion_Login: undefined;
   UnivLimoges_Login: undefined;
   UnivSorbonneParisNord_login: undefined;
   UnivUphf_Login: undefined;
-  BackgroundIUTLannion: { url?: string; username: string; password: string, firstLogin?: boolean } | undefined;
+  BackgroundIdentityProvider: undefined;
+  BackgroundIUTLannion:
+    | { url?: string; username: string; password: string; firstLogin?: boolean }
+    | undefined;
 
   // login.skolengo
   SkolengoAuthenticationSelector: undefined;
@@ -121,10 +128,10 @@ export type RouteParameters = {
 
   Menu?: undefined;
   RestaurantQrCode: {
-    QrCodes: string[]
+    QrCodes: string[];
   };
   RestaurantHistory: {
-    histories: ReservationHistory[]
+    histories: ReservationHistory[];
   };
 
   Messages: undefined;
@@ -138,13 +145,12 @@ export type RouteParameters = {
   ExternalArdLogin: undefined;
   ExternalIzlyLogin: undefined;
   ExternalAliseLogin: undefined;
-  IzlyActivation: { username: string, password: string };
-  PriceError: { account: Client, accountId: string };
+  IzlyActivation: { username: string; password: string };
+  PriceError: { account: Client; accountId: string };
   QrcodeScanner: { accountID: string };
   PriceDetectionOnboarding: { accountID: string };
   PriceBeforeScan: { accountID: string };
   PriceAfterScan: { accountID: string };
-
 
   AddonSettingsPage: {
     addon: AddonPlacementManifest;
