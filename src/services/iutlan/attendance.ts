@@ -3,11 +3,11 @@ import uuid from "@/utils/uuid-v4";
 import { Attendance } from "../shared/Attendance";
 import { Absence } from "../shared/Absence";
 
-interface scodocAbsence {
+export interface scodocAbsence {
   idAbs: string;
-  debut: number;
+  debut: string;
   dateFin: Date;
-  fin: number;
+  fin: string;
   justifie?: boolean;
 }
 
@@ -26,17 +26,17 @@ export const saveIUTLanAttendance = async (account: LocalAccount): Promise<Atten
 
         for (const absence of absences) {
           let from = new Date(day);
-          from.setHours(absence.debut);
+          from.setHours(parseInt(absence.debut));
 
           let to = new Date(absence.dateFin);
-          to.setHours(absence.fin);
+          to.setHours(parseInt(absence.fin));
 
           allAbsences.push({
             id: absence.idAbs,
             fromTimestamp: from ? new Date(from).getTime() : 0,
             toTimestamp: to ? new Date(to).getTime() : 0,
             justified: absence.justifie ?? false,
-            hours: (absence.fin - absence.debut) + "h 00",
+            hours: (parseInt(absence.fin) - parseInt(absence.debut)) + "h 00",
             administrativelyFixed: absence.justifie ?? false,
             reasons: undefined,
           });
