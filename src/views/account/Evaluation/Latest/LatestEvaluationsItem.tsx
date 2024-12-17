@@ -108,12 +108,14 @@ const EvaluationLatestItem: React.FC<EvaluationLatestItemProps> = ({
           >
             {evaluation.name}
           </NativeText>
-          <NativeText
-            numberOfLines={1}
-            variant={"subtitle"}
-          >
-            {evaluation.teacher}
-          </NativeText>
+          {evaluation.name.length < 20 &&
+                <NativeText
+                  numberOfLines={1}
+                  variant={"subtitle"}
+                >
+                  {evaluation.teacher}
+                </NativeText>
+          }
         </View>
 
         <View
@@ -128,6 +130,7 @@ const EvaluationLatestItem: React.FC<EvaluationLatestItemProps> = ({
               flexDirection: "row",
               alignItems: "center",
               gap: 7,
+              width: "100%",
             }}
           >
             {skillLevelsList.map((skill, index) => (
@@ -144,10 +147,8 @@ const EvaluationLatestItem: React.FC<EvaluationLatestItemProps> = ({
 
             {skillLevelsMoreNumber > 0 && (
               <NativeText
-                style={{
-                  fontSize: 14,
-                  lineHeight: 20,
-                }}
+                style={{marginTop: -5}}
+                variant={"subtitle"}
               >
                 {`+${skillLevelsMoreNumber}`}
               </NativeText>

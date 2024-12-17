@@ -2,6 +2,7 @@ import {SkillLevel} from "@/services/shared/Evaluation";
 import {View} from "react-native";
 import React, {useState} from "react";
 import {NativeText} from "@/components/Global/NativeComponents";
+import {Plus} from "lucide-react-native";
 
 
 interface SkillLevelBadgeProps {
@@ -51,7 +52,7 @@ export const SkillLevelBadge: React.FC<SkillLevelBadgeProps> = ({ skillLevel }) 
         alignItems: "center",
       }}
     >
-      {skillLevel === -3 && (
+      {skillLevel === SkillLevel.NotReturned && (
         <View
           style={{
             height: 20,
@@ -61,7 +62,7 @@ export const SkillLevelBadge: React.FC<SkillLevelBadgeProps> = ({ skillLevel }) 
           }}
         />
       )}
-      {skillLevel === -2 && (
+      {skillLevel === SkillLevel.Dispensed && (
         <NativeText style={{
           color: "#006AB7",
           fontSize: 15,
@@ -71,7 +72,7 @@ export const SkillLevelBadge: React.FC<SkillLevelBadgeProps> = ({ skillLevel }) 
           d
         </NativeText>
       )}
-      {skillLevel === -1 && (
+      {skillLevel === SkillLevel.Absent && (
         <NativeText style={{
           color: "#006AB7",
           fontSize: 15,
@@ -80,6 +81,9 @@ export const SkillLevelBadge: React.FC<SkillLevelBadgeProps> = ({ skillLevel }) 
         }}>
           a
         </NativeText>
+      )}
+      {skillLevel === SkillLevel.Excellent && (
+        <Plus size={15} color={"#fff"} strokeWidth={3} />
       )}
     </View>
   );
