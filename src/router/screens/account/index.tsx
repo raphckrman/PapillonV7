@@ -58,7 +58,7 @@ export const screens = [
     headerTitle: "Compétences",
     headerShown: false,
     tabBarLabel: "Compétences",
-    tabBarLottie: require("@/../assets/lottie/tab_pizza.json"),
+    tabBarLottie: require("@/../assets/lottie/tab_evaluations.json"),
   }),
 ] as Array<ReturnType<typeof createScreen>>;
 
