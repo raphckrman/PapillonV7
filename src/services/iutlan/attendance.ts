@@ -36,7 +36,7 @@ export const saveIUTLanAttendance = async (account: LocalAccount): Promise<Atten
             fromTimestamp: from ? new Date(from).getTime() : 0,
             toTimestamp: to ? new Date(to).getTime() : 0,
             justified: absence.justifie ?? false,
-            hours: (parseInt(absence.fin.toString()) - parseInt(absence.debut.toString())) + "h 00",
+            hours: (absence.fin - absence.debut) + "h 00",
             administrativelyFixed: absence.justifie ?? false,
             reasons: undefined,
           });
