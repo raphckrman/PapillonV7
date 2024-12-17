@@ -17,6 +17,7 @@ import LessonDocument from "@/views/account/Lessons/Document";
 import BackgroundIUTLannion from "@/views/login/IdentityProvider/actions/BackgroundIUTLannion";
 import { Platform } from "react-native";
 import EvaluationDocument from "@/views/account/Evaluation/Document";
+import BackgroundIdentityProvider from "@/views/login/IdentityProvider/BackgroundIdentityProvider";
 
 export default [
   createScreen("NoteReaction", NoteReaction, {
@@ -90,5 +91,9 @@ export default [
     headerTitle: "Compétence",
     presentation: "modal",
     headerShown: Platform.OS !== "ios",
+  }),
+  createScreen("BackgroundIdentityProvider", BackgroundIdentityProvider, {
+    headerTitle: "Fournisseur d'identité",
+    presentation: "modal",
   }),
 ] as const;
