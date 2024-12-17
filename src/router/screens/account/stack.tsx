@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Dimensions, View } from "react-native";
 import screens from ".";
 import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
@@ -44,10 +44,13 @@ function TabBarContainer () {
 const AccountStackScreen: Screen<"AccountStack"> = () => {
   const account = useCurrentAccount(store => store.account);
 
-  const navigatorRef = React.useRef();
-
   const url = Linking.useURL();
   const params = url && Linking.parse(url);
+
+  const [screenDimensions, setScreenDimensions] = useState<{
+    width: number;
+    height: number;
+  }>(Dimensions.get("screen"));
 
   useEffect(() => {
     if (params) {
@@ -65,9 +68,27 @@ const AccountStackScreen: Screen<"AccountStack"> = () => {
     }
   }, [params]);
 
-  const dims = Dimensions.get("screen");
-  const tabletWidth = dims.width;
-  const tabletHeight = dims.height;
+  useEffect(() => {
+    const handleDimensionsChange = ({
+      screen
+    }: {
+      screen: { width: number; height: number }
+    }) => {
+      setScreenDimensions(screen);
+    };
+
+    const subscription = Dimensions.addEventListener(
+      "change",
+      handleDimensionsChange
+    );
+
+    return () => {
+      subscription?.remove();
+    };
+  }, []);
+
+  const tabletWidth = screenDimensions.width;
+  const tabletHeight = screenDimensions.height;
   const tabletDiagl = (tabletWidth / tabletHeight) * 10;
   const tablet = tabletDiagl >= 6.9;
 
