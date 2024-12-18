@@ -14,6 +14,7 @@ import { useTheme } from "@react-navigation/native";
 import { Search, X, GraduationCap, } from "lucide-react-native";
 import { useAlert } from "@/providers/AlertProvider";
 import { Audio } from "expo-av";
+import getInstancesFromDataset from "@/services/pronote/dataset_geolocation";
 
 const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
   route: { params },
@@ -74,15 +75,30 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
     };
   }, []);
 
-  const playSound = () => sound?.replayAsync();
-
   useEffect(() => {
     if (params) {
       void async function () {
-        const instances = await pronote.geolocation(params);
+        const dataset_instances = await getInstancesFromDataset(params.longitude, params.latitude);
+        const pronote_instances = await pronote.geolocation(params);
+
+        // On calcule la distance entre les instances et l'utilisateur.
+        let instances = pronote_instances.map((instance) => ({
+          ...instance,
+          distance: Math.sqrt(
+            Math.pow(instance.latitude - params.latitude, 2) + Math.pow(instance.longitude - params.longitude, 2)
+          ),
+        }));
+
         // On limite à 20 instances.
         instances.splice(20);
 
+        // On ajoute les instances trouvées par l'API adresse.
+        instances.push(...dataset_instances);
+
+        // On trie par distance.
+        instances.sort((a, b) => a.distance - b.distance);
+
+        // On met à jour les instances.
         setInstances(instances);
         setOriginalInstances(instances);
       }();
