@@ -10,7 +10,6 @@ import SettingsExternalServices from "@/views/settings/SettingsExternalServices"
 import SettingsMagic from "@/views/settings/SettingsMagic";
 import SettingsAddons from "@/views/settings/SettingsAddons";
 import AddonPage from "@/views/addon/AddonPage";
-import { create } from "lodash";
 import ExternalAccountSelectMethod from "@/views/settings/ExternalAccount/SelectMethod";
 import SettingsFlags from "@/views/settings/SettingsFlags";
 import SettingsDevLogs from "@/views/settings/SettingsDevLogs";
@@ -26,6 +25,7 @@ import SettingsFlagsInfos from "@/views/settings/SettingsFlagsInfos";
 import ExternalIzlyLogin from "@/views/settings/ExternalAccount/Izly";
 import IzlyActivation from "@/views/settings/ExternalAccount/IzlyActivation";
 import TurboselfAccountSelector from "@/views/settings/ExternalAccount/TurboselfAccountSelector";
+import SettingsApparence from "@/views/settings/SettingsApparence";
 import ExternalAliseLogin from "@/views/settings/ExternalAccount/Alise";
 
 const settingsScreens = [
@@ -129,6 +129,9 @@ const settingsScreens = [
   createScreen("SettingsDonorsList", SettingsDonorsList, {
     headerTitle: "Donateurs",
   }),
+  createScreen("SettingsApparence", SettingsApparence, {
+    headerTitle: "Mode d'affichage",
+  })
 ] as const;
 
 export default settingsScreens;
