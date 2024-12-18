@@ -8,7 +8,8 @@ const getInstancesFromDataset = async (longitude: number, latitude: number): Pro
     if (adress_api.features.length === 0) {
       return [];
     }
-    const postcode = adress_api.features[0].properties.postcode;
+    let postcode = adress_api.features[0].properties.postcode;
+    postcode = postcode[0] + postcode[1] + "000";
 
     let instances_fetch = await fetch(datasets.establishment.replace("[postcode]", postcode));
     try {
