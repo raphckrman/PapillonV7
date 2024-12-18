@@ -16,11 +16,6 @@ import {
 } from "react-native";
 import { Homework, HomeworkReturnType } from "@/services/shared/Homework";
 import { getSubjectData } from "@/services/shared/Subject";
-
-import { formatDistance } from "date-fns";
-import { fr } from "date-fns/locale";
-import { FileText, Link, Paperclip, CircleAlert, FileIcon } from "lucide-react-native";
-
 import * as WebBrowser from "expo-web-browser";
 import { useTheme } from "@react-navigation/native";
 import HTMLView from "react-native-htmlview";
@@ -31,8 +26,8 @@ import { PapillonModernHeader } from "@/components/Global/PapillonModernHeader";
 import { useCurrentAccount } from "@/stores/account";
 import { AccountService } from "@/stores/account/types";
 import getAndOpenFile from "@/utils/files/getAndOpenFile";
-import LinkFavicon, { getURLDomain } from "@/components/Global/LinkFavicon";
 import { AutoFileIcon } from "@/components/Global/FileIcon";
+import { FileText, Link, Paperclip, CircleAlert, FileIcon } from "lucide-react-native";
 
 const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
   const theme = useTheme();
@@ -81,6 +76,25 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
     fetchSubjectData();
   }, [homework.subject]);
 
+
+  const timestampToString = (timestamp: number) => {
+    const date = new Date(timestamp);
+    const today = new Date();
+	  
+    today.setHours(0, 0, 0, 0);
+    date.setHours(0, 0, 0, 0);
+
+    const difference = Math.ceil((date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+
+    return difference === 0
+      ? "Aujourd'hui"
+      : difference === 1
+      ? "Demain"
+      : difference === 2
+      ? "Après-demain"
+      : `Dans ${difference} jours`;
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <PapillonModernHeader native outsideNav={true}>
@@ -106,10 +120,7 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
               {subjectData.pretty}
             </NativeText>
             <NativeText variant="subtitle" numberOfLines={1}>
-              {formatDistance(new Date(homework.due), new Date(), {
-                addSuffix: true,
-                locale: fr,
-              })}
+              {timestampToString(new Date(homework.due).getTime())}
             </NativeText>
           </View>
           <View>
