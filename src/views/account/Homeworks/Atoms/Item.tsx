@@ -17,7 +17,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useCurrentAccount } from "@/stores/account";
 import LinkFavicon, { getURLDomain } from "@/components/Global/LinkFavicon";
 import { AutoFileIcon } from "@/components/Global/FileIcon";
-import { timestampToString } from "@/utils/format/dateHelper";
+import { timestampToString } from "@/utils/format/DateHelper";
+
 
 interface HomeworkItemProps {
   key: number | string
