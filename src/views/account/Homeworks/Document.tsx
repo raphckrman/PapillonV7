@@ -28,7 +28,7 @@ import { AccountService } from "@/stores/account/types";
 import getAndOpenFile from "@/utils/files/getAndOpenFile";
 import { AutoFileIcon } from "@/components/Global/FileIcon";
 import { FileText, Link, Paperclip, CircleAlert, FileIcon } from "lucide-react-native";
-import { timestampToString } from "@/utils/format/dateHelpers";
+import { timestampToString } from "@/utils/format/dateHelper";
 
 const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
   const theme = useTheme();
