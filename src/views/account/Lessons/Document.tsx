@@ -163,25 +163,25 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
           icon: <Building />,
           text: lesson.building?.includes(",") ? "Bâtiments" : "Bâtiment",
           value: lesson.building,
-          enabled: Boolean(lesson.building?.trim()),
+          enabled: Boolean(lesson.building?.trim()),// Check if lesson.building exists, is not null, and not empty
         },
         {
           icon: <DoorOpen />,
           text: lesson.room?.includes(",") ? "Salles de classe" : "Salle de classe",
           value: lesson.room?.split(", ").join("\n"),
-          enabled: Boolean(lesson.room?.trim()),
+          enabled: Boolean(lesson.room?.trim()),// Check if lesson.room exists, is not null, and not empty
         },
         {
           icon: <PersonStanding />,
           text: lesson.teacher?.includes(",") ? "Professeurs" : "Professeur",
           value: lesson.teacher,
-          enabled: Boolean(lesson.teacher?.trim()),
+          enabled: Boolean(lesson.teacher?.trim()),// Check if lesson.teacher exists, is not null, and not empty
         },
         {
           icon: <Users />,
           text: lesson.group?.includes(",") ? "Groupes" : "Groupe",
           value: lesson.group?.replace(/\[|\]/g, ""),
-          enabled: Boolean(lesson.group?.trim()),
+          enabled: Boolean(lesson.group?.trim()),// Check if lesson.group exists, is not null, and not empty
         },
       ],
     },    
