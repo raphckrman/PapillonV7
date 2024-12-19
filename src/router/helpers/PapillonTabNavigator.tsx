@@ -1,8 +1,6 @@
 import { BottomTabView } from "@react-navigation/bottom-tabs";
 import {
   createNavigatorFactory,
-  ParamListBase,
-  TabNavigationState,
   TabRouter,
   useNavigationBuilder,
 } from "@react-navigation/native";
@@ -23,8 +21,6 @@ import colorsList from "@/utils/data/colors.json";
 import Reanimated, {
   useAnimatedStyle,
   withTiming,
-  withSpring,
-  interpolate,
   useSharedValue,
   Easing,
 } from "react-native-reanimated";
@@ -222,10 +218,13 @@ const BasePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "N
               </View>
 
               {shouldShowLabel && (
-                <Text style={{
-                  color: tabColor,
-                  fontFamily: "semibold", fontSize: 13,
-                }}>
+                <Text
+                  style={{
+                    color: tabColor,
+                    fontFamily: "semibold", fontSize: 13,
+                  }}
+                  numberOfLines={1}
+                >
                   {label}
                 </Text>
               )}
@@ -312,8 +311,6 @@ const LargePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "
               : options.title !== undefined
                 ? options.title
                 : route.name;
-
-            const icon = options.tabBarIcon && options.tabBarIcon;
 
             const isFocused = state.index === index;
 
