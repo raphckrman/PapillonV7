@@ -116,7 +116,7 @@
     "eslint": "^9.17.0",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-native": "^4.1.0",
-    "expo": "^52.0.19",
+    "expo": "^52.0.20",
     "react-native-svg-transformer": "^1.5.0",
     "typescript": "^5.7.2"
   },
