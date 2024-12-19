@@ -117,7 +117,7 @@ const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => 
             size={24}
             color={colors.text + "55"}
             style={{
-              marginTop: 7.5,
+              marginTop: __DEV__ ? 7.5 : 0,
             }}
           />
 

@@ -152,9 +152,9 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
                 fontSize: 16,
                 fontFamily: "semibold",
                 color: theme.colors.text,
-                marginTop: Platform.OS === "android" ? -7.5 : 0,
-                marginBottom: Platform.OS === "android" ? -7.5 : 0,
-                marginLeft: Platform.OS === "android" ? -4 : 0,
+                marginTop: __DEV__ ? -7.5 : 0,
+                marginBottom: __DEV__ ? -7.5 : 0,
+                marginLeft: __DEV__ ? -4 : 0,
               }}
               placeholder="Théo"
               placeholderTextColor={theme.colors.text + "80"}
@@ -177,9 +177,9 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
                 fontSize: 16,
                 fontFamily: "semibold",
                 color: theme.colors.text,
-                marginTop: Platform.OS === "android" ? -7.5 : 0,
-                marginBottom: Platform.OS === "android" ? -7.5 : 0,
-                marginLeft: Platform.OS === "android" ? -4 : 0,
+                marginTop: __DEV__ ? -7.5 : 0,
+                marginBottom: __DEV__ ? -7.5 : 0,
+                marginLeft: __DEV__ ? -4 : 0,
               }}
               placeholder="Dubois"
               placeholderTextColor={theme.colors.text + "80"}
