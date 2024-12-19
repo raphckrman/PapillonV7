@@ -179,8 +179,8 @@ const Evaluation: Screen<"Evaluation"> = ({ route, navigation }) => {
                 <MissingItem
                   style={{ marginTop: 24, marginHorizontal: 16 }}
                   emoji="📚"
-                  title="Aucune compétences disponible"
-                  description="La période sélectionnée ne contient aucune compétences."
+                  title="Aucune compétence disponible"
+                  description="La période sélectionnée ne contient aucune compétence."
                 />
               )}
 
