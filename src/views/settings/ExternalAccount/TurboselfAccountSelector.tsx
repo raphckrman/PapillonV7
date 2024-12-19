@@ -122,8 +122,8 @@ const TurboselfAccountSelector: Screen<"TurboselfAccountSelector"> = ({ navigati
               primary={false}
               value="Annuler"
               disabled={loading}
-              onPress={() => (Alert.alert("Annuler", "Êtes-vous sûr de vouloir annuler l'activation ?", [
-                { text: "Continer l'activation", style: "cancel" },
+              onPress={() => (Alert.alert("Annuler", "Es-tu sûr de vouloir annuler la connexion ?", [
+                { text: "Continuer la connexion", style: "cancel" },
                 { text: "Confirmer", style: "destructive", onPress: () => navigation.pop() }
               ]))}
             />
