@@ -29,7 +29,6 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
 
   const [sound, setSound] = useState<Audio.Sound | null>(null);
   const [sound2, setSound2] = useState<Audio.Sound | null>(null);
-  const [selectColor, setSelectColor] = useState<Color>(account?.personalization?.color!);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -62,29 +61,7 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
         sound2.unloadAsync();
       }
     };
-  });
-
-  useEffect(() => {
-    const color = {... selectColor};
-
-    expoGoWrapper(() => {
-      getIconName().then((currentIcon) => {
-        if (currentIcon.includes("_Dynamic_")) {
-          const mainColor = color.hex.primary;
-          const colorItem = colorsList.find((color) => color.hex.primary === mainColor);
-          const nameIcon = removeColor(currentIcon);
-
-          const iconConstructName = nameIcon + (colorItem ? "_" + colorItem.id : "");
-
-          setIconName(iconConstructName);
-        }
-      });
-    });
-
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    playSound2();
-    mutateProperty("personalization", { color });
-  }, [selectColor]);
+  }, []);
 
   const playSound = async () => {
     if (sound) {
@@ -102,10 +79,30 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
     [color.hex.primary]: color.description
   })).reduce((acc, cur) => ({ ...acc, ...cur }), {} as { [key: string]: string });
 
+  const selectColor = (color: Color) => {
+    mutateProperty("personalization", { color });
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    playSound2();
+
+    expoGoWrapper(() => {
+      getIconName().then((currentIcon) => {
+        if (currentIcon.includes("_Dynamic_")) {
+          const mainColor = color.hex.primary;
+          const colorItem = colorsList.find((color) => color.hex.primary === mainColor);
+          const nameIcon = removeColor(currentIcon);
+
+          const iconConstructName = nameIcon + (colorItem ? "_" + colorItem.id : "");
+
+          setIconName(iconConstructName);
+        }
+      });
+    });
+  };
+
   const ColorButton: React.FC<{ color: Color }> = ({ color }) => (
     <View style={styles.colorButtonContainer}>
       <Pressable
-        onPress={() => setSelectColor(color)}
+        onPress={() => selectColor(color)}
         style={({ pressed }) => [
           styles.button,
           {
@@ -114,7 +111,7 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
         ]}
       />
 
-      {selectColor.hex.primary === color.hex.primary && (
+      {account?.personalization?.color?.hex.primary === color.hex.primary && (
         <Reanimated.View
           pointerEvents="none"
           style={[
@@ -138,7 +135,7 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <Reanimated.View
-        key={selectColor.hex.primary || "" + "_bg"}
+        key={account?.personalization?.color?.hex.primary || ""}
         style={{
           position: "absolute",
           top: 0,
@@ -155,7 +152,7 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
             width: "100%",
             height: "100%",
           }}
-          colors={[selectColor.hex.primary + "22", colors.background]}
+          colors={[account?.personalization?.color?.hex.primary + "22", colors.background]}
           locations={[0, 0.5]}
         />
       </Reanimated.View>
@@ -165,19 +162,19 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
         numberOfLines={1}
         width={280}
       />
-      <MaskStarsColored color={selectColor.hex.primary || colors.text}/>
+      <MaskStarsColored color={account?.personalization?.color?.hex.primary || colors.text}/>
       <View style={styles.colors}>
         <View style={styles.row}>
-          {colorsList.slice(0, 3).map((color) => <ColorButton key={color.id + "_colid"} color={color} />)}
+          {colorsList.slice(0, 3).map((color) => <ColorButton key={color.id} color={color} />)}
         </View>
         <View style={styles.row}>
-          {colorsList.slice(3, 6).map((color) => <ColorButton key={color.id + "_colid"} color={color} />)}
+          {colorsList.slice(3, 6).map((color) => <ColorButton key={color.id} color={color} />)}
         </View>
 
         <Reanimated.View
-          key={selectColor.hex.primary || "" + "_colprimid"}
+          key={account?.personalization?.color?.hex.primary || ""}
           style={[styles.message, {
-            backgroundColor: selectColor.hex.primary + "33",
+            backgroundColor: account?.personalization?.color?.hex.primary + "33",
             overflow: "hidden",
             alignItems: "center",
             justifyContent: "center",
@@ -185,7 +182,7 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
         >
           <Reanimated.Text
             style={{
-              color: selectColor.hex.primary || "",
+              color: account?.personalization?.color?.hex.primary || "",
               fontFamily: "semibold",
               fontSize: 15,
               textAlign: "center",
@@ -195,14 +192,14 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
               width: "100%"
             }}
           >
-            {messages[selectColor.hex.primary || ""]}
+            {messages[account?.personalization?.color?.hex.primary || ""]}
           </Reanimated.Text>
         </Reanimated.View>
       </View>
 
       <Reanimated.View
         style={styles.done}
-        key={(selectColor.hex.primary || "") + "_btn"}
+        key={(account?.personalization?.color?.hex.primary || "") + "_btn"}
       >
         <ButtonCta
           primary
@@ -216,7 +213,7 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
           disabled={!account?.personalization?.color}
           style={{
             marginBottom: insets.bottom + 20,
-            backgroundColor: selectColor.hex.primary
+            backgroundColor: account?.personalization?.color?.hex.primary
           }}
         />
       </Reanimated.View>
