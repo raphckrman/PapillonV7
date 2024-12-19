@@ -95,7 +95,7 @@ const AttendanceElement: React.FC<AttendanceElementProps> = ({ onImportance }) =
 
   return (
     <>
-      <NativeListHeader label={`Vie scolaire — ${defaultPeriod}`}
+      <NativeListHeader label={"Vie scolaire"}
         trailing={(
           <RedirectButton navigation={PapillonNavigation.current} redirect="Attendance" />
         )}

@@ -60,9 +60,6 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
   };
 
   const actionFirstLogin = async (data: any) => {
-    console.log("First login");
-    console.log(data);
-
     const local_account: LocalAccount = {
       authentication: undefined,
       instance: undefined,
@@ -184,7 +181,6 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
 
         onLoad={(data) => {
           const url = data.nativeEvent.url;
-          console.log(url);
 
           if(url.startsWith("https://sso-cas.univ-rennes1.fr//login?")) {
             injectPassword();
