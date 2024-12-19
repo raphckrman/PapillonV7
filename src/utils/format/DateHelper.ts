@@ -10,8 +10,8 @@ export const timestampToString = (timestamp: number) => {
   return difference === 0
     ? "Aujourd'hui"
     : difference === 1
-    ? "Demain"
-    : difference === 2
-    ? "Après-demain"
-    : `Dans ${difference} jours`;
+      ? "Demain"
+      : difference === 2
+        ? "Après-demain"
+        : `Dans ${difference} jours`;
 };

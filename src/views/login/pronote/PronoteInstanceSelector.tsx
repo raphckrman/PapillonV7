@@ -85,7 +85,7 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
   }, []);
 
 
-    useEffect(() => {
+  useEffect(() => {
     if (params) {
       void async function () {
         const dataset_instances = await getInstancesFromDataset(params.longitude, params.latitude);
@@ -299,30 +299,32 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
                       );
                     }}
                   >
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        fontFamily: "medium",
-                        width: "100%",
-                        color: colors.text + "88"
-                      }}
-                      numberOfLines={1}
-                      ellipsizeMode="tail"
-                    >
-                      {instance.name}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        fontFamily: "medium",
-                        width: "100%",
-                        color: colors.text + "55",
-                      }}
-                      numberOfLines={1}
-                      ellipsizeMode="tail"
-                    >
-                      {`à ${instance.distance.toFixed(2)}km de toi`}
-                    </Text>
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          fontFamily: "medium",
+                          width: "100%",
+                          color: colors.text + "88"
+                        }}
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                      >
+                        {instance.name}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          fontFamily: "medium",
+                          width: "100%",
+                          color: colors.text + "55",
+                        }}
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                      >
+                        {`à ${instance.distance.toFixed(2)}km de toi`}
+                      </Text>
+                    </View>
                   </DuoListPressable>
                 </Reanimated.View>
               ))}
