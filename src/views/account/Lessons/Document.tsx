@@ -163,28 +163,28 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
           icon: <Building />,
           text: lesson.building?.includes(",") ? "Bâtiments" : "Bâtiment",
           value: lesson.building,
-          enabled: lesson.building != null,
+          enabled: Boolean(lesson.building?.trim()),
         },
         {
           icon: <DoorOpen />,
           text: lesson.room?.includes(",") ? "Salles de classe" : "Salle de classe",
           value: lesson.room?.split(", ").join("\n"),
-          enabled: lesson.room != null,
+          enabled: Boolean(lesson.room?.trim()),
         },
         {
           icon: <PersonStanding />,
           text: lesson.teacher?.includes(",") ? "Professeurs" : "Professeur",
           value: lesson.teacher,
-          enabled: lesson.teacher != null,
+          enabled: Boolean(lesson.teacher?.trim()),
         },
         {
           icon: <Users />,
           text: lesson.group?.includes(",") ? "Groupes" : "Groupe",
           value: lesson.group?.replace(/\[|\]/g, ""),
-          enabled: lesson.group != null
+          enabled: Boolean(lesson.group?.trim()),
         },
       ],
-    },
+    },    
     {
       title: "Statut",
       informations: [
