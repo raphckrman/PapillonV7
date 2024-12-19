@@ -13,8 +13,6 @@ const getInstancesFromDataset = async (longitude: number, latitude: number): Pro
 
     let instances_fetch = await fetch(datasets.establishment.replace("[postcode]", postcode));
 
-    console.log("Fetching instances from dataset:", datasets.establishment.replace("[postcode]", postcode));
-
     try {
       let instances = await instances_fetch.json();
       console.log("Fetched instances:", instances);
