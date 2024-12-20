@@ -43,16 +43,17 @@ const AccountContainerCard = ({ account, onPress }: {
       }}
       onPress={onPress}
     >
-      <View style={{
-        backgroundColor: colors.card,
-        borderRadius: 16,
-        borderCurve: "continuous",
-        borderWidth: 1,
-        borderColor: colors.border,
-        elevation: 2,
-        flexDirection: "column",
-        overflow: "hidden",
-      }}>
+      <View
+        style={{
+          backgroundColor: colors.card,
+          borderRadius: 16,
+          borderCurve: "continuous",
+          borderWidth: 1,
+          borderColor: colors.border,
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
+      >
         <View
           style={{
             position: "absolute",
