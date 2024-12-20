@@ -30,7 +30,7 @@
     "cal-parser": "^1.0.2",
     "date-fns": "^4.1.0",
     "esup-multi.js": "^1.0.3",
-    "expo": "~52.0.20",
+    "expo": "~52.0.21",
     "expo-asset": "~11.0.1",
     "expo-auth-session": "~6.0.1",
     "expo-av": "~15.0.1",
