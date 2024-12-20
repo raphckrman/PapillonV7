@@ -91,8 +91,8 @@ const Grades: Screen<"Grades"> = ({ route, navigation }) => {
       setIsLoading(true);
       await updateData();
 
-      if(isRefreshing) {
-        navigation.navigate("BackgroundIUTLannion");
+      if(isRefreshing && account.identityProvider?.identifier !== undefined) {
+        navigation.navigate("BackgroundIdentityProvider");
       }
 
       setTimeout(() => {
@@ -118,9 +118,11 @@ const Grades: Screen<"Grades"> = ({ route, navigation }) => {
         });
       }
 
-      gradesPerSubject.sort((a, b) =>
-        a.average.subjectName.localeCompare(b.average.subjectName)
-      );
+      if (account.service !== AccountService.EcoleDirecte) {
+        gradesPerSubject.sort((a, b) =>
+          a.average.subjectName.localeCompare(b.average.subjectName)
+        );
+      }
       setGradesPerSubject(gradesPerSubject);
     }, 1);
   }, [selectedPeriod, averages, grades]);
