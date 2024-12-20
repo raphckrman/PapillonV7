@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Switch, Platform, Alert, TouchableOpacity } from "react-native";
+import { View, Switch, Platform, Alert } from "react-native";
 import {
   NativeItem,
   NativeList,
@@ -23,18 +23,9 @@ import {
   ShadowDecorator,
 } from "react-native-draggable-flatlist";
 import { PressableScale } from "@/components/Global/PressableScale";
-import Reanimated, {
-  FadeIn,
-  FadeOut,
-  FadeInUp,
-  FadeOutDown,
-  LinearTransition,
-  ZoomIn,
-  ZoomOut,
-} from "react-native-reanimated";
+import Reanimated, { LinearTransition } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { defaultTabs } from "@/consts/DefaultTabs";
-import { animPapillon } from "@/utils/ui/animations";
 import { log } from "@/utils/logger/logger";
 import { useAlert } from "@/providers/AlertProvider";
 
@@ -45,16 +36,6 @@ interface Tab {
   enabled: boolean;
   installed: boolean;
   icon: any; // Should be updated if Lottie icon types are more specific
-}
-
-interface Personalization {
-  tabs: Array<{ name: string; enabled: boolean; installed: boolean }>;
-  hideTabTitles?: boolean;
-  showTabBackground?: boolean;
-}
-
-interface Account {
-  personalization: Personalization;
 }
 
 const SettingsTabs = () => {
