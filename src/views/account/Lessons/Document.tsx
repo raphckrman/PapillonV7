@@ -389,7 +389,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
                           ))}
                         </NativeList>
                       )}
-                    </>
+                    </React.Fragment>
                   );
                 })}
 
