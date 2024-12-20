@@ -307,7 +307,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
                   let desc = r.description?.replace("\n\n", "\n") ?? ""; // Remplacer les doubles sauts de ligne par un seul
                   let descText = desc.replace(/<[^>]*>/g, ""); // Il peut arriver que le contenu soit vide, mais qu'il y ait du html tout de même
                   return (
-                    <>
+                    <React.Fragment key={"res_" + index}>
                       {index > 0 &&
                         <View
                           style={{
