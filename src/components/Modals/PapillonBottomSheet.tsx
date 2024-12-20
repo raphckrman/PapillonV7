@@ -51,7 +51,7 @@ const BottomSheet = ({ children, opened, setOpened, ...props }: BottomSheetProps
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: translateY.value }],
+      transform: [{ translateY: translateY.get() }],
     };
   });
 

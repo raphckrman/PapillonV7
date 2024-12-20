@@ -68,7 +68,14 @@ export const PressableScale = forwardRef<View, PressableScaleProps>(
     );
 
     const animatedStyle = useAnimatedStyle(() => ({
-      transform: [{ scale: withSpring(isPressedIn.value ? activeScale : 1, springConfig) }],
+      transform: [
+        {
+          scale: withSpring(
+            isPressedIn.get() ? activeScale : 1,
+            springConfig
+          ),
+        },
+      ],
     }), [activeScale, isPressedIn, springConfig]);
 
     const onPressIn = useCallback(

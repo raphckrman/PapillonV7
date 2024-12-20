@@ -59,7 +59,7 @@ const BasePapillonBar: React.FC<Omit<ReturnType<typeof useNavigationBuilder>, "N
   const bottomAnim = useSharedValue(1);
 
   const animatedStyles = useAnimatedStyle(() => ({
-    opacity: withTiming(bottomAnim.value, { duration: 200 }),
+    opacity: withTiming(bottomAnim.get(), { duration: 200 }),
   }));
 
   React.useEffect(() => {
