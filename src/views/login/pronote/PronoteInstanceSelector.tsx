@@ -85,7 +85,7 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
   }, []);
 
 
-    useEffect(() => {
+  useEffect(() => {
     if (params) {
       void async function () {
         const dataset_instances = await getInstancesFromDataset(params.longitude, params.latitude);
