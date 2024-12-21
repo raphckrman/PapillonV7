@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import type { Screen } from "@/router/helpers/types";
 
 import { Image, View } from "react-native";
 import { NativeItem, NativeList, NativeText } from "../Global/NativeComponents";
