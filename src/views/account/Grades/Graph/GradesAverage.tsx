@@ -214,7 +214,7 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
               </TouchableOpacity>
             )}
 
-            {hLength > 1 ? (
+            {!__DEV__ && hLength > 1 ? (
               <Reanimated.View
                 layout={animPapillon(LinearTransition)}
                 style={{
