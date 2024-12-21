@@ -74,7 +74,8 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
     },
     {
       name: "university",
-      title: "Universités et autres",
+      title: "Enseignement supérieur",
+      subtitle: "Universités, IUT, écoles, etc.",
       image: require("../../../assets/images/service_skolengo.png"),
       icon: <School />,
       login: () => {
@@ -191,6 +192,7 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
                     />
                 }
                 text={srv.title}
+                subtext={srv.subtitle}
                 enabled={srv.name === service}
                 onPress={() => setService(srv.name as Services)}
               />

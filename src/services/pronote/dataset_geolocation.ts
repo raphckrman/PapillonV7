@@ -12,8 +12,10 @@ const getInstancesFromDataset = async (longitude: number, latitude: number): Pro
     postcode = postcode[0] + postcode[1] + "000";
 
     let instances_fetch = await fetch(datasets.establishment.replace("[postcode]", postcode));
+
     try {
       let instances = await instances_fetch.json();
+      console.log("Fetched instances:", instances);
 
       const calculateHaversineDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
         const toRadians = (degrees: number) => degrees * (Math.PI / 180);
