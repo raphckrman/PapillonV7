@@ -12,43 +12,20 @@ export const getHolidayEmoji = (date: Date = new Date()): string => {
   ];
 
   const schoolHolidays = [
-    {
-      start: new Date(`${year}-10-19`),
-      end: new Date(`${year}-11-04`),
-      emoji: "🍂", // Vacances de la Toussaint
-    },
-    {
-      start: new Date(`${year}-12-21`),
-      end: new Date(`${year + 1}-01-06`),
-      emoji: "❄️", // Vacances de Noël
-    },
-    {
-      start: new Date(`${year + 1}-02-08`),
-      end: new Date(`${year + 1}-03-10`),
-      emoji: "⛷️", // Vacances d'hiver 
-    },
-    {
-      start: new Date(`${year + 1}-04-05`),
-      end: new Date(`${year + 1}-04-28`),
-      emoji: "🌸", // Vacances de printemps 
-    },
-    {
-      start: new Date(`${year + 1}-07-05`),
-      end: new Date(`${year + 1}-09-01`),
-      emoji: "🏖️", // Grandes vacances
-    },
+    { start: new Date(`${year}-10-19`), end: new Date(`${year}-11-04`), emoji: "🍂" }, // Vacances de la Toussaint
+    { start: new Date(`${year}-12-21`), end: new Date(`${year + 1}-01-06`), emoji: "❄️" }, // Vacances de Noël
+    { start: new Date(`${year + 1}-02-08`), end: new Date(`${year + 1}-03-10`), emoji: "⛷️" }, // Vacances d'hiver
+    { start: new Date(`${year + 1}-04-05`), end: new Date(`${year + 1}-04-28`), emoji: "🌸" }, // Vacances de printemps
+    { start: new Date(`${year + 1}-07-05`), end: new Date(`${year + 1}-09-01`), emoji: "🏖️" }, // Grandes vacances
   ];
 
-  // Combine jours fériés et vacances scolaires
   const allPeriods = [...holidays, ...schoolHolidays];
 
-  // Vérifie si la date donnée se trouve dans l'une des périodes
   for (const period of allPeriods) {
     if (date >= period.start && date <= period.end) {
       return period.emoji;
     }
   }
 
-  // Emoji par défaut 
-  return "📚";
+  return "📚"; // Emoji par défaut
 };
