@@ -29,7 +29,9 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
   const ImportanceHandler = (nextCourses: TimetableClass[]) => {
     if (nextCourses.length > 0) {
       let difference = new Date(nextCourses[0].startTimestamp).getHours() - new Date().getHours();
-      difference = Math.max(difference, 0);
+      if (difference < 0) {
+        difference = 0;
+      }
       onImportance(6 - difference);
     } else {
       onImportance(0);
@@ -59,7 +61,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
 
   const isWeekend = () => {
     const today = new Date().getDay();
-    return today === 6 || today === 0; // 6 = Saturday, 0 = Sunday
+    return today === 6 || today === 0; // 6 = Samedi, 0 = Dimanche
   };
 
   const isVacation = (courses: TimetableClass[]) =>
@@ -121,7 +123,12 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
 
   if (loading) {
     return (
-      <NativeList animated key="loadingCourses" entering={FadeInDown.springify()} exiting={FadeOut}>
+      <NativeList
+        animated
+        key="loadingCourses"
+        entering={FadeInDown.springify().mass(1).damping(20).stiffness(300)}
+        exiting={FadeOut.duration(300)}
+      >
         <NativeItem animated style={{ paddingVertical: 10 }}>
           <MissingItem
             emoji="⏳"
@@ -135,7 +142,12 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
 
   if (isWeekend()) {
     return (
-      <NativeList animated key="weekend" entering={FadeInDown.springify()} exiting={FadeOut}>
+      <NativeList
+        animated
+        key="weekend"
+        entering={FadeInDown.springify().mass(1).damping(20).stiffness(300)}
+        exiting={FadeOut.duration(300)}
+      >
         <NativeItem animated style={{ paddingVertical: 10 }}>
           <MissingItem
             emoji="🌴"
@@ -149,7 +161,12 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
 
   if (isVacation(nextCourses)) {
     return (
-      <NativeList animated key="vacation" entering={FadeInDown.springify()} exiting={FadeOut}>
+      <NativeList
+        animated
+        key="vacation"
+        entering={FadeInDown.springify().mass(1).damping(20).stiffness(300)}
+        exiting={FadeOut.duration(300)}
+      >
         <NativeItem animated style={{ paddingVertical: 10 }}>
           <MissingItem
             emoji={emoji}
@@ -163,7 +180,12 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
 
   if (hidden || nextCourses.length === 0) {
     return (
-      <NativeList animated key="emptyCourses" entering={FadeInDown.springify()} exiting={FadeOut}>
+      <NativeList
+        animated
+        key="emptyCourses"
+        entering={FadeInDown.springify().mass(1).damping(20).stiffness(300)}
+        exiting={FadeOut.duration(300)}
+      >
         <NativeItem animated style={{ paddingVertical: 10 }}>
           <MissingItem
             emoji="📚"
