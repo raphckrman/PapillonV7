@@ -102,25 +102,27 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     if (!account.instance || !timetables[currentWeekNumber]) {
       return;
     }
-
+  
     const weekCourses = timetables[currentWeekNumber];
     const upcomingCourses = filterAndSortCourses(weekCourses);
-
+    const todayTimestamp = new Date().getTime();
+  
+    const hasCoursesThisWeekend = weekCourses.some(course => 
+      isWeekend(course.startTimestamp) && course.startTimestamp > todayTimestamp
+    );
+  
+    if (isWeekend() && !hasCoursesThisWeekend) {
+      setNextCourses([]);
+      setHidden(false);
+      return;
+    }
+  
     setNextCourses(upcomingCourses);
     ImportanceHandler(upcomingCourses);
     setHidden(upcomingCourses.length === 0);
   };
 
-  useEffect(() => {
-    fetchTimetable();
-  }, [currentWeekNumber, account.instance]);
-
-  useEffect(() => {
-    updateNextCourses();
-    const intervalId = setInterval(updateNextCourses, 60000);
-    return () => clearInterval(intervalId);
-  }, [account.instance, timetables, currentWeekNumber]);
-
+  
   if (loading) {
     return (
       <NativeList
@@ -139,8 +141,8 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
       </NativeList>
     );
   }
-
-  if (isWeekend()) {
+  
+  if (isWeekend() && nextCourses.length === 0) {
     return (
       <NativeList
         animated
@@ -158,7 +160,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
       </NativeList>
     );
   }
-
+  
   if (isVacation(nextCourses)) {
     return (
       <NativeList
@@ -177,8 +179,8 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
       </NativeList>
     );
   }
-
-  if (hidden || nextCourses.length === 0) {
+  
+  if (nextCourses.length === 0) {
     return (
       <NativeList
         animated
@@ -196,6 +198,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
       </NativeList>
     );
   }
+
 
   const label = isToday(nextCourses[0].startTimestamp)
     ? "Emploi du temps"
