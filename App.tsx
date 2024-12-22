@@ -2,9 +2,9 @@ import Router from "@/router";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { LogBox, AppState, AppStateStatus } from "react-native";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useCurrentAccount } from "@/stores/account";
+import { useAccounts, useCurrentAccount } from "@/stores/account";
 import { AccountService } from "@/stores/account/types";
 import { log } from "@/utils/logger/logger";
 import { expoGoWrapper } from "@/utils/native/expoGoAlert";
@@ -12,29 +12,20 @@ import { atobPolyfill, btoaPolyfill } from "js-base64";
 
 SplashScreen.preventAutoHideAsync();
 
-const BACKGROUND_LIMITS: Record<AccountService | "DEFAULT", number> = {
-  [AccountService.EcoleDirecte]: 300000, // 5 minutes
-  [AccountService.Pronote]: 7000, // 5 minutes
-  [AccountService.Skolengo]: 43200000, // 12 heures
-  DEFAULT: 900000,
-  // Obliger de mettre 0 pour les services non gérés pour éviter les erreurs de type
-  [AccountService.Local]: 0,
-  [AccountService.WebResto]: 0,
-  [AccountService.Turboself]: 0,
-  [AccountService.ARD]: 0,
-  [AccountService.Parcoursup]: 0,
-  [AccountService.Onisep]: 0,
-  [AccountService.Multi]: 0,
-  [AccountService.Izly]: 0,
-  [AccountService.Alise]: 0
+const DEFAULT_BACKGROUND_TIME = 15 * 60 * 1000; // 15 minutes
+
+const BACKGROUND_LIMITS: Partial<Record<AccountService, number>> = {
+  [AccountService.EcoleDirecte]: 15 * 60 * 1000,    // 15 minutes
+  [AccountService.Pronote]: 5 * 60 * 1000,         // 5 minutes
+  [AccountService.Skolengo]: 12 * 60 * 60 * 1000,  // 12 heures
 };
 
 export default function App () {
   const [appState, setAppState] = useState<AppStateStatus>(AppState.currentState);
   const backgroundStartTime = useRef<number | null>(null);
-  const hasHandledBackground = useRef<boolean>(false);
   const switchTo = useCurrentAccount((store) => store.switchTo);
-  const currentAccount = useCurrentAccount((store) => store.account);
+  const accounts = useAccounts((store) => store.accounts)
+    .filter(account => !account.isExternal);
 
   const [fontsLoaded, fontError] = useFonts({
     light: require("./assets/fonts/FixelText-Light.ttf"),
@@ -44,79 +35,67 @@ export default function App () {
     bold: require("./assets/fonts/FixelText-Bold.ttf"),
   });
 
-  const getBackgroundTimeLimit = (service: AccountService | undefined): number => {
-    console.log("Service:", service);
-    console.log("Available limits:", BACKGROUND_LIMITS);
-    if (!service) {
-      console.log("No service, returning default:", BACKGROUND_LIMITS.DEFAULT);
-      return BACKGROUND_LIMITS.DEFAULT;
-    }
-    const limit = BACKGROUND_LIMITS[service] || BACKGROUND_LIMITS.DEFAULT;
-    console.log("Returning limit:", limit);
-    return limit;
-  };
+  const getBackgroundTimeLimit = useCallback((service: AccountService): number => {
+    return BACKGROUND_LIMITS[service] ?? DEFAULT_BACKGROUND_TIME;
+  }, []);
 
-  const handleBackgroundState = async () => {
+  const handleBackgroundState = useCallback(async () => {
     try {
       if (!backgroundStartTime.current) return;
-      if (!currentAccount) {
-        log( "⚠️ No current account found", "RefreshToken",);
-        return;
-      }
 
       const timeInBackground = Date.now() - backgroundStartTime.current;
-      const timeLimit = getBackgroundTimeLimit(currentAccount.service);
+      await AsyncStorage.setItem("@background_timestamp", Date.now().toString());
 
-      log(`Time in background: ${Math.floor(timeInBackground / 1000)}s`, "RefreshToken");
-      log(`Time limit: ${timeLimit / 1000}s`, "RefreshToken");
-      log(`Account type: ${currentAccount.service}`, "RefreshToken");
-      log(`Account service time: ${BACKGROUND_LIMITS[currentAccount.service] / 1000}s`, "RefreshToken");
+      for (const account of accounts) {
+        const timeLimit = getBackgroundTimeLimit(account.service);
+        const timeInBackgroundSeconds = Math.floor(timeInBackground / 1000);
+        const serviceName = AccountService[account.service];
 
-      if (timeInBackground >= timeLimit && !hasHandledBackground.current) {
-        log(`⚠️ Application in background for ${timeLimit / 60000} minutes!`, "RefreshToken");
-        switchTo(currentAccount);
+        log(`Checking account ${account.studentName.first} ${account.studentName.last}:`, "RefreshToken");
+        log(`Time in background: ${timeInBackgroundSeconds}s`, "RefreshToken");
+        log(`Time limit: ${timeLimit / 1000}s`, "RefreshToken");
+        log(`Account type: ${serviceName}`, "RefreshToken");
+        log(`Using ${BACKGROUND_LIMITS[account.service] ? "specific" : "default"} time limit`, "RefreshToken");
 
-        await AsyncStorage.setItem("@background_timestamp", Date.now().toString());
-        hasHandledBackground.current = true;
+        if (timeInBackground >= timeLimit) {
+          log(`⚠️ Refreshing account ${account.studentName.first} ${account.studentName.last} after ${timeInBackgroundSeconds}s in background`, "RefreshToken");
+
+          // Prevent React state updates during render
+          setTimeout(() => {
+            switchTo(account).catch((error) => {
+              log(`Error during switchTo: ${error}`, "RefreshToken");
+            });
+          }, 0);
+
+          // Wait before processing next account
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
       }
     } catch (error) {
       log(`Error handling background state: ${error}`, "RefreshToken");
     }
-  };
+  }, [accounts, switchTo, getBackgroundTimeLimit]);
 
-  const handleAppStateChange = (nextAppState: AppStateStatus) => {
-    setAppState(prevState => {
-      if (prevState === nextAppState) return prevState;
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", async (nextAppState: AppStateStatus) => {
+      if (appState === nextAppState) return;
 
       if (nextAppState === "active") {
         log("🔄 App is active", "AppState");
-        handleBackgroundState();
+        await handleBackgroundState();
         backgroundStartTime.current = null;
-        hasHandledBackground.current = false;
       } else if (nextAppState.match(/inactive|background/)) {
-        log("⏱️ App in background", "AppState");
+        log("App in background", "AppState");
         backgroundStartTime.current = Date.now();
       }
 
-      return nextAppState;
+      setAppState(nextAppState);
     });
-  };
 
-  const applyGlobalPolyfills = () => {
-    const encoding = require("text-encoding");
-    Object.assign(global, {
-      TextDecoder: encoding.TextDecoder,
-      TextEncoder: encoding.TextEncoder,
-      atob: atobPolyfill,
-      btoa: btoaPolyfill
-    });
-  };
-
-  applyGlobalPolyfills();
+    return () => subscription.remove();
+  }, [appState, handleBackgroundState]);
 
   useEffect(() => {
-    const subscription = AppState.addEventListener("change", handleAppStateChange);
-
     LogBox.ignoreLogs([
       "[react-native-gesture-handler]",
       "VirtualizedLists should never be nested",
@@ -127,9 +106,21 @@ export default function App () {
       const { registerBackgroundTasks } = await import("@/background/BackgroundTasks");
       registerBackgroundTasks();
     });
-
-    return () => subscription.remove();
   }, []);
+
+  const applyGlobalPolyfills = useCallback(() => {
+    const encoding = require("text-encoding");
+    Object.assign(global, {
+      TextDecoder: encoding.TextDecoder,
+      TextEncoder: encoding.TextEncoder,
+      atob: atobPolyfill,
+      btoa: btoaPolyfill
+    });
+  }, []);
+
+  useEffect(() => {
+    applyGlobalPolyfills();
+  }, [applyGlobalPolyfills]);
 
   if (!fontsLoaded && !fontError) {
     return null;
