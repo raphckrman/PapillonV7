@@ -15,6 +15,7 @@ import { Audio } from "expo-av";
 import type { School } from "scolengo-api/types/models/School";
 import { Skolengo } from "scolengo-api";
 import { useDebounce } from "@/hooks/debounce";
+import Constants from "expo-constants";
 
 const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
   route: { params },
@@ -163,7 +164,7 @@ const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
           size={24}
           color={colors.text + "55"}
           style={{
-            marginTop: __DEV__ ? 7.5 : 0,
+            marginTop: Constants.appOwnership === "expo" ? 7.5 : 0,
           }}
         />
 

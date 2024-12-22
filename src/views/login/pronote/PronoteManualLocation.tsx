@@ -12,6 +12,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
 import { Search, X } from "lucide-react-native";
 import DuoListPressable from "@/components/FirstInstallation/DuoListPressable";
+import Constants from "expo-constants";
 
 /**
  * Allows the get the location of the user manually.
@@ -146,7 +147,7 @@ const PronoteManualLocation: Screen<"PronoteManualLocation"> = ({ navigation }) 
             size={24}
             color={colors.text + "55"}
             style={{
-              marginTop: __DEV__ ? 7.5 : 0,
+              marginTop: Constants.appOwnership === "expo" ? 7.5 : 0,
             }}
           />
 
