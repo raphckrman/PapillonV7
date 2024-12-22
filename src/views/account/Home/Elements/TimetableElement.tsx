@@ -12,7 +12,7 @@ import MissingItem from "@/components/Global/MissingItem";
 import { TimetableItem } from "../../Lessons/Atoms/Item";
 
 interface TimetableElementProps {
-  onImportance: (value: number) => unknown
+  onImportance: (value: number) => unknown;
 }
 
 const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => {
@@ -46,16 +46,13 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     );
   };
 
-  const isTomorrow = (timestamp: number) => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const date = new Date(timestamp);
-    return (
-      date.getDate() === tomorrow.getDate() &&
-      date.getMonth() === tomorrow.getMonth() &&
-      date.getFullYear() === tomorrow.getFullYear()
-    );
+  const isWeekend = () => {
+    const today = new Date().getDay();
+    return today === 6 || today === 0; // 6 = Saturday, 0 = Sunday
   };
+
+  const isVacation = (courses: TimetableClass[]) =>
+    courses.length === 1 && courses[0].type === "vacation";
 
   const fetchTimetable = async () => {
     if (!timetables[currentWeekNumber] && account.instance) {
@@ -68,37 +65,18 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     }
   };
 
-  const filterAndSortCourses = (weekCourses: TimetableClass[]): TimetableClass[] => {
-    const now = Date.now();
-    const todayCourses = weekCourses
-      .filter(c => isToday(c.startTimestamp) && c.endTimestamp > now)
-      .sort((a, b) => a.startTimestamp - b.startTimestamp);
-
-    if (todayCourses.length > 0) {
-      return todayCourses;
-    }
-
-    const tomorrowCourses = weekCourses
-      .filter(c => isTomorrow(c.startTimestamp))
-      .sort((a, b) => a.startTimestamp - b.startTimestamp);
-
-    if (tomorrowCourses.length > 0) {
-      return tomorrowCourses.slice(0, 3);
-    }
-
-    return weekCourses
-      .filter(c => c.startTimestamp > now)
-      .sort((a, b) => a.startTimestamp - b.startTimestamp)
-      .slice(0, 3);
-  };
-
   const updateNextCourses = () => {
     if (!account.instance || !timetables[currentWeekNumber]) {
       return;
     }
 
     const weekCourses = timetables[currentWeekNumber];
-    const upcomingCourses = filterAndSortCourses(weekCourses);
+    const now = Date.now();
+
+    const upcomingCourses = weekCourses
+      .filter((c) => c.startTimestamp > now)
+      .sort((a, b) => a.startTimestamp - b.startTimestamp)
+      .slice(0, 3);
 
     setNextCourses(upcomingCourses);
     ImportanceHandler(upcomingCourses);
@@ -134,6 +112,44 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     );
   }
 
+  if (isWeekend()) {
+    return (
+      <NativeList
+        animated
+        key="weekend"
+        entering={FadeInDown.springify().mass(1).damping(20).stiffness(300)}
+        exiting={FadeOut.duration(300)}
+      >
+        <NativeItem animated style={{ paddingVertical: 10 }}>
+          <MissingItem
+            emoji="🌴"
+            title="C'est le week-end !"
+            description="Profitez de votre week-end, il n'y a pas de cours aujourd'hui."
+          />
+        </NativeItem>
+      </NativeList>
+    );
+  }
+
+  if (isVacation(nextCourses)) {
+    return (
+      <NativeList
+        animated
+        key="vacation"
+        entering={FadeInDown.springify().mass(1).damping(20).stiffness(300)}
+        exiting={FadeOut.duration(300)}
+      >
+        <NativeItem animated style={{ paddingVertical: 10 }}>
+          <MissingItem
+            emoji="🏝️"
+            title="C'est les vacances !"
+            description="Profitez de vos vacances, à bientôt."
+          />
+        </NativeItem>
+      </NativeList>
+    );
+  }
+
   if (hidden || nextCourses.length === 0) {
     return (
       <NativeList
@@ -155,9 +171,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
 
   const label = isToday(nextCourses[0].startTimestamp)
     ? "Emploi du temps"
-    : isTomorrow(nextCourses[0].startTimestamp)
-      ? "Cours de demain"
-      : "Prochains cours";
+    : "Prochains cours";
 
   return (
     <>
@@ -166,10 +180,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
         label={label}
         trailing={<RedirectButton navigation={PapillonNavigation.current} redirect="Lessons" />}
       />
-      <Reanimated.View
-        layout={LinearTransition}
-        style={{ marginTop: 24, gap: 10 }}
-      >
+      <Reanimated.View layout={LinearTransition} style={{ marginTop: 24, gap: 10 }}>
         {nextCourses.map((course, index) => (
           <React.Fragment key={course.id || index}>
             <TimetableItem item={course} index={index} small />
