@@ -47,7 +47,7 @@ const SettingsAbout: Screen<"SettingsAbout"> = ({ navigation }) => {
       contentContainerStyle={{
         padding: 16,
         paddingTop: 0,
-        paddingBottom: insets.bottom + 100,
+        paddingBottom: insets.bottom + 16,
       }}
     >
       <AboutContainerCard

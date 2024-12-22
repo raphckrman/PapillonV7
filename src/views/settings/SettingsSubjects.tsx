@@ -209,7 +209,7 @@ const SettingsSubjects: Screen<"SettingsSubjects"> = ({ navigation }) => {
         contentContainerStyle={{
           padding: 16,
           paddingTop: 0,
-          paddingBottom: 100 + insets.bottom,
+          paddingBottom: insets.bottom + 16,
         }}
       >
         {localSubjects.length > 0 && selectedSubject && (

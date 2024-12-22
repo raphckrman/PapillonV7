@@ -157,6 +157,9 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
           flex: 1,
           paddingTop: 106 - 16,
         }}
+        contentContainerStyle={{
+          paddingBottom: insets.bottom + 16,
+        }}
       >
         <View
           style={{
