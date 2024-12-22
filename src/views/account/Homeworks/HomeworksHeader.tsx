@@ -1,6 +1,6 @@
 import { useTheme } from "@react-navigation/native";
 import React from "react";
-import { Dimensions, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { Calendar } from "lucide-react-native";
 import Reanimated, {
   Easing,
@@ -9,22 +9,17 @@ import Reanimated, {
   ZoomOut
 } from "react-native-reanimated";
 import { epochWMToCalendarWeekNumber } from "@/utils/epochWeekNumber";
+import useScreenDimensions from "@/hooks/useScreenDimensions";
 
 const HeaderCalendar: React.FC<{ epochWeekNumber: number, oldPageIndex: number, showPicker: () => void, changeIndex: (index: number) => void }> = ({ epochWeekNumber, oldPageIndex, showPicker, changeIndex }) => {
-  const { colors } = useTheme();
-
-  const dims = Dimensions.get("screen");
-  const tabletWidth = dims.width;
-  const tabletHeight = dims.height;
-  const tabletDiagl = (tabletWidth / tabletHeight) * 10;
-  const tablet = tabletDiagl >= 6.9;
+  const { width, isTablet } = useScreenDimensions();
 
   const index = epochWeekNumber;
 
   return (
     <Reanimated.View
       style={{
-        width: tabletWidth - 50 - (tablet ? 400 : 0),
+        width: width - 50 - (isTablet ? 400 : 0),
         alignItems: "center",
         justifyContent: "center",
       }}

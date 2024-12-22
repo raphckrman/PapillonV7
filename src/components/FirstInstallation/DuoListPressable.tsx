@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { View, Text, Pressable, StyleSheet, Dimensions } from "react-native";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 
 import { useTheme } from "@react-navigation/native";
 import * as Haptics from "expo-haptics";
 import { Audio } from "expo-av";
 
 import Reanimated, { Easing, useSharedValue, withTiming } from "react-native-reanimated";
+import useScreenDimensions from "@/hooks/useScreenDimensions";
 
 const DuoListPressable: React.FC<{
   children?: JSX.Element,
@@ -26,34 +27,8 @@ const DuoListPressable: React.FC<{
 }) => {
   const theme = useTheme();
   const { colors } = theme;
-  const [screenDimensions, setScreenDimensions] = useState<{
-    width: number;
-    height: number;
-  }>(Dimensions.get("screen"));
 
-  useEffect(() => {
-    const handleDimensionsChange = ({
-      screen
-    }: {
-      screen: { width: number; height: number }
-    }) => {
-      setScreenDimensions(screen);
-    };
-
-    const subscription = Dimensions.addEventListener(
-      "change",
-      handleDimensionsChange
-    );
-
-    return () => {
-      subscription?.remove();
-    };
-  }, []);
-
-  const tabletWidth = screenDimensions.width;
-  const tabletHeight = screenDimensions.height;
-  const tabletDiagl = (tabletWidth / tabletHeight) * 10;
-  const tablet = tabletDiagl >= 6.9;
+  const { isTablet } = useScreenDimensions();
 
   const [pressed, setPressed] = useState(false);
   const scale = useSharedValue(1);
@@ -91,7 +66,7 @@ const DuoListPressable: React.FC<{
     >
       <Pressable
         style={[
-          tablet ? { width: "50%" } : { width: "100%" },
+          isTablet ? { width: "50%" } : { width: "100%" },
           styles.pressable,
           enabled ? {
             borderColor: colors.primary,

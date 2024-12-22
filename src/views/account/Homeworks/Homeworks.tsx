@@ -2,18 +2,14 @@ import { NativeList, NativeListHeader } from "@/components/Global/NativeComponen
 import { useCurrentAccount } from "@/stores/account";
 import { useHomeworkStore } from "@/stores/homework";
 import { useTheme } from "@react-navigation/native";
-import React, { useRef, useState, useCallback, useEffect, useMemo } from "react";
+import React, { useRef, useState, useCallback, useEffect } from "react";
 import { toggleHomeworkState, updateHomeworkForWeekInCache } from "@/services/homework";
 import {
   View,
-  Text,
   FlatList,
-  Dimensions,
-  Button,
   ScrollView,
   RefreshControl,
   StyleSheet,
-  ActivityIndicator,
   TextInput,
   ListRenderItem
 } from "react-native";
@@ -21,19 +17,17 @@ import { dateToEpochWeekNumber, epochWNToDate } from "@/utils/epochWeekNumber";
 
 import * as StoreReview from "expo-store-review";
 
-import HomeworksNoHomeworksItem from "./Atoms/NoHomeworks";
 import HomeworkItem from "./Atoms/Item";
 import { PressableScale } from "react-native-pressable-scale";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Book, Check, CheckCircle, CheckCircle2, CheckSquare, ChevronLeft, ChevronRight, CircleDashed, CircleDotDashed, Search, X } from "lucide-react-native";
+import { Book, CheckSquare, ChevronLeft, ChevronRight, CircleDashed, CircleDotDashed, Search, X } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BlurView } from "expo-blur";
 
-import Reanimated, { Easing, FadeIn, FadeInLeft, FadeInRight, FadeInUp, FadeOut, FadeOutDown, FadeOutLeft, FadeOutRight, FadeOutUp, LinearTransition, ZoomIn, ZoomOut } from "react-native-reanimated";
+import Reanimated, { Easing, FadeIn, FadeInLeft, FadeInUp, FadeOut, FadeOutDown, FadeOutLeft, FadeOutRight, FadeOutUp, LinearTransition, ZoomIn, ZoomOut } from "react-native-reanimated";
 import { animPapillon } from "@/utils/ui/animations";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
 import AnimatedNumber from "@/components/Global/AnimatedNumber";
-import { LinearGradient } from "expo-linear-gradient";
 import * as Haptics from "expo-haptics";
 import MissingItem from "@/components/Global/MissingItem";
 import { PapillonModernHeader } from "@/components/Global/PapillonModernHeader";
@@ -42,19 +36,8 @@ import {Account} from "@/stores/account/types";
 import {Screen} from "@/router/helpers/types";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
 import {NativeScrollEvent, ScrollViewProps} from "react-native/Libraries/Components/ScrollView/ScrollView";
-import {SearchBar} from "react-native-screens";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-type HomeworksPageProps = {
-  index: number;
-  isActive: boolean;
-  loaded: boolean;
-  homeworks: Record<number, Homework[]>;
-  account: Account;
-  updateHomeworks: () => Promise<void>;
-  loading: boolean;
-  getDayName: (date: string | number | Date) => string;
-};
+import useScreenDimensions from "@/hooks/useScreenDimensions";
 
 const formatDate = (date: string | number | Date): string => {
   return new Date(date).toLocaleDateString("fr-FR", {
@@ -66,38 +49,11 @@ const formatDate = (date: string | number | Date): string => {
 const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   const flatListRef: React.MutableRefObject<FlatList> = useRef(null) as any as React.MutableRefObject<FlatList>;
 
-  const [screenDimensions, setScreenDimensions] = useState<{
-    width: number;
-    height: number;
-  }>(Dimensions.get("screen"));
+  const { width, height, isTablet } = useScreenDimensions();
 
-  useEffect(() => {
-    const handleDimensionsChange = ({
-      screen
-    }: {
-      screen: { width: number; height: number }
-    }) => {
-      setScreenDimensions(screen);
-    };
-
-    const subscription = Dimensions.addEventListener(
-      "change",
-      handleDimensionsChange
-    );
-
-    return () => {
-      subscription?.remove();
-    };
-  }, []);
-
-  const tabletWidth = screenDimensions.width;
-  const tabletHeight = screenDimensions.height;
-  const tabletDiagl = (tabletWidth / tabletHeight) * 10;
-  const tablet = tabletDiagl >= 6.9;
-  const finalWidth = tabletWidth - (tablet ? (
-    320 > tabletWidth * 0.35 ? tabletWidth * 0.35 :
-      320
-  ) : 0);
+  const finalWidth = isTablet
+    ? width - Math.min(320, width * 0.35)
+    : width;
 
   useEffect(() => {
     if (flatListRef.current) {
@@ -106,7 +62,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         animated: false,
       });
     }
-  }, [screenDimensions]);
+  }, [width, height]);
 
   const insets = useSafeAreaInsets();
 
@@ -513,7 +469,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
                 ]}
                 layout={animPapillon(LinearTransition)}
                 >
-                  {tabletWidth > 370 ? "Semaine" : "sem."}
+                  {width > 370 ? "Semaine" : "sem."}
                 </Reanimated.Text>
 
                 <Reanimated.View
@@ -582,7 +538,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
           />
         }
 
-        {showPickerButtons && !searchHasFocus && tabletWidth > 330 &&
+        {showPickerButtons && !searchHasFocus && width > 330 &&
         <Reanimated.View
           layout={animPapillon(LinearTransition)}
           entering={animPapillon(FadeInLeft).delay(100)}

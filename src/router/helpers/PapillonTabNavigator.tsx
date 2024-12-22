@@ -7,7 +7,7 @@ import {
 import { Platform, Text } from "react-native";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { View, Dimensions } from "react-native";
+import { View } from "react-native";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -417,7 +417,7 @@ const BottomTabNavigator: React.ComponentType<any> = ({
   backBehavior,
   children,
   screenOptions,
-  tablet,
+  isTablet,
   ...rest
 }) => {
   const mainNavigator = useRef(null);
@@ -449,7 +449,7 @@ const BottomTabNavigator: React.ComponentType<any> = ({
   // Handle tab change animations
   useEffect(() => {
     if (Platform.OS !== "ios") return;
-    if (tablet) return;
+    if (isTablet) return;
     if (state.index === previousIndex) return;
 
     // Determine animation direction
@@ -488,7 +488,7 @@ const BottomTabNavigator: React.ComponentType<any> = ({
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [state.index, tablet]);
+  }, [state.index, isTablet]);
 
   // Create animated styles
   const animatedStyles = useAnimatedStyle(() => {
@@ -504,7 +504,7 @@ const BottomTabNavigator: React.ComponentType<any> = ({
             flex: 1,
             overflow: "hidden", // Prevent content from showing outside bounds during animation
           },
-          tablet && {
+          isTablet && {
             flexDirection: "row-reverse",
           },
         ]}
@@ -532,7 +532,7 @@ const BottomTabNavigator: React.ComponentType<any> = ({
           />
         </Reanimated.View>
 
-        {!tablet ? (
+        {!isTablet ? (
           <BasePapillonBar
             state={state}
             descriptors={descriptors}

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FlatList, View, Dimensions, ViewToken } from "react-native";
+import { FlatList, View, ViewToken } from "react-native";
 import { StyleSheet } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { useCurrentAccount } from "@/stores/account";
@@ -31,6 +31,7 @@ import {
 } from "@/components/Global/PapillonModernHeader";
 import PapillonPicker from "@/components/Global/PapillonPicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import useScreenDimensions from "@/hooks/useScreenDimensions";
 
 const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const account = useCurrentAccount((store) => store.account!);
@@ -43,13 +44,9 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const loadedWeeks = useRef<Set<number>>(new Set());
   const currentlyLoadingWeeks = useRef<Set<number>>(new Set());
 
-  const dims = Dimensions.get("screen");
-  const tabletWidth = dims.width;
-  const tabletHeight = dims.height;
-  const tabletDiagl = (tabletWidth / tabletHeight) * 10;
-  const tablet = tabletDiagl >= 6.9;
-  const finalWidth = tabletWidth - (tablet ? (
-    320 > tabletWidth * 0.35 ? tabletWidth * 0.35 :
+  const { width, isTablet } = useScreenDimensions();
+  const finalWidth = width - (isTablet ? (
+    320 > width * 0.35 ? width * 0.35 :
       320
   ) : 0);
 
