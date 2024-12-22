@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, Pressable, StyleSheet, type StyleProp, type ViewStyle } from "react-native";
+import { Text, Pressable, StyleSheet, type StyleProp, type ViewStyle, Dimensions } from "react-native";
 import Reanimated, { Easing, useSharedValue, withTiming } from "react-native-reanimated";
 import { useTheme } from "@react-navigation/native";
 import * as Haptics from "expo-haptics";
@@ -22,6 +22,35 @@ const ButtonCta: React.FC<{
   icon,
 }) => {
   const { colors } = useTheme();
+
+  const [screenDimensions, setScreenDimensions] = useState<{
+    width: number;
+    height: number;
+  }>(Dimensions.get("screen"));
+
+  useEffect(() => {
+    const handleDimensionsChange = ({
+      screen
+    }: {
+      screen: { width: number; height: number }
+    }) => {
+      setScreenDimensions(screen);
+    };
+
+    const subscription = Dimensions.addEventListener(
+      "change",
+      handleDimensionsChange
+    );
+
+    return () => {
+      subscription?.remove();
+    };
+  }, []);
+
+  const tabletWidth = screenDimensions.width;
+  const tabletHeight = screenDimensions.height;
+  const tabletDiagl = (tabletWidth / tabletHeight) * 10;
+  const tablet = tabletDiagl >= 6.9;
 
   const [pressed, setPressed] = useState(false);
   const scale = useSharedValue(1);
@@ -58,6 +87,7 @@ const ButtonCta: React.FC<{
     >
       <Pressable
         style={[
+          tablet ? { width: "50%" } : { width: "100%" },
           styles.button,
           primary ? void 0 : styles.secondary,
           { backgroundColor: backgroundColor },
@@ -83,12 +113,11 @@ const ButtonCta: React.FC<{
 
 const styles = StyleSheet.create({
   button: {
-    minWidth: "100%",
     height: 48,
     borderRadius: 12,
     borderCurve: "continuous",
     justifyContent: "center",
-    alignItems: "center",
+    alignSelf: "center",
     gap: 8,
     flexDirection: "row",
   },
