@@ -417,13 +417,9 @@ const BottomTabNavigator: React.ComponentType<any> = ({
   backBehavior,
   children,
   screenOptions,
+  tablet,
   ...rest
 }) => {
-  const dims = Dimensions.get("screen");
-  const tabletWidth = dims.width;
-  const tabletHeight = dims.height;
-  const tabletDiagl = (tabletWidth / tabletHeight) * 10;
-  const tablet = tabletDiagl >= 6.9;
   const mainNavigator = useRef(null);
 
   // Track previous index to determine direction
@@ -452,8 +448,8 @@ const BottomTabNavigator: React.ComponentType<any> = ({
 
   // Handle tab change animations
   useEffect(() => {
-    if(Platform.OS !== "ios") return;
-    if(tablet) return;
+    if (Platform.OS !== "ios") return;
+    if (tablet) return;
     if (state.index === previousIndex) return;
 
     // Determine animation direction
@@ -492,7 +488,7 @@ const BottomTabNavigator: React.ComponentType<any> = ({
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [state.index, dims.width]);
+  }, [state.index, tablet]);
 
   // Create animated styles
   const animatedStyles = useAnimatedStyle(() => {

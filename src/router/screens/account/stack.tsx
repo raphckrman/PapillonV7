@@ -129,7 +129,11 @@ const AccountStackScreen: Screen<"AccountStack"> = () => {
   }, []);
 
   return (
-    <AccountStack.Navigator screenOptions={screenOptions} tabBar={TabBarContainer}>
+    <AccountStack.Navigator
+      screenOptions={screenOptions}
+      tabBar={TabBarContainer}
+      tablet={tablet}
+    >
       {finalScreens.map((screen) => (
         <AccountStack.Screen
           key={screen.name}
