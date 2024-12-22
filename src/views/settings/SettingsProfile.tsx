@@ -2,6 +2,7 @@ import { NativeItem, NativeList, NativeListHeader, NativeText } from "@/componen
 import { Screen } from "@/router/helpers/types";
 import { useCurrentAccount } from "@/stores/account";
 import { useTheme } from "@react-navigation/native";
+import Constants from "expo-constants";
 import * as ImagePicker from "expo-image-picker";
 import { Camera, Plus, TextCursorInput, User2, UserCircle2, WholeWord } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
@@ -152,9 +153,9 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
                 fontSize: 16,
                 fontFamily: "semibold",
                 color: theme.colors.text,
-                marginTop: __DEV__ ? -7.5 : 0,
-                marginBottom: __DEV__ ? -7.5 : 0,
-                marginLeft: __DEV__ ? -4 : 0,
+                marginTop: Constants.appOwnership === "expo" ? -7.5 : 0,
+                marginBottom: Constants.appOwnership === "expo" ? -7.5 : 0,
+                marginLeft: Constants.appOwnership === "expo" ? -4 : 0,
               }}
               placeholder="Théo"
               placeholderTextColor={theme.colors.text + "80"}
@@ -177,9 +178,9 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
                 fontSize: 16,
                 fontFamily: "semibold",
                 color: theme.colors.text,
-                marginTop: __DEV__ ? -7.5 : 0,
-                marginBottom: __DEV__ ? -7.5 : 0,
-                marginLeft: __DEV__ ? -4 : 0,
+                marginTop: Constants.appOwnership === "expo" ? -7.5 : 0,
+                marginBottom: Constants.appOwnership === "expo" ? -7.5 : 0,
+                marginLeft: Constants.appOwnership === "expo" ? -4 : 0,
               }}
               placeholder="Dubois"
               placeholderTextColor={theme.colors.text + "80"}
