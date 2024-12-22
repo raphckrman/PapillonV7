@@ -45,8 +45,15 @@ export default function App () {
   });
 
   const getBackgroundTimeLimit = (service: AccountService | undefined): number => {
-    if (!service) return BACKGROUND_LIMITS.DEFAULT;
-    return BACKGROUND_LIMITS[service] || BACKGROUND_LIMITS.DEFAULT;
+    console.log("Service:", service);
+    console.log("Available limits:", BACKGROUND_LIMITS);
+    if (!service) {
+      console.log("No service, returning default:", BACKGROUND_LIMITS.DEFAULT);
+      return BACKGROUND_LIMITS.DEFAULT;
+    }
+    const limit = BACKGROUND_LIMITS[service] || BACKGROUND_LIMITS.DEFAULT;
+    console.log("Returning limit:", limit);
+    return limit;
   };
 
   const handleBackgroundState = async () => {
