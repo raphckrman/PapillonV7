@@ -46,6 +46,17 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     );
   };
 
+  const isTomorrow = (timestamp: number) => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const date = new Date(timestamp);
+    return (
+      date.getDate() === tomorrow.getDate() &&
+      date.getMonth() === tomorrow.getMonth() &&
+      date.getFullYear() === tomorrow.getFullYear()
+    );
+  };
+
   const isWeekend = () => {
     const today = new Date().getDay();
     return today === 6 || today === 0; // 6 = Saturday, 0 = Sunday
@@ -53,6 +64,26 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
 
   const isVacation = (courses: TimetableClass[]) =>
     courses.length === 1 && courses[0].type === "vacation";
+
+  const filterAndSortCourses = (weekCourses: TimetableClass[]): TimetableClass[] => {
+    const now = Date.now();
+    const todayCourses = weekCourses
+      .filter((c) => isToday(c.startTimestamp) && c.endTimestamp > now)
+      .sort((a, b) => a.startTimestamp - b.startTimestamp);
+    if (todayCourses.length > 0) {
+      return todayCourses;
+    }
+    const tomorrowCourses = weekCourses
+      .filter((c) => isTomorrow(c.startTimestamp))
+      .sort((a, b) => a.startTimestamp - b.startTimestamp);
+    if (tomorrowCourses.length > 0) {
+      return tomorrowCourses.slice(0, 3);
+    }
+    return weekCourses
+      .filter((c) => c.startTimestamp > now)
+      .sort((a, b) => a.startTimestamp - b.startTimestamp)
+      .slice(0, 3);
+  };
 
   const fetchTimetable = async () => {
     if (!timetables[currentWeekNumber] && account.instance) {
@@ -71,12 +102,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     }
 
     const weekCourses = timetables[currentWeekNumber];
-    const now = Date.now();
-
-    const upcomingCourses = weekCourses
-      .filter((c) => c.startTimestamp > now)
-      .sort((a, b) => a.startTimestamp - b.startTimestamp)
-      .slice(0, 3);
+    const upcomingCourses = filterAndSortCourses(weekCourses);
 
     setNextCourses(upcomingCourses);
     ImportanceHandler(upcomingCourses);
@@ -171,6 +197,8 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
 
   const label = isToday(nextCourses[0].startTimestamp)
     ? "Emploi du temps"
+    : isTomorrow(nextCourses[0].startTimestamp)
+    ? "Cours de demain"
     : "Prochains cours";
 
   return (
