@@ -197,9 +197,9 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     );
   }
 
-const label = isToday(nextCourses[0].startTimestamp)
-      ? "Emploi du temps"
-      : isTomorrow(nextCourses[0].startTimestamp)
+  const label = isToday(nextCourses[0].startTimestamp)
+    ? "Emploi du temps"
+    : isTomorrow(nextCourses[0].startTimestamp)
       ? "Cours de demain"
       : "Prochains cours";
 
