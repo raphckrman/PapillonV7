@@ -66,15 +66,47 @@ const formatDate = (date: string | number | Date): string => {
 const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   const flatListRef: React.MutableRefObject<FlatList> = useRef(null) as any as React.MutableRefObject<FlatList>;
 
-  const dims = Dimensions.get("screen");
-  const tabletWidth = dims.width;
-  const tabletHeight = dims.height;
+  const [screenDimensions, setScreenDimensions] = useState<{
+    width: number;
+    height: number;
+  }>(Dimensions.get("screen"));
+
+  useEffect(() => {
+    const handleDimensionsChange = ({
+      screen
+    }: {
+      screen: { width: number; height: number }
+    }) => {
+      setScreenDimensions(screen);
+    };
+
+    const subscription = Dimensions.addEventListener(
+      "change",
+      handleDimensionsChange
+    );
+
+    return () => {
+      subscription?.remove();
+    };
+  }, []);
+
+  const tabletWidth = screenDimensions.width;
+  const tabletHeight = screenDimensions.height;
   const tabletDiagl = (tabletWidth / tabletHeight) * 10;
   const tablet = tabletDiagl >= 6.9;
   const finalWidth = tabletWidth - (tablet ? (
     320 > tabletWidth * 0.35 ? tabletWidth * 0.35 :
       320
   ) : 0);
+
+  useEffect(() => {
+    if (flatListRef.current) {
+      flatListRef.current.scrollToIndex({
+        index: data.indexOf(selectedWeek),
+        animated: false,
+      });
+    }
+  }, [screenDimensions]);
 
   const insets = useSafeAreaInsets();
 
@@ -335,7 +367,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
     const firstWeek = data[0];
     const newWeeks = Array.from({ length: 50 }, (_, i) => firstWeek - 50 + i);
     setData(prevData => [...newWeeks, ...prevData]);
-    flatListRef.current?.scrollToIndex({ index: 50, animated: false });
+    // flatListRef.current?.scrollToIndex({ index: 50, animated: false });
   };
 
   const onScroll: ScrollViewProps["onScroll"] = useCallback(({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -361,7 +393,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
       const distance = Math.abs(index - currentIndex);
       const animated = distance <= 10; // Animate if the distance is 10 weeks or less
 
-      flatListRef.current?.scrollToIndex({ index, animated });
+      flatListRef.current.scrollToIndex({ index, animated });
       setSelectedWeek(weekNumber);
     } else {
       // If the week is not in the current data, update the data and scroll
@@ -370,9 +402,9 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
 
       // Use a timeout to ensure the FlatList has updated before scrolling
       setTimeout(() => {
-        flatListRef.current?.scrollToIndex({ index: 50, animated: false });
+        flatListRef.current.scrollToIndex({ index: 50, animated: false });
         setSelectedWeek(weekNumber);
-      }, 0);
+      }, 100);
     }
   }, [data, finalWidth]);
 
