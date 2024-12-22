@@ -14,7 +14,7 @@ SplashScreen.preventAutoHideAsync();
 
 const BACKGROUND_LIMITS: Record<AccountService | "DEFAULT", number> = {
   [AccountService.EcoleDirecte]: 300000, // 5 minutes
-  [AccountService.Pronote]: 300000, // 5 minutes
+  [AccountService.Pronote]: 7000, // 5 minutes
   [AccountService.Skolengo]: 43200000, // 12 heures
   DEFAULT: 900000,
   // Obliger de mettre 0 pour les services non gérés pour éviter les erreurs de type
@@ -60,7 +60,7 @@ export default function App () {
     try {
       if (!backgroundStartTime.current) return;
       if (!currentAccount) {
-        log("RefreshToken", "⚠️ No current account found");
+        log( "⚠️ No current account found", "RefreshToken",);
         return;
       }
 
@@ -73,14 +73,14 @@ export default function App () {
       log(`Account service time: ${BACKGROUND_LIMITS[currentAccount.service] / 1000}s`, "RefreshToken");
 
       if (timeInBackground >= timeLimit && !hasHandledBackground.current) {
-        log("RefreshToken", `⚠️ Application in background for ${timeLimit / 60000} minutes!`);
+        log(`⚠️ Application in background for ${timeLimit / 60000} minutes!`, "RefreshToken");
         switchTo(currentAccount);
 
         await AsyncStorage.setItem("@background_timestamp", Date.now().toString());
         hasHandledBackground.current = true;
       }
     } catch (error) {
-      log("AppState", `Error handling background state: ${error}`);
+      log(`Error handling background state: ${error}`, "RefreshToken");
     }
   };
 
@@ -89,12 +89,12 @@ export default function App () {
       if (prevState === nextAppState) return prevState;
 
       if (nextAppState === "active") {
-        log("AppState", "🔄 App is active");
+        log("🔄 App is active", "AppState");
         handleBackgroundState();
         backgroundStartTime.current = null;
         hasHandledBackground.current = false;
       } else if (nextAppState.match(/inactive|background/)) {
-        log("AppState", "⏱️ App in background");
+        log("⏱️ App in background", "AppState");
         backgroundStartTime.current = Date.now();
       }
 
