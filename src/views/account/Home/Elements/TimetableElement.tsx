@@ -123,6 +123,16 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
   };
 
   
+  useEffect(() => {
+    fetchTimetable();
+  }, [currentWeekNumber, account.instance]);
+
+  useEffect(() => {
+    updateNextCourses();
+    const intervalId = setInterval(updateNextCourses, 60000);
+    return () => clearInterval(intervalId);
+  }, [account.instance, timetables, currentWeekNumber]);
+  
   if (loading) {
     return (
       <NativeList
