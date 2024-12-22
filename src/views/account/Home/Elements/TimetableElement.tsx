@@ -59,10 +59,12 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     );
   };
 
-  const isWeekend = () => {
-    const today = new Date().getDay();
-    return today === 6 || today === 0; // 6 = Samedi, 0 = Dimanche
+  const isWeekend = (timestamp: number) => {
+    const date = new Date(timestamp);
+    const day = date.getDay();
+    return day === 6 || day === 0; // 6 = Samedi, 0 = Dimanche
   };
+
 
   const isVacation = (courses: TimetableClass[]) =>
     courses.length === 1 && courses[0].type === "vacation";
