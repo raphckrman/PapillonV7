@@ -113,7 +113,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
       isWeekend(course.startTimestamp) && course.startTimestamp > todayTimestamp
     );
   
-    if (isWeekend() && !hasCoursesThisWeekend) {
+    if (isWeekend(todayTimestamp) && !hasCoursesThisWeekend) {
       setNextCourses([]);
       setHidden(false);
       return;
@@ -154,7 +154,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     );
   }
   
-  if (isWeekend() && nextCourses.length === 0) {
+  if (isWeekend(todayTimestamp) && nextCourses.length === 0) {
     return (
       <NativeList
         animated
