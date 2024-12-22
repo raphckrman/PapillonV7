@@ -59,12 +59,10 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     );
   };
 
-  const isWeekend = (timestamp: number) => {
-    const date = new Date(timestamp);
-    const day = date.getDay();
-    return day === 6 || day === 0; // 6 = Samedi, 0 = Dimanche
+  const isWeekend = () => {
+    const today = new Date().getDay();
+    return today === 6 || today === 0; // 6 = Samedi, 0 = Dimanche
   };
-
 
   const isVacation = (courses: TimetableClass[]) =>
     courses.length === 1 && courses[0].type === "vacation";
@@ -104,27 +102,15 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     if (!account.instance || !timetables[currentWeekNumber]) {
       return;
     }
-  
+
     const weekCourses = timetables[currentWeekNumber];
     const upcomingCourses = filterAndSortCourses(weekCourses);
-    const todayTimestamp = new Date().getTime();
-  
-    const hasCoursesThisWeekend = weekCourses.some(course => 
-      isWeekend(course.startTimestamp) && course.startTimestamp > todayTimestamp
-    );
-  
-    if (isWeekend(todayTimestamp) && !hasCoursesThisWeekend) {
-      setNextCourses([]);
-      setHidden(false);
-      return;
-    }
-  
+
     setNextCourses(upcomingCourses);
     ImportanceHandler(upcomingCourses);
     setHidden(upcomingCourses.length === 0);
   };
 
-  
   useEffect(() => {
     fetchTimetable();
   }, [currentWeekNumber, account.instance]);
@@ -134,7 +120,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     const intervalId = setInterval(updateNextCourses, 60000);
     return () => clearInterval(intervalId);
   }, [account.instance, timetables, currentWeekNumber]);
-  
+
   if (loading) {
     return (
       <NativeList
@@ -153,8 +139,8 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
       </NativeList>
     );
   }
-  
-  if (isWeekend(todayTimestamp) && nextCourses.length === 0) {
+
+  if (isWeekend()) {
     return (
       <NativeList
         animated
@@ -172,7 +158,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
       </NativeList>
     );
   }
-  
+
   if (isVacation(nextCourses)) {
     return (
       <NativeList
@@ -191,8 +177,8 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
       </NativeList>
     );
   }
-  
-  if (nextCourses.length === 0) {
+
+  if (hidden || nextCourses.length === 0) {
     return (
       <NativeList
         animated
@@ -211,12 +197,12 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     );
   }
 
-
   const label = isToday(nextCourses[0].startTimestamp)
     ? "Emploi du temps"
     : isTomorrow(nextCourses[0].startTimestamp)
       ? "Cours de demain"
       : "Prochains cours";
+
 
   return (
     <>
