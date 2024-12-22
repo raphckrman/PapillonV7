@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet, Dimensions } from "react-native";
 
 import { useTheme } from "@react-navigation/native";
 import * as Haptics from "expo-haptics";
@@ -26,6 +26,34 @@ const DuoListPressable: React.FC<{
 }) => {
   const theme = useTheme();
   const { colors } = theme;
+  const [screenDimensions, setScreenDimensions] = useState<{
+    width: number;
+    height: number;
+  }>(Dimensions.get("screen"));
+
+  useEffect(() => {
+    const handleDimensionsChange = ({
+      screen
+    }: {
+      screen: { width: number; height: number }
+    }) => {
+      setScreenDimensions(screen);
+    };
+
+    const subscription = Dimensions.addEventListener(
+      "change",
+      handleDimensionsChange
+    );
+
+    return () => {
+      subscription?.remove();
+    };
+  }, []);
+
+  const tabletWidth = screenDimensions.width;
+  const tabletHeight = screenDimensions.height;
+  const tabletDiagl = (tabletWidth / tabletHeight) * 10;
+  const tablet = tabletDiagl >= 6.9;
 
   const [pressed, setPressed] = useState(false);
   const scale = useSharedValue(1);
@@ -59,11 +87,11 @@ const DuoListPressable: React.FC<{
       style={{
         transform: [{ scale: scale }],
         opacity: opacity,
-        width: "100%",
       }}
     >
       <Pressable
         style={[
+          tablet ? { width: "50%" } : { width: "100%" },
           styles.pressable,
           enabled ? {
             borderColor: colors.primary,
@@ -95,13 +123,15 @@ const DuoListPressable: React.FC<{
           {children}
 
           {text && (
-            <Text style={[
-              styles.text,
-              enabled && styles.text_enabled,
-              enabled ? { color: colors.primary } : { color: colors.text + "88" },
-            ]}
-            numberOfLines={1}
-            ellipsizeMode="tail"
+            <Text
+              style={[
+                styles.text,
+                enabled && styles.text_enabled,
+                enabled ? { color: colors.primary } : { color: colors.text + "88" },
+                subtext ? { marginBottom: 2 } : { marginTop: 5 },
+              ]}
+              numberOfLines={1}
+              ellipsizeMode="tail"
             >
               {text}
             </Text>
@@ -133,7 +163,6 @@ const DuoListPressable: React.FC<{
 
 const styles = StyleSheet.create({
   pressable: {
-    width: "100%",
     borderWidth: 1.5,
     borderBottomWidth: 3,
     paddingHorizontal: 18,
@@ -142,7 +171,7 @@ const styles = StyleSheet.create({
     borderCurve: "continuous",
     flexDirection: "row",
     gap: 18,
-    alignItems: "center",
+    alignSelf: "center",
   },
 
   text: {
