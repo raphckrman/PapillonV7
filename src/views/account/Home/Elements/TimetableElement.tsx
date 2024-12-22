@@ -203,7 +203,6 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
       ? "Cours de demain"
       : "Prochains cours";
 
-
   return (
     <>
       <NativeListHeader
