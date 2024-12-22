@@ -33,6 +33,7 @@ import AnimatedNumber from "@/components/Global/AnimatedNumber";
 import type { Grade } from "@/services/shared/Grade";
 import { AlertTriangle, Calculator, Check, ExternalLink, PieChart, Spline, SquareRadical, TrendingUp } from "lucide-react-native";
 import { useAlert } from "@/providers/AlertProvider";
+import Constants from "expo-constants";
 
 interface GradesAverageGraphProps {
   grades: Grade[];
@@ -214,7 +215,7 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
               </TouchableOpacity>
             )}
 
-            {!__DEV__ && hLength > 1 ? (
+            {Constants.appOwnership !== "expo" && hLength > 1 ? (
               <Reanimated.View
                 layout={animPapillon(LinearTransition)}
                 style={{
