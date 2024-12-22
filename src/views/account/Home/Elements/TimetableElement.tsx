@@ -10,12 +10,16 @@ import RedirectButton from "@/components/Home/RedirectButton";
 import { updateTimetableForWeekInCache } from "@/services/timetable";
 import MissingItem from "@/components/Global/MissingItem";
 import { TimetableItem } from "../../Lessons/Atoms/Item";
+import { getHolidayEmoji } from "@/utils/format/holidayEmoji";
+
+
 
 interface TimetableElementProps {
   onImportance: (value: number) => unknown;
 }
 
 const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => {
+  const emoji = getHolidayEmoji();
   const account = useCurrentAccount((store) => store.account!);
   const timetables = useTimetableStore((store) => store.timetables);
 
@@ -167,7 +171,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
       >
         <NativeItem animated style={{ paddingVertical: 10 }}>
           <MissingItem
-            emoji="🏝️"
+            emoji={emoji}
             title="C'est les vacances !"
             description="Profitez de vos vacances, à bientôt."
           />
