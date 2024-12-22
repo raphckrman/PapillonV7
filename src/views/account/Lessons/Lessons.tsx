@@ -44,7 +44,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const loadedWeeks = useRef<Set<number>>(new Set());
   const currentlyLoadingWeeks = useRef<Set<number>>(new Set());
 
-  const { width, isTablet } = useScreenDimensions();
+  const { width, height, isTablet } = useScreenDimensions();
   const finalWidth = width - (isTablet ? (
     320 > width * 0.35 ? width * 0.35 :
       320
@@ -130,6 +130,28 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   };
 
   const flatListRef = useRef<FlatList | null>(null);
+
+  useEffect(() => {
+    if (flatListRef.current) {
+      const normalizeDate = (date: Date) => {
+        const newDate = new Date(date);
+        newDate.setHours(0, 0, 0, 0);
+        return newDate;
+      };
+
+      const index = data.findIndex(
+        (d) => normalizeDate(d).getTime() === normalizeDate(pickerDate).getTime()
+      );
+
+      if (index >= 0) {
+        flatListRef.current.scrollToIndex({
+          index,
+          animated: false,
+        });
+      }
+    }
+  }, [width, height, pickerDate]);
+
   const [data, setData] = useState(() => {
     const today = new Date();
     return Array.from({ length: 100 }, (_, i) => {
