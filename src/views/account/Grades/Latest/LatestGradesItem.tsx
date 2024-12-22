@@ -46,6 +46,7 @@ const GradesLatestItem: React.FC<GradeLatestItemProps> = ({
         exiting={animPapillon(FadeOutLeft).delay(100 * i)}
         style={{
           width: 230,
+          elevation: 0,
         }}
       >
         <View
