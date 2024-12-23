@@ -61,7 +61,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
 
   const isWeekend = (courses: TimetableClass[]) => {
     const today = new Date().getDay();
-    return (today === 6 || today === 0) && courses.length === 0; 
+    return (today === 6 || today === 0) && courses.length === 0;
   };
 
   const isVacation = (courses: TimetableClass[]) =>
@@ -140,7 +140,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     );
   }
 
-  if (isWeekend(nextCourses)) { 
+  if (isWeekend(nextCourses)) {
     return (
       <NativeList
         animated
