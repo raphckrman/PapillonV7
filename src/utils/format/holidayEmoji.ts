@@ -27,5 +27,5 @@ export const getHolidayEmoji = (date: Date = new Date()): string => {
     }
   }
 
-  return "🏝️"; // Emoji par défaut 
+  return "🏝️";// Emoji par défaut
 };
