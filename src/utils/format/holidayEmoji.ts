@@ -20,5 +20,5 @@ export const getHolidayEmoji = (date: Date = new Date()): string => {
     { start: new Date(`${year}-07-05`), end: new Date(`${year}-09-01`), emoji: "🏖️" }, // Grandes vacances
   ];
 
-return periods.find((period) => date >= period.start && date <= period.end)?.emoji ?? "🏝️";
+  return periods.find((period) => date >= period.start && date <= period.end)?.emoji ?? "🏝️";
 };
