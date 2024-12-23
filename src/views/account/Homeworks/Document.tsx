@@ -1,3 +1,4 @@
+
 import {
   NativeItem,
   NativeList,
@@ -16,11 +17,6 @@ import {
 } from "react-native";
 import { Homework, HomeworkReturnType } from "@/services/shared/Homework";
 import { getSubjectData } from "@/services/shared/Subject";
-
-import { formatDistance } from "date-fns";
-import { fr } from "date-fns/locale";
-import { FileText, Link, Paperclip, CircleAlert } from "lucide-react-native";
-
 import * as WebBrowser from "expo-web-browser";
 import { useTheme } from "@react-navigation/native";
 import HTMLView from "react-native-htmlview";
@@ -31,6 +27,10 @@ import { PapillonModernHeader } from "@/components/Global/PapillonModernHeader";
 import { useCurrentAccount } from "@/stores/account";
 import { AccountService } from "@/stores/account/types";
 import getAndOpenFile from "@/utils/files/getAndOpenFile";
+import { AutoFileIcon } from "@/components/Global/FileIcon";
+import { FileText, Link, Paperclip, CircleAlert, FileIcon } from "lucide-react-native";
+import LinkFavicon, { getURLDomain } from "@/components/Global/LinkFavicon";
+import { timestampToString } from "@/utils/format/DateHelper";
 
 const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
   const theme = useTheme();
@@ -40,7 +40,11 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
       fontFamily: "medium",
       fontSize: 16,
       lineHeight: 22,
-    }
+    },
+    a: {
+      color: theme.colors.primary,
+      textDecorationLine: "underline",
+    },
   });
 
   const homework: Homework = route.params.homework || {};
@@ -75,6 +79,7 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
     fetchSubjectData();
   }, [homework.subject]);
 
+
   return (
     <View style={{ flex: 1 }}>
       <PapillonModernHeader native outsideNav={true}>
@@ -100,10 +105,7 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
               {subjectData.pretty}
             </NativeText>
             <NativeText variant="subtitle" numberOfLines={1}>
-              {formatDistance(new Date(homework.due), new Date(), {
-                addSuffix: true,
-                locale: fr,
-              })}
+              {timestampToString(new Date(homework.due).getTime())}
             </NativeText>
           </View>
           <View>
@@ -169,7 +171,11 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
           )}
 
           <NativeItem>
-            <HTMLView value={`<body>${homework.content}</body>`} stylesheet={stylesText} />
+            <HTMLView
+              value={`<body>${homework.content}</body>`}
+              stylesheet={stylesText}
+              onLinkPress={(url) => openUrl(url)}
+            />
           </NativeItem>
         </NativeList>
 
@@ -182,10 +188,10 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
                 <NativeItem
                   key={index}
                   onPress={() => openUrl(attachment.url)}
-                  icon={attachment.type === "file" ? <FileText /> : <Link />}
+                  icon={attachment.type === "file" ? <AutoFileIcon filename={attachment.name} /> : <LinkFavicon url={attachment.url} />}
                 >
                   <NativeText variant="title" numberOfLines={2}>
-                    {attachment.name}
+                    {attachment.name || getURLDomain(attachment.url, true)}
                   </NativeText>
                   <NativeText variant="subtitle" numberOfLines={1}>
                     {attachment.url}

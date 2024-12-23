@@ -25,10 +25,22 @@ export async function reload <T extends Account> (account: T): Promise<Reconnect
       // keep instance the same
       return { instance: undefined, authentication: auth };
     }
+    case AccountService.Alise: {
+      const { reload } = await import("./alise/reload");
+      const auth = await reload(account);
+      return { instance: undefined, authentication: auth };
+    }
     case AccountService.ARD: {
       const { reload } = await import("./ard/reload");
       const instance = await reload(account);
-      return { instance, authentication: account.authentication };
+      const balances = await instance.getOnlinePayments();
+      return {
+        instance,
+        authentication: {
+          ...account.authentication,
+          balances
+        }
+      };
     }
     case AccountService.Izly: {
       const { reload } = await import("./izly/reload");

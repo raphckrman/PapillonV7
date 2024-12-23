@@ -95,7 +95,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
     start.setHours(0, 0, 0, 0);
     const diff = now.getTime() - start.getTime();
     const oneWeek = 1000 * 60 * 60 * 24 * 7;
-    return Math.floor(diff / oneWeek) + 1;
+    return Math.floor(diff / oneWeek);
   };
 
   const currentWeek = getCurrentWeekNumber();
@@ -138,10 +138,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
     if (showLoading) {
       setLoading(true);
     }
-    console.log("[Homeworks]: updating cache...", selectedWeek, epochWNToDate(selectedWeek));
     updateHomeworkForWeekInCache(account, epochWNToDate(selectedWeek))
       .then(() => {
-        console.log("[Homeworks]: updated cache !", epochWNToDate(selectedWeek));
         setLoading(false);
         setRefreshing(false);
         setLoadedWeeks(prev => [...prev, selectedWeek]);
@@ -195,6 +193,14 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         acc[day] = acc[day].filter(homework => !homework.done);
       }
 
+      // homework completed downstairs
+      acc[day] = acc[day].sort((a, b) => {
+        if (a.done === b.done) {
+          return 0; // if both have the same status, keep the original order
+        }
+        return a.done ? 1 : -1; // completed go after
+      });
+
       // remove all empty days
       if (acc[day].length === 0) {
         delete acc[day];
@@ -220,7 +226,6 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
             setTimeout(() => {
               AsyncStorage.getItem("review_given").then((value) => {
                 if(!value) {
-                  console.log("Asking for review");
                   askForReview();
                   AsyncStorage.setItem("review_given", "true");
                 }

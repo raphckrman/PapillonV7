@@ -3,7 +3,6 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Alert, Image, Platform, Text, View } from "react-native";
 import { useAccounts, useCurrentAccount } from "@/stores/account";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import * as WebBrowser from "expo-web-browser";
 import AppJSON from "../../../app.json";
 
 import Reanimated, {
@@ -19,7 +18,6 @@ import Reanimated, {
 import {
   Bell,
   Cable,
-  HandCoins,
   Info,
   Laptop,
   LogOut,
@@ -29,7 +27,7 @@ import {
   Route,
   Scroll,
   Settings as SettingsLucide,
-  Sparkles,
+  Sparkles, SunMoon,
   SwatchBook,
   WandSparkles,
   X
@@ -58,13 +56,6 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
   const [click, setClick] = useState<true | false>(false);
 
   const removeAccount = useAccounts((store) => store.remove);
-
-  const openUrl = async (url: string) => {
-    await WebBrowser.openBrowserAsync(url, {
-      controlsColor: colors.primary,
-      presentationStyle: WebBrowser.WebBrowserPresentationStyle.PAGE_SHEET,
-    });
-  };
 
   useEffect(() => {
     AsyncStorage.getItem("devmode")
@@ -106,9 +97,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           icon: <Bell />,
           color: "#CF0029",
           label: "Notifications",
-          description: "Disponible prochainement",
           onPress: () => navigation.navigate("SettingsNotifications"),
-          disabled: !defined("enable_notifications"),
         },
         {
           icon: <Cable />,
@@ -147,6 +136,12 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
               navigation.navigate("ColorSelector", { settings: true });
             }, 10);
           }
+        },
+        {
+          icon: <SunMoon />,
+          color: "#1e316a",
+          label: "Mode d'affichage",
+          onPress: () => navigation.navigate("SettingsApparence"),
         },
       ],
     },
@@ -383,7 +378,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           </View>
         ))}
 
-        {devModeEnabled == true && (
+        {devModeEnabled && (
           <View>
             <NativeListHeader label={"Développeur"}/>
             <NativeList>
@@ -416,7 +411,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
             marginTop: 24,
           }}
         >
-          version {AppJSON.expo.version} {Platform.OS} {"\n"}
+          version {AppJSON.expo.version} {Platform.OS} {__DEV__ ? "(développeur)" : ""} {"\n"}
           fabriqué avec ❤️ par les contributeurs Papillon
         </Text>
       </Reanimated.ScrollView>
