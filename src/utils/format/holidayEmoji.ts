@@ -1,7 +1,7 @@
 export const getHolidayEmoji = (date: Date = new Date()): string => {
   const year = date.getFullYear();
 
-  const allPeriods = [
+  const periods = [
     { start: new Date(`${year}-12-31`), end: new Date(`${year}-01-01`), emoji: "🎇" }, // Nouvel An
     { start: new Date(`${year}-04-10`), end: new Date(`${year}-04-10`), emoji: "🥚" }, // Lundi de Pâques
     { start: new Date(`${year}-05-01`), end: new Date(`${year}-05-01`), emoji: "💼" }, // Fête du Travail
