@@ -103,7 +103,7 @@ const DuoListPressable: React.FC<{
                 styles.text,
                 enabled && styles.text_enabled,
                 enabled ? { color: colors.primary } : { color: colors.text + "88" },
-                subtext ? { marginBottom: 2 } : { marginTop: 5 },
+                subtext ? { marginBottom: 2 } : { marginTop: 2 },
               ]}
               numberOfLines={1}
               ellipsizeMode="tail"
