@@ -174,7 +174,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
         {
           icon: <PersonStanding />,
           text: lesson.teacher?.includes(",") ? "Professeurs" : "Professeur",
-          value: lesson.teacher,
+          value: lesson.teacher || "Aucun",
           enabled: Boolean(lesson.teacher?.trim()), // Check if lesson.teacher exists, is not null, and not empty
         },
         {
