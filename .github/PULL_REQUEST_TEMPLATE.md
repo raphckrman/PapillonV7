@@ -36,8 +36,3 @@ _S'il y en a plusieurs, continuer à les lister_
 
 - Closed #(_le numéro de l'issue_)
 
-<!-- ### Autres informations
-
-> [!WARNING]
->
-> Cette section est réservé à un bot (qui affichera un QR Code), merci de laisser la section comme elle est -->
