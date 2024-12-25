@@ -265,6 +265,15 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
     }
   ];
 
+  if (Platform.OS === "android") {
+    tabs[3].tabs.push({
+      icon: <HandCoins />,
+      color: "#f0a500",
+      label: "Soutenir Papillon",
+      onPress: () => openUrl("https://papillon.bzh/donate"),
+    });
+  }
+
   const translationY = useSharedValue(0);
   const [scrolled, setScrolled] = useState(false);
 
@@ -341,10 +350,10 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
         {tabs.map((tab, index) => (
           <View key={index}>
             {tab.label &&
-          <NativeListHeader
-            key={index + "settingsheaderindexname"}
-            label={tab.label}
-          />
+              <NativeListHeader
+                key={index + "settingsheaderindexname"}
+                label={tab.label}
+              />
             }
             <NativeList>
               {tab.tabs.map((subtab, index) => (
