@@ -93,6 +93,7 @@ const DuoListPressable: React.FC<{
         <View
           style={{
             flex: 1,
+            justifyContent: "center",
           }}
         >
           {children}
@@ -103,7 +104,7 @@ const DuoListPressable: React.FC<{
                 styles.text,
                 enabled && styles.text_enabled,
                 enabled ? { color: colors.primary } : { color: colors.text + "88" },
-                subtext ? { marginBottom: 2 } : { marginTop: 2 },
+                subtext ? { marginBottom: 2 } : { marginTop: 0 },
               ]}
               numberOfLines={1}
               ellipsizeMode="tail"
