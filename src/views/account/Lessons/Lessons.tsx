@@ -45,7 +45,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const loadedWeeks = useRef<Set<number>>(new Set());
   const currentlyLoadingWeeks = useRef<Set<number>>(new Set());
 
-  const [shouldShowWeekFrequency, setShouldShowWeekFrequency] = useState(false);
+  const [shouldShowWeekFrequency, setShouldShowWeekFrequency] = useState(true);
   const [weekFrequency, setWeekFrequency] = useState<WeekFrequency | null>(null);
 
   useEffect(() => {
