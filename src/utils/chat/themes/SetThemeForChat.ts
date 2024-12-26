@@ -41,7 +41,6 @@ async function SetThemeForChatId (chatId: string, meta: ThemesMeta): Promise<boo
 
   if (themeDownloaded) await AsyncStorage.setItem("chat_theme_" + chatId, "theme_" + meta.name + "_@" + meta.author);
   let storedData = await AsyncStorage.getItem("chat_theme_" + chatId);
-  console.log("Stored theme data:", storedData);  // Affiche les données stockées
 
   return true;
 }
