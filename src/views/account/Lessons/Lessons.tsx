@@ -269,15 +269,36 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
           >
             {pickerDate.toLocaleDateString("fr-FR", { month: "long" })}
           </Reanimated.Text>
+
+          { weekFrequency && (
+            <Reanimated.View
+              style={[
+                {
+                  borderColor: theme.colors.text,
+                  borderWidth: 1,
+                  paddingHorizontal: 4,
+                  paddingVertical: 3,
+                  borderRadius: 6,
+                  opacity: 0.5,
+                },
+              ]}
+              layout={animPapillon(LinearTransition)}
+            >
+              <Reanimated.Text
+                style={[
+                  {
+                    color: theme.colors.text,
+                    fontFamily: "medium",
+                    letterSpacing: 0.5,
+                  },
+                ]}
+                layout={animPapillon(LinearTransition)}
+              >
+                {weekFrequency.freqLabel}
+              </Reanimated.Text>
+            </Reanimated.View>
+          ) }
         </PapillonHeaderSelector>
-        
-        { weekFrequency &&
-          <Reanimated.Text
-            layout={animPapillon(LinearTransition)}
-          >
-            {weekFrequency.textLabel} {weekFrequency.freqLabel}
-          </Reanimated.Text>
-        }
 
         <PapillonHeaderSeparator />
 
