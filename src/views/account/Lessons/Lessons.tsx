@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { useCurrentAccount } from "@/stores/account";
 import { useTimetableStore } from "@/stores/timetable";
-import { updateTimetableForWeekInCache } from "@/services/timetable";
+import { getWeekFrequency, updateTimetableForWeekInCache } from "@/services/timetable";
 import { Page } from "./Atoms/Page";
 import { LessonsDateModal } from "./LessonsHeader";
 import { dateToEpochWeekNumber } from "@/utils/epochWeekNumber";
@@ -31,6 +31,7 @@ import {
 } from "@/components/Global/PapillonModernHeader";
 import PapillonPicker from "@/components/Global/PapillonPicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { WeekFrequency } from "@/services/shared/Timetable";
 
 const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const account = useCurrentAccount((store) => store.account!);
@@ -42,6 +43,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
 
   const loadedWeeks = useRef<Set<number>>(new Set());
   const currentlyLoadingWeeks = useRef<Set<number>>(new Set());
+  const [weekFrequency, setWeekFrequency] = useState<WeekFrequency | null>(null);
 
   useEffect(() => {
     // add all week numbers in timetables to loadedWeeks
@@ -66,6 +68,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
     void (async () => {
       const weekNumber = getWeekFromDate(pickerDate);
       await loadTimetableWeek(weekNumber, false);
+      setWeekFrequency((await getWeekFrequency(account, weekNumber)));
     })();
   }, [pickerDate, account.instance]);
 
@@ -267,6 +270,14 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
             {pickerDate.toLocaleDateString("fr-FR", { month: "long" })}
           </Reanimated.Text>
         </PapillonHeaderSelector>
+        
+        { weekFrequency &&
+          <Reanimated.Text
+            layout={animPapillon(LinearTransition)}
+          >
+            {weekFrequency.textLabel} {weekFrequency.freqLabel}
+          </Reanimated.Text>
+        }
 
         <PapillonHeaderSeparator />
 
