@@ -7,6 +7,7 @@ import PapillonShineBubble from "@/components/FirstInstallation/PapillonShineBub
 import { AccountService } from "@/stores/account/types";
 import DuoListPressable from "@/components/FirstInstallation/DuoListPressable";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
+import { LinearGradient } from "expo-linear-gradient";
 
 const ExternalAccountSelector: Screen<"ExternalAccountSelector"> = ({ navigation }) => {
   type Service = AccountService | "Other";
@@ -16,36 +17,39 @@ const ExternalAccountSelector: Screen<"ExternalAccountSelector"> = ({ navigation
   return (
     <SafeAreaView style={styles.container}>
       <PapillonShineBubble
+        noFlex
         message={"Pour commencer, quel est ton service de cantine ?"}
         width={250}
         numberOfLines={2}
         offsetTop={"15%"}
+        style={{
+          height: 180,
+        }}
       />
 
-      <View
-        style={{
-          width: "100%",
-          flex: 1,
+      <Reanimated.ScrollView
+        style={styles.list}
+        contentContainerStyle={{
           alignItems: "center",
-          zIndex: 1000,
+          gap: 9,
+          paddingHorizontal: 20,
+          paddingTop: 30,
+          paddingBottom: 60,
         }}
+        layout={LinearTransition}
       >
         <Reanimated.View
-          style={styles.list}
+          style={{ width: "100%" }}
           layout={LinearTransition}
+          entering={FlipInXDown.springify().delay(100)}
         >
-          <Reanimated.View
-            style={{ width: "100%" }}
-            layout={LinearTransition}
-            entering={FlipInXDown.springify().delay(100)}
-          >
-            <DuoListPressable
-              leading={<Image source={require("../../../../assets/images/service_turboself.png")} style={styles.image} />}
-              text="Turboself"
-              enabled={service === AccountService.Turboself}
-              onPress={() => setService(AccountService.Turboself)}
-            />
-          </Reanimated.View>
+          <DuoListPressable
+            leading={<Image source={require("../../../../assets/images/service_turboself.png")} style={styles.image} />}
+            text="Turboself"
+            enabled={service === AccountService.Turboself}
+            onPress={() => setService(AccountService.Turboself)}
+          />
+        </Reanimated.View>
 
           <Reanimated.View
             style={{ width: "100%" }}
@@ -60,44 +64,43 @@ const ExternalAccountSelector: Screen<"ExternalAccountSelector"> = ({ navigation
             />
           </Reanimated.View>
 
-          <Reanimated.View
-            style={{ width: "100%" }}
-            layout={LinearTransition}
-            entering={FlipInXDown.springify().delay(200)}
-          >
-            <DuoListPressable
-              leading={<Image source={require("../../../../assets/images/service_izly.png")} style={styles.image} />}
-              text="Izly"
-              enabled={service === AccountService.Izly}
-              onPress={() => setService(AccountService.Izly)}
-            />
-          </Reanimated.View>
-          <Reanimated.View
-            style={{ width: "100%" }}
-            layout={LinearTransition}
-            entering={FlipInXDown.springify().delay(200)}
-          >
-            <DuoListPressable
-              leading={<Image source={require("../../../../assets/images/service_alise.jpg")} style={styles.image} />}
-              text="Alise"
-              enabled={service === AccountService.Alise}
-              onPress={() => setService(AccountService.Alise)}
-            />
-          </Reanimated.View>
-        </Reanimated.View>
-
-        <View style={styles.buttons}>
-          <ButtonCta
-            primary
-            value="Confirmer"
-            disabled={!service || service === "Other"}
-            onPress={() => {
-              if (service) {
-                navigation.navigate("ExternalAccountSelectMethod", { service });
-              }
-            }}
+        <Reanimated.View
+          style={{ width: "100%" }}
+          layout={LinearTransition}
+          entering={FlipInXDown.springify().delay(300)}
+        >
+          <DuoListPressable
+            leading={<Image source={require("../../../../assets/images/service_izly.png")} style={styles.image} />}
+            text="Izly"
+            enabled={service === AccountService.Izly}
+            onPress={() => setService(AccountService.Izly)}
           />
-        </View>
+        </Reanimated.View>
+        <Reanimated.View
+          style={{ width: "100%" }}
+          layout={LinearTransition}
+          entering={FlipInXDown.springify().delay(400)}
+        >
+          <DuoListPressable
+            leading={<Image source={require("../../../../assets/images/service_alise.jpg")} style={styles.image} />}
+            text="Alise"
+            enabled={service === AccountService.Alise}
+            onPress={() => setService(AccountService.Alise)}
+          />
+        </Reanimated.View>
+      </Reanimated.ScrollView>
+
+      <View style={styles.buttons}>
+        <ButtonCta
+          primary
+          value="Confirmer"
+          disabled={!service || service === "Other"}
+          onPress={() => {
+            if (service) {
+              navigation.navigate("ExternalAccountSelectMethod", { service });
+            }
+          }}
+        />
       </View>
     </SafeAreaView>
   );
@@ -113,9 +116,6 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     width: "100%",
-    alignItems: "center",
-    gap: 9,
-    paddingHorizontal: 20,
   },
 
   buttons: {
