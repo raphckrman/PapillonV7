@@ -330,6 +330,8 @@ const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
 
                   authentication: { ...refresh, deviceUUID },
                   personalization: await defaultPersonalization(session),
+
+                  identity: {}
                 };
 
                 pronote.startPresenceInterval(session);
