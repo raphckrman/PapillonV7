@@ -216,7 +216,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
     return unsubscribe;
   }, []);
 
-  const onDateSelect = (date: Date) => {
+  const onDateSelect = (date: Date | undefined) => {
     const newDate = new Date(date || 0);
     newDate.setHours(0, 0, 0, 0);
     setPickerDate(newDate);
