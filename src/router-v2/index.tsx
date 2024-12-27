@@ -14,7 +14,6 @@ import {
 } from "@react-navigation/native";
 import AlertProvider from "@/providers/AlertProvider";
 import { navigate } from "@/utils/logger/logger";
-import { navigatorScreenOptions } from "./helpers/create-screen";
 import screens from "./stacks";
 
 const Tab = createBottomTabNavigator();
@@ -62,31 +61,31 @@ const AppRouter = () => {
   }, [scheme, account]);
 
   return (
-    // <GestureHandlerRootView style={{ flex: 1 }}>
-    <SafeAreaProvider>
-      <NavigationContainer
-        theme={theme}
-        linking={linking}
-        onStateChange={(state) => {
-          const path = buildNavigationPath(state);
-          navigate(path);
-        }}
-      >
-        <AlertProvider>
-          <Tab.Navigator initialRouteName="WelcomeStack">
-            {screens.map((screen) => (
-              <Tab.Screen
-                key={screen.name + "_scr"}
-                name={screen.name}
-                component={screen.component}
-                options={screen.options as BottomTabNavigationOptions}
-              />
-            ))}
-          </Tab.Navigator>
-        </AlertProvider>
-      </NavigationContainer>
-    </SafeAreaProvider>
-    // </GestureHandlerRootView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <NavigationContainer
+          theme={theme}
+          linking={linking}
+          onStateChange={(state) => {
+            const path = buildNavigationPath(state);
+            navigate(path);
+          }}
+        >
+          <AlertProvider>
+            <Tab.Navigator initialRouteName="WelcomeStack">
+              {screens.map((screen) => (
+                <Tab.Screen
+                  key={screen.name + "_scr"}
+                  name={screen.name}
+                  component={screen.component}
+                  options={screen.options as BottomTabNavigationOptions}
+                />
+              ))}
+            </Tab.Navigator>
+          </AlertProvider>
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 };
 
