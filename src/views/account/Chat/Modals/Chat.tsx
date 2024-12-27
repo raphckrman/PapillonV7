@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from "react";
-import { Image, ActivityIndicator, FlatList, ImageBackground, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import { Image, ActivityIndicator, FlatList, ImageBackground, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView,} from "react-native";
 import { useTheme} from "@react-navigation/native";
 
 import type {Screen} from "@/router/helpers/types";
@@ -91,7 +91,7 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
   console.log(chatTheme?.lightModifier.headerBackgroundColor);
 
   return (
-    <View style={{ flex: 1 }}>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
       {messages[0] ? (
         <>
           <PapillonModernHeader height={110} outsideNav={true} tint={theme.dark ? chatTheme?.darkModifier.headerBackgroundColor : chatTheme?.lightModifier.headerBackgroundColor}>
@@ -318,16 +318,16 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
               )}
             />
             <View style={{
-              minHeight: 66,
-              maxHeight: 120,
-              paddingVertical: 10,
+              minHeight: 90,
+              paddingVertical: 20,
               paddingHorizontal: 20,
               borderTopWidth: 0.5,
               borderTopColor: colors.text + "22",
               backgroundColor: theme.dark ? chatTheme?.darkModifier.inputBarBackgroundColor : chatTheme?.lightModifier.inputBarBackgroundColor,
               flexDirection: "row",
-              alignItems: "center",
-            }}>
+              alignItems: "flex-start",
+            }}
+            >
 
               <TextInput
                 placeholder={"Envoyer un message à " + creatorName}
@@ -352,6 +352,7 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
                   borderRadius: 32,
                   justifyContent: "center",
                   alignItems: "center",
+                  marginTop: -5
                 }}
                 onPress={() => {
                   sendMessageInChat(account, route.params.handle, text);
@@ -405,7 +406,7 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
           </Text>
         </Reanimated.View>
       )}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

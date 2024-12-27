@@ -102,7 +102,7 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
           gap: 5
         }}
         onPress={() => navigation.navigate("ChatCreate")}>
-          <NativeText color={theme.colors.primary}>Créer une discussion</NativeText>
+          <NativeText color={theme.colors.primary}>Créer</NativeText>
           <SquarePen color={theme.colors.primary}/>
         </TouchableOpacity>
       </PapillonHeader>
