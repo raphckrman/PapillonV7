@@ -24,6 +24,9 @@ export const getChats = async (account: PronoteAccount): Promise<Array<Chat>> =>
     const currentYear = new Date().getFullYear();
     return new Date(`${currentYear}-${month}-${day}`);
   };
+
+  chats.items.sort((a, b) => parseFrenchDate(a.dateAsFrenchText).getTime() - parseFrenchDate(b.dateAsFrenchText).getTime());
+
   return chats.items.map((chat) => ({
     id: chat.participantsMessageID,
     read: true,
