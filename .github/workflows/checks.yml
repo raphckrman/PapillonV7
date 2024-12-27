@@ -21,7 +21,7 @@ jobs:
           cache: 'npm'
 
       - name: 💾 Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: 🔍 Run TypeScript and ESLint checks
         id: lint
