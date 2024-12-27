@@ -99,7 +99,8 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
           flex: 1,
           flexDirection: "row",
           alignItems: "center",
-          gap: 5
+          gap: 5,
+          paddingRight: 15,
         }}
         onPress={() => navigation.navigate("ChatCreate")}>
           <NativeText color={theme.colors.primary}>Créer</NativeText>
