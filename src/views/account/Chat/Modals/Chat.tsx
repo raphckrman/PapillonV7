@@ -86,11 +86,13 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
     })();
   }, [route.params.handle]);
 
+  console.log(chatTheme?.lightModifier.headerBackgroundColor);
+
   return (
     <View style={{ flex: 1 }}>
       {messages[0] ? (
         <>
-          <PapillonModernHeader outsideNav={true} tint={theme.dark ? chatTheme?.darkModifier.headerBackgroundColor : chatTheme?.lightModifier.headerBackgroundColor}>
+          <PapillonModernHeader height={110} outsideNav={true} tint={theme.dark ? chatTheme?.darkModifier.headerBackgroundColor : chatTheme?.lightModifier.headerBackgroundColor}>
             <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <ChevronLeft color={
@@ -144,7 +146,7 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
               keyExtractor={(item, index) => index.toString()}
               contentContainerStyle={{
                 padding: 16,
-                paddingTop: 80
+                paddingTop: 90
               }}
               style={{
                 flex: 1,
