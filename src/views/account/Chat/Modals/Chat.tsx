@@ -93,7 +93,7 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
       {messages[0] ? (
         <>
-          <PapillonModernHeader height={110} outsideNav={true} tint={theme.dark ? chatTheme?.darkModifier.headerBackgroundColor : chatTheme?.lightModifier.headerBackgroundColor}>
+          <PapillonModernHeader height={130} outsideNav={true} tint={theme.dark ? chatTheme?.darkModifier.headerBackgroundColor : chatTheme?.lightModifier.headerBackgroundColor}>
             <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <ChevronLeft color={
