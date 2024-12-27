@@ -331,6 +331,7 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
 
               <TextInput
                 placeholder={"Envoyer un message à " + creatorName}
+                placeholderTextColor={colors.text}
                 style={{
                   backgroundColor: "transparent",
                   borderRadius: 25,
