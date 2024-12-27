@@ -25,8 +25,6 @@ export const getChats = async (account: PronoteAccount): Promise<Array<Chat>> =>
     return new Date(`${currentYear}-${month}-${day}`);
   };
 
-  chats.items.sort((a, b) => parseFrenchDate(a.dateAsFrenchText).getTime() - parseFrenchDate(b.dateAsFrenchText).getTime());
-
   return chats.items.map((chat) => ({
     id: chat.participantsMessageID,
     read: true,
@@ -69,6 +67,8 @@ export const getChatMessages = async (account: PronoteAccount, chat: Chat): Prom
   info("PRONOTE->getChatMessages(): OK", "pronote");
 
   const studentName = account.instance.user.resources[0].name;
+
+  messages.sents.sort((a, b) => new Date(a.creationDate).getTime() - new Date(b.creationDate).getTime());
 
   return messages.sents.map((message) => {
     return {
