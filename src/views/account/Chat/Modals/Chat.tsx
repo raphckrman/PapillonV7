@@ -88,7 +88,6 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
     })();
   }, [route.params.handle]);
 
-  console.log(chatTheme?.lightModifier.headerBackgroundColor);
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
