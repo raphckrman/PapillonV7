@@ -1,4 +1,5 @@
-import Router from "@/router";
+import OldRouter from "@/router";
+import NewRouter from "@/router-v2";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { LogBox, AppState, AppStateStatus } from "react-native";
@@ -126,5 +127,6 @@ export default function App () {
     return null;
   }
 
-  return <Router />;
+  const newRouter = true;
+  return newRouter ? <NewRouter /> : <OldRouter />;
 }
