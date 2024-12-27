@@ -25,6 +25,8 @@ import { animPapillon } from "@/utils/ui/animations";
 import GetThemeForChatId from "@/utils/chat/themes/GetThemeForChat";
 import { Theme } from "@/utils/chat/themes/Themes.types";
 import { AttachmentType } from "@/services/shared/Attachment";
+import { AutoFileIcon } from "@/components/Global/FileIcon";
+import LinkFavicon from "@/components/Global/LinkFavicon";
 
 const Chat: Screen<"Chat"> = ({ navigation, route }) => {
   const theme = useTheme();
@@ -243,23 +245,36 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
                           stylesheet={authorIsUser ? stylesTextAuthor : stylesText}
                         />
                       )}
-                      {item.attachments && item.attachments.map((attachment) => (
-                        <TouchableOpacity onPress={() => openUrl(attachment.url)}>
-                          <View style={{flexDirection: "row", alignItems: "center", gap: 10, maxWidth: "90%"}}>
-                            <View>
-                              {attachment.type === AttachmentType.File ? (
-                                <File color={colors.text + "50"} size={28}/>
-                              ) : (
-                                <Link color={colors.text + "50"} size={28}/>
-                              )}
-                            </View>
-                            <View>
-                              <NativeText>{attachment.name}</NativeText>
-                              <NativeText variant="subtitle" numberOfLines={1}>{attachment.url}</NativeText>
-                            </View>
-                          </View>
-                        </TouchableOpacity>
-                      ))}
+                      {item.attachments && (
+                        <View
+                          style={{
+                            marginTop: 10,
+                            gap: 12,
+                          }}
+                        >
+                          {item.attachments.map((attachment) => (
+                            <TouchableOpacity onPress={() => openUrl(attachment.url)}>
+                              <View style={{flexDirection: "row", alignItems: "center", gap: 10, maxWidth: "90%"}}>
+                                <View>
+                                  {attachment.type === AttachmentType.File ? (
+                                    <AutoFileIcon filename={attachment.name} size={28} color={colors.text} opacity={0.7}/>
+                                  ) : (
+                                    <LinkFavicon size={28} url={attachment.url} />
+                                  )}
+                                </View>
+                                <View
+                                  style={{
+                                    gap: 2,
+                                  }}
+                                >
+                                  <NativeText>{attachment.name}</NativeText>
+                                  <NativeText variant="subtitle" numberOfLines={1}>{attachment.url}</NativeText>
+                                </View>
+                              </View>
+                            </TouchableOpacity>
+                          ))}
+                        </View>
+                      )}
                       {isLast && authorIsUser && (
                         <View style={{ position: "absolute", bottom: 2, right: 0, zIndex: 10, pointerEvents: "none" }}>
                           <View
@@ -323,6 +338,7 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
                   marginRight: 10,
                   fontSize: 16,
                   color: colors.text,
+                  fontFamily: "medium",
                 }}
                 multiline={true}
                 onChangeText={(text) => setText(text)}
