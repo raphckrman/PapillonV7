@@ -68,7 +68,9 @@ const ChatCreate: Screen<"ChatCreate"> = ({ navigation }) => {
       <ScrollView
         contentContainerStyle={{
           padding: 20,
+          paddingBottom: 150
         }}
+        showsVerticalScrollIndicator={false}
       >
         <NativeListHeader label="Sujet et contenu" />
         <NativeList>
@@ -168,9 +170,6 @@ const ChatCreate: Screen<"ChatCreate"> = ({ navigation }) => {
             ))}
           </NativeList>
         )}
-        <InsetsBottomView />
-        <InsetsBottomView />
-        <InsetsBottomView />
       </ScrollView>
       <View style={[styles.fixedButtonContainer, {backgroundColor: colors.background}]}>
         <ButtonCta primary value={"Créer la discussion"} disabled={!(content && selectedRecipients.length > 0)} onPress={() => {
