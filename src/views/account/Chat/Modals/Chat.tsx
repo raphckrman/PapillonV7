@@ -215,7 +215,7 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
                             size={25}
                           />
                         )}
-                        <NativeText variant="subtitle">{item.author}</NativeText>
+                        <NativeText variant="subtitle">{ authorIsUser ? `${account.studentName.last} ${account.studentName.first}` : item.author}</NativeText>
                         <View style={{ width: 5, height: 5, backgroundColor: colors.text + "65", borderRadius: 5 }} />
                         <NativeText variant="subtitle">
                           {item.date.toLocaleString("fr-FR", {

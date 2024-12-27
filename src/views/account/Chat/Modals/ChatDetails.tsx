@@ -119,7 +119,7 @@ const ChatDetails: Screen<"ChatDetails"> = ({ navigation, route }) => {
                     size={38}
                   />
                 )}
-                <NativeText>{recipient.name}</NativeText>
+                <NativeText>{recipient.name === account.name ? `${account.studentName.last} ${account.studentName.first}` : recipient.name}</NativeText>
                 {recipient.class ? (
                   <View
                     style={[styles.recipientItem, { backgroundColor: colors.primary + "35" }]}
