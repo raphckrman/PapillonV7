@@ -59,7 +59,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
       fontFamily: "medium",
       fontSize: 16,
       lineHeight: 22,
-    }
+    },
   });
 
   const lesson = route.params.lesson as unknown as TimetableClass;
@@ -70,7 +70,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
   const openUrl = (url: string) => {
     if (
       account.service === AccountService.EcoleDirecte &&
-			Platform.OS === "ios"
+      Platform.OS === "ios"
     ) {
       getAndOpenFile(account, url);
     } else {
@@ -86,10 +86,10 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
       subjects.subjects.filter(
         (b) =>
           new Date(b.date).getDate() ===
-						new Date(lesson.startTimestamp).getDate() &&
-					new Date(b.date).getMonth() ===
-						new Date(lesson.startTimestamp).getMonth() &&
-					lesson.subject === b.subject,
+            new Date(lesson.startTimestamp).getDate() &&
+          new Date(b.date).getMonth() ===
+            new Date(lesson.startTimestamp).getMonth() &&
+          lesson.subject === b.subject,
       ) ?? [],
     );
   }, []);
@@ -123,17 +123,17 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
           icon: <Clock />,
           text: "Début du cours",
           value:
-						formatDistance(new Date(lesson.startTimestamp), new Date(), {
-						  addSuffix: true,
-						  locale: fr,
-						}) +
-						" (à " +
-						new Date(lesson.startTimestamp).toLocaleTimeString("fr-FR", {
-						  hour: "2-digit",
-						  minute: "2-digit",
-						  hour12: false,
-						}) +
-						")",
+            formatDistance(new Date(lesson.startTimestamp), new Date(), {
+              addSuffix: true,
+              locale: fr,
+            }) +
+            " (à " +
+            new Date(lesson.startTimestamp).toLocaleTimeString("fr-FR", {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            }) +
+            ")",
           enabled: lesson.startTimestamp != null,
         },
         {
@@ -155,7 +155,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
           value: lesson.url,
           enabled: lesson.url != null,
         },
-      ]
+      ],
     },
     {
       title: "Contexte",
@@ -164,25 +164,25 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
           icon: <Building />,
           text: lesson.building?.includes(",") ? "Bâtiments" : "Bâtiment",
           value: lesson.building,
-          enabled: lesson.building != null,
+          enabled: Boolean(lesson.building?.trim()), // Check if lesson.building exists, is not null, and not empty
         },
         {
           icon: <DoorOpen />,
           text: lesson.room?.includes(",") ? "Salles de classe" : "Salle de classe",
           value: lesson.room?.split(", ").join("\n"),
-          enabled: lesson.room != null,
+          enabled: Boolean(lesson.room?.trim()), // Check if lesson.room exists, is not null, and not empty
         },
         {
           icon: <PersonStanding />,
           text: lesson.teacher?.includes(",") ? "Professeurs" : "Professeur",
-          value: lesson.teacher,
-          enabled: lesson.teacher != null,
+          value: lesson.teacher || "Aucun",
+          enabled: Boolean(lesson.teacher?.trim()), // Check if lesson.teacher exists, is not null, and not empty.
         },
         {
           icon: <Users />,
           text: lesson.group?.includes(",") ? "Groupes" : "Groupe",
           value: lesson.group?.replace(/\[|\]/g, ""),
-          enabled: lesson.group != null
+          enabled: Boolean(lesson.group?.trim()), // Check if lesson.group exists, is not null, and not empty
         },
       ],
     },
@@ -208,11 +208,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
         height={110}
       >
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <View
-            style={{
-              marginRight: 4,
-            }}
-          >
+          <View style={{ marginRight: 4 }}>
             <Text
               style={{
                 fontSize: 28,
@@ -253,18 +249,20 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
           return (
             <View key={index}>
               <NativeListHeader label={info.title} key={index} />
-
               <NativeList>
                 {info.informations.map((item, index) => {
                   if (!item.enabled) {
                     return null;
                   }
-
                   return (
                     <NativeItem
                       key={index}
                       icon={item.icon}
-                      onPress={item.value && item.value.startsWith("http") ? () => Linking.openURL(item.value!) : void 0}
+                      onPress={
+                        item.value && item.value.startsWith("http")
+                          ? () => Linking.openURL(item.value!)
+                          : void 0
+                      }
                     >
                       <NativeText variant="subtitle">{item.text}</NativeText>
                       <NativeText variant="default">{item.value}</NativeText>
