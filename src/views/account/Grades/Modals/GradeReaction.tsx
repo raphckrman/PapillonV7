@@ -37,9 +37,12 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
   const reels = useGradesStore((store) => store.reels);
   const [grade, setGrade] = useState(route.params.grade);
 
-  const updateReels = useGradesStore((store) => (reels: { [gradeID: string]: Reel }) => {
-    store.reels = { ...store.reels, ...reels };
-  });
+  const updateReels = useGradesStore((state) => ({
+    reels: state.reels,
+    setReels: (newReels: { [gradeID: string]: Reel }) => {
+      state.reels = { ...state.reels, ...newReels };
+    }
+  }));
 
   useEffect(() => {
     const setupPermissions = async () => {
@@ -81,7 +84,20 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
         format: "png",
         quality: 0.5,
       });
-      // Convert to base64
+
+      if (!capturedImage) {
+        throw new Error("No image captured");
+      }
+
+      const responsewithouteffect = await fetch(capturedImage);
+      const blobwithouteffect = await responsewithouteffect.blob();
+      const base64withouteffect: string = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blobwithouteffect);
+      });
+
       const response = await fetch(uri);
       const blob = await response.blob();
       const base64: string = await new Promise((resolve, reject) => {
@@ -93,17 +109,25 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
       // Create reel object
       const reel: Reel = {
         id: grade.id,
-        message: message,
         timestamp: Date.now(),
         image: base64.split(",")[1],
+        imagewithouteffect: base64withouteffect.split(",")[1],
         grade: {
           value: grade.student.value !== null ? grade.student.value.toString() : "",
           outOf: grade.outOf.value !== null ? grade.outOf.value.toString() : "",
           coef: grade.coefficient !== null ? grade.coefficient.toString() : "",
         }
       };
-      updateReels({ [grade.id]: reel });
+      useGradesStore.setState((state) => ({
+        ...state,
+        reels: {
+          ...state.reels,
+          [grade.id]: reel
+        }
+      }));
       Alert.alert("Success", "Ta réaction a bien été enregistrée !");
+
+      navigation.goBack();
     } catch (error) {
       console.error("Failed to save image:", error);
       Alert.alert("Erreur", "Erreur lors de l'enregistrement de l'image");
@@ -162,26 +186,8 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
     return grade !== null && outOf ? (grade / outOf) * 20 : null;
   };
 
-  const getMessageForGrade = (adjustedGrade: number) => {
-    if (adjustedGrade === 20) {
-      return "Parfait ! Un sans faute, bravo !";
-    } else if (adjustedGrade >= 18) {
-      return "Très bien ! Une performance remarquable.";
-    } else if (adjustedGrade >= 15) {
-      return "Bien joué, tu es sur la bonne voie.";
-    } else if (adjustedGrade >= 12) {
-      return "Pas mal, mais tu peux encore t'améliorer.";
-    } else if (adjustedGrade >= 10) {
-      return "C'est moyen, un petit effort supplémentaire te fera du bien.";
-    } else if (adjustedGrade >= 5) {
-      return "Attention, tu dois vraiment travailler davantage.";
-    } else {
-      return "C'est très insuffisant, il faudra redoubler d'efforts.";
-    }
-  };
 
   const adjustedGrade = getAdjustedGrade(grade.student.value, grade.outOf.value);
-  const message = adjustedGrade !== null ? getMessageForGrade(adjustedGrade) : "Grade not available";
 
   return (
     <View style={styles.container}>
@@ -231,17 +237,6 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
           </View>
         </View>
       </View>
-      {!capturedImage && (
-        <>
-          <Text style={styles.titleText}>Une réaction ?</Text>
-          <Text style={styles.descText}>
-            {message}
-          </Text>
-          <Text style={styles.descText}>
-            Qu'as tu à dire {account?.studentName?.first || ""} ?
-          </Text>
-        </>
-      )}
       {capturedImage ? (
         <View style={styles.actionContainer}>
           <View
@@ -249,28 +244,29 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
               flexDirection: "column",
               alignItems: "center",
               width: "100%",
-              gap: 50,
             }}
           >
             <View style={styles.actionButtons}>
               <TouchableOpacity
-                style={styles.savebutton}
+                style={{
+                  backgroundColor: "#FFF",
+                  borderRadius: 10,
+                  padding: 10,
+                  paddingVertical: 15,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  gap: 10,
+                  alignItems: "center",
+                  width: "100%",
+                }}
                 onPress={saveImage}
               >
-                <Text style={styles.savebuttonText}>Enregistrer</Text>
+                <Save size={24} color="#000000" />
+                <Text style={styles.buttonText}>Enregister</Text>
+
               </TouchableOpacity>
+
             </View>
-            <TouchableOpacity
-              onPress={shareImage}
-            >
-              <Text
-                style={{
-                  color: "#FFFFFF",
-                  fontSize: 16,
-                  fontWeight: "600",
-                }}
-              >Partager</Text>
-            </TouchableOpacity>
           </View>
         </View>
       ) : (
@@ -281,9 +277,6 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
           <View style={styles.captureButtonInner} />
         </TouchableOpacity>
       )}
-      <View style={{ height: inset.bottom }}>
-        <Text>sus</Text>
-      </View>
     </View>
   );
 };
@@ -296,7 +289,7 @@ const styles = StyleSheet.create({
   cameraContainer: {
     alignSelf: "center",
     width: "90%",
-    height: 450,
+    height: 550,
     borderRadius: 16,
     overflow: "hidden",
   },
@@ -396,11 +389,9 @@ const styles = StyleSheet.create({
     height: 60,
   },
   actionButtons: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    alignSelf: "center",
     marginHorizontal: 20,
   },
   actionContainer: {
@@ -409,21 +400,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 20,
     alignItems: "center",
-    alignSelf: "center",
   },
   actionButton: {
     alignItems: "center",
     gap: 5,
   },
   buttonText: {
-    fontSize: 17,
+    fontSize: 16,
     fontFamily: "semibold",
-    color: "#FFFFFF",
-  },
-  savebuttonText: {
-    fontSize: 17,
-    fontFamily: "semibold",
+    letterSpacing: 1,
+    textTransform: "uppercase",
+    textAlign: "center",
     color: "#000000",
+
   },
   headerRight: {
     padding: 5,

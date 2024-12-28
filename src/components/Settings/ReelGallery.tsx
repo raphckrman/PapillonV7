@@ -18,6 +18,8 @@ import Reanimated, {
 } from "react-native-reanimated";
 import { NativeText } from "@/components/Global/NativeComponents";
 import { Reel } from "@/services/shared/Reel";
+import GradeModal from "../Grades/GradeModal";
+import { useGradesStore } from "@/stores/grades";
 
 interface ReelModalProps {
   reel: Reel;
@@ -30,56 +32,20 @@ const { width: WINDOW_WIDTH } = Dimensions.get("window");
 const PADDING = 16; // Padding sur les côtés
 const GAP = 8;
 
-const ReelModal: React.FC<ReelModalProps> = ({ reel, visible, onClose }) => {
-  const { colors } = useTheme();
-  const scale = useSharedValue(1);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
-
-  return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="fade"
-      onRequestClose={onClose}
-    >
-      <View style={[styles.modalContainer, { backgroundColor: colors.background + "f0" }]}>
-        <TouchableOpacity
-          style={styles.modalCloseArea}
-          activeOpacity={1}
-          onPress={onClose}
-        >
-          <Reanimated.View style={[styles.modalContent, animatedStyle]}>
-            <Image
-              source={{ uri: `data:image/jpeg;base64,${reel.image}` }}
-              style={styles.modalImage}
-              resizeMode="contain"
-            />
-            <View style={[styles.modalInfo, { backgroundColor: colors.card }]}>
-              <NativeText style={[styles.modalMessage, { color: colors.text }]}>
-                {reel.message}
-              </NativeText>
-              <View style={styles.gradeContainer}>
-                <NativeText style={[styles.gradeText, { color: colors.text }]}>
-                  Test
-                </NativeText>
-                <NativeText style={[styles.dateText, { color: colors.text }]}>
-                  {new Date(reel.timestamp).toLocaleDateString()}
-                </NativeText>
-              </View>
-            </View>
-          </Reanimated.View>
-        </TouchableOpacity>
-      </View>
-    </Modal>
-  );
-};
 
 const ReelGallery: React.FC<{ reels: Reel[] }> = ({ reels }) => {
   const [selectedReel, setSelectedReel] = useState<Reel | null>(null);
   const { colors } = useTheme();
+  const reelsObject = useGradesStore((store) => store.reels);
+
+  const deleteReel = (reelId: string) => {
+    useGradesStore.setState((store) => {
+      const updatedReels = { ...store.reels };
+      delete updatedReels[reelId];
+      return { reels: updatedReels };
+    });
+    setSelectedReel(null);
+  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -96,7 +62,7 @@ const ReelGallery: React.FC<{ reels: Reel[] }> = ({ reels }) => {
             onPress={() => setSelectedReel(reel)}
           >
             <Image
-              source={{ uri: `data:image/jpeg;base64,${reel.image}` }}
+              source={{ uri: `data:image/jpeg;base64,${reel.imagewithouteffect}` }}
               style={styles.thumbnail}
               resizeMode="cover"
             />
@@ -105,10 +71,13 @@ const ReelGallery: React.FC<{ reels: Reel[] }> = ({ reels }) => {
       </View>
 
       {selectedReel && (
-        <ReelModal
-          reel={selectedReel}
-          visible={!!selectedReel}
+        <GradeModal
+          isVisible={!!selectedReel}
+          imageBase64={selectedReel?.image}
           onClose={() => setSelectedReel(null)}
+          onDownload={() => console.log("Download")}
+          onShare={() => console.log("Share")}
+          DeleteGrade={() => deleteReel(selectedReel.id)}
         />
       )}
     </ScrollView>
@@ -134,6 +103,7 @@ const styles = StyleSheet.create({
   thumbnail: {
     width: "100%",
     height: "100%",
+    transform: [{ scaleX: -1 }],
   },
   itemInfo: {
     position: "absolute",
