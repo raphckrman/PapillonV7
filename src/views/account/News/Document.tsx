@@ -194,9 +194,7 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
 
 
           <HTMLView
-            value={`<body>${message.content
-              .replaceAll("<p>", "")
-              .replaceAll("</p>", "")}</body>`}
+            value={`<body>${message.content.replaceAll("<p>", "").replaceAll("</p>", "")}</body>`}
             stylesheet={stylesText}
           />
         </View>
