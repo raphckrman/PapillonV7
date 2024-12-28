@@ -39,7 +39,7 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
   const important = route.params.important;
   const isED = route.params.isED;
   const account = useCurrentAccount((store) => store.account!);
-
+  console.log(message.content.replaceAll("<p>", "").replaceAll("</p>", ""));
   const insets = useSafeAreaInsets();
 
   const theme = useTheme();
@@ -200,7 +200,9 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
 
 
           <HTMLView
-            value={`<body>${message.content}</body`}
+            value={`<body>${message.content
+              .replaceAll("<p>", "")
+              .replaceAll("</p>", "")}</body>`}
             stylesheet={stylesText}
           />
         </View>
