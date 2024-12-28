@@ -5,19 +5,20 @@ import {
   Image,
   TouchableOpacity,
   Text,
-  Platform
+  Platform,
+  Alert
 } from "react-native";
 import { Download, Trash, Maximize2, Share, Delete } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BlurView } from "expo-blur";
 import { ScrollView } from "react-native-gesture-handler";
-
+import * as Sharing from "expo-sharing";
+import * as FileSystem from "expo-file-system";
+import * as MediaLibrary from "expo-media-library";
 interface GradeModalProps {
   isVisible: boolean;
   imageBase64: string;
   onClose: () => void;
-  onDownload?: () => void;
-  onShare?: () => void;
   DeleteGrade: () => void;
 }
 
@@ -25,11 +26,31 @@ const GradeModal: React.FC<GradeModalProps> = ({
   isVisible,
   imageBase64,
   onClose,
-  onDownload,
   DeleteGrade,
-  onShare
 }) => {
   const insets = useSafeAreaInsets();
+
+  const shareImage = async () => {
+    try {
+      const fileUri = FileSystem.cacheDirectory + "image.jpg";
+      await FileSystem.writeAsStringAsync(fileUri, imageBase64, { encoding: FileSystem.EncodingType.Base64 });
+      await Sharing.shareAsync(fileUri);
+    } catch (error) {
+      console.error("Failed to share image:", error);
+    }
+  };
+
+  const saveimage = async () => {
+    try {
+      const fileUri = FileSystem.cacheDirectory + "image.jpg";
+      await FileSystem.writeAsStringAsync(fileUri, imageBase64, { encoding: FileSystem.EncodingType.Base64 });
+      const asset = await MediaLibrary.createAssetAsync(fileUri);
+      await MediaLibrary.createAlbumAsync("Download", asset, false);
+      Alert.alert("Image sauvegardée", "L'image a été sauvegardée dans votre galerie.");
+    } catch (error) {
+      console.error("Failed to save image:", error);
+    }
+  };
 
   return (
     <Modal
@@ -65,81 +86,110 @@ const GradeModal: React.FC<GradeModalProps> = ({
               objectFit: "contain",
             }}
           />
-          <ScrollView
-            horizontal
-            contentContainerStyle={{
+          <View
+            style={{
               width: "100%",
-              height: 100,
+              height: 170,
               padding: 20,
+
+              justifyContent: "center",
+              alignItems: "center",
               flexDirection: "row",
-              gap: 20,
+              gap: 35,
             }}
           >
-            {onDownload && (
-              <TouchableOpacity
+            <TouchableOpacity
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 7,
+              }}
+              onPress={saveimage}
+            >
+              <View
                 style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: 7,
+                  padding: 15,
+                  borderRadius: 100,
+                  backgroundColor: "#000000",
                 }}
-                onPress={onDownload}
               >
-                <View
-                  style={{
-                    padding: 15,
-                    borderRadius: 100,
-                    backgroundColor: "#000000",
-                  }}
-                >
-                  <Download color="white" size={25} />
-                </View>
-                <Text
-                  style={{
-                    color: "#FFFFFF",
-                    fontSize: 15,
-                    fontFamily: "semibold",
-                    textAlign: "center",
-                    textAlignVertical: "center"
-                  }}
-                >
-                  Télécharger
-                </Text>
-              </TouchableOpacity>
-            )}
-            {onShare && (
-              <TouchableOpacity
+                <Download color="white" size={30} />
+              </View>
+              <Text
                 style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: 7,
+                  color: "#FFFFFF",
+                  fontSize: 15,
+                  fontFamily: "semibold",
+                  textAlign: "center",
+                  textAlignVertical: "center"
                 }}
-                onPress={onShare}
               >
-                <View
-                  style={{
-                    padding: 15,
-                    borderRadius: 100,
-                    backgroundColor: "#000000",
-                  }}
-                >
-                  <Share color="white" size={25} />
-                </View>
-                <Text
-                  style={{
-                    color: "#FFFFFF",
-                    fontSize: 15,
-                    fontFamily: "semibold",
-                    textAlign: "center",
-                    textAlignVertical: "center"
-                  }}
-                >
-                  Partager
-                </Text>
-              </TouchableOpacity>
-            )}
-          </ScrollView>
+                Télécharger
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 7,
+              }}
+              onPress={shareImage}
+            >
+              <View
+                style={{
+                  padding: 15,
+                  borderRadius: 100,
+                  backgroundColor: "#0E7CCB",
+                }}
+              >
+                <Share color="white" size={30} />
+              </View>
+              <Text
+                style={{
+                  color: "#FFFFFF",
+                  fontSize: 15,
+                  fontFamily: "semibold",
+                  textAlign: "center",
+                  textAlignVertical: "center"
+                }}
+              >
+                Partager
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 7,
+              }}
+              onPress={DeleteGrade}
+            >
+              <View
+                style={{
+                  padding: 15,
+                  borderRadius: 100,
+                  backgroundColor: "#888888",
+                }}
+              >
+                <Trash color="white" size={30} />
+              </View>
+              <Text
+                style={{
+                  color: "#FFFFFF",
+                  fontSize: 15,
+                  fontFamily: "semibold",
+                  textAlign: "center",
+                  textAlignVertical: "center"
+                }}
+              >
+                Supprimer
+              </Text>
+            </TouchableOpacity>
+
+          </View>
           <View
             style={{
               flexDirection: "row",
@@ -155,14 +205,6 @@ const GradeModal: React.FC<GradeModalProps> = ({
           >
             <TouchableOpacity
               style={{
-                padding: 20,
-              }}
-              onPress={DeleteGrade}
-            >
-              <Trash color="white" size={24} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
                 flex: 1,
                 paddingHorizontal: 10,
                 paddingVertical: 20,
@@ -175,11 +217,12 @@ const GradeModal: React.FC<GradeModalProps> = ({
             >
               <Text
                 style={{
-                  color: "#FFFFFF",
-                  fontSize: 15,
+                  fontSize: 16,
                   fontFamily: "semibold",
+                  letterSpacing: 1,
+                  textTransform: "uppercase",
                   textAlign: "center",
-                  textAlignVertical: "center"
+                  color: "#FFFFFF",
                 }}
               >
                 Fermer
