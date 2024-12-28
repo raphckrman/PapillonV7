@@ -57,6 +57,8 @@ const ExternalTurboselfLogin: Screen<"ExternalTurboselfLogin"> = ({ navigation }
     <LoginView
       serviceIcon={require("@/../assets/images/service_turboself.png")}
       serviceName="Turboself"
+      usernameKeyboardType="email-address"
+      usernamePlaceholder="Identifiant ou adresse e-mail"
       onLogin={(username, password) => handleLogin(username, password)}
       loading={loading}
       error={error}
