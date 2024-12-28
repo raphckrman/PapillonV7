@@ -24,6 +24,45 @@ export type RouteParameters = {
     ChangelogScreen: undefined;
   }
 
+  ViewsStack: {
+    NoteReaction: undefined;
+    SettingsTabs: undefined;
+    RestaurantQrCode: {
+      QrCodes: string[];
+    };
+    NewsItem: { message: string; important: boolean; isED: boolean };
+    AddonLogs: {
+      logs: AddonLog[];
+      name: string;
+    };
+    AddonPage: {
+      addon: AddonPlacementManifest;
+      from: string;
+      data: any;
+    };
+    GradeSubject: { subject: GradesPerSubject; allGrades: Grade[] };
+    RestaurantHistory: {
+      histories: ReservationHistory[];
+    };
+    ChatCreate: undefined;
+    Chat: { handle: Chat };
+    HomeworksDocument: { homework: Homework };
+    LessonsImportIcal: {
+      ical?: string;
+      title?: string;
+      autoAdd?: boolean;
+    };
+    LessonDocument: { lesson: Homework };
+    BackgroundIUTLannion:
+    | { url?: string; username: string; password: string; firstLogin?: boolean }
+    | undefined;
+    EvaluationDocument: {
+      evaluation: Evaluation;
+      allEvaluations?: Evaluation[];
+    };
+    BackgroundIdentityProvider: undefined;
+  }
+
   // login.index
   ServiceSelector: undefined;
 
@@ -66,10 +105,6 @@ export type RouteParameters = {
   UnivLimoges_Login: undefined;
   UnivSorbonneParisNord_login: undefined;
   UnivUphf_Login: undefined;
-  BackgroundIdentityProvider: undefined;
-  BackgroundIUTLannion:
-    | { url?: string; username: string; password: string; firstLogin?: boolean }
-    | undefined;
 
   // login.skolengo
   SkolengoAuthenticationSelector: undefined;
@@ -79,34 +114,20 @@ export type RouteParameters = {
   // account.index
   Home: undefined;
   HomeScreen?: { onboard: boolean };
-  NoteReaction: undefined;
 
   Lessons?: { outsideNav?: boolean };
-  LessonsImportIcal: {
-    ical?: string;
-    title?: string;
-    autoAdd?: boolean;
-  };
-  LessonDocument: { lesson: Homework };
 
   Homeworks?: { outsideNav?: boolean };
-  HomeworksDocument: { homework: Homework };
 
   News?: { outsideNav?: boolean; isED: boolean };
-  NewsItem: { message: string; important: boolean; isED: boolean };
 
   Grades?: { outsideNav?: boolean };
-  GradeSubject: { subject: GradesPerSubject; allGrades: Grade[] };
   GradeDocument: {
     grade: Grade;
     allGrades?: Grade[];
   };
 
   Evaluation: { outsideNav?: boolean };
-  EvaluationDocument: {
-    evaluation: Evaluation;
-    allEvaluations?: Evaluation[];
-  };
 
   Attendance: undefined;
 
@@ -121,7 +142,6 @@ export type RouteParameters = {
   SettingsNotifications: undefined;
   SettingsTrophies: undefined;
   SettingsProfile: undefined;
-  SettingsTabs: undefined;
   SettingsAbout: undefined;
   SettingsIcons: undefined;
   SettingsSubjects: undefined;
@@ -135,16 +155,8 @@ export type RouteParameters = {
   SettingsApparence: undefined;
 
   Menu?: undefined;
-  RestaurantQrCode: {
-    QrCodes: string[];
-  };
-  RestaurantHistory: {
-    histories: ReservationHistory[];
-  };
 
   Messages: undefined;
-  ChatCreate: undefined;
-  Chat: { handle: Chat };
 
   AccountStack: { onboard: boolean };
   ExternalAccountSelectMethod: { service: AccountService | "Other" };
@@ -163,15 +175,6 @@ export type RouteParameters = {
   AddonSettingsPage: {
     addon: AddonPlacementManifest;
     from: keyof RouteParameters;
-  };
-  AddonLogs: {
-    logs: AddonLog[];
-    name: string;
-  };
-  AddonPage: {
-    addon: AddonPlacementManifest;
-    from: string;
-    data: any;
   };
 };
 

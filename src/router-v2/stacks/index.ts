@@ -2,7 +2,7 @@ import Account from "./AccountStack";
 import Settings from "./SettingsStack";
 import Welcome from "./WelcomeStack";
 // import Login from "./LoginStack";
-// import Views from "./ViewsStack";
+import Views from "./ViewsStack";
 import createScreen from "../helpers/create-screen";
 
 export default [
@@ -34,10 +34,10 @@ export default [
   //   animationDuration: 100,
   // }),
 
-  // createScreen("ViewsStack", Account, {
-  //   headerShown: false,
-  //   gestureEnabled: false,
-  //   // animation: Platform.OS === "android" ? "slide_from_right" : "default",
-  //   animationDuration: 100,
-  // }),
+  createScreen("ViewsStack", Views, {
+    headerShown: false,
+    gestureEnabled: false,
+    // animation: Platform.OS === "android" ? "slide_from_right" : "default",
+    animationDuration: 100,
+  }),
 ] as const;
