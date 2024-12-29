@@ -43,11 +43,11 @@ const PapillonNavigatorTabs: React.FC<Omit<ReturnType<typeof useNavigationBuilde
     >
       {tabs.map((route, index) => (
         <TabItem
-          key={route.key}
+          key={route?.key}
           route={route}
-          descriptor={descriptors[route.key]}
+          descriptor={route ? descriptors[route.key] : undefined}
           navigation={navigation}
-          isFocused={allTabs.indexOf(route) === state.index}
+          isFocused={route ? allTabs.indexOf(route) === state.index : false}
           settings={settings}
         />
       ))}

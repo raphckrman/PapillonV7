@@ -15,7 +15,6 @@ const MenuItem: React.FC<{
   descriptor: any;
   navigation: any;
   isFocused: boolean;
-  settings: any;
 }> = ({ route, descriptor, navigation, isFocused }) => {
   const theme = useTheme();
 

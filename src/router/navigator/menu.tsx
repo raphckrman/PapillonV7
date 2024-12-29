@@ -72,7 +72,7 @@ const PapillonNavigatorMenu: React.FC<Omit<ReturnType<typeof useNavigationBuilde
             }}
           >
             <Image
-              source={(account.personalization.profilePictureB64 && account.personalization.profilePictureB64.trim() !== "") ? { uri: account.personalization.profilePictureB64 } : defaultProfilePicture(account.service, account.identityProvider?.name || "")}
+              source={(account?.personalization.profilePictureB64 && account?.personalization.profilePictureB64.trim() !== "") ? { uri: account.personalization.profilePictureB64 } : account ? defaultProfilePicture(account.service, account?.identityProvider?.name || "") : undefined}
               style={{
                 width: 24,
                 height: 24,
@@ -87,8 +87,8 @@ const PapillonNavigatorMenu: React.FC<Omit<ReturnType<typeof useNavigationBuilde
                 fontSize: 16,
               }}
             >
-              {account.studentName ? (
-                account.studentName?.first + (account?.personalization.shouldHideName ? "" : " " + account.studentName.last)
+              {account?.studentName ? (
+                account.studentName?.first + (account.studentName.last)
               ) : "Mon compte"}
             </Text>
           </Reanimated.View>
@@ -96,11 +96,11 @@ const PapillonNavigatorMenu: React.FC<Omit<ReturnType<typeof useNavigationBuilde
 
         {tabs.map((route, index) => (
           <MenuItem
-            key={route.key}
+            key={route?.key}
             route={route}
-            descriptor={descriptors[route.key]}
+            descriptor={route ? descriptors[route.key] : undefined}
             navigation={navigation}
-            isFocused={allTabs.indexOf(route) === state.index}
+            isFocused={route ? allTabs.indexOf(route) === state.index : false}
           />
         ))}
       </Reanimated.ScrollView>
@@ -117,6 +117,10 @@ const styles = StyleSheet.create({
   menuBarContent: {
     flex: 1
   },
+  menuBarAndroid: {
+    elevation: 10,
+  },
+  menuBarIOS: {},
 });
 
 export default PapillonNavigatorMenu;
