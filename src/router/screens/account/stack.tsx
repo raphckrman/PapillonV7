@@ -12,7 +12,8 @@ const screenOptions: NativeStackNavigationOptions = {
   headerBackTitleStyle: { fontFamily: "medium" },
   headerTitleStyle: { fontFamily: "semibold" },
   headerBackTitle: "Retour",
-  tabBarStyle: { position: "absolute" }, // `tabBarStyle` typing is fine; TS ignore not needed
+  // @ts-ignore
+  tabBarStyle: { position: "absolute" },
 };
 
 const TabBarContainer = () => <View />;

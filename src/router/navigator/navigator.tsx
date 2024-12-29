@@ -1,7 +1,9 @@
 import { BottomTabView } from "@react-navigation/bottom-tabs";
 import { createNavigatorFactory, TabRouter, useNavigationBuilder } from "@react-navigation/native";
 import PapillonNavigatorTabs from "./tabs";
-import { useEffect } from "react";
+import { memo, useEffect, useMemo } from "react";
+import { Dimensions, View } from "react-native";
+import PapillonNavigatorMenu from "./menu";
 
 const BottomTabNavigator: React.ComponentType<any> = ({
   initialRouteName,
@@ -10,6 +12,7 @@ const BottomTabNavigator: React.ComponentType<any> = ({
   screenOptions,
   ...rest
 }) => {
+  const tablet = Dimensions.get("window").width > 600;
 
   const {
     state,
@@ -25,18 +28,33 @@ const BottomTabNavigator: React.ComponentType<any> = ({
 
   return (
     <NavigationContent>
-      <BottomTabView
-        {...rest}
-        state={state}
-        navigation={navigation}
-        descriptors={descriptors}
-      />
+      <View style={[
+        { flex: 1 },
+        tablet && { flexDirection: "row" },
+      ]}>
+        {tablet && (
+          <PapillonNavigatorMenu
+            state={state}
+            descriptors={descriptors}
+            navigation={navigation}
+          />
+        )}
 
-      <PapillonNavigatorTabs
-        state={state}
-        descriptors={descriptors}
-        navigation={navigation}
-      />
+        <BottomTabView
+          {...rest}
+          state={state}
+          navigation={navigation}
+          descriptors={descriptors}
+        />
+
+        {!tablet && (
+          <PapillonNavigatorTabs
+            state={state}
+            descriptors={descriptors}
+            navigation={navigation}
+          />
+        )}
+      </View>
     </NavigationContent>
   );
 };
