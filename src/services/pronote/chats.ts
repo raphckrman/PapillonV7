@@ -91,7 +91,7 @@ export const createDiscussionRecipients = async (account: PronoteAccount): Promi
       [
         pronote.EntityKind.Teacher,
         pronote.EntityKind.Personal
-      ].map(kind => pronote.newDiscussionRecipients(account.instance!, resource, kind))
+      ].map(kind => pronote.newDiscussionRecipients(account.instance!, kind))
     )
   );
   const recipients = recipientsALL.flat();

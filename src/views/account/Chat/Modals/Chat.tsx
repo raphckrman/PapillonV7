@@ -143,11 +143,12 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
             style={{ flex: 1 }}
           >
             <FlatList
-              data={messages}
+              inverted
+              data={[...messages].reverse()}
               keyExtractor={(item, index) => index.toString()}
               contentContainerStyle={{
                 padding: 16,
-                paddingTop: 90
+                paddingTop: 40
               }}
               style={{
                 flex: 1,
