@@ -88,7 +88,7 @@ const PapillonNavigatorMenu: React.FC<Omit<ReturnType<typeof useNavigationBuilde
               }}
             >
               {account?.studentName ? (
-                account.studentName?.first + (account.studentName.last)
+                account.studentName?.first + " " + account.studentName.last
               ) : "Mon compte"}
             </Text>
           </Reanimated.View>
