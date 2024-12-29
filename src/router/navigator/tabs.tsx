@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useCurrentAccount } from "@/stores/account";
 import { useNavigationBuilder, useTheme } from "@react-navigation/native";
 import { StyleSheet, View, Platform } from "react-native";
@@ -11,6 +11,18 @@ const PapillonNavigatorTabs: React.FC<Omit<ReturnType<typeof useNavigationBuilde
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const account = useCurrentAccount((store) => store.account);
+
+  const [settings, setSettings] = useState({
+    hideTabTitles: false,
+    showTabBackground: false,
+  });
+
+  useEffect(() => {
+    setSettings({
+      hideTabTitles: account?.personalization?.hideTabTitles || false,
+      showTabBackground: account?.personalization?.showTabBackground || false,
+    });
+  }, [account?.personalization]);
 
   const allTabs = useMemo(() => state.routes, [state.routes]);
   const tabs = account?.personalization.tabs?.filter((tab) => tab.enabled)
@@ -36,6 +48,7 @@ const PapillonNavigatorTabs: React.FC<Omit<ReturnType<typeof useNavigationBuilde
           descriptor={descriptors[route.key]}
           navigation={navigation}
           isFocused={allTabs.indexOf(route) === state.index}
+          settings={settings}
         />
       ))}
     </Reanimated.View>

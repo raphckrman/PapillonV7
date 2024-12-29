@@ -15,7 +15,8 @@ const TabItem: React.FC<{
   descriptor: any;
   navigation: any;
   isFocused: boolean;
-}> = ({ route, descriptor, navigation, isFocused }) => {
+  settings: any;
+}> = ({ route, descriptor, navigation, isFocused, settings }) => {
   const theme = useTheme();
 
   const { options } = descriptor;
@@ -64,12 +65,43 @@ const TabItem: React.FC<{
         testID={options.tabBarTestID}
         onPress={onPress}
         onLongPress={onLongPress}
-        style={[styles.tabItem]}
+        style={[styles.tabItem, settings.hideTabTitles && styles.tabItemNoText]}
       >
         <Reanimated.View
           entering={anim2Papillon(ZoomIn)}
           exiting={anim2Papillon(FadeOut)}
+          style={[
+            settings.showTabBackground &&{
+              padding: 6,
+            },
+            settings.showTabBackground && !settings.hideTabTitles && {
+              paddingVertical: 4,
+              paddingHorizontal: 16,
+            },
+          ]}
         >
+          {settings.showTabBackground && isFocused && (
+            <Reanimated.View
+              entering={anim2Papillon(ZoomIn)}
+              exiting={anim2Papillon(FadeOut)}
+              style={[
+                {
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: tabColor + "22",
+                  borderRadius: 8,
+                  borderCurve: "continuous",
+                },
+                !settings.hideTabTitles && {
+                  borderRadius: 80,
+                },
+              ]}
+            />
+          )}
+
           {options.tabBarLottie && (
             <LottieView
               loop={false}
@@ -80,8 +112,8 @@ const TabItem: React.FC<{
               }]}
               style={[
                 {
-                  width: 26,
-                  height: 26,
+                  width: settings.hideTabTitles ? 28 : 26,
+                  height: settings.hideTabTitles ? 28 : 26,
                 }
               ]}
               ref={lottieRef}
@@ -89,18 +121,20 @@ const TabItem: React.FC<{
           )}
         </Reanimated.View>
 
-        <Reanimated.Text
-          style={[
-            styles.tabText,
-            { color: tabColor },
-            Platform.OS === "android" && { fontFamily: undefined }
-          ]}
-          numberOfLines={1}
-          entering={anim2Papillon(FadeIn)}
-          exiting={anim2Papillon(FadeOut)}
-        >
-          {label}
-        </Reanimated.Text>
+        {settings.hideTabTitles ? null : (
+          <Reanimated.Text
+            style={[
+              styles.tabText,
+              { color: tabColor },
+              Platform.OS === "android" && { fontFamily: undefined }
+            ]}
+            numberOfLines={1}
+            entering={anim2Papillon(FadeIn)}
+            exiting={anim2Papillon(FadeOut)}
+          >
+            {label}
+          </Reanimated.Text>
+        )}
       </Pressable>
     </Reanimated.View>
   );
@@ -118,6 +152,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 0,
     gap: 4,
+  },
+  tabItemNoText: {
+    padding: 2,
   },
   tabText: {
     fontSize: 13,
