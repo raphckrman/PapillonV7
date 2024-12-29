@@ -84,7 +84,8 @@ const PapillonNavigatorMenu: React.FC<Omit<ReturnType<typeof useNavigationBuilde
             <Text
               style={{
                 color: theme.colors.text,
-                fontFamily: "semibold",
+                fontFamily: Platform.OS !== "android" ? "semibold" : undefined,
+                fontWeight: "600",
                 fontSize: 16,
               }}
             >
