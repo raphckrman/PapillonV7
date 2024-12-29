@@ -4,6 +4,7 @@ import PapillonNavigatorTabs from "./tabs";
 import { memo, useEffect, useMemo, useState } from "react";
 import { Dimensions, View } from "react-native";
 import PapillonNavigatorMenu from "./menu";
+import useScreenDimensions from "@/hooks/useScreenDimensions";
 
 const BottomTabNavigator: React.ComponentType<any> = ({
   initialRouteName,
@@ -12,11 +13,7 @@ const BottomTabNavigator: React.ComponentType<any> = ({
   screenOptions,
   ...rest
 }) => {
-  const [tablet, setTablet] = useState(Dimensions.get("window").width > 600);
-
-  Dimensions.addEventListener("change", () => {
-    setTablet(Dimensions.get("window").width > 600);
-  });
+  const {isTablet} = useScreenDimensions();
 
   const {
     state,
@@ -34,9 +31,9 @@ const BottomTabNavigator: React.ComponentType<any> = ({
     <NavigationContent>
       <View style={[
         { flex: 1 },
-        tablet && { flexDirection: "row" },
+        isTablet && { flexDirection: "row" },
       ]}>
-        {tablet && (
+        {isTablet && (
           <PapillonNavigatorMenu
             state={state}
             descriptors={descriptors}
@@ -51,7 +48,7 @@ const BottomTabNavigator: React.ComponentType<any> = ({
           descriptors={descriptors}
         />
 
-        {!tablet && (
+        {!isTablet && (
           <PapillonNavigatorTabs
             state={state}
             descriptors={descriptors}
