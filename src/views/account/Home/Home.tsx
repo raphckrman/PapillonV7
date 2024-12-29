@@ -67,6 +67,8 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
   const corners = useMemo(() => getCorners(), []);
   const focused = useIsFocused();
 
+  const tablet = Dimensions.get("window").width > 600;
+
   let scrollRef = useAnimatedRef<AnimatedScrollView>();
   let scrollOffset = useScrollViewOffset(scrollRef);
 
@@ -221,7 +223,7 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
 
   return (
     <View style={{flex: 1}}>
-      {!modalOpen && focused && (
+      {!modalOpen && focused && !tablet && (
         <StatusBar barStyle="light-content" backgroundColor={"transparent"} translucent />
       )}
       <ContextMenu

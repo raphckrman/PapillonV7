@@ -57,7 +57,7 @@ const MenuItem: React.FC<{
       style={[
         styles.tabItemContainer,
         isFocused && {
-          backgroundColor: theme.colors.card,
+          backgroundColor: theme.dark ? theme.colors.text + "10" : theme.colors.card,
           shadowColor: "#000",
           shadowOffset: {
             width: 0,

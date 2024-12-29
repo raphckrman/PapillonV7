@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useCurrentAccount } from "@/stores/account";
 import { useNavigationBuilder, useTheme } from "@react-navigation/native";
-import { StyleSheet, View, ScrollView, Platform, Image, Text } from "react-native";
+import { StyleSheet, View, ScrollView, Platform, Image, Text, StatusBar } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabItem from "./atoms/TabItem";
 
@@ -36,6 +36,7 @@ const PapillonNavigatorMenu: React.FC<Omit<ReturnType<typeof useNavigationBuilde
         Platform.OS === "android" ? styles.menuBarAndroid : styles.menuBarIOS,
       ]}
     >
+      <StatusBar barStyle={theme.dark ? "light-content" : "dark-content"} />
       <Reanimated.ScrollView
         style={[
           styles.menuBarContent,
@@ -113,9 +114,11 @@ const styles = StyleSheet.create({
     width: 320,
     maxWidth: "35%",
     borderRightWidth: 1,
+    overflow: "visible",
   },
   menuBarContent: {
-    flex: 1
+    flex: 1,
+    overflow: "visible",
   },
   menuBarAndroid: {
     elevation: 10,
