@@ -1,7 +1,7 @@
 import { BottomTabView } from "@react-navigation/bottom-tabs";
 import { createNavigatorFactory, TabRouter, useNavigationBuilder } from "@react-navigation/native";
 import PapillonNavigatorTabs from "./tabs";
-import { memo, useEffect, useMemo } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { Dimensions, View } from "react-native";
 import PapillonNavigatorMenu from "./menu";
 
@@ -12,7 +12,11 @@ const BottomTabNavigator: React.ComponentType<any> = ({
   screenOptions,
   ...rest
 }) => {
-  const tablet = Dimensions.get("window").width > 600;
+  const [tablet, setTablet] = useState(Dimensions.get("window").width > 600);
+
+  Dimensions.addEventListener("change", () => {
+    setTablet(Dimensions.get("window").width > 600);
+  });
 
   const {
     state,
