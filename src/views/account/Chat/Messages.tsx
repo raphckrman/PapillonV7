@@ -99,11 +99,11 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
           flex: 1,
           flexDirection: "row",
           alignItems: "center",
-          gap: 5,
-          paddingRight: 15,
+          gap: 7,
+          paddingRight: 8,
         }}
         onPress={() => navigation.navigate("ChatCreate")}>
-          <NativeText color={theme.colors.primary}>Créer</NativeText>
+          <NativeText color={theme.colors.primary}>Composer</NativeText>
           <SquarePen color={theme.colors.primary}/>
         </TouchableOpacity>
       </PapillonHeader>
