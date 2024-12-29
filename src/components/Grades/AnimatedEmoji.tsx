@@ -12,7 +12,7 @@ import Animated, {
 const AnimatedEmoji = () => {
   const scale = useSharedValue(1);
   const opacity = useSharedValue(1);
-  const emojis = ["😍", "🙄", "😭", "🥳", "😱", "😳"];
+  const emojis = ["😍", "🙄", "😭", "🥳", "😱", "😳", "🤓", "🤡", "🤯", "😨", "🤔", "🫠"];
   const [currentEmoji, setCurrentEmoji] = React.useState(emojis[0]);
 
   const animatedStyle = useAnimatedStyle(() => {
