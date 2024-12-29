@@ -86,14 +86,16 @@ export const createDiscussionRecipients = async (account: PronoteAccount): Promi
   if (!account.instance)
     throw new ErrorServiceUnauthenticated("pronote");
 
-  const recipientsALL = await Promise.all([
-    pronote.EntityKind.Teacher,
-    pronote.EntityKind.Personal
-  ].map(kind => pronote.newDiscussionRecipients(account.instance!, kind)));
-
+  const recipientsALL = await Promise.all(
+    account.instance!.user!.resources.flatMap(resource =>
+      [
+        pronote.EntityKind.Teacher,
+        pronote.EntityKind.Personal
+      ].map(kind => pronote.newDiscussionRecipients(account.instance!, resource, kind))
+    )
+  );
   const recipients = recipientsALL.flat();
   info("PRONOTE->createDiscussionRecipients(): OK", "pronote");
-  console.log(recipients[0]);
   return recipients.map((recipient) => ({
     name: recipient.name,
     subject: recipient.subjects.length > 0
