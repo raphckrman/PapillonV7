@@ -5,6 +5,12 @@ export interface Reel {
   image: string
   imagewithouteffect: string
 
+  subjectdata: {
+    color: string,
+    pretty: string,
+    emoji: string,
+  }
+
   grade: {
     value: string,
     outOf: string,

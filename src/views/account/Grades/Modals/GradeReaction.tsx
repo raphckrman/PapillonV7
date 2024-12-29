@@ -112,6 +112,7 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
         timestamp: Date.now(),
         image: base64.split(",")[1],
         imagewithouteffect: base64withouteffect.split(",")[1],
+        subjectdata: getSubjectData(grade.subjectName),
         grade: {
           value: grade.student.value !== null ? grade.student.value.toString() : "",
           outOf: grade.outOf.value !== null ? grade.outOf.value.toString() : "",
@@ -131,19 +132,6 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
     } catch (error) {
       console.error("Failed to save image:", error);
       Alert.alert("Erreur", "Erreur lors de l'enregistrement de l'image");
-    }
-  };
-
-  const shareImage = async () => {
-    try {
-      const uri = await captureRef(composerRef, {
-        format: "png",
-        quality: 0.5,
-      });
-      await Sharing.shareAsync(uri);
-    } catch (error) {
-      console.error("Failed to share image:", error);
-      Alert.alert("Error", "Failed to share image");
     }
   };
 

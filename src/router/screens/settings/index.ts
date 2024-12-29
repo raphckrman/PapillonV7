@@ -57,7 +57,7 @@ const settingsScreens = [
     headerTitle: "Matières",
   }),
   createScreen("SettingsReactions", SettingsReactions, {
-    headerTitle: "Réactions",
+    headerTitle: "Mes réactions",
   }),
   createScreen("SettingsExternalServices", SettingsExternalServices, {
     headerTitle: "Services externes",
