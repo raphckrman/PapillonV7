@@ -2,7 +2,7 @@
   "expo": {
     "name": "Papillon",
     "slug": "papillonvex",
-    "scheme": ["papillon", "izly"],
+    "scheme": "papillon", 
     "version": "7.7.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,6 +20,13 @@
       "associatedDomains": [
         "applinks:getpapillon.xyz"
       ],
+      "infoPlist": {
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": ["papillon", "izly"]
+          }
+        ]
+      },
       "config": {
         "usesNonExemptEncryption": false
       }
@@ -33,6 +40,16 @@
         "monochromeImage": "./assets/launch/adaptive-icon-monochrome.png",
         "backgroundColor": "#32AB8E"
       },
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            { "scheme": "papillon" },
+            { "scheme": "izly" }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
       "package": "xyz.getpapillon.app",
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",

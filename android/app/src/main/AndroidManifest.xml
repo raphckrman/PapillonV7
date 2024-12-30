@@ -34,6 +34,13 @@
         <data android:scheme="izly"/>
         <data android:scheme="xyz.getpapillon.app"/>
       </intent-filter>
+      <intent-filter data-generated="true">
+        <action android:name="android.intent.action.VIEW"/>
+        <data android:scheme="papillon"/>
+        <data android:scheme="izly"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+      </intent-filter>
     </activity>
   </application>
 </manifest>
