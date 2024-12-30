@@ -134,7 +134,7 @@ const DuoListPressable: React.FC<{
 const styles = StyleSheet.create({
   pressable: {
     width: "100%",
-    borderWidth: 1,
+    borderWidth: 1.2,
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderRadius: 14,

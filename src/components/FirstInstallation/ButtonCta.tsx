@@ -59,7 +59,7 @@ const ButtonCta: React.FC<{
       <Pressable
         style={[
           styles.button,
-          primary ? void 0 : styles.secondary,
+          (primary && !disabled) ? styles.primary : styles.secondary,
           { backgroundColor: backgroundColor },
           {
             borderColor: colors.border,
@@ -91,6 +91,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 8,
     flexDirection: "row",
+  },
+
+  primary: {
+    elevation: 3,
   },
 
   secondary: {
