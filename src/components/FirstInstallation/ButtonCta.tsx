@@ -63,7 +63,7 @@ const ButtonCta: React.FC<{
         style={[
           isTablet ? { width: "50%" } : { width: "100%" },
           styles.button,
-          primary ? void 0 : styles.secondary,
+          (primary && !disabled) ? styles.primary : styles.secondary,
           { backgroundColor: backgroundColor },
           {
             borderColor: colors.border,
@@ -87,13 +87,17 @@ const ButtonCta: React.FC<{
 
 const styles = StyleSheet.create({
   button: {
-    height: 48,
-    borderRadius: 12,
+    height: 46,
+    borderRadius: 120,
     borderCurve: "continuous",
     justifyContent: "center",
     alignSelf: "center",
     gap: 8,
     flexDirection: "row",
+  },
+
+  primary: {
+    elevation: 3,
   },
 
   secondary: {
@@ -102,7 +106,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: "semibold",
     letterSpacing: 1,
     textTransform: "uppercase",
