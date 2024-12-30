@@ -331,7 +331,7 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
 
               <TextInput
                 placeholder={"Envoyer un message à " + creatorName}
-                placeholderTextColor={colors.text}
+                placeholderTextColor={colors.text + "60"}
                 style={{
                   backgroundColor: "transparent",
                   borderRadius: 25,
@@ -362,7 +362,7 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
                 <Send color={"#FFF"} size={24} style={{marginTop: 1, marginLeft: -3}}/>
               </TouchableOpacity>
             </View>
-            <View style={{height: insets.bottom + 16, backgroundColor: theme.dark ? chatTheme?.darkModifier.inputBarBackgroundColor : chatTheme?.lightModifier.inputBarBackgroundColor }}></View>
+            <View style={{height: insets.bottom, backgroundColor: theme.dark ? chatTheme?.darkModifier.inputBarBackgroundColor : chatTheme?.lightModifier.inputBarBackgroundColor }}></View>
           </ImageBackground>
         </>
       ) : (
