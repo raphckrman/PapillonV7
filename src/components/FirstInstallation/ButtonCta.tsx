@@ -84,8 +84,8 @@ const ButtonCta: React.FC<{
 const styles = StyleSheet.create({
   button: {
     minWidth: "100%",
-    height: 48,
-    borderRadius: 12,
+    height: 46,
+    borderRadius: 120,
     borderCurve: "continuous",
     justifyContent: "center",
     alignItems: "center",
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: "semibold",
     letterSpacing: 1,
     textTransform: "uppercase",
