@@ -1,5 +1,5 @@
 import {AddonLogs as AddonLog, AddonPlacementManifest} from "@/addons/types";
-import type { Chat } from "@/services/shared/Chat";
+import type { Chat, ChatRecipient } from "@/services/shared/Chat";
 import type {Grade, GradesPerSubject} from "@/services/shared/Grade";
 import { Homework } from "@/services/shared/Homework";
 import { ReservationHistory } from "@/services/shared/ReservationHistory";
@@ -12,6 +12,7 @@ import type { School as SkolengoSchool} from "scolengo-api/types/models/School";
 import { ImageSourcePropType } from "react-native";
 import {Client} from "pawrd";
 import {Evaluation} from "@/services/shared/Evaluation";
+import { ThemesMeta } from "@/utils/chat/themes/Themes.types";
 
 export type RouteParameters = {
   // welcome.index
@@ -140,8 +141,10 @@ export type RouteParameters = {
     histories: ReservationHistory[];
   };
 
-  Messages: undefined;
+  Discussions: undefined;
   ChatCreate: undefined;
+  ChatDetails: { handle: Chat, recipients: ChatRecipient[], onThemeChange?: (selectedThemePath: ThemesMeta) => void };
+  ChatThemes: { handle: Chat; themes: ThemesMeta[]; onGoBack?: (selectedThemePath: ThemesMeta) => void };
   Chat: { handle: Chat };
 
   AccountStack: { onboard: boolean };
