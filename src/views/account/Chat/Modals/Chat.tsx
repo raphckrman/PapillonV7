@@ -212,9 +212,6 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
                   };
                 }
 
-                console.log(item.content);
-
-
                 return (
                   <View style={{ gap: 10 }}>
                     {!isFirst ? null : (
