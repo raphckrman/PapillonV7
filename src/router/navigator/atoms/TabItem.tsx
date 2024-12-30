@@ -63,7 +63,7 @@ const TabItem: React.FC<{
         accessibilityState={isFocused ? { selected: true } : {}}
         accessibilityLabel={options.tabBarAccessibilityLabel}
         testID={options.tabBarTestID}
-        onPress={onPress}
+        onTouchStart={onPress}
         onLongPress={onLongPress}
         style={[styles.tabItem, settings.hideTabTitles && styles.tabItemNoText]}
       >
