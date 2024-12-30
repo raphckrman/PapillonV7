@@ -67,7 +67,7 @@ const DuoListPressable: React.FC<{
           styles.pressable,
           enabled ? {
             borderColor: colors.primary,
-            backgroundColor: colors.primary + "22",
+            backgroundColor: colors.primary + "26",
             shadowColor: colors.primary,
           } : {
             borderColor: colors.border,
@@ -134,11 +134,10 @@ const DuoListPressable: React.FC<{
 const styles = StyleSheet.create({
   pressable: {
     width: "100%",
-    borderWidth: 1.5,
-    borderBottomWidth: 3,
+    borderWidth: 1,
     paddingHorizontal: 18,
     paddingVertical: 12,
-    borderRadius: 12,
+    borderRadius: 14,
     borderCurve: "continuous",
     flexDirection: "row",
     gap: 18,
