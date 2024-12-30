@@ -33,9 +33,11 @@ const TabItem: React.FC<{
       navigation.navigate(route.name);
     }
 
-    lottieRef.current?.play();
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    if (lottieRef.current) {
+      lottieRef.current.play();
+    }
 
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
   const onLongPress = () => {
