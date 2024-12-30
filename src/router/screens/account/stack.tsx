@@ -12,7 +12,7 @@ const screenOptions: NativeStackNavigationOptions = {
   headerBackTitleStyle: { fontFamily: "medium" },
   headerTitleStyle: { fontFamily: "semibold" },
   headerBackTitle: "Retour",
-  // @ts-ignore
+  // @ts-expect-error
   tabBarStyle: { position: "absolute" },
 };
 
