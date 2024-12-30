@@ -33,6 +33,7 @@ import Reanimated, {
 import PapillonHeader from "@/components/Global/PapillonHeader";
 import { SquarePen } from "lucide-react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import InsetsBottomView from "@/components/Global/InsetsBottomView";
 
 // Voir la documentation de `react-navigation`.
 //
@@ -200,6 +201,8 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
             ))}
           </NativeList>
         )}
+
+        <InsetsBottomView />
       </ScrollView>
     </>
   );
