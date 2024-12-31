@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   Text,
+  Dimensions,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { useGradesStore } from "@/stores/grades";
@@ -17,7 +18,6 @@ interface ReelModalProps {
   visible: boolean;
   onClose: () => void;
 }
-
 
 // Components
 const GradeIndicator = ({ value, outOf, color }: { value: number; outOf: number; color: string }) => (
@@ -33,12 +33,20 @@ const SubjectBadge = ({ emoji, color }: { emoji: string; color: string }) => (
   </View>
 );
 
-const ReelThumbnail = ({ reel, onPress }: { reel: Reel; onPress: () => void }) => {
+const ReelThumbnail = ({ reel, onPress, width }: { reel: Reel; onPress: () => void; width: number }) => {
   const { colors } = useTheme();
 
   return (
     <TouchableOpacity
-      style={[styles.item, { backgroundColor: colors.card }]}
+      style={[
+        styles.item,
+        {
+          backgroundColor: colors.card,
+          width: width,
+          height: width * 1.5,
+          margin: 4,
+        }
+      ]}
       onPress={onPress}
     >
       <Image
@@ -67,6 +75,12 @@ interface ReelGalleryProps {
 
 const ReelGallery = ({ reels }: ReelGalleryProps) => {
   const [selectedReel, setSelectedReel] = useState<Reel | null>(null);
+  const windowWidth = Dimensions.get("window").width;
+  const padding = 40;
+  const gap = 8;
+  const numColumns = 2;
+
+  const itemWidth = (Math.min(500, windowWidth) - (padding * 2) - (gap * (numColumns - 1))) / numColumns;
 
   const deleteReel = (reelId: string) => {
     useGradesStore.setState((store) => {
@@ -80,11 +94,12 @@ const ReelGallery = ({ reels }: ReelGalleryProps) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
-        <View style={styles.galleryContent}>
+        <View style={[styles.galleryContent, { gap: gap }]}>
           {reels.map((reel) => (
             <ReelThumbnail
               key={reel.id}
               reel={reel}
+              width={itemWidth}
               onPress={() => setSelectedReel(reel)}
             />
           ))}
@@ -112,15 +127,13 @@ const styles = StyleSheet.create({
   },
   galleryContent: {
     width: "100%",
-    maxWidth: 500, // Largeur maximale pour le contenu
+    maxWidth: 500,
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "center",
-    gap: 8,
+    justifyContent: "flex-start",
+    alignContent: "flex-start",
   },
   item: {
-    width: 160, // Largeur fixe pour chaque item
-    height: 250,
     borderRadius: 12,
     overflow: "hidden",
   },
