@@ -6,7 +6,7 @@ import {
 } from "@/components/Global/NativeComponents";
 import { getSubjectData } from "@/services/shared/Subject";
 import { useTheme } from "@react-navigation/native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { Image, ScrollView, Text, View, Platform, TouchableOpacity, Modal } from "react-native";
 import * as StoreReview from "expo-store-review";
 import {
@@ -40,6 +40,7 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const [modalOpen, setModalOpen] = useState(false);
+  const [isReactionBeingTaken, setIsReactionBeingTaken] = useState(false);
 
   const [subjectData, setSubjectData] = useState({
     color: "#888888",
@@ -235,6 +236,19 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
     setModalOpen(false);
   };
 
+  const handleFocus = useCallback(() => {
+    // Si on revient de la page de réaction et qu'on a un reel
+    if (currentReel && isReactionBeingTaken) {
+      setModalOpen(true);
+      setIsReactionBeingTaken(false);
+    }
+  }, [currentReel]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", handleFocus);
+    return unsubscribe;
+  }, [navigation, handleFocus]);
+
   return (
     <View style={{ flex: 1 }}>
 
@@ -338,7 +352,10 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
                 alignItems: "center",
                 gap: 4,
               }}
-              onPress={() => navigation.navigate("GradeReaction", { grade })}
+              onPress={() => {
+                setIsReactionBeingTaken(true);
+                navigation.navigate("GradeReaction", { grade });
+              }}
             >
               <AnimatedEmoji />
               <Text style={{ color: "#FFFFFF", fontSize: 15, fontFamily: "semibold", textAlign: "center", textAlignVertical: "center"  }}>
