@@ -29,10 +29,8 @@ const screenOptions: NativeStackNavigationOptions = {
     fontFamily: "semibold",
   },
   headerBackTitle: "Retour",
-  // @ts-expect-error : not sure if the type object is correct
-  tabBarStyle: {
-    position: "absolute",
-  },
+  // @ts-expect-error
+  tabBarStyle: { position: "absolute" },
 };
 
 function TabBarContainer () {
