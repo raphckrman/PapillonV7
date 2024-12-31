@@ -20,10 +20,10 @@ interface ReelModalProps {
 
 
 // Components
-const GradeIndicator = ({ value, outOf }: { value: number; outOf: number }) => (
+const GradeIndicator = ({ value, outOf, color }: { value: number; outOf: number; color: string }) => (
   <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-    <Text style={styles.scoreText}>{value.toFixed(2)}</Text>
-    <Text style={styles.maxScoreText}>/{outOf}</Text>
+    <Text style={[styles.scoreText, {color: color}]}>{value.toFixed(2)}</Text>
+    <Text style={[styles.maxScoreText, {color: color+"50"}]}>/{outOf}</Text>
   </View>
 );
 
@@ -54,6 +54,7 @@ const ReelThumbnail = ({ reel, onPress }: { reel: Reel; onPress: () => void }) =
         <GradeIndicator
           value={Number(Number(reel.grade.value).toFixed(2))}
           outOf={Number(reel.grade.outOf)}
+          color={colors.text}
         />
       </View>
     </TouchableOpacity>
@@ -148,12 +149,10 @@ const styles = StyleSheet.create({
   },
   scoreText: {
     fontWeight: "700",
-    color: "#000000",
     fontSize: 18,
   },
   maxScoreText: {
     fontWeight: "300",
-    color: "#000000",
   },
 });
 

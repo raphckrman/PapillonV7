@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import {
   CameraView,
@@ -13,8 +14,7 @@ import {
   PermissionStatus,
 } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
-import { X, Share2, Save } from "lucide-react-native";
-import * as Sharing from "expo-sharing";
+import { X } from "lucide-react-native";
 import { useCurrentAccount } from "@/stores/account";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { captureRef } from "react-native-view-shot";
@@ -22,6 +22,7 @@ import { Screen } from "@/router/helpers/types";
 import { getSubjectData } from "@/services/shared/Subject";
 import { useGradesStore } from "@/stores/grades";
 import { Reel } from "@/services/shared/Reel";
+import PapillonSpinner from "@/components/Global/PapillonSpinner";
 
 const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
   const inset = useSafeAreaInsets();
@@ -30,9 +31,8 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView | null>(null);
   const composerRef = useRef(null);
-  const [capturedImage, setCapturedImage] = useState<string | undefined>(
-    undefined
-  );
+  const [capturedImage, setCapturedImage] = useState<string | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(false);
   const account = useCurrentAccount((store) => store.account);
   const reels = useGradesStore((store) => store.reels);
   const [grade, setGrade] = useState(route.params.grade);
@@ -71,7 +71,65 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
         quality: 0.5,
         skipProcessing: true,
       });
-      setCapturedImage(photo?.uri);
+      if (photo?.uri) {
+        setCapturedImage(photo.uri);
+        setIsLoading(true);
+        setTimeout(async () => {
+          try {
+            const uri = await captureRef(composerRef, {
+              format: "png",
+              quality: 0.5,
+            });
+
+            const responsewithouteffect = await fetch(photo.uri);
+            const blobwithouteffect = await responsewithouteffect.blob();
+            const base64withouteffect = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result as string);
+              reader.onerror = reject;
+              reader.readAsDataURL(blobwithouteffect);
+            });
+
+            const response = await fetch(uri);
+            const blob = await response.blob();
+            const base64 = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result as string);
+              reader.onerror = reject;
+              reader.readAsDataURL(blob);
+            });
+
+            const reel: Reel = {
+              id: grade.id,
+              timestamp: Date.now(),
+              image: base64.split(",")[1],
+              imagewithouteffect: base64withouteffect.split(",")[1],
+              subjectdata: getSubjectData(grade.subjectName),
+              grade: {
+                value: grade.student.value !== null ? grade.student.value.toString() : "",
+                outOf: grade.outOf.value !== null ? grade.outOf.value.toString() : "",
+                coef: grade.coefficient !== null ? grade.coefficient.toString() : "",
+              }
+            };
+
+            useGradesStore.setState((state) => ({
+              ...state,
+              reels: {
+                ...state.reels,
+                [grade.id]: reel
+              }
+            }));
+
+            Alert.alert("Success", "Ta réaction a bien été enregistrée !");
+            setIsLoading(false);
+            navigation.goBack();
+          } catch (error) {
+            console.error("Failed to save image:", error);
+            setIsLoading(false);
+            Alert.alert("Erreur", "Erreur lors de l'enregistrement de l'image");
+          }
+        }, 1000);
+      }
     } catch (error) {
       console.error("Failed to take picture:", error);
       Alert.alert("Error", "Failed to capture image");
@@ -174,7 +232,6 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
     return grade !== null && outOf ? (grade / outOf) * 20 : null;
   };
 
-
   const adjustedGrade = getAdjustedGrade(grade.student.value, grade.outOf.value);
 
   return (
@@ -225,39 +282,13 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
           </View>
         </View>
       </View>
-      {capturedImage ? (
-        <View style={styles.actionContainer}>
-          <View
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <View style={styles.actionButtons}>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: "#FFF",
-                  borderRadius: 10,
-                  padding: 10,
-                  paddingVertical: 15,
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  gap: 10,
-                  alignItems: "center",
-                  width: "100%",
-                }}
-                onPress={saveImage}
-              >
-                <Save size={24} color="#000000" />
-                <Text style={styles.buttonText}>Enregister</Text>
-
-              </TouchableOpacity>
-
-            </View>
-          </View>
+      {isLoading && (
+        <View style={styles.loadingContainer}>
+          <PapillonSpinner size={30} color="#FFF"/>
+          <Text style={styles.loadingText}>Enregistrement en cours...</Text>
         </View>
-      ) : (
+      )}
+      {!capturedImage && !isLoading && (
         <TouchableOpacity
           style={styles.captureButton}
           onPress={captureImage}
@@ -270,6 +301,22 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.9)",
+    zIndex: 50,
+  },
+  loadingText: {
+    color: "#FFFFFF",
+    marginTop: 10,
+    fontSize: 16,
+  },
   container: {
     flex: 1,
     backgroundColor: "black",
@@ -337,19 +384,6 @@ const styles = StyleSheet.create({
   },
   scoreText: { fontWeight: "700", color: "#000000", fontSize: 20 },
   maxScoreText: { fontWeight: "300", color: "#000000" },
-  titleText: {
-    fontSize: 20,
-    fontWeight: "600",
-    textAlign: "center",
-    marginTop: 20,
-    color: "#FFFFFF",
-  },
-  descText: {
-    fontSize: 16,
-    textAlign: "center",
-    marginTop: 5,
-    color: "#FFFFFF90",
-  },
   captureButton: {
     borderRadius: 37.5,
     borderColor: "#FFFFFF",
@@ -361,46 +395,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 30,
   },
-  savebutton: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "center",
-    height: 60,
-    width: "100%",
-    backgroundColor: "#FFFFFF",
-    borderRadius: 10,
-  },
   captureButtonInner: {
     borderRadius: 30,
     backgroundColor: "#FFFFFF",
     width: 60,
     height: 60,
-  },
-  actionButtons: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginHorizontal: 20,
-  },
-  actionContainer: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    gap: 20,
-    alignItems: "center",
-  },
-  actionButton: {
-    alignItems: "center",
-    gap: 5,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontFamily: "semibold",
-    letterSpacing: 1,
-    textTransform: "uppercase",
-    textAlign: "center",
-    color: "#000000",
-
   },
   headerRight: {
     padding: 5,
