@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Text } from "react-native";
+import { View, Text } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -9,8 +9,13 @@ import Animated, {
   Easing,
 } from "react-native-reanimated";
 
-const AnimatedEmoji = () => {
-  const scale = useSharedValue(1);
+interface AnimatedEmojiProps {
+  initialScale?: number;
+  size?: number; // Taille de la police
+}
+
+const AnimatedEmoji: React.FC<AnimatedEmojiProps> = ({ initialScale = 1, size = 20 }) => {
+  const scale = useSharedValue(initialScale);
   const opacity = useSharedValue(1);
   const emojis = ["😍", "🙄", "😭", "🥳", "😱", "😳", "🤓", "🤡", "🤯", "😨", "🤔", "🫠"];
   const [currentEmoji, setCurrentEmoji] = React.useState(emojis[0]);
@@ -24,11 +29,11 @@ const AnimatedEmoji = () => {
 
   const changeEmoji = () => {
     scale.value = withSequence(
-      withSpring(0.5, {
+      withSpring(initialScale * 0.5, {
         damping: 10,
         stiffness: 100,
       }),
-      withSpring(1, {
+      withSpring(initialScale, {
         damping: 12,
         stiffness: 200,
       })
@@ -60,21 +65,28 @@ const AnimatedEmoji = () => {
   }, [currentEmoji]);
 
   return (
-    <Animated.Text
-      style={[
-        {
-          color: "#FFFFFF",
-          fontSize: 18,
-          fontFamily: "semibold",
-          textAlign: "center",
-          textAlignVertical: "center",
-          marginTop: -2,
-        },
-        animatedStyle,
-      ]}
+    <View
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
-      {currentEmoji}
-    </Animated.Text>
+      <Animated.Text
+        style={[
+          {
+            color: "#FFFFFF",
+            fontSize: size,
+            fontFamily: "semibold",
+            textAlign: "center",
+            textAlignVertical: "center",
+            marginTop: -2,
+          },
+          animatedStyle,
+        ]}
+      >
+        {currentEmoji}
+      </Animated.Text>
+    </View>
   );
 };
 

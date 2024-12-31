@@ -1,9 +1,11 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { useTheme } from "@react-navigation/native";
 import { useGradesStore } from "@/stores/grades";
 import ReelGallery from "@/components/Settings/ReelGallery";
+import MissingItem from "@/components/Global/MissingItem";
+import AnimatedEmoji from "@/components/Grades/AnimatedEmoji";
 
 const SettingsReactions: Screen<"SettingsReactions"> = () => {
   const theme = useTheme();
@@ -14,10 +16,26 @@ const SettingsReactions: Screen<"SettingsReactions"> = () => {
     <ScrollView
       contentContainerStyle={{
         padding: 16,
-        paddingTop: 0,
+        paddingTop: 16,
       }}
     >
-      <ReelGallery reels={reels} />
+      {reels.length === 0 ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <MissingItem
+            animatedEmoji
+            title="Aucune réaction"
+            description="Rendez-vous dans l'onglet 'Notes' pour ajouter des réactions."
+          />
+        </View>
+      ) : (
+        <ReelGallery reels={reels} />
+      )}
     </ScrollView>
   );
 };
