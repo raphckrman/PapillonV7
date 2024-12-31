@@ -96,7 +96,6 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
     setSubjectData(getSubjectData(grade.subjectName));
   }, [grade.subjectName]);
 
-  // Navigation setup
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -121,21 +120,16 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
         quality: 0.5,
         skipProcessing: true,
       });
-
       if (!photo?.uri) return;
-
       setCapturedImage(photo.uri);
       setIsLoading(true);
-
       setTimeout(async () => {
         try {
           const compositeUri = await captureRef(composerRef, {
             format: "png",
             quality: 0.5,
           });
-
           const reel = await createReel(grade, compositeUri, photo.uri);
-
           useGradesStore.setState((state) => ({
             ...state,
             reels: {
@@ -143,8 +137,6 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
               [grade.id]: reel
             }
           }));
-
-          Alert.alert("Success", "Ta réaction a bien été enregistrée !");
           navigation.goBack();
         } catch (error) {
           console.error("Failed to save image:", error);
