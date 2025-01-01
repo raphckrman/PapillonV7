@@ -245,6 +245,7 @@ export interface PapillonMultiServiceSpace extends BaseAccount {
   service: AccountService.PapillonMultiService
   instance: null
   authentication: null
+  identityProvider: undefined
 }
 
 export type PrimaryAccount = (
