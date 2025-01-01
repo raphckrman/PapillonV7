@@ -94,7 +94,7 @@ const ReelGallery = ({ reels }: ReelGalleryProps) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
-        <View style={[styles.galleryContent, { gap: gap }]}>
+        <View style={[styles.galleryContent, { gap }]}>
           {reels.map((reel) => (
             <ReelThumbnail
               key={reel.id}
