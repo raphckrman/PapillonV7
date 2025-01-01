@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image, Alert } from "react-native";
 import { CameraView, useCameraPermissions, PermissionStatus } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
