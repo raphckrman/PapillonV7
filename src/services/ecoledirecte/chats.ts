@@ -14,13 +14,14 @@ export const getChats = async (account: EcoleDirecteAccount): Promise<Chat[]> =>
     subject: chat.subject,
     recipient: chat.sender,
     creator: chat.sender,
-    read: chat.read
+    read: chat.read,
+    date: chat.date
   }));
 };
 
 const cleanMessage = (message: string) => {
-  return message.replace(/>\s+/g, '>').replace(/&nbsp;/g, ' ');
-}
+  return message.replace(/>\s+/g, ">").replace(/&nbsp;/g, " ");
+};
 
 export const getChatMessages = async (account: EcoleDirecteAccount, chat: Chat): Promise<ChatMessage> => {
   if (!account.instance)

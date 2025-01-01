@@ -22,6 +22,7 @@ const serviceConfig = {
   [AccountService.Turboself]: { icon: Utensils, name: "Turboself" },
   [AccountService.ARD]: { icon: Utensils, name: "ARD" },
   [AccountService.Izly]: { icon: Utensils, name: "Izly" },
+  [AccountService.Alise]: { icon: Utensils, name: "Alise" },
   [AccountService.Parcoursup]: { icon: BookmarkMinus, name: "Parcoursup" },
   [AccountService.Onisep]: { icon: Compass, name: "Onisep" },
   [AccountService.Local]: { icon: GraduationCap, name: "Local" },
@@ -73,14 +74,10 @@ const SettingsExternalServices: Screen<"SettingsExternalServices"> = ({
         {
           text: "Supprimer",
           style: "destructive",
-          onPress: () => deleteAccount(account.localID)
+          onPress: () => removeAccount(account.localID)
         }
       ]
     );
-  };
-
-  const deleteAccount = (localID: string) => {
-    removeAccount(localID);
   };
 
   const filteredAccounts = accounts.filter((acc, index) => {

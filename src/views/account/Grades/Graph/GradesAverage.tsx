@@ -86,7 +86,6 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
     let minAvg = getPronoteAverage(grades, "min");
 
     const finalAvg = getPronoteAverage(grades, "student");
-    console.log("finalAvg", finalAvg);
 
     setGradesHistory(hst);
     setHLength(hst.length);
@@ -276,7 +275,6 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
                       style={{ color: theme.colors.primary }}
                       numberOfLines={1}
                     >
-                      au{" "}
                       {new Date(selectedDate).toLocaleDateString("fr-FR", {
                         day: "numeric",
                         month: "short",

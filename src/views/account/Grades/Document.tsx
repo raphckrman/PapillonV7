@@ -61,11 +61,10 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    navigation.addListener("beforeRemove", (e) => {
+    navigation.addListener("beforeRemove", () => {
       if (shouldShowReviewOnClose) {
         AsyncStorage.getItem("review_given").then((value) => {
           if(!value) {
-            console.log("Asking for review");
             askForReview();
             AsyncStorage.setItem("review_given", "true");
           }

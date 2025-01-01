@@ -91,8 +91,8 @@ const Grades: Screen<"Grades"> = ({ route, navigation }) => {
       setIsLoading(true);
       await updateData();
 
-      if(isRefreshing) {
-        navigation.navigate("BackgroundIUTLannion");
+      if(isRefreshing && account.identityProvider?.identifier !== undefined) {
+        navigation.navigate("BackgroundIdentityProvider");
       }
 
       setTimeout(() => {
@@ -128,16 +128,14 @@ const Grades: Screen<"Grades"> = ({ route, navigation }) => {
   }, [selectedPeriod, averages, grades]);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (selectedPeriod === "") return;
+    if (selectedPeriod === "") return;
 
-      const latestGrades = (grades[selectedPeriod] || [])
-        .slice()
-        .sort((a, b) => b.timestamp - a.timestamp)
-        .slice(0, 10);
+    const latestGrades = (grades[selectedPeriod] || [])
+      .slice()
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .slice(0, 10);
 
-      latestGradesRef.current = latestGrades;
-    }, 1);
+    latestGradesRef.current = latestGrades;
   }, [selectedPeriod, grades]);
 
   return (

@@ -2,6 +2,7 @@ import type pronote from "pawnote";
 import type { Account as PawdirecteAccount, Session as PawdirecteSession } from "pawdirecte";
 import type { Client as ARDClient, Client as PawrdClient } from "pawrd";
 import { Client as TurboselfClient } from "turboself-api";
+import { Client as AliseClient, BookingDay } from "alise-api";
 import type ScolengoAPI from "scolengo-api";
 import {Configuration, Identification} from "ezly";
 import type MultiAPI from "esup-multi.js";
@@ -64,6 +65,23 @@ export interface Personalization {
   }
 }
 
+export interface Identity {
+  firstName?: string,
+  lastName?: string,
+  civility?: string,
+  boursier?: boolean,
+  ine?: string,
+  birthDate?: Date,
+  birthPlace?: string,
+  phone?: string[],
+  email?: string[],
+  address?: {
+    street?: string,
+    zipCode?: string,
+    city?: string,
+  },
+}
+
 export interface CurrentAccountStore {
   /** Si un compte est en cours d'utilisation, on obtient l'ID, sinon `null`. */
   account: PrimaryAccount | null
@@ -86,7 +104,8 @@ export enum AccountService {
   Parcoursup,
   Onisep,
   Multi,
-  Izly
+  Izly,
+  Alise
 }
 
 /**
@@ -94,19 +113,20 @@ export enum AccountService {
  * for EVERY accounts stored.
  */
 interface BaseAccount {
-  localID: string
-  isExternal: false
+  localID: string;
+  isExternal: false;
 
-  name: string
-  className?: string
-  schoolName?: string
-  linkedExternalLocalIDs: string[]
+  name: string;
+  className?: string;
+  schoolName?: string;
+  linkedExternalLocalIDs: string[];
+  identity: Partial<Identity>;
 
   studentName: {
-    first: string
-    last: string
-  },
-  personalization: Partial<Personalization>
+    first: string;
+    last: string;
+  };
+  personalization: Partial<Personalization>;
 }
 
 interface BaseExternalAccount {
@@ -184,6 +204,19 @@ export interface TurboselfAccount extends BaseExternalAccount {
   }
 }
 
+export interface AliseAccount extends BaseExternalAccount {
+  service: AccountService.Alise
+  instance: undefined
+  authentication: {
+    session: AliseClient
+    schoolID: string
+    username: string
+    password: string
+    bookings: BookingDay[]
+    mealPrice: number
+  }
+}
+
 export interface ARDAccount extends BaseExternalAccount {
   service: AccountService.ARD
   instance?: ARDClient
@@ -218,6 +251,7 @@ export type ExternalAccount = (
   | TurboselfAccount
   | ARDAccount
   | IzlyAccount
+  | AliseAccount
 );
 
 export type Account = (
