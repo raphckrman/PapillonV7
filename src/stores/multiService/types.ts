@@ -11,6 +11,7 @@ export enum MultiServiceFeature {
 export interface MultiServiceSpace {
   accountLocalID: string
   name: string
+  image: string
   featuresServices: {
     [key in keyof typeof MultiServiceFeature]: PrimaryAccount | null
   }
