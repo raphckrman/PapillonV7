@@ -1,18 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { create } from "zustand";
-import pronote from "pawnote";
-
-import {
-  Account,
-  PrimaryAccount
-} from "@/stores/account/types";
-import { reload } from "@/services/reload-account";
-import { useTimetableStore } from "../timetable";
-import { useHomeworkStore } from "../homework";
-import { useGradesStore } from "../grades";
-import { useNewsStore } from "../news";
-import { useAttendanceStore } from "../attendance";
 import { log } from "@/utils/logger/logger";
 import {MultiServiceSpace, MultiServiceStore} from "@/stores/multiService/types";
 import {useAccounts} from "@/stores/account";
@@ -38,10 +26,7 @@ export const useMultiService = create<MultiServiceStore>()(
           spaces: [...state.spaces, space]
         }));
 
-        const accountStore = useAccounts();
-        accountStore.create(linkAccount);
-
-        log(`stored ${space.name}, and created associated account ${linkAccount.localID}`, "multiService:create");
+        log(`stored ${space.name}, with account ${linkAccount.localID}`, "multiService:create");
       },
 
       remove: (localID) => {
