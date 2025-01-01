@@ -105,7 +105,8 @@ export enum AccountService {
   Onisep,
   Multi,
   Izly,
-  Alise
+  Alise,
+  PapillonMultiService
 }
 
 /**
@@ -240,12 +241,19 @@ export interface IzlyAccount extends BaseExternalAccount {
   }
 }
 
+export interface PapillonMultiServiceSpace extends BaseAccount {
+  service: AccountService.PapillonMultiService
+  instance: null
+  authentication: null
+}
+
 export type PrimaryAccount = (
   | PronoteAccount
   | EcoleDirecteAccount
   | SkolengoAccount
   | MultiAccount
   | LocalAccount
+  | PapillonMultiServiceSpace
 );
 export type ExternalAccount = (
   | TurboselfAccount
