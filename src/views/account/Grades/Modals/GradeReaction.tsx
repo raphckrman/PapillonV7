@@ -96,7 +96,7 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
     setSubjectData(getSubjectData(grade.subjectName));
   }, [grade.subjectName]);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
