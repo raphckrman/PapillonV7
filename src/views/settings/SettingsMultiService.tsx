@@ -66,14 +66,19 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
       linkedExternalLocalIDs: [],
       authentication: null,
       identity: {},
-      identityProvider: undefined,
+      identityProvider: {
+        name: "Environnement multiservice Papillon"
+      },
       instance: null,
       localID: localID,
       name: spaceName,
-      personalization: {},
+      personalization: {
+        profilePictureB64: selectedImage || undefined
+      },
       service: AccountService.PapillonMultiService,
       studentName: { // TODO
-        first: "", last: ""
+        first: spaceName,
+        last: ""
       }
     };
 
