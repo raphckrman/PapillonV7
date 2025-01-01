@@ -17,7 +17,6 @@ export const getChats = async (account: PronoteAccount): Promise<Array<Chat>> =>
   const studentName = account.instance.user.resources[0].name;
 
   const parseFrenchDate = (dateText: string): Date => {
-    console.log(dateText);
     const datePart = dateText.split(" ").pop();
     if (!datePart) return new Date();
 
