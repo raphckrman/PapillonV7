@@ -18,7 +18,7 @@ const AnimatedEmoji: React.FC<AnimatedEmojiProps> = ({ initialScale = 1, size = 
   const scale = useSharedValue(initialScale);
   const opacity = useSharedValue(1);
   const emojis = ["😍", "🙄", "😭", "🥳", "😱", "😳", "🤓", "🤡", "🤯", "😨", "🤔", "🫠"];
-  const [currentEmoji, setCurrentEmoji] = React.useState(emojis[0]);
+  const [currentEmoji, setCurrentEmoji] = useState(emojis[0]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
