@@ -22,5 +22,6 @@ export interface MultiServiceStore {
   create: (space: MultiServiceSpace, linkAccount: PapillonMultiServiceSpace) => void
   remove: (localID: string) => void
   update: <A extends MultiServiceSpace, T extends keyof A = keyof A>(localID: string, key: T, value: A[T]) => void
+  toggleEnabledState: () => void
   getFeatureAccount: (feature: keyof typeof MultiServiceFeature, spaceLocalID: string) => PrimaryAccount | null | undefined
 }
