@@ -27,6 +27,7 @@ import IzlyActivation from "@/views/settings/ExternalAccount/IzlyActivation";
 import TurboselfAccountSelector from "@/views/settings/ExternalAccount/TurboselfAccountSelector";
 import SettingsApparence from "@/views/settings/SettingsApparence";
 import ExternalAliseLogin from "@/views/settings/ExternalAccount/Alise";
+import SettingsMultiservice from "@/views/settings/SettingsMultiservice";
 
 const settingsScreens = [
   createScreen("Settings", Settings, {
@@ -62,6 +63,9 @@ const settingsScreens = [
   }),
   createScreen("SettingsMagic", SettingsMagic, {
     headerTitle: "Papillon Magic",
+  }),
+  createScreen("SettingsMultiservice", SettingsMultiservice, {
+    headerTitle: "Multiservice",
   }),
   createScreen("SettingsAddons", SettingsAddons, {
     headerTitle: "Extensions",
