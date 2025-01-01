@@ -17,12 +17,13 @@ export const getChats = async (account: PronoteAccount): Promise<Array<Chat>> =>
   const studentName = account.instance.user.resources[0].name;
 
   const parseFrenchDate = (dateText: string): Date => {
+    console.log(dateText);
     const datePart = dateText.split(" ").pop();
     if (!datePart) return new Date();
 
-    const [day, month] = datePart.split("/");
+    const [day, month, year] = datePart.split("/");
     const currentYear = new Date().getFullYear();
-    return new Date(`${currentYear}-${month}-${day}`);
+    return new Date(`${year ? 20 + year : currentYear}-${month}-${day}`);
   };
 
   return chats.items.map((chat) => ({
