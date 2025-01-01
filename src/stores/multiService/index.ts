@@ -38,9 +38,6 @@ export const useMultiService = create<MultiServiceStore>()(
           )
         }));
 
-        const accountStore = useAccounts();
-        accountStore.remove(localID);
-
         log(`removed ${localID}`, "multiService:remove");
       },
 
