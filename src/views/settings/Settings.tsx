@@ -202,7 +202,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           color: "#cb7712",
           label: "Multiservice (Bêta)",
           description: "Connecte plusieurs services en un seul espace de travail",
-          onPress: () => navigation.navigate("SettingsMultiservice"),
+          onPress: () => navigation.navigate("SettingsMultiService"),
         },
       ],
     },
