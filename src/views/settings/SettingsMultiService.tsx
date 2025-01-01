@@ -86,7 +86,8 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
         Attendance: null,
         News: null
       },
-      name: spaceName
+      name: spaceName,
+      image: selectedImage || undefined
     };
     createMultiServiceSpace(space, linkedAccount);
     accounts.create(linkedAccount);
