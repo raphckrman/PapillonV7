@@ -5,11 +5,11 @@ import type { Screen } from "@/router/helpers/types";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import important_json from "@/utils/magic/regex/important.json"; // Ensure this file contains valid regex patterns
 import MagicContainerCard from "@/components/Settings/MagicContainerCard";
-import { NativeIcon, NativeIconGradient, NativeItem, NativeList, NativeListHeader, NativeText } from "@/components/Global/NativeComponents";
+import { NativeIcon, NativeItem, NativeList, NativeListHeader, NativeText } from "@/components/Global/NativeComponents";
 import { PlugZap } from "lucide-react-native";
 import { useCurrentAccount } from "@/stores/account";
 
-const SettingsMultiservice: Screen<"SettingsMultiservice"> = ({ navigation }) => {
+const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) => {
   const theme = useTheme();
   const { colors } = theme;
   const insets = useSafeAreaInsets();
@@ -34,9 +34,9 @@ const SettingsMultiservice: Screen<"SettingsMultiservice"> = ({ navigation }) =>
             />
           }
           leading={
-            <NativeIconGradient
+            <NativeIcon
               icon={<PlugZap />}
-              colors={["#04ACDC", "#6FE3CD"]}
+              color="#cb7712"
             />
           }
         >
@@ -54,4 +54,4 @@ const SettingsMultiservice: Screen<"SettingsMultiservice"> = ({ navigation }) =>
 
 
 
-export default SettingsMultiservice;
+export default SettingsMultiService;
