@@ -4,7 +4,7 @@ import {useTheme} from "@react-navigation/native";
 import type {Screen} from "@/router/helpers/types";
 import MultiServiceContainerCard from "@/components/Settings/MultiServiceContainerCard";
 import {NativeIcon, NativeItem, NativeList, NativeListHeader, NativeText} from "@/components/Global/NativeComponents";
-import {ImageIcon, PlugZap, Plus, Type} from "lucide-react-native";
+import {ImageIcon, PlugZap, Plus, Type, Trash2} from "lucide-react-native";
 import {useAccounts} from "@/stores/account";
 import {useMultiService} from "@/stores/multiService";
 import BottomSheet from "@/components/Modals/PapillonBottomSheet";
@@ -23,6 +23,7 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
   const multiServiceEnabled = useMultiService(store => store.enabled);
   const multiServiceSpaces = useMultiService(store => store.spaces);
   const createMultiServiceSpace = useMultiService(store => store.create);
+  const deleteMultiServiceSpace = useMultiService(store => store.remove);
   const accounts = useAccounts();
 
   const [spaceCreationSheetOpened, setSpaceCreationSheetOpened] = useState(false);
@@ -152,6 +153,15 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
                       // @ts-expect-error : borderCurve is not in the Image style
                       borderCurve: "continuous",
                     }}
+                  />
+                }
+                trailing={
+                  <Trash2
+                    onPress={() => {
+                      accounts.remove(space.accountLocalID);
+                      deleteMultiServiceSpace(space.accountLocalID);
+                    }}
+                    color="#CF0029"
                   />
                 }
               >
