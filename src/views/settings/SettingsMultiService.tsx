@@ -16,6 +16,7 @@ import {MultiServiceSpace} from "@/stores/multiService/types";
 import {AccountService, PapillonMultiServiceSpace} from "@/stores/account/types";
 import uuid from "@/utils/uuid-v4";
 import {defaultProfilePicture} from "@/utils/ui/default-profile-picture";
+import {defaultTabs} from "@/consts/DefaultTabs";
 
 const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) => {
   const theme = useTheme();
@@ -63,7 +64,15 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
 
     const localID = uuid();
 
-    // TODO: have student name and space title
+    const defaultSpaceTabs = [
+      "Home",
+      "Lessons",
+      "Homeworks",
+      "Grades",
+      "News",
+      "Attendance"
+    ] as typeof defaultTabs[number]["tab"][];
+
     const linkedAccount: PapillonMultiServiceSpace = {
       isExternal: false,
       linkedExternalLocalIDs: [],
@@ -76,7 +85,11 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
       localID: localID,
       name: spaceName,
       personalization: {
-        profilePictureB64: selectedImage || undefined
+        profilePictureB64: selectedImage || undefined,
+        tabs: defaultTabs.filter(current => defaultSpaceTabs.includes(current.tab)).map((tab, index) => ({
+          name: tab.tab,
+          enabled: index <= 4
+        }))
       },
       service: AccountService.PapillonMultiService,
       studentName: { // TODO
@@ -94,7 +107,6 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
         homeworks: undefined,
         attendance: undefined
       },
-      authentication: {},
       name: spaceName,
       image: selectedImage || undefined
     };
@@ -159,9 +171,9 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
         <>
           <NativeListHeader label="Mes Espaces"/>
           <NativeList>
-            {multiServiceSpaces.map(space => (
+            {multiServiceSpaces.map((space, index) => (
               <NativeItem
-                key={multiServiceSpaces.indexOf(space)}
+                key={index}
                 onPress={() => navigation.navigate("SettingsMultiServiceSpace", { space })}
                 leading={
                   <Image
