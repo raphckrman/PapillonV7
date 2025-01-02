@@ -26,6 +26,8 @@ import { info, log } from "@/utils/logger/logger";
 export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
   account: null,
   linkedAccounts: [],
+  // For multi service, to not mix Primary & External accounts
+  associatedAccounts: [],
 
   mutateProperty: <T extends keyof PrimaryAccount>(key: T, value: PrimaryAccount[T]) => {
     log(`mutate property ${key} in storage`, "current:update");
@@ -81,9 +83,11 @@ export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
       return store.persist.rehydrate();
     }));
 
+    const accounts = useAccounts.getState().accounts;
+
     // Special case for spaces
     if (account.service === AccountService.PapillonMultiService) {
-      log("switching to virtual space, skipping account reload...", "[switchTo]");
+      log("switching to virtual space, reloading associated accounts...", "[switchTo]");
     } else if (typeof account.instance === "undefined") { // Account is currently not authenticated,
       log("instance undefined, reloading...", "[switchTo]");
       // Automatically reconnect the main instance.
@@ -93,12 +97,15 @@ export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
       log("instance reload done !", "[switchTo]");
     }
 
-    const accounts = useAccounts.getState().accounts;
     const linkedAccounts = account.linkedExternalLocalIDs.map((linkedID) => {
       return {...accounts.find((acc) => acc.localID === linkedID)};
     }).filter(Boolean) as ExternalAccount[] ?? [];
 
-    info(`found ${linkedAccounts.length} external accounts`, "switchTo");
+    const associatedAccounts = account.associatedAccountsLocalIDs?.map((associatedID) => {
+      return {...accounts.find((acc) => acc.localID === associatedID)};
+    }).filter(Boolean) as PrimaryAccount[] ?? [];
+
+    info(`found ${linkedAccounts.length} external accounts and ${associatedAccounts.length} associated accounts`, "switchTo");
 
     for (const linkedAccount of linkedAccounts) {
       const { instance, authentication } = await reload(linkedAccount);
@@ -107,9 +114,16 @@ export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
       log("reloaded external", "[switchTo]");
     }
 
-    log("reloaded all external accounts", "[switchTo]");
+    for (const associatedAccount of associatedAccounts) {
+      const { instance, authentication } = await reload(associatedAccount);
+      associatedAccount.instance = instance;
+      associatedAccount.authentication = authentication;
+      log("reloaded associated account", "[switchTo]");
+    }
 
-    set({ linkedAccounts });
+    log("reloaded all external and associated accounts", "[switchTo]");
+
+    set({ linkedAccounts, associatedAccounts });
     log(`done reading ${account.name} and rehydrating stores.`, "[switchTo]");
   },
 
