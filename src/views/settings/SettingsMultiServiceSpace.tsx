@@ -1,14 +1,27 @@
 import React, {useRef, useState} from "react";
-import {ActivityIndicator, Image, ScrollView, Switch, TextInput, KeyboardAvoidingView, Alert} from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  Switch,
+  TextInput,
+  KeyboardAvoidingView,
+  Alert,
+  FlatList
+} from "react-native";
 import {useTheme} from "@react-navigation/native";
 import type {Screen} from "@/router/helpers/types";
 import {NativeIcon, NativeItem, NativeList, NativeListHeader, NativeText} from "@/components/Global/NativeComponents";
-import {Camera, PlugZap, TextCursorInput, User2, Type, Trash2} from "lucide-react-native";
+import {Camera, ChevronDown, TextCursorInput, User2, Type, Trash2, CircleAlert} from "lucide-react-native";
 import {useAccounts} from "@/stores/account";
 import { AccountService, PrimaryAccount} from "@/stores/account/types";
 import * as ImagePicker from "expo-image-picker";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {useMultiService} from "@/stores/multiService";
+import {MultiServiceFeature} from "@/stores/multiService/types";
+import LottieView from "lottie-react-native";
+import {anim2Papillon} from "@/utils/ui/animations";
+import Reanimated, {FadeOut, ZoomIn} from "react-native-reanimated";
 
 const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ navigation, route }) => {
   const theme = useTheme();
@@ -62,6 +75,42 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
       navigation.goBack();
     }}]);
   };
+
+  const selectFeatureAccount = (feature: MultiServiceFeature) => {
+
+  };
+
+
+  const lottieRef = React.useRef<LottieView>(null);
+
+  const features = [
+    {
+      name: "Notes",
+      feature: MultiServiceFeature.Grades,
+      icon: require("@/../assets/lottie/tab_chart.json")
+    },
+    {
+      name: "Emploi du temps",
+      feature: MultiServiceFeature.Timetable,
+      icon: require("@/../assets/lottie/tab_calendar.json")
+    },
+    {
+      name: "Devoirs",
+      feature: MultiServiceFeature.Homeworks,
+      icon: require("@/../assets/lottie/tab_book_2.json")
+    },
+    {
+      name: "Vie scolaire",
+      feature: MultiServiceFeature.Attendance,
+      icon: require("@/../assets/lottie/tab_check.json")
+    },
+    {
+      name: "Actualités",
+      feature: MultiServiceFeature.News,
+      icon: require("@/../assets/lottie/tab_news.json")
+    }
+  ];
+
   return (
     <KeyboardAvoidingView
       behavior="padding"
@@ -216,14 +265,75 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
               ref={lastNameRef}
             />
           </NativeItem>
-
         </NativeList>
+        <NativeText style={{ paddingLeft: 7, paddingTop: 15 }} variant="subtitle">Accède à plus d'options en sélectionnant l'espace virtuel, et en personnalisant ton profil dans les paramètres.</NativeText>
 
 
         <NativeListHeader label="Configuration" />
-        <NativeList>
-          WIP
-        </NativeList>
+        <>
+          {features.map(feature => (
+            <NativeList>
+              <NativeItem
+                icon={
+                  <Reanimated.View
+                    entering={anim2Papillon(ZoomIn)}
+                    exiting={anim2Papillon(FadeOut)}
+                    style={[
+                      {
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: theme.colors.primary + "22",
+                        borderRadius: 8,
+                        borderCurve: "continuous",
+                      },
+                    ]}
+                  >
+                    <LottieView
+                      ref={lottieRef}
+                      source={feature.icon}
+                      colorFilters={[{
+                        keypath: "*",
+                        color: theme.colors.primary,
+                      }]}
+                      style={[
+                        {
+                          width: 30,
+                          height: 30,
+                        }
+                      ]}
+                    />
+                  </Reanimated.View>}
+                onPress={() => selectFeatureAccount(feature.feature)}
+                trailing={<ChevronDown color={theme.colors.primary}/>}
+                chevron={false}
+              >
+                <NativeText variant="title">{feature.name}</NativeText>
+              </NativeItem>
+              {space.featuresServices[feature.feature] ? (
+                <NativeItem
+                  style={{
+                    width: "100%"
+                  }}
+                >
+                  <NativeText>Mettre le compte connecté ici</NativeText>
+                </NativeItem>
+              ): (
+                <NativeItem
+                  leading={<CircleAlert color="#CF0029" />}
+                  style={{
+                    width: "100%",
+                    padding: 0
+                  }}
+                >
+                  <NativeText>Pas de service sélectionné</NativeText>
+                </NativeItem>
+              )}
+            </NativeList>
+          ))}
+        </>
 
         <NativeListHeader label="Actions" />
         <NativeList>
