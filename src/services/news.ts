@@ -5,8 +5,8 @@ import { checkIfSkoSupported } from "./skolengo/default-personalization";
 import { error } from "@/utils/logger/logger";
 import { newsRead } from "pawnote";
 import { ca } from "date-fns/locale";
-import {useMultiService} from "@/stores/multiService";
 import {MultiServiceFeature} from "@/stores/multiService/types";
+import {getFeatureAccount} from "@/utils/multiservice";
 
 /**
  * Updates the state and cache for the news.
@@ -46,7 +46,7 @@ export async function updateNewsInCache <T extends Account> (account: T): Promis
       break;
     }
     case AccountService.PapillonMultiService: {
-      const service = useMultiService().getFeatureAccount(MultiServiceFeature.News, account.localID);
+      const service = getFeatureAccount(MultiServiceFeature.News, account.localID);
       if (!service) {
         throw new Error("No service set in multi-service space");
       }
@@ -80,7 +80,7 @@ export async function setNewsRead <T extends Account> (account: T, message: Info
     case AccountService.Multi:
       break;
     case AccountService.PapillonMultiService: {
-      const service = useMultiService().getFeatureAccount(MultiServiceFeature.News, account.localID);
+      const service = getFeatureAccount(MultiServiceFeature.News, account.localID);
       if (!service) {
         throw new Error("No service set in multi-service space");
       }

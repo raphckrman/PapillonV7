@@ -7,8 +7,8 @@ import { pronoteFirstDate } from "./pronote/timetable";
 import { dateToEpochWeekNumber, epochWNToPronoteWN } from "@/utils/epochWeekNumber";
 import { checkIfSkoSupported } from "./skolengo/default-personalization";
 import { useClassSubjectStore } from "@/stores/classSubject";
-import {useMultiService} from "@/stores/multiService";
 import {MultiServiceFeature} from "@/stores/multiService/types";
+import {getFeatureAccount} from "@/utils/multiservice";
 
 /**
  * Updates the state and cache for the homework of given week number.
@@ -47,9 +47,10 @@ export async function updateHomeworkForWeekInCache <T extends Account> (account:
         break;
       }
       case AccountService.PapillonMultiService: {
-        const service = useMultiService().getFeatureAccount(MultiServiceFeature.Homeworks, account.localID);
+        const service = getFeatureAccount(MultiServiceFeature.Homeworks, account.localID);
         if (!service) {
-          throw new Error("No service set in multi-service space");
+          console.info(`[updateHomeworkForWeekInCache]: updating to empty since multi-service space has no account set for homeworks.`);
+          break;
         }
         return updateHomeworkForWeekInCache(service, date);
       }
@@ -80,7 +81,7 @@ export async function toggleHomeworkState <T extends Account> (account: T, homew
       break;
     }
     case AccountService.PapillonMultiService: {
-      const service = useMultiService().getFeatureAccount(MultiServiceFeature.Homeworks, account.localID);
+      const service = getFeatureAccount(MultiServiceFeature.Homeworks, account.localID);
       if (!service) {
         throw new Error("No service set in multi-service space");
       }

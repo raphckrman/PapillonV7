@@ -4,8 +4,8 @@ import type { Period } from "./shared/Period";
 import type { AverageOverview, Grade } from "./shared/Grade";
 import {error } from "@/utils/logger/logger";
 import { checkIfSkoSupported } from "./skolengo/default-personalization";
-import {useMultiService} from "@/stores/multiService";
 import {MultiServiceFeature} from "@/stores/multiService/types";
+import {getFeatureAccount} from "@/utils/multiservice";
 
 const getDefaultPeriod = (periods: Period[]): string => {
   const now = Date.now();
@@ -57,7 +57,7 @@ export async function updateGradesPeriodsInCache <T extends Account> (account: T
       break;
     }
     case AccountService.PapillonMultiService: {
-      const service = useMultiService().getFeatureAccount(MultiServiceFeature.Grades, account.localID);
+      const service = getFeatureAccount(MultiServiceFeature.Grades, account.localID);
       if (!service) {
         throw new Error("No service set in multi-service space");
       }
@@ -130,7 +130,7 @@ export async function updateGradesAndAveragesInCache <T extends Account> (accoun
         break;
       }
       case AccountService.PapillonMultiService: {
-        const service = useMultiService().getFeatureAccount(MultiServiceFeature.Grades, account.localID);
+        const service = getFeatureAccount(MultiServiceFeature.Grades, account.localID);
         if (!service) {
           throw new Error("No service set in multi-service space");
         }

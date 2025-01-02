@@ -4,8 +4,8 @@ import { epochWNToPronoteWN, weekNumberToDateRange } from "@/utils/epochWeekNumb
 import { checkIfSkoSupported } from "./skolengo/default-personalization";
 import { error } from "@/utils/logger/logger";
 import { fetchIcalData } from "./local/ical";
-import {useMultiService} from "@/stores/multiService";
 import {MultiServiceFeature} from "@/stores/multiService/types";
+import {getFeatureAccount} from "@/utils/multiservice";
 
 /**
  * Updates the state and cache for the timetable of given week number.
@@ -48,7 +48,7 @@ export async function updateTimetableForWeekInCache <T extends Account> (account
       break;
     }
     case AccountService.PapillonMultiService: {
-      const service = useMultiService().getFeatureAccount(MultiServiceFeature.Timetable, account.localID);
+      const service = getFeatureAccount(MultiServiceFeature.Timetable, account.localID);
       if (!service) {
         throw new Error("No service set in multi-service space");
       }
