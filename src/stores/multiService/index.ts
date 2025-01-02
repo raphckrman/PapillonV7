@@ -58,8 +58,8 @@ export const useMultiService = create<MultiServiceStore>()(
 
         let spaceMutated: MultiServiceSpace;
 
-        // Mutate only featureServices and name properties.
-        if (key === "featureServices" || key === "name" || key === "image") {
+        // Mutate only image and name properties.
+        if (key === "name" || key === "image") {
           spaceMutated = {
             ...space,
             [key]: value
@@ -73,6 +73,27 @@ export const useMultiService = create<MultiServiceStore>()(
             )
           }));
         }
+      },
+
+      setFeatureAccount: (spaceLocalID, feature, account) => {
+        const space = get().spaces.find((space) => space.accountLocalID === spaceLocalID);
+        if (!space) return;
+
+        let mutatedFeatureServices = space.featuresServices;
+        mutatedFeatureServices[feature] = account;
+
+        const spaceMutated: MultiServiceSpace = {
+          ...space,
+          featuresServices: mutatedFeatureServices
+        };
+        // Save the update in the store and storage.
+        set((state) => ({
+          spaces: state.spaces.map((space) =>
+            space.accountLocalID === spaceLocalID
+              ? spaceMutated
+              : space
+          )
+        }));
       },
 
       getFeatureAccount: (feature, spaceLocalID) => {

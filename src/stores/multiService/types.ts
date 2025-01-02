@@ -13,7 +13,7 @@ export interface MultiServiceSpace {
   name: string
   image?: string
   featuresServices: {
-    [key in keyof typeof MultiServiceFeature]: PrimaryAccount | null
+    [key in MultiServiceFeature]?: PrimaryAccount | null
   }
 }
 
@@ -24,5 +24,6 @@ export interface MultiServiceStore {
   remove: (localID: string) => void
   update: <A extends MultiServiceSpace, T extends keyof A = keyof A>(localID: string, key: T, value: A[T]) => void
   toggleEnabledState: () => void
-  getFeatureAccount: (feature: keyof typeof MultiServiceFeature, spaceLocalID: string) => PrimaryAccount | null | undefined
+  setFeatureAccount: (spaceLocalID: string, feature: MultiServiceFeature, account: PrimaryAccount) => void
+  getFeatureAccount: (feature: MultiServiceFeature, spaceLocalID: string) => PrimaryAccount | null | undefined
 }
