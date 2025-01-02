@@ -95,7 +95,8 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
     let linkedAccountsIds = [...(linkedAccount?.linkedExternalLocalIDs || []), account.localID];
     linkedAccountsIds = linkedAccountsIds.filter((value, index) => linkedAccountsIds.indexOf(value) === index); // Remove duplicates
     // Putting the space's associated accounts ids in linkedExternalLocalIDs permits the reload of their instance / authentication fields (like externals accounts)
-    accounts.update(space.accountLocalID, "linkedExternalLocalIDs", linkedAccountsIds);
+    // @ts-expect-error
+    accounts.update(space.accountLocalID, "associatedAccountsLocalIDs", linkedAccountsIds);
     setAccountSelectorOpened(false);
     setSelectedAccount(null);
   };
@@ -149,6 +150,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
 
         <NativeList>
           <NativeItem
+            key={0}
             chevron={true}
             onPress={() => selectPicture()}
             leading={(selectedImage || space.image) &&
@@ -190,6 +192,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
         <NativeList>
 
           <NativeItem
+            key={0}
             onPress={() => spaceNameRef.current?.focus()}
             chevron={false}
             icon={<Type />}
@@ -228,6 +231,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
         <NativeList>
 
           <NativeItem
+            key={0}
             onPress={() => firstNameRef.current?.focus()}
             chevron={false}
             icon={<User2 />}
@@ -257,6 +261,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
           </NativeItem>
 
           <NativeItem
+            key={1}
             onPress={() => lastNameRef.current?.focus()}
             chevron={false}
             icon={<TextCursorInput />}
@@ -296,7 +301,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
           {features.map((feature, index) => (
             <>
               <NativeItem
-                key={index}
+                key={index * 2}
                 icon={
                   <Reanimated.View
                     entering={anim2Papillon(ZoomIn)}
@@ -335,7 +340,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
               >
                 <NativeText variant="title">{feature.name}</NativeText>
               </NativeItem>
-              {space.featuresServices[feature.feature] ? (
+              {accounts.accounts.find(account => account.localID === space.featuresServices[feature.feature]) ? (
                 <AccountItem account={accounts.accounts.find(account => account.localID === space.featuresServices[feature.feature]) as PrimaryAccount} endCheckMark={false} additionalStyles={{
                   paddingStart: 10,
                   borderBottomWidth: 1,
@@ -344,6 +349,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
                 }}/>
               ): (
                 <NativeItem
+                  key={index * 2 + 1}
                   icon={<CircleAlert />}
                   separator={true}
                 >

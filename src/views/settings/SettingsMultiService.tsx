@@ -76,6 +76,7 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
     const linkedAccount: PapillonMultiServiceSpace = {
       isExternal: false,
       linkedExternalLocalIDs: [],
+      associatedAccountsLocalIDs: [],
       authentication: null,
       identity: {},
       identityProvider: {
@@ -92,7 +93,7 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
         }))
       },
       service: AccountService.PapillonMultiService,
-      studentName: { // TODO
+      studentName: {
         first: currentAccount.account?.studentName.first || "",
         last: currentAccount.account?.studentName.last || ""
       }
