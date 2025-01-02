@@ -88,12 +88,13 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
     const space: MultiServiceSpace = {
       accountLocalID: localID,
       featuresServices: {
-        Grades: null,
-        Timetable: null,
-        Homeworks: null,
-        Attendance: null,
-        News: null
+        grades: undefined,
+        timetable: undefined,
+        news: undefined,
+        homeworks: undefined,
+        attendance: undefined
       },
+      authentication: {},
       name: spaceName,
       image: selectedImage || undefined
     };

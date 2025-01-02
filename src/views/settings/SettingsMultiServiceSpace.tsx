@@ -6,14 +6,13 @@ import {
   KeyboardAvoidingView,
   Pressable,
   ScrollView,
-  Text,
   TextInput,
   View
 } from "react-native";
 import {useTheme} from "@react-navigation/native";
 import type {Screen} from "@/router/helpers/types";
 import {NativeItem, NativeList, NativeListHeader, NativeText} from "@/components/Global/NativeComponents";
-import {Camera, Check, ChevronDown, CircleAlert, TextCursorInput, Trash2, Type, User2} from "lucide-react-native";
+import {Camera, ChevronDown, CircleAlert, TextCursorInput, Trash2, Type, User2} from "lucide-react-native";
 import {useAccounts} from "@/stores/account";
 import {AccountService, PrimaryAccount} from "@/stores/account/types";
 import * as ImagePicker from "expo-image-picker";
@@ -21,9 +20,8 @@ import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {useMultiService} from "@/stores/multiService";
 import {MultiServiceFeature} from "@/stores/multiService/types";
 import LottieView from "lottie-react-native";
-import {anim2Papillon, animPapillon} from "@/utils/ui/animations";
+import {anim2Papillon} from "@/utils/ui/animations";
 import Reanimated, {FadeOut, ZoomIn} from "react-native-reanimated";
-import {defaultProfilePicture} from "@/utils/ui/default-profile-picture";
 import PapillonBottomSheet from "@/components/Modals/PapillonBottomSheet";
 import * as Haptics from "expo-haptics";
 import AccountItem from "@/components/Global/AccountItem";
@@ -87,7 +85,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
   };
 
   const openAccountSelector = (feature: MultiServiceFeature) => {
-    setSelectedAccount(space.featuresServices[feature] || null);
+    setSelectedAccount(availableAccounts.find(account => account.localID === space.featuresServices[feature]) || null);
     setFeatureSelection(feature);
     setAccountSelectorOpened(true);
   };
@@ -171,7 +169,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
             </NativeText>
             {!selectedImage ? (
               <NativeText variant="subtitle">
-                Personnalisez votre espace en ajoutant une photo.
+                Personnalise ton espace en ajoutant une photo.
               </NativeText>
             ) : (
               <NativeText variant="subtitle">
@@ -333,7 +331,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
                 <NativeText variant="title">{feature.name}</NativeText>
               </NativeItem>
               {space.featuresServices[feature.feature] ? (
-                <AccountItem account={space.featuresServices[feature.feature] as PrimaryAccount} endCheckMark={false} additionalStyles={{
+                <AccountItem account={accounts.accounts.find(account => account.localID === space.featuresServices[feature.feature]) as PrimaryAccount} endCheckMark={false} additionalStyles={{
                   paddingStart: 10,
                   borderBottomWidth: 1,
                   backgroundColor: theme.dark ? theme.colors.primary + "09" : theme.colors.primary + "11",
