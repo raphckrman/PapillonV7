@@ -4,6 +4,8 @@ import type { Period } from "./shared/Period";
 import type { AverageOverview, Grade } from "./shared/Grade";
 import {error } from "@/utils/logger/logger";
 import { checkIfSkoSupported } from "./skolengo/default-personalization";
+import {useMultiService} from "@/stores/multiService";
+import {MultiServiceFeature} from "@/stores/multiService/types";
 
 const getDefaultPeriod = (periods: Period[]): string => {
   const now = Date.now();
@@ -53,6 +55,13 @@ export async function updateGradesPeriodsInCache <T extends Account> (account: T
       defaultPeriod = getDefaultPeriod(periods);
 
       break;
+    }
+    case AccountService.PapillonMultiService: {
+      const service = useMultiService().getFeatureAccount(MultiServiceFeature.Grades, account.localID);
+      if (!service) {
+        throw new Error("No service set in multi-service space");
+      }
+      return updateGradesPeriodsInCache(service);
     }
     default:
       throw new Error("Service not implemented");
@@ -119,6 +128,13 @@ export async function updateGradesAndAveragesInCache <T extends Account> (accoun
         averages = output.averages;
 
         break;
+      }
+      case AccountService.PapillonMultiService: {
+        const service = useMultiService().getFeatureAccount(MultiServiceFeature.Grades, account.localID);
+        if (!service) {
+          throw new Error("No service set in multi-service space");
+        }
+        return updateGradesAndAveragesInCache(service, periodName);
       }
       default:
         throw new Error(`Service (${AccountService[account.service]}) not implemented for this request`);
