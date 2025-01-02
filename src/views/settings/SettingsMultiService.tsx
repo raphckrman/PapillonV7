@@ -5,7 +5,7 @@ import type {Screen} from "@/router/helpers/types";
 import MultiServiceContainerCard from "@/components/Settings/MultiServiceContainerCard";
 import {NativeIcon, NativeItem, NativeList, NativeListHeader, NativeText} from "@/components/Global/NativeComponents";
 import {ImageIcon, PlugZap, Plus, Type, Trash2} from "lucide-react-native";
-import {useAccounts} from "@/stores/account";
+import {useAccounts, useCurrentAccount} from "@/stores/account";
 import {useMultiService} from "@/stores/multiService";
 import BottomSheet from "@/components/Modals/PapillonBottomSheet";
 import * as ImagePicker from "expo-image-picker";
@@ -25,6 +25,7 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
   const createMultiServiceSpace = useMultiService(store => store.create);
   const deleteMultiServiceSpace = useMultiService(store => store.remove);
   const accounts = useAccounts();
+  const currentAccount = useCurrentAccount();
 
   const [spaceCreationSheetOpened, setSpaceCreationSheetOpened] = useState(false);
   const [spaceName, setSpaceName] = useState("");
@@ -62,13 +63,14 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
 
     const localID = uuid();
 
+    // TODO: have student name and space title
     const linkedAccount: PapillonMultiServiceSpace = {
       isExternal: false,
       linkedExternalLocalIDs: [],
       authentication: null,
       identity: {},
       identityProvider: {
-        name: "Environnement multiservice Papillon"
+        name: spaceName
       },
       instance: null,
       localID: localID,
@@ -78,8 +80,8 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
       },
       service: AccountService.PapillonMultiService,
       studentName: { // TODO
-        first: spaceName,
-        last: ""
+        first: currentAccount.account?.studentName.first || "",
+        last: currentAccount.account?.studentName.last || ""
       }
     };
 
@@ -102,6 +104,13 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
     setSelectedImage(null);
     setSpaceName("");
   };
+
+  const deleteAllSpaces = () => {
+    for (const space of multiServiceSpaces) {
+      accounts.remove(space.accountLocalID);
+      deleteMultiServiceSpace(space.accountLocalID);
+    }
+  };
   return (
     <ScrollView
       contentContainerStyle={{
@@ -117,7 +126,16 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
           trailing={
             <Switch
               value={multiServiceEnabled ?? false}
-              onValueChange={() => toggleMultiService()}
+              onValueChange={() => {
+                if (multiServiceEnabled) {
+                  Alert.alert("Attention", "La désactivation du multi-service entrainera la suppression de vos environnement multi-services créés.", [ { text: "Annuler", style: "cancel" }, { text: "Confirmer", style: "destructive", onPress: () => {
+                    deleteAllSpaces();
+                    toggleMultiService();
+                  } } ]);
+                } else {
+                  toggleMultiService();
+                }
+              }}
             />
           }
           leading={
@@ -154,15 +172,6 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
                       // @ts-expect-error : borderCurve is not in the Image style
                       borderCurve: "continuous",
                     }}
-                  />
-                }
-                trailing={
-                  <Trash2
-                    onPress={() => {
-                      accounts.remove(space.accountLocalID);
-                      deleteMultiServiceSpace(space.accountLocalID);
-                    }}
-                    color="#CF0029"
                   />
                 }
               >
