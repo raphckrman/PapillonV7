@@ -7,7 +7,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Alert,
-  FlatList
+  FlatList, View, Text
 } from "react-native";
 import {useTheme} from "@react-navigation/native";
 import type {Screen} from "@/router/helpers/types";
@@ -22,6 +22,7 @@ import {MultiServiceFeature} from "@/stores/multiService/types";
 import LottieView from "lottie-react-native";
 import {anim2Papillon} from "@/utils/ui/animations";
 import Reanimated, {FadeOut, ZoomIn} from "react-native-reanimated";
+import {defaultProfilePicture} from "@/utils/ui/default-profile-picture";
 
 const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ navigation, route }) => {
   const theme = useTheme();
@@ -270,9 +271,12 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
 
 
         <NativeListHeader label="Configuration" />
-        <>
-          {features.map(feature => (
-            <NativeList>
+        <NativeList
+          style={{
+          }}
+        >
+          {features.map((feature, index) => (
+            <>
               <NativeItem
                 icon={
                   <Reanimated.View
@@ -314,26 +318,63 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
               </NativeItem>
               {space.featuresServices[feature.feature] ? (
                 <NativeItem
-                  style={{
-                    width: "100%"
-                  }}
+                  icon={<Image
+                    source={space.featuresServices[feature.feature]?.personalization.profilePictureB64 ? { uri: space.featuresServices[feature.feature]?.personalization.profilePictureB64 } : defaultProfilePicture(space.featuresServices[feature.feature]?.service || AccountService.Local, space.featuresServices[feature.feature]?.identityProvider?.name || "")}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: 80,
+                    }}
+                    resizeMode="cover"
+                  />}
+                  separator={true}
                 >
-                  <NativeText>Mettre le compte connecté ici</NativeText>
+                  <View style={{ flexDirection: "row", flexWrap: "nowrap", minWidth: "90%", maxWidth: "75%" }}>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontFamily: "semibold",
+                        color: theme.colors.text,
+                        flexShrink: 1
+                      }}
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                    >
+                      {space.featuresServices[feature.feature]?.studentName?.first || "Utilisateur"}{" "}
+                      {space.featuresServices[feature.feature]?.studentName?.last || ""}
+                    </Text>
+                  </View>
+
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontWeight: 500,
+                      color: theme.colors.text + "50",
+                      fontFamily: "medium",
+                      maxWidth: "70%",
+                    }}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    {AccountService[space.featuresServices[feature.feature]?.service || AccountService.Local] !== "Local" ?
+                      AccountService[space.featuresServices[feature.feature]?.service || AccountService.Local] :
+                      space.featuresServices[feature.feature]?.identityProvider ?
+                        space.featuresServices[feature.feature]?.identityProvider?.name :
+                        "Compte local"
+                    }
+                  </Text>
                 </NativeItem>
               ): (
                 <NativeItem
-                  leading={<CircleAlert color="#CF0029" />}
-                  style={{
-                    width: "100%",
-                    padding: 0
-                  }}
+                  icon={<CircleAlert />}
+                  separator={true}
                 >
                   <NativeText>Pas de service sélectionné</NativeText>
                 </NativeItem>
               )}
-            </NativeList>
+            </>
           ))}
-        </>
+        </NativeList>
 
         <NativeListHeader label="Actions" />
         <NativeList>
