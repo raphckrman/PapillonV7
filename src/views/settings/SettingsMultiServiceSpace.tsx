@@ -211,6 +211,11 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
         </NativeList>
 
 
+        <NativeListHeader label="Configuration" />
+        <NativeList>
+          WIP
+        </NativeList>
+
         <NativeListHeader label="Actions" />
         <NativeList>
           <NativeItem
