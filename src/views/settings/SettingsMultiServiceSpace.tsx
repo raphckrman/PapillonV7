@@ -1,28 +1,32 @@
 import React, {useRef, useState} from "react";
 import {
   ActivityIndicator,
-  Image,
-  ScrollView,
-  Switch,
-  TextInput,
-  KeyboardAvoidingView,
   Alert,
-  FlatList, View, Text
+  Image,
+  KeyboardAvoidingView,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View
 } from "react-native";
 import {useTheme} from "@react-navigation/native";
 import type {Screen} from "@/router/helpers/types";
-import {NativeIcon, NativeItem, NativeList, NativeListHeader, NativeText} from "@/components/Global/NativeComponents";
-import {Camera, ChevronDown, TextCursorInput, User2, Type, Trash2, CircleAlert} from "lucide-react-native";
+import {NativeItem, NativeList, NativeListHeader, NativeText} from "@/components/Global/NativeComponents";
+import {Camera, Check, ChevronDown, CircleAlert, TextCursorInput, Trash2, Type, User2} from "lucide-react-native";
 import {useAccounts} from "@/stores/account";
-import { AccountService, PrimaryAccount} from "@/stores/account/types";
+import {AccountService, PrimaryAccount} from "@/stores/account/types";
 import * as ImagePicker from "expo-image-picker";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {useMultiService} from "@/stores/multiService";
 import {MultiServiceFeature} from "@/stores/multiService/types";
 import LottieView from "lottie-react-native";
-import {anim2Papillon} from "@/utils/ui/animations";
+import {anim2Papillon, animPapillon} from "@/utils/ui/animations";
 import Reanimated, {FadeOut, ZoomIn} from "react-native-reanimated";
 import {defaultProfilePicture} from "@/utils/ui/default-profile-picture";
+import PapillonBottomSheet from "@/components/Modals/PapillonBottomSheet";
+import * as Haptics from "expo-haptics";
+import AccountItem from "@/components/Global/AccountItem";
 
 const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ navigation, route }) => {
   const theme = useTheme();
@@ -32,6 +36,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
   const availableAccounts = accounts.accounts.filter(account => !account.isExternal && !(account.service == AccountService.PapillonMultiService));
   const deleteMultiServiceSpace = useMultiService(store => store.remove);
   const updateMultiServiceSpace = useMultiService(store => store.update);
+  const setMultiServiceSpaceAccountFeature = useMultiService(store => store.setFeatureAccount);
 
   const linkedAccount = accounts.accounts.find(account => account.localID === space.accountLocalID) as PrimaryAccount | undefined;
 
@@ -69,6 +74,10 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
     setLoadingImage(false);
   };
 
+  const [accountSelectorOpened, setAccountSelectorOpened] = useState(false);
+  const [selectedAccount, setSelectedAccount] = useState<PrimaryAccount | null>(null);
+  const [featureSelection, setFeatureSelection] = useState<MultiServiceFeature>(MultiServiceFeature.Grades);
+
   const deleteSpace = () => {
     Alert.alert("Êtes-vous sur ?", "Cette action entrainera la suppression de votre espace multi-service.", [ { text: "Annuler", style: "cancel" }, { text: "Confirmer", style: "destructive", onPress: () => {
       accounts.remove(space.accountLocalID);
@@ -77,10 +86,17 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
     }}]);
   };
 
-  const selectFeatureAccount = (feature: MultiServiceFeature) => {
-
+  const openAccountSelector = (feature: MultiServiceFeature) => {
+    setSelectedAccount(space.featuresServices[feature] || null);
+    setFeatureSelection(feature);
+    setAccountSelectorOpened(true);
   };
 
+  const setAccountFeature = (account: PrimaryAccount, feature: MultiServiceFeature) => {
+    setMultiServiceSpaceAccountFeature(space.accountLocalID, feature, account);
+    setAccountSelectorOpened(false);
+    setSelectedAccount(null);
+  };
 
   const lottieRef = React.useRef<LottieView>(null);
 
@@ -310,60 +326,19 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
                       ]}
                     />
                   </Reanimated.View>}
-                onPress={() => selectFeatureAccount(feature.feature)}
+                onPress={() => openAccountSelector(feature.feature)}
                 trailing={<ChevronDown color={theme.colors.primary}/>}
                 chevron={false}
               >
                 <NativeText variant="title">{feature.name}</NativeText>
               </NativeItem>
               {space.featuresServices[feature.feature] ? (
-                <NativeItem
-                  icon={<Image
-                    source={space.featuresServices[feature.feature]?.personalization.profilePictureB64 ? { uri: space.featuresServices[feature.feature]?.personalization.profilePictureB64 } : defaultProfilePicture(space.featuresServices[feature.feature]?.service || AccountService.Local, space.featuresServices[feature.feature]?.identityProvider?.name || "")}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      borderRadius: 80,
-                    }}
-                    resizeMode="cover"
-                  />}
-                  separator={true}
-                >
-                  <View style={{ flexDirection: "row", flexWrap: "nowrap", minWidth: "90%", maxWidth: "75%" }}>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontFamily: "semibold",
-                        color: theme.colors.text,
-                        flexShrink: 1
-                      }}
-                      numberOfLines={1}
-                      ellipsizeMode="tail"
-                    >
-                      {space.featuresServices[feature.feature]?.studentName?.first || "Utilisateur"}{" "}
-                      {space.featuresServices[feature.feature]?.studentName?.last || ""}
-                    </Text>
-                  </View>
-
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      fontWeight: 500,
-                      color: theme.colors.text + "50",
-                      fontFamily: "medium",
-                      maxWidth: "70%",
-                    }}
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
-                  >
-                    {AccountService[space.featuresServices[feature.feature]?.service || AccountService.Local] !== "Local" ?
-                      AccountService[space.featuresServices[feature.feature]?.service || AccountService.Local] :
-                      space.featuresServices[feature.feature]?.identityProvider ?
-                        space.featuresServices[feature.feature]?.identityProvider?.name :
-                        "Compte local"
-                    }
-                  </Text>
-                </NativeItem>
+                <AccountItem account={space.featuresServices[feature.feature] as PrimaryAccount} endCheckMark={false} additionalStyles={{
+                  paddingStart: 10,
+                  borderBottomWidth: 1,
+                  backgroundColor: theme.dark ? theme.colors.primary + "09" : theme.colors.primary + "11",
+                  borderColor: theme.colors.text + "20"
+                }}/>
               ): (
                 <NativeItem
                   icon={<CircleAlert />}
@@ -375,6 +350,37 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
             </>
           ))}
         </NativeList>
+
+        <PapillonBottomSheet opened={accountSelectorOpened} setOpened={opened => setAccountSelectorOpened(opened)}>
+          <View
+            style={{
+              paddingHorizontal: 10
+            }}
+          >
+            <NativeListHeader label="Sélectionner un service"/>
+            <NativeList>
+              {availableAccounts.map((account, index) => (
+                <Pressable
+                  key={index}
+                  onPress={() => {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+                    setAccountFeature(account, featureSelection);
+                  }}
+                >
+                  <AccountItem
+                    account={account}
+                    additionalStyles={{
+                      backgroundColor: selectedAccount?.localID === account.localID ? (theme.dark ? theme.colors.primary + "09" : theme.colors.primary + "11"): theme.colors.background,
+                      borderBottomWidth: index !== availableAccounts.length - 1 ? 1 : 0,
+                      borderColor: theme.colors.text + "20",
+                    }}
+                    endCheckMark={selectedAccount?.localID === account.localID}
+                  />
+                </Pressable>
+              ))}
+            </NativeList>
+          </View>
+        </PapillonBottomSheet>
 
         <NativeListHeader label="Actions" />
         <NativeList>
