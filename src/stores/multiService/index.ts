@@ -59,21 +59,20 @@ export const useMultiService = create<MultiServiceStore>()(
         let spaceMutated: MultiServiceSpace;
 
         // Mutate only featureServices and name properties.
-        if (key in ["featureServices", "name"]) {
+        if (key === "featureServices" || key === "name") {
           spaceMutated = {
             ...space,
             [key]: value
           };
+          // Save the update in the store and storage.
+          set((state) => ({
+            spaces: state.spaces.map((space) =>
+              space.accountLocalID === localID
+                ? spaceMutated
+                : space
+            )
+          }));
         }
-
-        // Save the update in the store and storage.
-        set((state) => ({
-          spaces: state.spaces.map((space) =>
-            space.accountLocalID === localID
-              ? spaceMutated
-              : space
-          )
-        }));
       },
 
       getFeatureAccount: (feature, spaceLocalID) => {
