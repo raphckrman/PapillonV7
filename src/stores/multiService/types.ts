@@ -19,15 +19,6 @@ export interface MultiServiceSpace {
   featuresServices: {
     [key in MultiServiceFeature]?: string
   }
-  /*
-   Each key represents an account id, and is associated to its instance and authentication objects
-   */
-  authentication: {
-    [key: string]: {
-      authentication: any
-      instance: any
-    } | undefined
-  }
 }
 
 export interface MultiServiceStore {

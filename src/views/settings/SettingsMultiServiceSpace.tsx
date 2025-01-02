@@ -92,6 +92,10 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
 
   const setAccountFeature = (account: PrimaryAccount, feature: MultiServiceFeature) => {
     setMultiServiceSpaceAccountFeature(space.accountLocalID, feature, account);
+    let linkedAccountsIds = [...(linkedAccount?.linkedExternalLocalIDs || []), account.localID];
+    linkedAccountsIds = linkedAccountsIds.filter((value, index) => linkedAccountsIds.indexOf(value) === index); // Remove duplicates
+    // Putting the space's associated accounts ids in linkedExternalLocalIDs permits the reload of their instance / authentication fields (like externals accounts)
+    accounts.update(space.accountLocalID, "linkedExternalLocalIDs", linkedAccountsIds);
     setAccountSelectorOpened(false);
     setSelectedAccount(null);
   };
@@ -292,6 +296,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
           {features.map((feature, index) => (
             <>
               <NativeItem
+                key={index}
                 icon={
                   <Reanimated.View
                     entering={anim2Papillon(ZoomIn)}
