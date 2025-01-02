@@ -44,6 +44,11 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
 
     if (!result.canceled) {
       const img = "data:image/jpeg;base64," + result.assets[0].base64;
+      updateMultiServiceSpace(space.accountLocalID, "image", img);
+      // @ts-expect-error
+      accounts.update(space.accountLocalID, "personalization", {
+        profilePictureB64: img
+      });
       setSelectedImage(img);
     }
 
@@ -78,9 +83,9 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
           <NativeItem
             chevron={true}
             onPress={() => selectPicture()}
-            leading={selectedImage &&
+            leading={(selectedImage || space.image) &&
                     <Image
-                      source={{ uri: selectedImage }}
+                      source={{ uri: selectedImage || space.image }}
                       style={{
                         width: 55,
                         height: 55,
@@ -90,7 +95,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
                       }}
                     />
             }
-            icon={!selectedImage && <Camera />}
+            icon={!(selectedImage || space.image) && <Camera />}
             trailing={
               <ActivityIndicator animating={loadingImage} />
             }
@@ -135,6 +140,10 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
               value={spaceName}
               onChangeText={(text: string) => {
                 updateMultiServiceSpace(space.accountLocalID, "name", text);
+                // @ts-expect-error
+                accounts.update(space.accountLocalID, "identityProvider", {
+                  name: text
+                });
                 setSpaceName(text);
               }}
               ref={spaceNameRef}
