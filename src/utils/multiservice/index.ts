@@ -11,7 +11,7 @@ export function getFeatureAccount (feature: MultiServiceFeature, spaceLocalID: s
 
   if (!space || !featureAccount || !accountId) return undefined;
 
-  featureAccount.authentication = space.authentication[accountId].authentication;
-  featureAccount.instance = space.authentication[accountId].instance;
+  featureAccount.authentication = space.authentication[accountId]?.authentication;
+  featureAccount.instance = space.authentication[accountId]?.instance;
   return featureAccount;
 }

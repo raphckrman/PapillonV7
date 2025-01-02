@@ -18,6 +18,7 @@ import { useGradesStore } from "../grades";
 import { useNewsStore } from "../news";
 import { useAttendanceStore } from "../attendance";
 import { info, log } from "@/utils/logger/logger";
+import {useMultiService} from "@/stores/multiService";
 
 /**
  * Store for the currently selected account.
@@ -82,7 +83,30 @@ export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
     }));
 
     // Account is currently not authenticated,
-    if (typeof account.instance === "undefined") {
+    if (account.service === AccountService.PapillonMultiService) {
+      log("switching to virtual space, reloading all accounts...", "[switchTo]");
+      const space = useMultiService().spaces.find(space => space.accountLocalID === account.localID);
+      if (!space) {
+        log("Uh oh, no space found, cannot switch to...", "[switchTo]");
+        return;
+      }
+      let seenAccountsIds: string[] = [];
+      const spaceAccountsIds: string[] = Object.values(space.featuresServices);
+      const accounts = useAccounts().accounts.filter(account => spaceAccountsIds.includes(account.localID));
+      for (const account of accounts) {
+        if (account) {
+          if (!seenAccountsIds.includes(account.localID) && typeof account.instance === "undefined") {
+            log(`instance undefined for ${account.localID} reloading...`, "[switchTo]");
+            const { instance, authentication } = await reload(account);
+            // TODO: set instance by account
+            // get().mutateProperty("authentication", authentication);
+            // get().mutateProperty("instance", instance);
+            log("instance reload done !", "[switchTo]");
+          }
+          seenAccountsIds.push(account.localID);
+        }
+      }
+    } else if (typeof account.instance === "undefined") {
       log("instance undefined, reloading...", "[switchTo]");
       // Automatically reconnect the main instance.
       const { instance, authentication } = await reload(account);

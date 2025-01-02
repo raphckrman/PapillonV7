@@ -12,8 +12,21 @@ export interface MultiServiceSpace {
   accountLocalID: string
   name: string
   image?: string
+  // TODO use account ids instead: less disk space + supports changes
+  /*
+   Each feature returns its linked account localID
+   */
   featuresServices: {
-    [key in MultiServiceFeature]?: PrimaryAccount | null
+    [key in MultiServiceFeature]?: string
+  }
+  /*
+   Each key represents an account id, and is associated to its instance and authentication objects
+   */
+  authentication: {
+    [key: string]: {
+      authentication: any
+      instance: any
+    } | undefined
   }
 }
 
@@ -25,5 +38,5 @@ export interface MultiServiceStore {
   update: <A extends MultiServiceSpace, T extends keyof A = keyof A>(localID: string, key: T, value: A[T]) => void
   toggleEnabledState: () => void
   setFeatureAccount: (spaceLocalID: string, feature: MultiServiceFeature, account: PrimaryAccount) => void
-  getFeatureAccount: (feature: MultiServiceFeature, spaceLocalID: string) => PrimaryAccount | null | undefined
+  getFeatureAccountId: (feature: MultiServiceFeature, spaceLocalID: string) => string | undefined
 }

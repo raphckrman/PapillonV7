@@ -80,7 +80,7 @@ export const useMultiService = create<MultiServiceStore>()(
         if (!space) return;
 
         let mutatedFeatureServices = space.featuresServices;
-        mutatedFeatureServices[feature] = account;
+        mutatedFeatureServices[feature] = account.localID;
 
         const spaceMutated: MultiServiceSpace = {
           ...space,
@@ -96,10 +96,10 @@ export const useMultiService = create<MultiServiceStore>()(
         }));
       },
 
-      getFeatureAccount: (feature, spaceLocalID) => {
-        // Find the account to update in the storage.
+      getFeatureAccountId: (feature, spaceLocalID) => {
+        // Find the account associated to the feature
         const space = get().spaces.find((space) => space.accountLocalID === spaceLocalID);
-        if (!space) return null;
+        if (!space) return undefined;
 
         return space.featuresServices[feature];
       },
