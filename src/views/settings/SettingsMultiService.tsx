@@ -143,6 +143,7 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
             {multiServiceSpaces.map(space => (
               <NativeItem
                 key={multiServiceSpaces.indexOf(space)}
+                onPress={() => navigation.navigate("SettingsMultiServiceSpace", { space })}
                 leading={
                   <Image
                     source={space.image ? { uri: space.image }: defaultProfilePicture(AccountService.PapillonMultiService, "") }
