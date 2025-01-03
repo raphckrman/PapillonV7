@@ -49,7 +49,7 @@ export async function updateHomeworkForWeekInCache <T extends Account> (account:
       case AccountService.PapillonMultiService: {
         const service = getFeatureAccount(MultiServiceFeature.Homeworks, account.localID);
         if (!service) {
-          console.info(`[updateHomeworkForWeekInCache]: updating to empty since multi-service space has no account set for homeworks.`);
+          console.info("[updateHomeworkForWeekInCache]: updating to empty since multi-service space has no account set for homeworks.");
           break;
         }
         return updateHomeworkForWeekInCache(service, date);
