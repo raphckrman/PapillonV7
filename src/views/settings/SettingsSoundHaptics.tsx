@@ -23,7 +23,7 @@ const SettingsApparence: Screen<"SettingsSoundHaptics"> = () => {
   );
 
   useEffect(() => {
-    if (playHaptics === undefined) {
+    if (playSon === undefined) {
       AsyncStorage.getItem("son").then((value) => {
         if (value) {
           setPlaySon(value === "true");
