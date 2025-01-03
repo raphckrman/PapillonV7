@@ -12,7 +12,6 @@ export interface MultiServiceSpace {
   accountLocalID: string
   name: string
   image?: string
-  // TODO use account ids instead: less disk space + supports changes
   /*
    Each feature returns its linked account localID
    */
