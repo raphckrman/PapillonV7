@@ -195,7 +195,7 @@ export const useAccounts = create<AccountsStore>()(
 
         // On met à jour les espace multi-service, pour que :
         // 1. Si le compte supprimé était lié à un espace: on le supprime de l'espace
-        // 2. Si il l'espace n'a donc plus aucun compté associé, on le supprime (car un espace est une sorte de groupement de comptes, sans comptes il cesse de fonctionner)
+        // 2. Si l'espace n'a donc plus aucun compté associé, on le supprime (car un espace est une sorte de groupement de comptes, sans comptes il cesse de fonctionner)
 
         // On récupère les comptes correspondant aux espaces
         const spacesAccounts  = get().accounts.filter(account => account.service === AccountService.PapillonMultiService);
