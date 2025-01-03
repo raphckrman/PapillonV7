@@ -38,7 +38,6 @@ const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
 
   const [keyboardOpen, setKeyboardOpen] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
-  const [sound, setSound] = useState<Audio.Sound | null>(null);
 
   const keyboardDidShow = (event: KeyboardEvent) => {
     setKeyboardOpen(true);
@@ -59,25 +58,6 @@ const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
       Keyboard.removeAllListeners("keyboardDidHide");
     };
   }, []);
-
-  useEffect(() => {
-    const loadSound = async () => {
-      const { sound } = await Audio.Sound.createAsync(
-        require("@/../assets/sound/3.wav")
-      );
-      setSound(sound);
-    };
-
-    loadSound();
-
-    return () => {
-      if (sound) {
-        sound.unloadAsync();
-      }
-    };
-  }, []);
-
-  const playSound = () => sound?.replayAsync();
 
   useEffect(() => {
     if (params && params.pos && params.pos !== null) {
