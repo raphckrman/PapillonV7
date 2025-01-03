@@ -11,7 +11,6 @@ import { useTheme } from "@react-navigation/native";
 
 import { Search, X, GraduationCap, } from "lucide-react-native";
 import { useAlert } from "@/providers/AlertProvider";
-import { Audio } from "expo-av";
 import type { School } from "scolengo-api/types/models/School";
 import { Skolengo } from "scolengo-api";
 import { useDebounce } from "@/hooks/debounce";
