@@ -61,7 +61,7 @@ import * as Haptics from "expo-haptics";
 import ModalContent from "@/views/account/Home/ModalContent";
 import {AnimatedScrollView} from "react-native-reanimated/lib/typescript/reanimated2/component/ScrollView";
 import useScreenDimensions from "@/hooks/useScreenDimensions";
-import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
+import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
 
 const Home: Screen<"HomeScreen"> = ({ navigation }) => {
   const { colors } = useTheme();

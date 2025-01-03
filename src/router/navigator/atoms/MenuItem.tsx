@@ -9,7 +9,7 @@ import { Pressable } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
 import Reanimated, { FadeIn, FadeOut, LinearTransition, ZoomIn } from "react-native-reanimated";
 import { anim2Papillon } from "@/utils/ui/animations";
-import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
+import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
 
 const MenuItem: React.FC<{
   route: any;

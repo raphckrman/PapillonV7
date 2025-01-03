@@ -3,7 +3,7 @@ import { Text, Pressable, StyleSheet, type StyleProp, type ViewStyle } from "rea
 import Reanimated, { Easing, useSharedValue, withTiming } from "react-native-reanimated";
 import { useTheme } from "@react-navigation/native";
 import * as Haptics from "expo-haptics";
-import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
+import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
 
 const ButtonCta: React.FC<{
   value: string

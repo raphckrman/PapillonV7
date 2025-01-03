@@ -19,7 +19,7 @@ import { Account, AccountService } from "@/stores/account/types";
 import { Audio } from "expo-av";
 import defaultPersonalization from "@/services/pronote/default-personalization";
 import extract_pronote_name from "@/utils/format/extract_pronote_name";
-import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
+import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
 
 const makeUUID = (): string => {
   let dt = new Date().getTime();

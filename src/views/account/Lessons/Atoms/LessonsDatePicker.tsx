@@ -17,7 +17,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {Theme} from "@react-navigation/native/src/types";
 import {NativeScrollEvent, ScrollViewProps} from "react-native/Libraries/Components/ScrollView/ScrollView";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
-import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
+import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const ITEM_WIDTH = 104;

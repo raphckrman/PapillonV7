@@ -9,7 +9,7 @@ import { Check } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
 import PapillonSpinner from "./PapillonSpinner";
 import { animPapillon } from "@/utils/ui/animations";
-import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
+import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
 
 interface CheckboxProps {
   checked?: boolean

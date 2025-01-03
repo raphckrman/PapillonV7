@@ -12,7 +12,7 @@ import Reanimated, { LinearTransition, FlipInXDown } from "react-native-reanimat
 import DuoListPressable from "@/components/FirstInstallation/DuoListPressable";
 import { Audio } from "expo-av";
 import { NativeText } from "@/components/Global/NativeComponents";
-import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
+import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
 
 const SkolengoAuthenticationSelector: Screen<"SkolengoAuthenticationSelector"> = ({ navigation }) => {
   const theme = useTheme();

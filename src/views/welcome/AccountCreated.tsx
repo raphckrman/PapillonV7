@@ -14,7 +14,7 @@ import * as Haptics from "expo-haptics";
 
 import { useCurrentAccount } from "@/stores/account";
 import { Audio } from "expo-av";
-import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
+import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
 
 const AccountCreated: Screen<"AccountCreated"> = ({ navigation }) => {
   const [sound, setSound] = useState<Audio.Sound | null>(null);

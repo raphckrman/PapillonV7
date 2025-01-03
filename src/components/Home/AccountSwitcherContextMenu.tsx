@@ -27,7 +27,7 @@ import { defaultProfilePicture } from "@/utils/ui/default-profile-picture";
 import { useTheme } from "@react-navigation/native";
 import { BlurView } from "expo-blur";
 import { Check, CirclePlus, Cog, Plus } from "lucide-react-native";
-import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
+import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
 
 const ContextMenu: React.FC<{
   style?: any;

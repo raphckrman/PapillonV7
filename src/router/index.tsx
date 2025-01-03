@@ -16,6 +16,7 @@ import { navigatorScreenOptions } from "./helpers/create-screen";
 import {navigate} from "@/utils/logger/logger";
 import { PapillonNavigation } from "./refs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SoundHapticsProvider } from "@/hooks/SoundAndHaptics";
 
 export const Stack = createNativeStackNavigator<RouteParameters>();
 
@@ -117,14 +118,16 @@ const Router: React.FC = () => {
               navigate(str);
             }}
           >
-            <AlertProvider>
-              <Stack.Navigator initialRouteName="AccountSelector" screenOptions={navigatorScreenOptions}>
-                {screens.map((screen) => (
+            <SoundHapticsProvider>
+              <AlertProvider>
+                <Stack.Navigator initialRouteName="AccountSelector" screenOptions={navigatorScreenOptions}>
+                  {screens.map((screen) => (
                   // @ts-expect-error : type not compatible, but it works fine.
-                  <Stack.Screen key={screen.name} {...screen}/>
-                ))}
-              </Stack.Navigator>
-            </AlertProvider>
+                    <Stack.Screen key={screen.name} {...screen}/>
+                  ))}
+                </Stack.Navigator>
+              </AlertProvider>
+            </SoundHapticsProvider>
           </NavigationContainer>
         </GestureHandlerRootView>
       </SafeAreaProvider>

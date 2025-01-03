@@ -19,7 +19,7 @@ import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import MaskedView from "@react-native-masked-view/masked-view";
 import * as Haptics from "expo-haptics";
-import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
+import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
 
 type Props = {
   navigation: any;

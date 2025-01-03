@@ -18,7 +18,7 @@ import Constants from "expo-constants";
 import { LinearGradient } from "expo-linear-gradient";
 import { sr } from "date-fns/locale";
 import { sub } from "date-fns";
-import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
+import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
 
 const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
   const theme = useTheme();

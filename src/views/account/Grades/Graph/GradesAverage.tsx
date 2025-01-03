@@ -33,7 +33,7 @@ import AnimatedNumber from "@/components/Global/AnimatedNumber";
 import type { Grade } from "@/services/shared/Grade";
 import { AlertTriangle, Calculator, Check, ExternalLink, PieChart, Spline, SquareRadical, TrendingUp } from "lucide-react-native";
 import { useAlert } from "@/providers/AlertProvider";
-import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
+import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
 
 interface GradesAverageGraphProps {
   grades: Grade[];

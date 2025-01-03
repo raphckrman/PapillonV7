@@ -6,7 +6,7 @@ import * as Haptics from "expo-haptics";
 import { Audio } from "expo-av";
 
 import Reanimated, { Easing, useSharedValue, withTiming } from "react-native-reanimated";
-import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
+import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
 
 const DuoListPressable: React.FC<{
   children?: JSX.Element,

@@ -16,7 +16,7 @@ import { getIconName, setIconName } from "@candlefinance/app-icon";
 import colorsList from "@/utils/data/colors.json";
 import { removeColor } from "../settings/SettingsIcons";
 import { expoGoWrapper } from "@/utils/native/expoGoAlert";
-import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
+import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
 
 type Color = typeof colorsList[number];
 

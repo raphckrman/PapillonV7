@@ -34,7 +34,7 @@ import extract_pronote_name from "@/utils/format/extract_pronote_name";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
 import { animPapillon } from "@/utils/ui/animations";
 import { useAlert } from "@/providers/AlertProvider";
-import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
+import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
 
 const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
   const theme = useTheme();
