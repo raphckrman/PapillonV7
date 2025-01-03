@@ -279,20 +279,20 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
                   position: "absolute",
                   top: -20,
                   right: 0,
-                  width: 200,
+                  width: "50%",
                   height: 250,
                   zIndex: 1,
                   transform: [{ scaleX: -1 }],
                 }}
               />
               <LinearGradient
-                colors={[subjectData.color + "00", subjectData.color]}
+                colors={[subjectData.color + "20", subjectData.color]}
                 start={[0.7, 0]}
                 end={[0, 0]}
                 style={{
                   position: "absolute",
                   top: 0,
-                  right: 0,
+                  left: "50%",
                   bottom: 0,
                   width: "50%",
                   zIndex: 1,
