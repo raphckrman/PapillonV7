@@ -207,7 +207,9 @@ export interface PapillonMultiServiceSpace extends BaseAccount {
   instance: null
   authentication: null
   identityProvider: {
-    name: string
+    name: string,
+    identifier: undefined,
+    rawData: undefined
   },
   associatedAccountsLocalIDs: string[]
 }

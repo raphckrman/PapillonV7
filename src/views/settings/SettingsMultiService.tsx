@@ -80,7 +80,9 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
       authentication: null,
       identity: {},
       identityProvider: {
-        name: spaceName
+        name: spaceName,
+        identifier: undefined,
+        rawData: undefined
       },
       instance: null,
       localID: localID,
