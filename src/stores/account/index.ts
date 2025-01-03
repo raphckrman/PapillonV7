@@ -18,6 +18,8 @@ import { useGradesStore } from "../grades";
 import { useNewsStore } from "../news";
 import { useAttendanceStore } from "../attendance";
 import { info, log } from "@/utils/logger/logger";
+import {useMultiService} from "@/stores/multiService";
+import {MultiServiceFeature, MultiServiceSpace} from "@/stores/multiService/types";
 
 /**
  * Store for the currently selected account.
@@ -190,6 +192,44 @@ export const useAccounts = create<AccountsStore>()(
             (account) => account.localID !== localID
           )
         }));
+
+        // On met à jour les espace multi-service, pour que :
+        // 1. Si le compte supprimé était lié à un espace: on le supprime de l'espace
+        // 2. Si il l'espace n'a donc plus aucun compté associé, on le supprime (car un espace est une sorte de groupement de comptes, sans comptes il cesse de fonctionner)
+
+        // On récupère les comptes correspondant aux espaces
+        const spacesAccounts  = get().accounts.filter(account => account.service === AccountService.PapillonMultiService);
+        for (const spaceAccount of spacesAccounts) {
+
+          // Le compte que l'on a supprimé est lié à cet espace
+          if (spaceAccount.associatedAccountsLocalIDs.includes(localID)) {
+            log(`found ${localID} in PapillonMultiServiceSpace ${spaceAccount.name}`, "accounts:remove");
+
+            // On supprime la liaison du compte (ainsi que de chaque fonctionnalité à laquelle il est associé)
+            spaceAccount.associatedAccountsLocalIDs.splice(spaceAccount.associatedAccountsLocalIDs.indexOf(localID), 1);
+            const space = useMultiService.getState().spaces.find(space => space.accountLocalID === spaceAccount.localID) as MultiServiceSpace;
+            Object.entries(space.featuresServices).map(([key, value]) => {
+              if (value === localID) {
+                space.featuresServices[key as MultiServiceFeature] = undefined;
+              }
+            });
+            useMultiService.getState().update(spaceAccount.localID, "featuresServices", space.featuresServices);
+
+            log(`removed ${localID} from PapillonMultiServiceSpace ${spaceAccount.name}`, "accounts:remove");
+          }
+
+          // Si l'espace est vide, on le supprime
+          if (spaceAccount.associatedAccountsLocalIDs.length === 0) {
+            log(`PapillonMultiServiceSpace ${spaceAccount.name} is now empty, removing it`, "accounts:remove");
+            useMultiService.getState().remove(spaceAccount.localID);
+            set((state) => ({
+              accounts: state.accounts.filter(
+                (account) => account.localID !== spaceAccount.localID
+              )
+            }));
+            log(`deleted PapillonMultiServiceSpace ${spaceAccount.name}`, "accounts:remove");
+          }
+        }
 
         log(`removed ${localID}`, "accounts:remove");
       },
