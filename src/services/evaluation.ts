@@ -31,7 +31,7 @@ export async function updateEvaluationPeriodsInCache <T extends Account> (accoun
       if (!service) {
         throw new Error("No service set in multi-service space");
       }
-      return await updateEvaluationPeriodsInCache(service, periodName);
+      return await updateEvaluationPeriodsInCache(service);
     }
     default:
       throw new Error("Service not implemented");
