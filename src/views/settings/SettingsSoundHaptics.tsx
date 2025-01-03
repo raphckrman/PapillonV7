@@ -27,6 +27,8 @@ const SettingsApparence: Screen<"SettingsSoundHaptics"> = () => {
       AsyncStorage.getItem("son").then((value) => {
         if (value) {
           setPlaySon(value === "true");
+        } else {
+          setPlaySon(true);
         }
       });
     }
@@ -35,6 +37,8 @@ const SettingsApparence: Screen<"SettingsSoundHaptics"> = () => {
       AsyncStorage.getItem("haptics").then((value) => {
         if (value) {
           setPlayHaptics(value === "true");
+        } else {
+          setPlayHaptics(true);
         }
       });
     }
