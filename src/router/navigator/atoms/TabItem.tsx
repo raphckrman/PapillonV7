@@ -9,6 +9,7 @@ import { Pressable } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
 import Reanimated, { FadeIn, FadeOut, LinearTransition, ZoomIn } from "react-native-reanimated";
 import { anim2Papillon } from "@/utils/ui/animations";
+import useSoundAndHaptics from "@/hooks/SoundAndHaptics";
 
 const TabItem: React.FC<{
   route: any;
@@ -18,6 +19,7 @@ const TabItem: React.FC<{
   settings: any;
 }> = ({ route, descriptor, navigation, isFocused, settings }) => {
   const theme = useTheme();
+  const { enableHaptics } = useSoundAndHaptics();
 
   const { options } = descriptor;
   const label = options.tabBarLabel !== undefined ? options.tabBarLabel : options.title !== undefined ? options.title : route.name;
@@ -37,7 +39,7 @@ const TabItem: React.FC<{
       lottieRef.current.play();
     }
 
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    if (enableHaptics) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
   const onLongPress = () => {
