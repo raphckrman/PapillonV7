@@ -204,7 +204,7 @@ export interface LocalAccount extends BaseAccount {
 
 export interface PapillonMultiServiceSpace extends BaseAccount {
   service: AccountService.PapillonMultiService
-  instance: null
+  instance: null | string
   authentication: null
   identityProvider: {
     name: string,

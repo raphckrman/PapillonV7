@@ -87,7 +87,8 @@ export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
 
     // Special case for spaces
     if (account.service === AccountService.PapillonMultiService) {
-      log("switching to virtual space, reloading associated accounts...", "[switchTo]");
+      log("switching to virtual space, setting instance to a non-null value and reloading associated accounts...", "[switchTo]");
+      account.instance = "PapillonPrime"; // Une chaine random, juste pour que l'instance ne soit pas "undefined" (ou null) et que l'espace multiservice soit interprété comme "déconnecté"
     } else if (typeof account.instance === "undefined") { // Account is currently not authenticated,
       log("instance undefined, reloading...", "[switchTo]");
       // Automatically reconnect the main instance.
