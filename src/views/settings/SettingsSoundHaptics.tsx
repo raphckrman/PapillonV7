@@ -1,38 +1,53 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, Switch } from "react-native";
 import type { Screen } from "@/router/helpers/types";
-import { useTheme } from "@react-navigation/native";
-import {Moon, RefreshCw, Sun, SunMoon} from "lucide-react-native";
+import { RefreshCw, Vibrate, Volume2 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { NativeList, NativeItem, NativeListHeader } from "@/components/Global/NativeComponents";
+import {
+  NativeList,
+  NativeItem,
+  NativeListHeader,
+  NativeIconGradient,
+} from "@/components/Global/NativeComponents";
 import { NativeText } from "@/components/Global/NativeComponents";
-import PapillonCheckbox from "@/components/Global/PapillonCheckbox";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Animated, {FadeInDown, FadeOutDown} from "react-native-reanimated";
-import ApparenceContainerCard from "@/components/Settings/ApparenceContainerCard";
+import Animated, { FadeInDown, FadeOutDown } from "react-native-reanimated";
+import SoundHapticsContainerCard from "@/components/Settings/SoundHapticsContainerCard";
 
 const SettingsApparence: Screen<"SettingsSoundHaptics"> = () => {
-  const theme = useTheme();
   const insets = useSafeAreaInsets();
 
-  const [selectedTheme, setSelectedTheme] = useState<number>(0);
-  const [hasUserChangedTheme, setHasUserChangedTheme] = useState<boolean>(false);
-  const [defaultTheme, setDefaultTheme] = useState<number>(0);
+  const [defaultSon, setDefaultSon] = useState<boolean>(true);
+  const [playSon, setPlaySon] = useState<boolean>(true);
+  const [defaultHaptics, setDefaultHaptics] = useState<boolean>(true);
+  const [playHaptics, setPlayHaptics] = useState<boolean>(true);
+  const [hasUserChanged, setHasUserChanged] = useState<boolean>(false);
 
   useEffect(() => {
-    AsyncStorage.getItem("theme").then((value) => {
-      if (value)
-      {
-        setDefaultTheme(parseInt(value));
-        setSelectedTheme(parseInt(value));
+    AsyncStorage.getItem("son").then((value) => {
+      if (value) {
+        setDefaultSon(Boolean(value));
+        setPlaySon(Boolean(value));
+      }
+    });
+
+    AsyncStorage.getItem("haptics").then((value) => {
+      if (value) {
+        setDefaultHaptics(Boolean(value));
+        setPlayHaptics(Boolean(value));
       }
     });
   }, []);
 
   useEffect(() => {
-    setHasUserChangedTheme(selectedTheme !== defaultTheme);
-    AsyncStorage.setItem("theme", selectedTheme.toString());
-  }, [selectedTheme]);
+    setHasUserChanged(playSon !== defaultSon);
+    AsyncStorage.setItem("son", playSon.toString());
+  }, [playSon]);
+
+  useEffect(() => {
+    setHasUserChanged(playHaptics !== defaultHaptics);
+    AsyncStorage.setItem("haptics", playHaptics.toString());
+  }, [playHaptics]);
 
   return (
     <ScrollView
@@ -42,81 +57,72 @@ const SettingsApparence: Screen<"SettingsSoundHaptics"> = () => {
         paddingBottom: insets.bottom + 16,
       }}
     >
-      <ApparenceContainerCard />
+      <SoundHapticsContainerCard />
 
-      <NativeListHeader
-        label="Mode d'affichage"
-      />
-
+      <NativeListHeader label="Son" />
       <NativeList>
         <NativeItem
-          style={{height: 50}}
-          leading={<SunMoon color={theme.colors.text} />}
           trailing={
-            <PapillonCheckbox
-              color={"#1e316a"}
-              checked={selectedTheme === 0}
-              onPress={() => {
-                setSelectedTheme(0);
-              }}
-              style={{marginRight: 5}}
+            <Switch
+              value={playSon}
+              onValueChange={(value) => setPlaySon(value)}
             />
           }
-          onPress={() => {setSelectedTheme(0);}}
-          chevron={false}
-        >
-          <NativeText variant="title">Suivre le thème du système</NativeText>
-        </NativeItem>
-        <NativeItem
-          style={{height: 50}}
-          leading={<Sun color={theme.colors.text} />}
-          trailing={
-            <PapillonCheckbox
-              color={"#1e316a"}
-              checked={selectedTheme === 1}
-              onPress={() => {
-                setSelectedTheme(1);
-              }}
-              style={{marginRight: 5}}
+          leading={
+            <NativeIconGradient
+              icon={<Volume2 />}
+              colors={["#04ACDC", "#6FE3CD"]}
             />
           }
-          onPress={() => {setSelectedTheme(1);}}
-          chevron={false}
         >
-          <NativeText variant="title">Mode clair</NativeText>
-        </NativeItem>
-        <NativeItem
-          style={{height: 50}}
-          leading={<Moon color={theme.colors.text} />}
-          trailing={
-            <PapillonCheckbox
-              color={"#1e316a"}
-              checked={selectedTheme === 2}
-              onPress={() => {
-                setSelectedTheme(2);
-              }}
-              style={{marginRight: 5}}
-            />
-          }
-          onPress={() => {setSelectedTheme(2);}}
-          chevron={false}
-        >
-          <NativeText variant="title">Mode sombre</NativeText>
+          <NativeText variant="title">Jouer du son</NativeText>
+          <NativeText variant="subtitle">
+            Un son est joué lors de l'ouverture de différentes pages
+          </NativeText>
         </NativeItem>
       </NativeList>
 
-      {hasUserChangedTheme && (
-        <Animated.View
-          entering={FadeInDown}
-          exiting={FadeOutDown}
+      <NativeListHeader label="Vibration" />
+      <NativeList>
+        <NativeItem
+          trailing={
+            <Switch
+              value={playHaptics}
+              onValueChange={(value) => setPlayHaptics(value)}
+            />
+          }
+          leading={
+            <NativeIconGradient
+              icon={<Vibrate />}
+              colors={["#FFD700", "#FF8C00"]}
+            />
+          }
         >
+          <NativeText variant="title">Jouer des vibrations</NativeText>
+          <NativeText variant="subtitle">
+            Des vibrations ont lieu lors de la navigation, lorsqu'on coche des
+            devoirs...
+          </NativeText>
+        </NativeItem>
+      </NativeList>
+
+      {hasUserChanged && (
+        <Animated.View entering={FadeInDown} exiting={FadeOutDown}>
           <NativeList>
             <NativeItem
-              leading={<RefreshCw color={"#FFF"}/>}
-              style={{backgroundColor: "#C53424"}}
+              leading={
+                <NativeIconGradient
+                  icon={<RefreshCw />}
+                  colors={["#000", "#000"]}
+                />
+              }
+              style={{ backgroundColor: "#C53424" }}
             >
-              <NativeText variant="title" color={"#FFF"}>Redémarrer l'application</NativeText>
-              <NativeText variant={"subtitle"} color={"#FFF"}>Cette option nécessite un redémarrage de l'application pour être appliquée.</NativeText>
+              <NativeText variant="title">Redémarrer l'application</NativeText>
+              <NativeText variant="subtitle">
+                Pour que les modifications soient prises en compte, un
+                redémarrage de l'application est recommandé
+              </NativeText>
             </NativeItem>
           </NativeList>
         </Animated.View>
