@@ -135,8 +135,8 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
       icon: require("@/../assets/lottie/tab_news.json")
     },
     {
-      name: "Messages",
-      feature: MultiServiceFeature.Messages,
+      name: "Discussions",
+      feature: MultiServiceFeature.Chats,
       icon: require("@/../assets/lottie/tab_chat.json")
     }
   ];

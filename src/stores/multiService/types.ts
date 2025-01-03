@@ -7,7 +7,7 @@ export enum MultiServiceFeature {
   Attendance = "attendance",
   News = "news",
   Evaluations = "evaluations",
-  Messages = "messages"
+  Chats = "chats"
 }
 
 export interface MultiServiceSpace {
