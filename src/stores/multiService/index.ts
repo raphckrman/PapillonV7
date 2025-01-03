@@ -59,7 +59,7 @@ export const useMultiService = create<MultiServiceStore>()(
         let spaceMutated: MultiServiceSpace;
 
         // Mutate only image and name properties.
-        if (key === "name" || key === "image") {
+        if (["name", "image", "featuresServices"].includes(key as string)) {
           spaceMutated = {
             ...space,
             [key]: value
