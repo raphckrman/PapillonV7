@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, Switch } from "react-native";
 import type { Screen } from "@/router/helpers/types";
-import { RefreshCw, Vibrate, Volume2 } from "lucide-react-native";
+import { Vibrate, Volume2 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   NativeList,
@@ -11,42 +11,43 @@ import {
 } from "@/components/Global/NativeComponents";
 import { NativeText } from "@/components/Global/NativeComponents";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Animated, { FadeInDown, FadeOutDown } from "react-native-reanimated";
 import SoundHapticsContainerCard from "@/components/Settings/SoundHapticsContainerCard";
+import PapillonSpinner from "@/components/Global/PapillonSpinner";
 
 const SettingsApparence: Screen<"SettingsSoundHaptics"> = () => {
   const insets = useSafeAreaInsets();
 
-  const [defaultSon, setDefaultSon] = useState<boolean>(true);
-  const [playSon, setPlaySon] = useState<boolean>(true);
-  const [defaultHaptics, setDefaultHaptics] = useState<boolean>(true);
-  const [playHaptics, setPlayHaptics] = useState<boolean>(true);
-  const [hasUserChanged, setHasUserChanged] = useState<boolean>(false);
+  const [playSon, setPlaySon] = useState<boolean | undefined>(undefined);
+  const [playHaptics, setPlayHaptics] = useState<boolean | undefined>(
+    undefined
+  );
 
   useEffect(() => {
-    AsyncStorage.getItem("son").then((value) => {
-      if (value) {
-        setDefaultSon(Boolean(value));
-        setPlaySon(Boolean(value));
-      }
-    });
+    if (playHaptics === undefined) {
+      AsyncStorage.getItem("son").then((value) => {
+        if (value) {
+          setPlaySon(value === "true");
+        }
+      });
+    }
 
-    AsyncStorage.getItem("haptics").then((value) => {
-      if (value) {
-        setDefaultHaptics(Boolean(value));
-        setPlayHaptics(Boolean(value));
-      }
-    });
+    if (playHaptics === undefined) {
+      AsyncStorage.getItem("haptics").then((value) => {
+        if (value) {
+          setPlayHaptics(value === "true");
+        }
+      });
+    }
   }, []);
 
   useEffect(() => {
-    setHasUserChanged(playSon !== defaultSon);
-    AsyncStorage.setItem("son", playSon.toString());
+    if (playSon === undefined) return;
+    AsyncStorage.setItem("son", String(playSon));
   }, [playSon]);
 
   useEffect(() => {
-    setHasUserChanged(playHaptics !== defaultHaptics);
-    AsyncStorage.setItem("haptics", playHaptics.toString());
+    if (playHaptics === undefined) return;
+    AsyncStorage.setItem("haptics", String(playHaptics));
   }, [playHaptics]);
 
   return (
@@ -63,10 +64,14 @@ const SettingsApparence: Screen<"SettingsSoundHaptics"> = () => {
       <NativeList>
         <NativeItem
           trailing={
-            <Switch
-              value={playSon}
-              onValueChange={(value) => setPlaySon(value)}
-            />
+            playSon !== undefined ? (
+              <Switch
+                value={playSon}
+                onValueChange={(value) => setPlaySon(value)}
+              />
+            ) : (
+              <PapillonSpinner size={30} color="#04ACDC" />
+            )
           }
           leading={
             <NativeIconGradient
@@ -86,10 +91,14 @@ const SettingsApparence: Screen<"SettingsSoundHaptics"> = () => {
       <NativeList>
         <NativeItem
           trailing={
-            <Switch
-              value={playHaptics}
-              onValueChange={(value) => setPlayHaptics(value)}
-            />
+            playHaptics !== undefined ? (
+              <Switch
+                value={playHaptics}
+                onValueChange={(value) => setPlayHaptics(value)}
+              />
+            ) : (
+              <PapillonSpinner size={30} color="#FFD700" />
+            )
           }
           leading={
             <NativeIconGradient
@@ -105,28 +114,6 @@ const SettingsApparence: Screen<"SettingsSoundHaptics"> = () => {
           </NativeText>
         </NativeItem>
       </NativeList>
-
-      {hasUserChanged && (
-        <Animated.View entering={FadeInDown} exiting={FadeOutDown}>
-          <NativeList>
-            <NativeItem
-              leading={
-                <NativeIconGradient
-                  icon={<RefreshCw />}
-                  colors={["#000", "#000"]}
-                />
-              }
-              style={{ backgroundColor: "#C53424" }}
-            >
-              <NativeText variant="title">Redémarrer l'application</NativeText>
-              <NativeText variant="subtitle">
-                Pour que les modifications soient prises en compte, un
-                redémarrage de l'application est recommandé
-              </NativeText>
-            </NativeItem>
-          </NativeList>
-        </Animated.View>
-      )}
     </ScrollView>
   );
 };
