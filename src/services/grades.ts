@@ -61,7 +61,7 @@ export async function updateGradesPeriodsInCache <T extends Account> (account: T
       if (!service) {
         throw new Error("No service set in multi-service space");
       }
-      return updateGradesPeriodsInCache(service);
+      return await updateGradesPeriodsInCache(service);
     }
     default:
       throw new Error("Service not implemented");
@@ -134,7 +134,7 @@ export async function updateGradesAndAveragesInCache <T extends Account> (accoun
         if (!service) {
           throw new Error("No service set in multi-service space");
         }
-        return updateGradesAndAveragesInCache(service, periodName);
+        return await updateGradesAndAveragesInCache(service, periodName);
       }
       default:
         throw new Error(`Service (${AccountService[account.service]}) not implemented for this request`);
