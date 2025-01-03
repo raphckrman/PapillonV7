@@ -28,7 +28,7 @@ import { authTokenToSkolengoTokenSet } from "@/services/skolengo/skolengo-types"
 import { getSkolengoAccount } from "@/services/skolengo/skolengo-account";
 import { log } from "@/utils/logger/logger";
 import { wait } from "@/services/skolengo/data/utils";
-import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
+import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 
 // TODO : When the app is not started with Expo Go (so with a prebuild or a release build), use the expo auth-session module completely with the deeplink and without the webview.
 
@@ -43,7 +43,7 @@ const SkolengoWebview: Screen<"SkolengoWebview"> = ({ route, navigation }) => {
 
   const [pageUrl, setPageUrl] = useState<string|null>(null);
   const [discovery, setDiscovery] = useState<AuthSession.DiscoveryDocument | null>(null);
-  const { enableSon } = useSoundAndHaptics();
+  const { enableSon } = useThemeSoundHaptics();
 
   const createStoredAccount = useAccounts((store) => store.create);
   const switchTo = useCurrentAccount((store) => store.switchTo);

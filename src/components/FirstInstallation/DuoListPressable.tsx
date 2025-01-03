@@ -6,7 +6,7 @@ import * as Haptics from "expo-haptics";
 import { Audio } from "expo-av";
 
 import Reanimated, { Easing, useSharedValue, withTiming } from "react-native-reanimated";
-import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
+import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 
 const DuoListPressable: React.FC<{
   children?: JSX.Element,
@@ -32,7 +32,7 @@ const DuoListPressable: React.FC<{
   const scale = useSharedValue(1);
   const opacity = useSharedValue(1);
 
-  const { enableSon, enableHaptics } = useSoundAndHaptics();
+  const { enableSon, enableHaptics } = useThemeSoundHaptics();
 
   const playSound = useCallback(async () => {
     const { sound } = await Audio.Sound.createAsync(

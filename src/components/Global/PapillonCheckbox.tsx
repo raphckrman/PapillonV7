@@ -9,7 +9,7 @@ import { Check } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
 import PapillonSpinner from "./PapillonSpinner";
 import { animPapillon } from "@/utils/ui/animations";
-import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
+import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 
 interface CheckboxProps {
   checked?: boolean
@@ -30,7 +30,7 @@ const PapillonCheckbox: React.FC<CheckboxProps> = ({
 }) => {
   const theme = useTheme();
   const firstRender = useRef(true);
-  const { enableHaptics } = useSoundAndHaptics();
+  const { enableHaptics } = useThemeSoundHaptics();
 
   useEffect(() => {
     if (firstRender.current) {

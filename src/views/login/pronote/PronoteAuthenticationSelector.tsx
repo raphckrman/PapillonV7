@@ -13,7 +13,7 @@ import DuoListPressable from "@/components/FirstInstallation/DuoListPressable";
 import { Audio } from "expo-av";
 import { NativeText } from "@/components/Global/NativeComponents";
 import { LinearGradient } from "expo-linear-gradient";
-import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
+import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 
 const PronoteAuthenticationSelector: Screen<"PronoteAuthenticationSelector"> = ({ navigation }) => {
   const theme = useTheme();
@@ -22,7 +22,7 @@ const PronoteAuthenticationSelector: Screen<"PronoteAuthenticationSelector"> = (
   const [method, setMethod] = useState<Methods | null>(null);
   const [sound, setSound] = useState<Audio.Sound | null>(null);
 
-  const { enableSon } = useSoundAndHaptics();
+  const { enableSon } = useThemeSoundHaptics();
 
   const loadSound = async () => {
     const { sound } = await Audio.Sound.createAsync(

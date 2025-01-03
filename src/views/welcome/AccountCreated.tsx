@@ -14,14 +14,14 @@ import * as Haptics from "expo-haptics";
 
 import { useCurrentAccount } from "@/stores/account";
 import { Audio } from "expo-av";
-import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
+import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 
 const AccountCreated: Screen<"AccountCreated"> = ({ navigation }) => {
   const [sound, setSound] = useState<Audio.Sound | null>(null);
   const [sound2, setSound2] = useState<Audio.Sound | null>(null);
 
   const account = useCurrentAccount((state) => state.account!);
-  const { enableSon, enableHaptics } = useSoundAndHaptics();
+  const { enableSon, enableHaptics } = useThemeSoundHaptics();
 
   const loadSound = async () => {
     const { sound } = await Audio.Sound.createAsync(

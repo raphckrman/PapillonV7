@@ -61,14 +61,14 @@ import * as Haptics from "expo-haptics";
 import ModalContent from "@/views/account/Home/ModalContent";
 import {AnimatedScrollView} from "react-native-reanimated/lib/typescript/reanimated2/component/ScrollView";
 import useScreenDimensions from "@/hooks/useScreenDimensions";
-import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
+import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 
 const Home: Screen<"HomeScreen"> = ({ navigation }) => {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const corners = useMemo(() => getCorners(), []);
   const focused = useIsFocused();
-  const { enableHaptics } = useSoundAndHaptics();
+  const { enableHaptics } = useThemeSoundHaptics();
 
   const {isTablet} = useScreenDimensions();
 

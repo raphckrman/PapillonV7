@@ -44,7 +44,7 @@ import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes"
 import {NativeScrollEvent, ScrollViewProps} from "react-native/Libraries/Components/ScrollView/ScrollView";
 import {SearchBar} from "react-native-screens";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
+import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 
 type HomeworksPageProps = {
   index: number;
@@ -72,7 +72,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
       320
   ) : 0);
   const insets = useSafeAreaInsets();
-  const { enableHaptics } = useSoundAndHaptics();
+  const { enableHaptics } = useThemeSoundHaptics();
 
   const outsideNav = route.params?.outsideNav;
 

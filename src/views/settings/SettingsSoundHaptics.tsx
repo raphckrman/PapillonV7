@@ -11,12 +11,12 @@ import {
 } from "@/components/Global/NativeComponents";
 import { NativeText } from "@/components/Global/NativeComponents";
 import SoundHapticsContainerCard from "@/components/Settings/SoundHapticsContainerCard";
-import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
+import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 
 const SettingsApparence: Screen<"SettingsSoundHaptics"> = () => {
   const insets = useSafeAreaInsets();
   const { enableSon, setEnableSon, enableHaptics, setEnableHaptics } =
-    useSoundAndHaptics();
+    useThemeSoundHaptics();
 
   return (
     <ScrollView

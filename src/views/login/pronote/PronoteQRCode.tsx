@@ -19,7 +19,7 @@ import { Account, AccountService } from "@/stores/account/types";
 import { Audio } from "expo-av";
 import defaultPersonalization from "@/services/pronote/default-personalization";
 import extract_pronote_name from "@/utils/format/extract_pronote_name";
-import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
+import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 
 const makeUUID = (): string => {
   let dt = new Date().getTime();
@@ -56,7 +56,7 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
   const codeInput = React.createRef<TextInput>();
   const [QRData, setQRData] = useState<string | null>(null);
 
-  const { enableSon, enableHaptics } = useSoundAndHaptics();
+  const { enableSon, enableHaptics } = useThemeSoundHaptics();
 
   async function loginQR () {
     setScanned(false);

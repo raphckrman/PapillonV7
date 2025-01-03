@@ -16,7 +16,7 @@ import { getIconName, setIconName } from "@candlefinance/app-icon";
 import colorsList from "@/utils/data/colors.json";
 import { removeColor } from "../settings/SettingsIcons";
 import { expoGoWrapper } from "@/utils/native/expoGoAlert";
-import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
+import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 
 type Color = typeof colorsList[number];
 
@@ -27,7 +27,7 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
   const account = useCurrentAccount(store => store.account);
   const mutateProperty = useCurrentAccount(store => store.mutateProperty);
   const settings = route.params?.settings || false;
-  const { enableSon, enableHaptics } = useSoundAndHaptics();
+  const { enableSon, enableHaptics } = useThemeSoundHaptics();
 
   const [sound, setSound] = useState<Audio.Sound | null>(null);
   const [sound2, setSound2] = useState<Audio.Sound | null>(null);

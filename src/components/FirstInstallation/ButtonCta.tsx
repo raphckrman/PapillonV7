@@ -3,7 +3,7 @@ import { Text, Pressable, StyleSheet, type StyleProp, type ViewStyle } from "rea
 import Reanimated, { Easing, useSharedValue, withTiming } from "react-native-reanimated";
 import { useTheme } from "@react-navigation/native";
 import * as Haptics from "expo-haptics";
-import { useSoundAndHaptics } from "@/hooks/SoundAndHaptics";
+import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 
 const ButtonCta: React.FC<{
   value: string
@@ -27,7 +27,7 @@ const ButtonCta: React.FC<{
   const [pressed, setPressed] = useState(false);
   const scale = useSharedValue(1);
   const opacity = useSharedValue(1);
-  const { enableHaptics } = useSoundAndHaptics();
+  const { enableHaptics } = useThemeSoundHaptics();
 
   if (!backgroundColor) {
     backgroundColor = primary ? colors.primary : "transparent";
