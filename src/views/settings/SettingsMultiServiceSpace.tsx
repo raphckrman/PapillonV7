@@ -110,6 +110,11 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
       icon: require("@/../assets/lottie/tab_chart.json")
     },
     {
+      name: "Compétences",
+      feature: MultiServiceFeature.Evaluations,
+      icon: require("@/../assets/lottie/tab_evaluations.json")
+    },
+    {
       name: "Emploi du temps",
       feature: MultiServiceFeature.Timetable,
       icon: require("@/../assets/lottie/tab_calendar.json")
@@ -128,6 +133,11 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
       name: "Actualités",
       feature: MultiServiceFeature.News,
       icon: require("@/../assets/lottie/tab_news.json")
+    },
+    {
+      name: "Messages",
+      feature: MultiServiceFeature.Messages,
+      icon: require("@/../assets/lottie/tab_chat.json")
     }
   ];
 
