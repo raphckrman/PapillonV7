@@ -87,8 +87,6 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
     };
   }, []);
 
-  console.log(navigation);
-
   useEffect(() => {
     if (params) {
       void async function () {
