@@ -87,7 +87,7 @@ export interface CurrentAccountStore {
   account: PrimaryAccount | null
   linkedAccounts: ExternalAccount[]
   associatedAccounts: PrimaryAccount[]
-  mutateProperty: <T extends keyof PrimaryAccount>(key: T, value: PrimaryAccount[T]) => void
+  mutateProperty: <T extends keyof PrimaryAccount>(key: T, value: PrimaryAccount[T], forceMutation?: boolean) => void
   linkExistingExternalAccount: (account: ExternalAccount) => void
   switchTo: (account: PrimaryAccount) => Promise<void>
   logout: () => void

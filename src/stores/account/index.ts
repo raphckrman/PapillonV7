@@ -31,8 +31,13 @@ export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
   // For multi service, to not mix Primary & External accounts
   associatedAccounts: [],
 
-  mutateProperty: <T extends keyof PrimaryAccount>(key: T, value: PrimaryAccount[T]) => {
+  mutateProperty: <T extends keyof PrimaryAccount>(key: T, value: PrimaryAccount[T], forceMutation = false) => {
     log(`mutate property ${key} in storage`, "current:update");
+
+    // Special case to keep Papillon Space custom image
+    if (get().account?.service === AccountService.PapillonMultiService && key === "personalization" && !forceMutation) {
+      delete (value as PrimaryAccount["personalization"]).profilePictureB64;
+    }
 
     // Since "instance" is a runtime only key,
     // we mutate the property only in this memory store and not in the persisted one.
