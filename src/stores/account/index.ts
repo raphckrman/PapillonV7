@@ -17,7 +17,7 @@ import { useHomeworkStore } from "../homework";
 import { useGradesStore } from "../grades";
 import { useNewsStore } from "../news";
 import { useAttendanceStore } from "../attendance";
-import { info, log } from "@/utils/logger/logger";
+import {error, info, log} from "@/utils/logger/logger";
 import {useMultiService} from "@/stores/multiService";
 import {MultiServiceFeature, MultiServiceSpace} from "@/stores/multiService/types";
 
@@ -89,8 +89,7 @@ export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
 
     // Special case for spaces
     if (account.service === AccountService.PapillonMultiService) {
-      log("switching to virtual space, setting instance to a non-null value and reloading associated accounts...", "[switchTo]");
-      account.instance = "PapillonPrime"; // A random string, so the instance is not "undefined" or "null", to prevent creating infinite loading (an undefined instance is interpreted as a loading or disconnected account...)
+      log("switching to virtual space, skipping main account reload and reloading associated accounts...", "[switchTo]");
     } else if (typeof account.instance === "undefined") { // Account is currently not authenticated,
       log("instance undefined, reloading...", "[switchTo]");
       // Automatically reconnect the main instance.
@@ -118,11 +117,21 @@ export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
     }
 
     for (const associatedAccount of associatedAccounts) {
-      const { instance, authentication } = await reload(associatedAccount);
+      const { instance, authentication } = await reload(associatedAccount).catch(err => {
+        error(`failed to reload associated account: ${err} !`, "[switchTo]");
+        return {
+          instance: associatedAccount.instance,
+          authentication: associatedAccount.authentication
+        };
+      });
       associatedAccount.instance = instance;
       associatedAccount.authentication = authentication;
       log("reloaded associated account", "[switchTo]");
     }
+
+    // Setting instance to a non-null value after associated accounts reload, to keep the loading icon while instances are reloading...
+    if (account.service === AccountService.PapillonMultiService)
+      account.instance = "PapillonPrime"; // A random string, so the instance is not "undefined" or "null", to prevent creating infinite loading (an undefined instance is interpreted as a loading or disconnected account...)
 
     log("reloaded all external and associated accounts", "[switchTo]");
 
@@ -214,7 +223,11 @@ export const useAccounts = create<AccountsStore>()(
               }
             });
             useMultiService.getState().update(spaceAccount.localID, "featuresServices", space.featuresServices);
-
+            set((state) => ({
+              accounts: state.accounts.map(account =>
+                account.localID === spaceAccount.localID ? spaceAccount : account
+              )
+            }));
             log(`removed ${localID} from PapillonMultiServiceSpace ${spaceAccount.name}`, "accounts:remove");
           }
 
