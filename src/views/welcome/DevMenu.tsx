@@ -101,7 +101,30 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
             </NativeItem>
 
             <NativeItem
-              onPress={() => navigation.navigate("NoteReaction")}
+              onPress={() => navigation.navigate("GradeReaction", {
+                grade: {
+                  id: "mmmhm",
+                  subjectName: "Cours de ts avec Armand",
+                  description: "Note de test",
+                  timestamp: 0,
+                  average: {
+                    value: 0.2
+                  },
+                  coefficient: 40,
+                  min: {
+                    value: 0
+                  },
+                  max: {
+                    value: 20
+                  },
+                  student: {
+                    value: 0
+                  },
+                  outOf: {
+                    value: 20
+                  }
+                }
+              })}
             >
               <NativeText>
                 NoteReaction
