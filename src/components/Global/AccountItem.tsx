@@ -37,7 +37,10 @@ const AccountItem: React.FC<{ account: PrimaryAccount, additionalStyles?: StyleP
         }}
       >
         <Image
-          source={account.personalization.profilePictureB64 ? { uri: account.personalization.profilePictureB64 } : defaultProfilePicture(account.service, account.identityProvider?.name || "")}
+          source={
+            account.personalization.profilePictureB64 ?
+              { uri: account.personalization.profilePictureB64 } :
+              defaultProfilePicture(account.service, account.identityProvider?.name || "")}
           style={{
             width: "100%",
             height: "100%",
@@ -88,20 +91,20 @@ const AccountItem: React.FC<{ account: PrimaryAccount, additionalStyles?: StyleP
         </Text>
       </View>
       {endCheckMark &&
-              <Reanimated.View
-                style={{
-                  position: "absolute",
-                  right: 15,
-                }}
-                entering={animPapillon(ZoomIn)}
-                exiting={FadeOut.duration(200)}
-              >
-                <Check
-                  size={22}
-                  strokeWidth={3.0}
-                  color={theme.colors.primary}
-                />
-              </Reanimated.View>
+      <Reanimated.View
+        style={{
+          position: "absolute",
+          right: 15,
+        }}
+        entering={animPapillon(ZoomIn)}
+        exiting={FadeOut.duration(200)}
+      >
+        <Check
+          size={22}
+          strokeWidth={3.0}
+          color={theme.colors.primary}
+        />
+      </Reanimated.View>
       }
     </View>
   );

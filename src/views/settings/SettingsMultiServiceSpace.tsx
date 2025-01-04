@@ -77,11 +77,23 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
   const [featureSelection, setFeatureSelection] = useState<MultiServiceFeature>(MultiServiceFeature.Grades);
 
   const deleteSpace = () => {
-    Alert.alert("Êtes-vous sur ?", "Cette action entrainera la suppression de votre espace multi-service.", [ { text: "Annuler", style: "cancel" }, { text: "Confirmer", style: "destructive", onPress: () => {
-      accounts.remove(space.accountLocalID);
-      deleteMultiServiceSpace(space.accountLocalID);
-      navigation.goBack();
-    }}]);
+    Alert.alert(
+      "Êtes-vous sur ?",
+      "Cette action entrainera la suppression de votre espace multi-service.",
+      [
+        {
+          text: "Annuler",
+          style: "cancel"
+        },
+        { text: "Confirmer",
+          style: "destructive",
+          onPress: () => {
+            accounts.remove(space.accountLocalID);
+            deleteMultiServiceSpace(space.accountLocalID);
+            navigation.goBack();
+          }
+        }
+      ]);
   };
 
   const openAccountSelector = (feature: MultiServiceFeature) => {
@@ -164,16 +176,16 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
             chevron={true}
             onPress={() => selectPicture()}
             leading={(selectedImage || space.image) &&
-                    <Image
-                      source={{ uri: selectedImage || space.image }}
-                      style={{
-                        width: 55,
-                        height: 55,
-                        borderRadius: 90,
-                        // @ts-expect-error : borderCurve is not in the Image style
-                        borderCurve: "continuous",
-                      }}
-                    />
+              <Image
+                source={{ uri: selectedImage || space.image }}
+                style={{
+                  width: 55,
+                  height: 55,
+                  borderRadius: 90,
+                  // @ts-expect-error : borderCurve is not in the Image style
+                  borderCurve: "continuous",
+                }}
+              />
             }
             icon={!(selectedImage || space.image) && <Camera />}
             trailing={
@@ -300,8 +312,12 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
             />
           </NativeItem>
         </NativeList>
-        <NativeText style={{ paddingLeft: 7, paddingTop: 15 }} variant="subtitle">Accède à plus d'options en sélectionnant l'espace virtuel, et en personnalisant ton profil dans les paramètres.</NativeText>
-
+        <NativeText
+          style={{ paddingLeft: 7, paddingTop: 15 }}
+          variant="subtitle"
+        >
+          Accède à plus d'options en sélectionnant l'espace virtuel, et en personnalisant ton profil dans les paramètres.
+        </NativeText>
 
         <NativeListHeader label="Configuration" />
         <NativeList
@@ -350,22 +366,30 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
               >
                 <NativeText variant="title">{feature.name}</NativeText>
               </NativeItem>
-              {accounts.accounts.find(account => account.localID === space.featuresServices[feature.feature]) ? (
-                <AccountItem account={accounts.accounts.find(account => account.localID === space.featuresServices[feature.feature]) as PrimaryAccount} endCheckMark={false} additionalStyles={{
-                  paddingStart: 10,
-                  borderBottomWidth: 1,
-                  backgroundColor: theme.dark ? theme.colors.primary + "09" : theme.colors.primary + "11",
-                  borderColor: theme.colors.text + "20"
-                }}/>
-              ): (
-                <NativeItem
-                  key={index * 2 + 1}
-                  icon={<CircleAlert />}
-                  separator={true}
-                >
-                  <NativeText>Pas de service sélectionné</NativeText>
-                </NativeItem>
-              )}
+              {accounts.accounts.find(account =>
+                account.localID === space.featuresServices[feature.feature]) ?
+                (
+                  <AccountItem
+                    account={accounts.accounts.find(
+                      account => account.localID === space.featuresServices[feature.feature]) as PrimaryAccount}
+                    endCheckMark={false}
+                    additionalStyles={{
+                      paddingStart: 10,
+                      borderBottomWidth: 1,
+                      backgroundColor: theme.dark ? theme.colors.primary + "09" : theme.colors.primary + "11",
+                      borderColor: theme.colors.text + "20"
+                    }}
+                  />
+                ) :
+                (
+                  <NativeItem
+                    key={index * 2 + 1}
+                    icon={<CircleAlert />}
+                    separator={true}
+                  >
+                    <NativeText>Pas de service sélectionné</NativeText>
+                  </NativeItem>
+                )}
             </>
           ))}
         </NativeList>

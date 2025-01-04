@@ -144,10 +144,23 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
               value={multiServiceEnabled ?? false}
               onValueChange={() => {
                 if (multiServiceEnabled) {
-                  Alert.alert("Attention", "La désactivation du multi-service entrainera la suppression de vos environnement multi-services créés.", [ { text: "Annuler", style: "cancel" }, { text: "Confirmer", style: "destructive", onPress: () => {
-                    deleteAllSpaces();
-                    toggleMultiService();
-                  } } ]);
+                  Alert.alert(
+                    "Attention",
+                    "La désactivation du multi-service entrainera la suppression de vos environnement multi-services créés.",
+                    [
+                      {
+                        text: "Annuler",
+                        style: "cancel"
+                      },
+                      {
+                        text: "Confirmer",
+                        style: "destructive",
+                        onPress: () => {
+                          deleteAllSpaces();
+                          toggleMultiService();
+                        }
+                      }
+                    ]);
                 } else {
                   toggleMultiService();
                 }
