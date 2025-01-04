@@ -117,6 +117,8 @@ export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
     }
 
     for (const associatedAccount of associatedAccounts) {
+      if (!(typeof associatedAccount.instance === "undefined"))
+        continue;
       const { instance, authentication } = await reload(associatedAccount).catch(err => {
         error(`failed to reload associated account: ${err} !`, "[switchTo]");
         return {
