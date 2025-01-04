@@ -47,6 +47,9 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [sound, setSound] = useState<Audio.Sound | null>(null);
 
+  const routes = navigation.getState()?.routes;
+  const prevRoute = routes[routes.length - 2];
+
   const keyboardDidShow = (event: KeyboardEvent) => {
     setKeyboardOpen(true);
     setKeyboardHeight(event.endCoordinates.height);
@@ -84,6 +87,7 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
     };
   }, []);
 
+  console.log(navigation);
 
   useEffect(() => {
     if (params) {
@@ -299,7 +303,7 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
                       );
                     }}
                     text={instance.name}
-                    subtext={`à ${instance.distance.toFixed(2)}km de toi`}
+                    subtext={prevRoute.name === "PronoteManualLocation" ? "" : `à ${instance.distance.toFixed(2)}km de toi`}
                   />
                 </Reanimated.View>
               ))}
