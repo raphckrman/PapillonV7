@@ -150,7 +150,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
         },
         {
           icon: <Volume2 />,
-          color: "#FF0075",
+          color: "#800077",
           label: "Son et vibrations",
           onPress: () => navigation.navigate("SettingsSoundHaptics"),
         },
