@@ -93,9 +93,7 @@ const AccountItem: React.FC<{
         >
           {AccountService[account.service] !== "Local" ?
             AccountService[account.service] :
-            account.identityProvider ?
-              account.identityProvider?.name :
-              "Compte local"
+            account.identityProvider?.name ?? "Compte local"
           }
         </Text>
       </View>
