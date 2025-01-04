@@ -11,7 +11,11 @@ import {Check} from "lucide-react-native";
 import React from "react";
 import {useTheme} from "@react-navigation/native";
 
-const AccountItem: React.FC<{ account: PrimaryAccount, additionalStyles?: StyleProp<ViewStyle>, endCheckMark: boolean }> = ({
+const AccountItem: React.FC<{
+  account: PrimaryAccount,
+  additionalStyles?: StyleProp<ViewStyle>,
+  endCheckMark: boolean
+}> = ({
   account,
   additionalStyles,
   endCheckMark
@@ -55,7 +59,12 @@ const AccountItem: React.FC<{ account: PrimaryAccount, additionalStyles?: StyleP
           gap: 2,
         }}
       >
-        <View style={{ flexDirection: "row", flexWrap: "nowrap", minWidth: "90%", maxWidth: "75%" }}>
+        <View style={{
+          flexDirection: "row",
+          flexWrap: "nowrap",
+          minWidth: "90%",
+          maxWidth: "75%"
+        }}>
           <Text
             style={{
               fontSize: 16,

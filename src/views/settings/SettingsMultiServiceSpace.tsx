@@ -313,17 +313,17 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
           </NativeItem>
         </NativeList>
         <NativeText
-          style={{ paddingLeft: 7, paddingTop: 15 }}
+          style={{
+            paddingLeft: 7,
+            paddingTop: 15
+          }}
           variant="subtitle"
         >
           Accède à plus d'options en sélectionnant l'espace virtuel, et en personnalisant ton profil dans les paramètres.
         </NativeText>
 
         <NativeListHeader label="Configuration" />
-        <NativeList
-          style={{
-          }}
-        >
+        <NativeList>
           {features.map((feature, index) => (
             <>
               <NativeItem

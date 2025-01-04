@@ -89,10 +89,12 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
       name: spaceName,
       personalization: {
         profilePictureB64: selectedImage || undefined,
-        tabs: defaultTabs.filter(current => defaultSpaceTabs.includes(current.tab)).map((tab, index) => ({
-          name: tab.tab,
-          enabled: index <= 4
-        }))
+        tabs: defaultTabs
+          .filter(current => defaultSpaceTabs.includes(current.tab))
+          .map((tab, index) => ({
+            name: tab.tab,
+            enabled: index <= 4
+          }))
       },
       service: AccountService.PapillonMultiService,
       studentName: {
@@ -193,7 +195,9 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
                 onPress={() => navigation.navigate("SettingsMultiServiceSpace", { space })}
                 leading={
                   <Image
-                    source={space.image ? { uri: space.image }: defaultProfilePicture(AccountService.PapillonMultiService, "") }
+                    source={space.image ?
+                      { uri: space.image } :
+                      defaultProfilePicture(AccountService.PapillonMultiService, "") }
                     style={{
                       width: 30,
                       height: 30,
@@ -221,7 +225,11 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
               </NativeText>
             </NativeItem>
           </NativeList>
-          <BottomSheet setOpened={(opened) => opened} opened={spaceCreationSheetOpened} contentContainerStyle={{ paddingHorizontal: 16 }}>
+          <BottomSheet
+            setOpened={(opened) => setSpaceCreationSheetOpened(opened)}
+            opened={spaceCreationSheetOpened}
+            contentContainerStyle={{ paddingHorizontal: 16 }}
+          >
             <NativeListHeader label="Créer un espace"/>
             <NativeList>
               <View
