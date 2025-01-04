@@ -3,6 +3,7 @@ import type { Chat, ChatMessage, ChatRecipient } from "./shared/Chat";
 import type { Recipient } from "./shared/Recipient";
 import {getFeatureAccount} from "@/utils/multiservice";
 import {MultiServiceFeature} from "@/stores/multiService/types";
+import {log} from "@/utils/logger/logger";
 
 export const getChats = async <T extends Account> (account: T): Promise<Array<Chat>> => {
   switch (account.service) {
@@ -17,7 +18,8 @@ export const getChats = async <T extends Account> (account: T): Promise<Array<Ch
     case AccountService.PapillonMultiService: {
       const service = getFeatureAccount(MultiServiceFeature.Chats, account.localID);
       if (!service) {
-        throw new Error("No service set in multi-service space");
+        log("No service set in multi-service space for feature \"Chats\"", "multiservice");
+        return [];
       }
       return await getChats(service);
     }
@@ -40,7 +42,8 @@ export const getChatRecipients = async <T extends Account> (account: T, chat: Ch
     case AccountService.PapillonMultiService: {
       const service = getFeatureAccount(MultiServiceFeature.Chats, account.localID);
       if (!service) {
-        throw new Error("No service set in multi-service space");
+        log("No service set in multi-service space for feature \"Chats\"", "multiservice");
+        return [];
       }
       return await getChatRecipients(service, chat);
     }
@@ -62,7 +65,8 @@ export const sendMessageInChat = async <T extends Account> (account: T, chat: Ch
     case AccountService.PapillonMultiService: {
       const service = getFeatureAccount(MultiServiceFeature.Chats, account.localID);
       if (!service) {
-        throw new Error("No service set in multi-service space");
+        log("No service set in multi-service space for feature \"Chats\"", "multiservice");
+        break;
       }
       return await sendMessageInChat(service, chat, content);
     }
@@ -84,7 +88,8 @@ export const getChatMessages = async <T extends Account> (account: T, chat: Chat
     case AccountService.PapillonMultiService: {
       const service = getFeatureAccount(MultiServiceFeature.Chats, account.localID);
       if (!service) {
-        throw new Error("No service set in multi-service space");
+        log("No service set in multi-service space for feature \"Chats\"", "multiservice");
+        return [];
       }
       return await getChatMessages(service, chat);
     }
@@ -103,7 +108,8 @@ export const createDiscussionRecipients = async <T extends Account> (account: T)
     case AccountService.PapillonMultiService: {
       const service = getFeatureAccount(MultiServiceFeature.Chats, account.localID);
       if (!service) {
-        throw new Error("No service set in multi-service space");
+        log("No service set in multi-service space for feature \"Chats\"", "multiservice");
+        return [];
       }
       return await createDiscussionRecipients(service);
     }
@@ -123,7 +129,8 @@ export const createDiscussion = async <T extends Account> (account: T, subject: 
     case AccountService.PapillonMultiService: {
       const service = getFeatureAccount(MultiServiceFeature.Chats, account.localID);
       if (!service) {
-        throw new Error("No service set in multi-service space");
+        log("No service set in multi-service space for feature \"Chats\"", "multiservice");
+        break;
       }
       return await createDiscussion(service, subject, content, recipients);
     }

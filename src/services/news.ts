@@ -2,7 +2,7 @@ import { type Account, AccountService } from "@/stores/account/types";
 import { useNewsStore } from "@/stores/news";
 import type { Information } from "./shared/Information";
 import { checkIfSkoSupported } from "./skolengo/default-personalization";
-import { error } from "@/utils/logger/logger";
+import {error, log} from "@/utils/logger/logger";
 import { newsRead } from "pawnote";
 import { ca } from "date-fns/locale";
 import {MultiServiceFeature} from "@/stores/multiService/types";
@@ -48,7 +48,8 @@ export async function updateNewsInCache <T extends Account> (account: T): Promis
     case AccountService.PapillonMultiService: {
       const service = getFeatureAccount(MultiServiceFeature.News, account.localID);
       if (!service) {
-        throw new Error("No service set in multi-service space");
+        log("No service set in multi-service space for feature \"News\"", "multiservice");
+        break;
       }
       return updateNewsInCache(service);
     }
@@ -82,7 +83,8 @@ export async function setNewsRead <T extends Account> (account: T, message: Info
     case AccountService.PapillonMultiService: {
       const service = getFeatureAccount(MultiServiceFeature.News, account.localID);
       if (!service) {
-        throw new Error("No service set in multi-service space");
+        log("No service set in multi-service space for feature \"News\"", "multiservice");
+        break;
       }
       return setNewsRead(service, message, read);
     }

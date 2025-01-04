@@ -1,7 +1,7 @@
 import { type Account, AccountService } from "@/stores/account/types";
 import { useHomeworkStore } from "@/stores/homework";
 import type { Homework } from "./shared/Homework";
-import { error } from "@/utils/logger/logger";
+import {error, log} from "@/utils/logger/logger";
 import { translateToWeekNumber } from "pawnote";
 import { pronoteFirstDate } from "./pronote/timetable";
 import { dateToEpochWeekNumber, epochWNToPronoteWN } from "@/utils/epochWeekNumber";
@@ -49,7 +49,7 @@ export async function updateHomeworkForWeekInCache <T extends Account> (account:
       case AccountService.PapillonMultiService: {
         const service = getFeatureAccount(MultiServiceFeature.Homeworks, account.localID);
         if (!service) {
-          console.info("[updateHomeworkForWeekInCache]: updating to empty since multi-service space has no account set for homeworks.");
+          log("No service set in multi-service space for feature \"Homeworks\"", "multiservice");
           break;
         }
         return updateHomeworkForWeekInCache(service, date);
@@ -83,7 +83,8 @@ export async function toggleHomeworkState <T extends Account> (account: T, homew
     case AccountService.PapillonMultiService: {
       const service = getFeatureAccount(MultiServiceFeature.Homeworks, account.localID);
       if (!service) {
-        throw new Error("No service set in multi-service space");
+        log("No service set in multi-service space for feature \"Homeworks\"", "multiservice");
+        break;
       }
       return toggleHomeworkState(service, homework);
     }

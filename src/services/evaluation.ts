@@ -2,7 +2,7 @@ import { type Account, AccountService } from "@/stores/account/types";
 import type { Period } from "./shared/Period";
 import {useEvaluationStore} from "@/stores/evaluation";
 import {Evaluation} from "@/services/shared/Evaluation";
-import {error} from "@/utils/logger/logger";
+import {error, log} from "@/utils/logger/logger";
 import {getFeatureAccount} from "@/utils/multiservice";
 import {MultiServiceFeature} from "@/stores/multiService/types";
 
@@ -29,7 +29,8 @@ export async function updateEvaluationPeriodsInCache <T extends Account> (accoun
     case AccountService.PapillonMultiService: {
       const service = getFeatureAccount(MultiServiceFeature.Evaluations, account.localID);
       if (!service) {
-        throw new Error("No service set in multi-service space");
+        log("No service set in multi-service space for feature \"Evaluations\"", "multiservice");
+        break;
       }
       return await updateEvaluationPeriodsInCache(service);
     }
@@ -53,7 +54,8 @@ export async function updateEvaluationsInCache <T extends Account> (account: T, 
       case AccountService.PapillonMultiService: {
         const service = getFeatureAccount(MultiServiceFeature.Evaluations, account.localID);
         if (!service) {
-          throw new Error("No service set in multi-service space");
+          log("No service set in multi-service space for feature \"Evaluations\"", "multiservice");
+          break;
         }
         return await updateEvaluationsInCache(service, periodName);
       }
