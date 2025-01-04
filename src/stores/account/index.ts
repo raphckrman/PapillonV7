@@ -90,7 +90,7 @@ export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
     // Special case for spaces
     if (account.service === AccountService.PapillonMultiService) {
       log("switching to virtual space, setting instance to a non-null value and reloading associated accounts...", "[switchTo]");
-      account.instance = "PapillonPrime"; // Une chaine random, juste pour que l'instance ne soit pas "undefined" (ou null) et que l'espace multiservice soit interprété comme "déconnecté"
+      account.instance = "PapillonPrime"; // A random string, so the instance is not "undefined" or "null", to prevent creating infinite loading (an undefined instance is interpreted as a loading or disconnected account...)
     } else if (typeof account.instance === "undefined") { // Account is currently not authenticated,
       log("instance undefined, reloading...", "[switchTo]");
       // Automatically reconnect the main instance.
@@ -193,19 +193,19 @@ export const useAccounts = create<AccountsStore>()(
           )
         }));
 
-        // On met à jour les espace multi-service, pour que :
-        // 1. Si le compte supprimé était lié à un espace: on le supprime de l'espace
-        // 2. Si l'espace n'a donc plus aucun compté associé, on le supprime (car un espace est une sorte de groupement de comptes, sans comptes il cesse de fonctionner)
+        // Update of multi-service environments to prevent :
+        // 1. If the deleted account was associated to a space : its reference need to be removed from this space
+        // 2. If a multi-service has no more associated accounts, it must be deleted (because a space is like a "group" of accounts, and without any associated accounts it does not work anymore⁾
 
-        // On récupère les comptes correspondant aux espaces
+        // Fetching the accounts corresponding to spaces
         const spacesAccounts  = get().accounts.filter(account => account.service === AccountService.PapillonMultiService);
         for (const spaceAccount of spacesAccounts) {
 
-          // Le compte que l'on a supprimé est lié à cet espace
+          // The account deleted above is associated to this space
           if (spaceAccount.associatedAccountsLocalIDs.includes(localID)) {
             log(`found ${localID} in PapillonMultiServiceSpace ${spaceAccount.name}`, "accounts:remove");
 
-            // On supprime la liaison du compte (ainsi que de chaque fonctionnalité à laquelle il est associé)
+            // Remove the link to the account (and to every feature to which it is linked)
             spaceAccount.associatedAccountsLocalIDs.splice(spaceAccount.associatedAccountsLocalIDs.indexOf(localID), 1);
             const space = useMultiService.getState().spaces.find(space => space.accountLocalID === spaceAccount.localID) as MultiServiceSpace;
             Object.entries(space.featuresServices).map(([key, value]) => {
@@ -218,7 +218,7 @@ export const useAccounts = create<AccountsStore>()(
             log(`removed ${localID} from PapillonMultiServiceSpace ${spaceAccount.name}`, "accounts:remove");
           }
 
-          // Si l'espace est vide, on le supprime
+          // If the space is now empty; deleting it
           if (spaceAccount.associatedAccountsLocalIDs.length === 0) {
             log(`PapillonMultiServiceSpace ${spaceAccount.name} is now empty, removing it`, "accounts:remove");
             useMultiService.getState().remove(spaceAccount.localID);
