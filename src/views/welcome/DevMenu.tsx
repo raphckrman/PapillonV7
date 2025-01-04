@@ -104,9 +104,9 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
               onPress={() => navigation.navigate("GradeReaction", {
                 grade: {
                   id: "mmmhm",
-                  subjectName: "Cours de ts avec Armand",
+                  subjectName: "Éval TS avec Armand",
                   description: "Note de test",
-                  timestamp: 0,
+                  timestamp: 1735996215000,
                   average: {
                     value: 0.2
                   },
