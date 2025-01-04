@@ -19,14 +19,8 @@ const AccountItem: React.FC<{ account: PrimaryAccount, additionalStyles?: StyleP
   const theme = useTheme();
   return (
     <View
-      style={additionalStyles ? {
-        // @ts-expect-error
-        ...additionalStyles,
-        flexDirection: "row",
-        padding: 9,
-        borderStyle: "solid",
-        alignItems: "center",
-      }: {
+      style={{
+        ...(additionalStyles || {} as any),
         flexDirection: "row",
         padding: 9,
         borderStyle: "solid",
