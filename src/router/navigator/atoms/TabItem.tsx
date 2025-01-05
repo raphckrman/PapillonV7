@@ -33,9 +33,11 @@ const TabItem: React.FC<{
       navigation.navigate(route.name);
     }
 
-    lottieRef.current?.play();
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    if (lottieRef.current) {
+      lottieRef.current.play();
+    }
 
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
   const onLongPress = () => {
@@ -63,7 +65,7 @@ const TabItem: React.FC<{
         accessibilityState={isFocused ? { selected: true } : {}}
         accessibilityLabel={options.tabBarAccessibilityLabel}
         testID={options.tabBarTestID}
-        onPress={onPress}
+        onTouchStart={onPress}
         onLongPress={onLongPress}
         style={[styles.tabItem, settings.hideTabTitles && styles.tabItemNoText]}
       >
@@ -163,4 +165,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(TabItem);
+export default TabItem;
