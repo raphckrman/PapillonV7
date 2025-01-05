@@ -130,7 +130,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
         }
       />
 
-      {loading && (
+      {loading ? (
         <NativeList
           animated
           entering={animPapillon(FadeInDown)}
@@ -150,9 +150,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
             </NativeText>
           </NativeItem>
         </NativeList>
-      )}
-
-      {logs.length > 0 ? (
+      ) : logs.length > 0 ? (
         <NativeList
           animated
           entering={animPapillon(FadeInDown)}
@@ -196,7 +194,6 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
             </NativeItem>
           ))}
         </NativeList>
-
       ) : (
         <NativeList
           animated
