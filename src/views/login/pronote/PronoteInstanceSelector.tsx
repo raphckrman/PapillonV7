@@ -231,7 +231,7 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
             entering={ZoomIn.springify()}
             exiting={ZoomOut.springify()}
           >
-            <TouchableOpacity onPress={() => {setSearch("");}}>
+            <TouchableOpacity onPress={() => setSearch("")}>
               <X size={24} color={colors.text + "55"} />
             </TouchableOpacity>
           </Reanimated.View>
