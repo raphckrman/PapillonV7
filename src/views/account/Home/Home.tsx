@@ -113,7 +113,7 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
   }));
 
   const modalAnimatedStyle = useAnimatedStyle(() => ({
-    borderCurve: "continuous",
+    ...(Platform.OS === "android" ? {} : { borderCurve: "continuous" }),
     borderTopLeftRadius: interpolate(
       scrollOffset.value,
       [0, 100, 265 + insets.top - 0.1, 265 + insets.top],
@@ -128,10 +128,12 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
     ),
 
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    ...(Platform.OS === "android" ? {} : {
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      }
+    }),
     shadowOpacity: 0.2,
     shadowRadius: 10,
 
