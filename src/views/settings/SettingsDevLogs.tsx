@@ -1,5 +1,5 @@
 import type { Screen } from "@/router/helpers/types";
-import { ActivityIndicator, ScrollView, Share, ShareContent } from "react-native";
+import { ActivityIndicator, Alert, Platform, ScrollView, Share, ShareContent, TouchableOpacity } from "react-native";
 import {
   NativeIcon,
   NativeItem,
@@ -15,18 +15,25 @@ import {
   Code,
   Delete,
   ShareIcon,
+  Trash2,
   TriangleAlert,
+  X,
 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PressableScale } from "react-native-pressable-scale";
-import { FadeInDown, FadeInUp, FadeOutDown, FadeOutUp } from "react-native-reanimated";
+import { FadeInDown, FadeInUp, FadeOut, FadeOutDown, FadeOutUp } from "react-native-reanimated";
 import { animPapillon } from "@/utils/ui/animations";
+import { useTheme } from "@react-navigation/native";
+import { useAlert } from "@/providers/AlertProvider";
+import MissingItem from "@/components/Global/MissingItem";
 
 const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
+  const { colors } = useTheme();
   const [logs, setLogs] = useState<Log[]>([]);
   const insets = useSafeAreaInsets();
 
   const [loading, setLoading] = useState(true);
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     get_logs().then((logs) => {
@@ -57,7 +64,71 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
         paddingTop: 0,
       }}
     >
-      <NativeListHeader animated label={"Logs"} />
+      <NativeListHeader
+        animated
+        label="Logs des 2 dernières semaines"
+        trailing={
+          logs.length > 0 && (
+            <TouchableOpacity
+              onPress={() => {
+                if (Platform.OS === "ios") {
+                  Alert.alert(
+                    "Supprimer les logs ?",
+                    "Êtes-vous sûr de vouloir supprimer tous les logs ?", [
+                      {
+                        text: "Annuler",
+                        style: "cancel",
+                      },
+                      {
+                        text: "Supprimer",
+                        style: "destructive",
+                        onPress: () => {
+                          delete_logs();
+                          setLogs([]);
+                        },
+                      },
+                    ]
+                  );
+                } else {
+                  showAlert({
+                    title: "Supprimer les logs ?",
+                    message: "Êtes-vous sûr de vouloir supprimer tous les logs ?",
+                    actions: [
+                      {
+                        title: "Annuler",
+                        onPress: () => {},
+                        backgroundColor: colors.card,
+                        icon: <X color={colors.text} />,
+                      },
+                      {
+                        title: "Supprimer",
+                        primary: true,
+                        onPress: () => {
+                          delete_logs();
+                          setLogs([]);
+                        },
+                        backgroundColor: "#CF0029",
+                        icon: <Trash2 color="#FFFFFF" />,
+                      },
+                    ],
+                  });
+                }
+              }}
+              style={{
+                padding: 5,
+                borderRadius: 100,
+                backgroundColor: colors.text + "20",
+              }}
+            >
+              <Trash2
+                size={25}
+                strokeWidth={2}
+                color="red"
+              />
+            </TouchableOpacity>
+          )
+        }
+      />
 
       {loading && (
         <NativeList
@@ -81,7 +152,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
         </NativeList>
       )}
 
-      {logs.length !== 0 && (
+      {logs.length > 0 ? (
         <NativeList
           animated
           entering={animPapillon(FadeInDown)}
@@ -126,6 +197,20 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
           ))}
         </NativeList>
 
+      ) : (
+        <NativeList
+          animated
+          entering={animPapillon(FadeInDown)}
+          exiting={animPapillon(FadeOutUp)}
+        >
+          <NativeItem animated style={{ paddingVertical: 10 }}>
+            <MissingItem
+              emoji="💾"
+              title="Aucune log enregistrée"
+              description="Il n'y a pas de logs à vous présenter."
+            />
+          </NativeItem>
+        </NativeList>
       )}
     </ScrollView>
   );
