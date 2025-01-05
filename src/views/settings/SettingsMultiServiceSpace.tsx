@@ -75,6 +75,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
   const [accountSelectorOpened, setAccountSelectorOpened] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState<PrimaryAccount | null>(null);
   const [featureSelection, setFeatureSelection] = useState<MultiServiceFeature>(MultiServiceFeature.Grades);
+  const [featureSelectionName, setFeatureSelectionName] = useState<string>("");
 
   const deleteSpace = () => {
     Alert.alert(
@@ -96,9 +97,10 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
       ]);
   };
 
-  const openAccountSelector = (feature: MultiServiceFeature) => {
+  const openAccountSelector = (feature: MultiServiceFeature, name: string) => {
     setSelectedAccount(availableAccounts.find(account => account.localID === space.featuresServices[feature]) || null);
     setFeatureSelection(feature);
+    setFeatureSelectionName(name);
     setAccountSelectorOpened(true);
   };
 
@@ -360,7 +362,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
                       ]}
                     />
                   </Reanimated.View>}
-                onPress={() => openAccountSelector(feature.feature)}
+                onPress={() => openAccountSelector(feature.feature, feature.name)}
                 trailing={<ChevronDown color={theme.colors.primary}/>}
                 chevron={false}
               >
@@ -400,7 +402,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
               paddingHorizontal: 10
             }}
           >
-            <NativeListHeader label="Sélectionner un service"/>
+            <NativeListHeader label={`Sélectionner un service pour "${featureSelectionName}"`}/>
             <NativeList>
               {availableAccounts.map((account, index) => (
                 <Pressable
