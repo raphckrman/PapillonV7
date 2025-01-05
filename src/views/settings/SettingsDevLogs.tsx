@@ -30,7 +30,11 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
 
   useEffect(() => {
     get_logs().then((logs) => {
-      setLogs(logs);
+      setLogs(
+        logs.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        )
+      );
       setLoading(false);
     });
 
