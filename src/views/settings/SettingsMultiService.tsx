@@ -17,6 +17,7 @@ import {AccountService, PapillonMultiServiceSpace} from "@/stores/account/types"
 import uuid from "@/utils/uuid-v4";
 import {defaultProfilePicture} from "@/utils/ui/default-profile-picture";
 import {defaultTabs} from "@/consts/DefaultTabs";
+import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 
 const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) => {
   const theme = useTheme();
@@ -53,12 +54,9 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
     setLoadingImage(false);
   };
 
-  const [loadingCreation, setLoading] = useState(false);
   const createSpace = () => {
-    setLoading(true);
     if (spaceName == "") {
       Alert.alert("Aucun titre défini", "Vous devez définir un titre à l'environnement multi service pour pouvoir le créer.");
-      setLoading(false);
       return;
     }
 
@@ -118,7 +116,6 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
     createMultiServiceSpace(space, linkedAccount);
     accounts.create(linkedAccount);
     setSpaceCreationSheetOpened(false);
-    setLoading(false);
     setSelectedImage(null);
     setSpaceName("");
   };
@@ -300,42 +297,28 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
                 </View>
               </View>
             </NativeList>
-            <NativeList>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "flex-start",
-                  justifyContent: "flex-start",
-                  paddingVertical: 12,
-                  paddingHorizontal: 12,
-                  gap: 14,
-                }}
-              >
-                <View style={{ flex: 1 }}>
-                  <NativeItem
-                    onPress={() => createSpace()}
-                    trailing={loadingCreation && <PapillonSpinner
-                      size={18}
-                      color="white"
-                      strokeWidth={2.8}
-                      entering={animPapillon(ZoomIn)}
-                      exiting={animPapillon(ZoomOut)}
-                    />}
-                  >
-                    <NativeText>
-                      Créer l'espace
-                    </NativeText>
-                  </NativeItem>
-                  <NativeItem
-                    onPress={() => setSpaceCreationSheetOpened(false)}
-                  >
-                    <NativeText>
-                      Annuler
-                    </NativeText>
-                  </NativeItem>
-                </View>
-              </View>
-            </NativeList>
+            <View
+              style={{
+                flexDirection: "column",
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
+                paddingTop: 25,
+                paddingBottom: 0,
+                paddingHorizontal: 0,
+                gap: 10,
+              }}
+            >
+              <ButtonCta
+                primary={true}
+                onPress={() => createSpace()}
+                value="Créer l'espace"
+              />
+              <ButtonCta
+                primary={false}
+                value="Annuler"
+                onPress={() => setSpaceCreationSheetOpened(false)}
+              />
+            </View>
           </BottomSheet>
         </>
       )}
