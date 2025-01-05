@@ -231,11 +231,7 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
             entering={ZoomIn.springify()}
             exiting={ZoomOut.springify()}
           >
-            <TouchableOpacity
-              onPress={() => {
-                setSearch("");
-              }}
-            >
+            <TouchableOpacity onPress={() => {setSearch("");}}>
               <X size={24} color={colors.text + "55"} />
             </TouchableOpacity>
           </Reanimated.View>
@@ -316,7 +312,7 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
                     index < 10 && !hasSearched
                       ? FlipInXDown.springify().delay(100 * index)
                       // @ts-expect-error
-                      :  ZoomInEasyDown.duration(400).easing(Easing.bezier(0.25, 0.1, 0.25, 1)).delay(30 * index)
+                      : ZoomInEasyDown.duration(400).easing(Easing.bezier(0.25, 0.1, 0.25, 1)).delay(30 * index)
                   }
                   exiting={index < 10 ? FadeOutUp : void 0}
                   key={instance.url}
