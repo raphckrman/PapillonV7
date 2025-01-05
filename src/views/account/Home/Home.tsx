@@ -252,15 +252,16 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
           }
         }}
         onScroll={(e) => {
-          if (e.nativeEvent.contentOffset.y > 125 && canHaptics) {
+          const scrollY = e.nativeEvent.contentOffset.y;
+          if (scrollY > 125 && canHaptics) {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
             setCanHaptics(false);
-          } else if (e.nativeEvent.contentOffset.y < 125 && !canHaptics) {
+          } else if (scrollY < 125 && !canHaptics) {
             setCanHaptics(true);
           }
 
-          setModalOpen(e.nativeEvent.contentOffset.y >= 195 + insets.top);
-          setModalFull(e.nativeEvent.contentOffset.y >= 265 + insets.top);
+          setModalOpen(scrollY >= 195 + insets.top);
+          setModalFull(scrollY >= 265 + insets.top);
         }}
         refreshControl={<RefreshControl
           refreshing={refreshing}
