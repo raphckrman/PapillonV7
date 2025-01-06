@@ -77,7 +77,7 @@ const AttendanceItem: React.FC<AttendanceItemProps> = ({
           if (hours === 0) {
             totalTime = `${leadingZero(minutes)} min`;
           } else {
-            totalTime = hours + "h " + leadingZero(minutes) + "min";
+            totalTime = `${hours}h ${leadingZero(minutes)}min`;
           }
         }
         else if ("duration" in item) {
