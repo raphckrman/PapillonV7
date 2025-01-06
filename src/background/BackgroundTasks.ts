@@ -13,7 +13,7 @@ import {PrimaryAccount} from "@/stores/account/types";
  * @returns BackgroundFetchResult.NewData
  */
 const backgroundFetch = async () => {
-  console.log("[background fetch] Running background fetch");
+  log("[background fetch]", "Running background fetch");
 
   const accounts = useAccounts((store) => store.accounts).filter(account => !account.isExternal) as PrimaryAccount[]; // Get all primary accounts
   const switchTo = useCurrentAccount(store => store.switchTo); // Get the switchTo function
