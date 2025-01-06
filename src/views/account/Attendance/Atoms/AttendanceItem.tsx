@@ -17,7 +17,7 @@ interface AttendanceItemProps {
   missed?: { hours: number, minutes: number }
 }
 
-const NO_JUSTICATION = "Sans justification";
+const NO_JUSTICATION = "Aucune description";
 
 const AttendanceItem: React.FC<AttendanceItemProps> = ({
   title,
