@@ -11,7 +11,9 @@ Pour nous aider à tester ta PR, merci de cocher une des cases suivantes (_en ra
 Type de pull request :
 
 - [ ] **Breaking change** (_des modifications avec un impact sur les fonctionnalités actuelles_)
+  - [ ] J'ai fait une build de Papillon pour m'assurer que je n'ai rien cassé
 - [ ] **Feat** (_ajoute une amélioration/nouveauté_)
+  - [ ] Je m'assure que j'utilise le langage informel (tutoiement)
 - [ ] **Fix** (_permet de corriger un bug_)
 - [ ] **Chore** (_des modifications en dehors du dossier `src`_)
 - [ ] **Styles** (_change/ajoute du style_)
