@@ -75,7 +75,7 @@ const AttendanceItem: React.FC<AttendanceItemProps> = ({
         if ("hours" in item) {
           const [hours, minutes] = item.hours.split("h").map(Number);
           if (hours === 0) {
-            totalTime = leadingZero(minutes) + "min";
+            totalTime = `${leadingZero(minutes)} min`;
           } else {
             totalTime = hours + "h " + leadingZero(minutes) + "min";
           }
