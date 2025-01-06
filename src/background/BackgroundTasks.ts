@@ -31,7 +31,7 @@ const registerBackgroundTasks = async () => {
     TaskManager.defineTask("background-fetch", backgroundFetch);
 
     BackgroundFetch?.registerTaskAsync("background-fetch", {
-      minimumInterval: 60, // 15 minutes
+      minimumInterval: 60 * 15, // 15 minutes
       stopOnTerminate: false, // android only,
       startOnBoot: true, // android only
     });
