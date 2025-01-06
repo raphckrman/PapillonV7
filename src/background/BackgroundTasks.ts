@@ -6,6 +6,16 @@ import { useAccounts, useCurrentAccount } from "@/stores/account";
 
 import { fetchNews } from "./data/News";
 import {PrimaryAccount} from "@/stores/account/types";
+import { log } from "@/utils/logger/logger";
+
+const getAccounts = () => {
+  return useAccounts.getState().accounts.filter((account) => !account.isExternal);
+};
+
+const getSwitchToFunction = () => {
+  return useCurrentAccount.getState().switchTo;
+};
+
 
 /**
  * Background fetch function that fetches all the data
@@ -15,22 +25,23 @@ import {PrimaryAccount} from "@/stores/account/types";
 const backgroundFetch = async () => {
   log("[background fetch]", "Running background fetch");
 
-  const accounts = useAccounts((store) => store.accounts).filter(account => !account.isExternal) as PrimaryAccount[]; // Get all primary accounts
-  const switchTo = useCurrentAccount(store => store.switchTo); // Get the switchTo function
+  const accounts = getAccounts() as PrimaryAccount[];
+  const switchTo = getSwitchToFunction();
 
   for (const account of accounts) {
     await switchTo(account);
-    await Promise.all([fetchNews()]);
+    await fetchNews();
   }
+
   return BackgroundFetchResult.NewData;
 };
 
 const registerBackgroundTasks = async () => {
   expoGoWrapper(async () => {
-    TaskManager.defineTask("background-fetch", () => backgroundFetch());
+    TaskManager.defineTask("background-fetch", backgroundFetch);
 
     BackgroundFetch?.registerTaskAsync("background-fetch", {
-      minimumInterval: 60 * 15, // 15 minutes
+      minimumInterval: 60, // 15 minutes
       stopOnTerminate: false, // android only,
       startOnBoot: true, // android only
     });
