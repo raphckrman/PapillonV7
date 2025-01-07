@@ -1,7 +1,6 @@
 import { updateNewsState, getNews } from "../utils/news";
 import { getCurrentAccount } from "../utils/accounts";
 import { papillonNotify } from "../Notifications";
-import uuid from "@/utils/uuid-v4";
 import parse_news_resume from "@/utils/format/format_pronote_news";
 import { Information } from "@/services/shared/Information";
 
@@ -28,24 +27,24 @@ const fetchNews = async (): Promise<Information[]> => {
         break;
       case 1:
         papillonNotify({
-          id: `${account.localID}-${differences[0].id}-news`,
+          id: `${account.name}-news`,
           title: `[${account.name}] Nouvelle information`,
           subtitle: differences[0].title,
           body: differences[0].content
             ? parse_news_resume(differences[0].content)
             : "Aucun résumé disponible.",
           ios: {
-            categoryId: account.localID,
+            categoryId: account.name,
           },
         });
         break;
       default:
         papillonNotify({
-          id: `${account.localID}-${uuid()}-news`,
+          id: `${account.name}-news`,
           title: `[${account.name}] Nouvelles informations`,
           body: `Vous avez ${differences.length} nouvelles informations.`,
           ios: {
-            categoryId: account.localID,
+            categoryId: account.name,
           },
         });
         break;
