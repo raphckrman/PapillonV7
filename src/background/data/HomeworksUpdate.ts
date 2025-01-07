@@ -53,7 +53,7 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
         papillonNotify({
           id: `${account.name}-homeworks`,
           title: `[${account.name}] Nouveaux devoirs`,
-          body: `Vous avez ${differences.length} nouveaux devoirs.`,
+          body: `Tu as ${differences.length} nouveaux devoirs.`,
           ios: {
             categoryId: account.name,
           },
