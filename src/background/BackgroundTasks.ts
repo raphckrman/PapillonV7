@@ -36,8 +36,6 @@ const registerBackgroundTasks = async () => {
       startOnBoot: true, // android only
     });
 
-    backgroundFetch();
-
     console.log("[background fetch] Registered background fetch");
   });
 };
