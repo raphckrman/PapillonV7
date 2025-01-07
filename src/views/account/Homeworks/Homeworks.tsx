@@ -99,7 +99,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   };
 
   const currentWeek = getCurrentWeekNumber();
-  const [data, setData] = useState(Array.from({ length: 100 }, (_, i) => currentWeek - 50 + i));
+  const [data, setData] = useState(Array.from({ length: 100 }, (_, i) => currentWeek - 49 + i));
 
   const [selectedWeek, setSelectedWeek] = useState(currentWeek);
   const [direction, setDirection] = useState<"left" | "right">("right");
