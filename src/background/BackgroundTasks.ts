@@ -6,6 +6,7 @@ import { expoGoWrapper } from "@/utils/native/expoGoAlert";
 import { fetchNews } from "./data/News";
 import { log } from "@/utils/logger/logger";
 import { getAccounts, getSwitchToFunction } from "./utils/accounts";
+import { fetchHomeworks } from "./data/HomeworksUpdate";
 
 /**
  * Background fetch function that fetches all the data
@@ -20,7 +21,10 @@ const backgroundFetch = async () => {
 
   for (const account of accounts) {
     await switchTo(account);
-    await fetchNews();
+    await Promise.all([
+      fetchNews(),
+      fetchHomeworks(),
+    ]);
   }
 
   return BackgroundFetchResult.NewData;

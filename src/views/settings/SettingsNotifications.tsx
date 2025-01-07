@@ -59,6 +59,12 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = () => {
     //   message: "Cours de mathématiques annulé dans 10 minutes",
     //   personalizationValue: "timeTable",
     // },
+    {
+      icon: <NativeIcon icon={<BookCheck />} color={colors.primary} />,
+      title: "Nouveau devoir",
+      message: "Nouveau devoir : \"Apporter le manuel\"",
+      personalizationValue: "homeworksUpdate",
+    },
     // {
     //   icon: <NativeIcon icon={<BookCheck />} color={colors.primary} />,
     //   title: "Travail à faire pour demain",
