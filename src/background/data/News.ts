@@ -5,10 +5,13 @@ import parse_news_resume from "@/utils/format/format_pronote_news";
 import { Information } from "@/services/shared/Information";
 
 const getDifferences = (currentNews: Information[], updatedNews: Information[]): Information[] => {
-  return updatedNews.filter((updatedItem) => {
-    const currentItem = currentNews.find((item) => item.id === updatedItem.id);
-    return !currentItem || JSON.stringify(currentItem) !== JSON.stringify(updatedItem);
-  });
+  return updatedNews.filter((updatedItem) =>
+    !currentNews.some(
+      (item) =>
+        item.author === updatedItem.author &&
+        item.content === updatedItem.content
+    )
+  );
 };
 
 const fetchNews = async (): Promise<Information[]> => {
