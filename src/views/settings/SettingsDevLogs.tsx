@@ -74,7 +74,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
                 if (Platform.OS === "ios") {
                   Alert.alert(
                     "Supprimer les logs ?",
-                    "Êtes-vous sûr de vouloir supprimer tous les logs ?", [
+                    "Es-tu sûr de vouloir supprimer toutes les logs ?", [
                       {
                         text: "Annuler",
                         style: "cancel",
@@ -92,7 +92,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
                 } else {
                   showAlert({
                     title: "Supprimer les logs ?",
-                    message: "Êtes-vous sûr de vouloir supprimer tous les logs ?",
+                    message: "Es-tu sûr de vouloir supprimer toutes les logs ?",
                     actions: [
                       {
                         title: "Annuler",
@@ -146,7 +146,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
               Obtention des logs...
             </NativeText>
             <NativeText variant="subtitle">
-              Cela peut prendre plusieurs secondes, veuillez patienter.
+              Cela peut prendre plusieurs secondes, patiente un peu.
             </NativeText>
           </NativeItem>
         </NativeList>
@@ -204,7 +204,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
             <MissingItem
               emoji="💾"
               title="Aucune log enregistrée"
-              description="Il n'y a pas de logs à vous présenter."
+              description="Il n'y a pas de logs à te présenter."
             />
           </NativeItem>
         </NativeList>
