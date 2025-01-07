@@ -1,5 +1,6 @@
 import { expoGoWrapper } from "@/utils/native/expoGoAlert";
 import notifee, { Notification } from "@notifee/react-native";
+import { Platform } from "react-native";
 
 const requestNotificationPermission = async () => {
   return expoGoWrapper(async () => {
@@ -16,17 +17,22 @@ const createChannelNotification = async () => {
 
 const papillonNotify = async (props: Notification) => {
   return expoGoWrapper(async () => {
-    // Required for iOS
-    await requestNotificationPermission();
+    // Required for iOS, not work in Android
+    if (Platform.OS === "ios") await requestNotificationPermission();
 
     // Channel, required for Android
     const channelId = await createChannelNotification();
+
+    // Add timestamp for Android
+    const timestamp = new Date().getTime();
 
     // Display a notification
     await notifee.displayNotification({
       ...props,
       android: {
         channelId,
+        timestamp,
+        showTimestamp: true,
       }
     });
   });
