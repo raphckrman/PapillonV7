@@ -1,19 +1,33 @@
 import { expoGoWrapper } from "@/utils/native/expoGoAlert";
-import {Notification} from "@notifee/react-native";
+import notifee, { Notification } from "@notifee/react-native";
 
 const requestNotificationPermission = async () => {
   return expoGoWrapper(async () => {
-    const notifee = (await import("@notifee/react-native")).default;
-    await notifee.requestPermission();
+    return await notifee.requestPermission();
   }, true);
 };
 
+const createChannelNotification = async () => {
+  return await notifee.createChannel({
+    id: "default",
+    name: "Default Channel",
+  });
+};
+
 const papillonNotify = async (props: Notification) => {
-  expoGoWrapper(async () => {
-    const notifee = (await import("@notifee/react-native")).default;
+  return expoGoWrapper(async () => {
+    // Required for iOS
+    await requestNotificationPermission();
+
+    // Channel, required for Android
+    const channelId = await createChannelNotification();
+
+    // Display a notification
     await notifee.displayNotification({
       ...props,
-      title: props.title || "Coucou, c'est Papillon 👋",
+      android: {
+        channelId,
+      }
     });
   });
 };
