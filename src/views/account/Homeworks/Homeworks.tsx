@@ -95,11 +95,11 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
     start.setHours(0, 0, 0, 0);
     const diff = now.getTime() - start.getTime();
     const oneWeek = 1000 * 60 * 60 * 24 * 7;
-    return Math.floor(diff / oneWeek);
+    return Math.floor(diff / oneWeek) + 1;
   };
 
   const currentWeek = getCurrentWeekNumber();
-  const [data, setData] = useState(Array.from({ length: 100 }, (_, i) => currentWeek - 49 + i));
+  const [data, setData] = useState(Array.from({ length: 100 }, (_, i) => currentWeek - 50 + i));
 
   const [selectedWeek, setSelectedWeek] = useState(currentWeek);
   const [direction, setDirection] = useState<"left" | "right">("right");
