@@ -3,7 +3,7 @@ import PackageJSON from "./package.json";
 
 export default (): ExpoConfig => ({
   name: "Papillon",
-  slug: "papillonvex",
+  slug: PackageJSON.name,
   scheme: "papillon",
   version: PackageJSON.version,
   orientation: "portrait",
