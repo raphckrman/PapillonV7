@@ -39,29 +39,35 @@ const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
 }) => {
   return (
     <Reanimated.View
-      style={[{
-        flexDirection: "row",
-        alignItems: "flex-end",
-        overflow: "hidden",
-        paddingHorizontal: 3,
-        marginHorizontal: -5,
-        paddingVertical: 2,
-        marginVertical: -2,
-      }, contentContainerStyle]}
+      style={[
+        {
+          flexDirection: "row",
+          alignItems: "flex-end",
+          overflow: "hidden",
+          paddingHorizontal: 3,
+          marginHorizontal: -5,
+          paddingVertical: 2,
+          marginVertical: -2,
+        },
+        contentContainerStyle
+      ]}
       layout={animPapillon(LinearTransition)}
     >
-      {value.toString().split("").map((n: string, i: number) => (
-        <Reanimated.View
-          key={i + "_" + n}
-          entering={animPapillon(FadeInDown).delay(i * 20 + 20).mass(1).damping(30).stiffness(700)}
-          exiting={animPapillon(FadeOutUp).delay(i * 30)}
-          layout={animPapillon(LinearTransition)}
-        >
-          <NativeText style={style}>
-            {n}
-          </NativeText>
-        </Reanimated.View>
-      ))}
+      {value.toString().split("")
+        .map((n: string, i: number) => (
+          <Reanimated.View
+            key={i + "_" + n}
+            entering={
+              animPapillon(FadeInDown).delay(i * 20 + 20).mass(1).damping(30).stiffness(700)
+            }
+            exiting={animPapillon(FadeOutUp).delay(i * 30)}
+            layout={animPapillon(LinearTransition)}
+          >
+            <NativeText style={style}>
+              {n}
+            </NativeText>
+          </Reanimated.View>
+        ))}
     </Reanimated.View>
   );
 };

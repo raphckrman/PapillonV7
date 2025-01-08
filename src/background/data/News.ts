@@ -4,13 +4,17 @@ import { papillonNotify } from "../Notifications";
 import parse_news_resume from "@/utils/format/format_pronote_news";
 import { Information } from "@/services/shared/Information";
 
-const getDifferences = (currentNews: Information[], updatedNews: Information[]): Information[] => {
-  return updatedNews.filter((updatedItem) =>
-    !currentNews.some(
-      (item) =>
-        item.author === updatedItem.author &&
-        item.content === updatedItem.content
-    )
+const getDifferences = (
+  currentNews: Information[],
+  updatedNews: Information[]
+): Information[] => {
+  return updatedNews.filter(
+    (updatedItem) =>
+      !currentNews.some(
+        (item) =>
+          item.author === updatedItem.author &&
+          item.content === updatedItem.content
+      )
   );
 };
 
@@ -24,7 +28,10 @@ const fetchNews = async (): Promise<Information[]> => {
 
   const differences = getDifferences(currentNews, updatedNews);
 
-  if (notificationsTypesPermissions?.enabled && notificationsTypesPermissions?.news) {
+  if (
+    notificationsTypesPermissions?.enabled &&
+    notificationsTypesPermissions?.news
+  ) {
     switch (differences.length) {
       case 0:
         break;

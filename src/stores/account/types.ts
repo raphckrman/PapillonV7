@@ -1,14 +1,17 @@
 import type pronote from "pawnote";
-import type { Account as PawdirecteAccount, Session as PawdirecteSession } from "pawdirecte";
-import type { Client as ARDClient, Client as PawrdClient } from "pawrd";
+import type {
+  Account as PawdirecteAccount,
+  Session as PawdirecteSession
+} from "pawdirecte";
+import type { Client as ARDClient } from "pawrd";
 import { Client as TurboselfClient } from "turboself-api";
 import { Client as AliseClient, BookingDay } from "alise-api";
 import type ScolengoAPI from "scolengo-api";
-import {Configuration, Identification} from "ezly";
+import { Configuration, Identification } from "ezly";
 import type MultiAPI from "esup-multi.js";
 import { SkolengoAuthConfig } from "@/services/skolengo/skolengo-types";
 import { User as ScolengoAPIUser } from "scolengo-api/types/models/Common";
-import {OnlinePayments} from "pawrd/dist";
+import { OnlinePayments } from "pawrd/dist";
 
 export interface Tab {
   name: string
@@ -87,7 +90,10 @@ export interface CurrentAccountStore {
   /** Si un compte est en cours d'utilisation, on obtient l'ID, sinon `null`. */
   account: PrimaryAccount | null
   linkedAccounts: ExternalAccount[]
-  mutateProperty: <T extends keyof PrimaryAccount>(key: T, value: PrimaryAccount[T]) => void
+  mutateProperty: <T extends keyof PrimaryAccount>(
+    key: T,
+    value: PrimaryAccount[T]
+  ) => void
   linkExistingExternalAccount: (account: ExternalAccount) => void
   switchTo: (account: PrimaryAccount) => Promise<void>
   logout: () => void
@@ -265,5 +271,9 @@ export interface AccountsStore {
   accounts: Account[]
   create: (account: Account) => void
   remove: (localID: string) => void
-  update: <A extends Account, T extends keyof A = keyof A>(localID: string, key: T, value: A[T]) => Account | null
+  update: <A extends Account, T extends keyof A = keyof A>(
+    localID: string,
+    key: T,
+    value: A[T]
+  ) => Account | null
 }
