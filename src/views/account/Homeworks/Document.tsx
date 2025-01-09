@@ -21,16 +21,16 @@ import * as WebBrowser from "expo-web-browser";
 import { useTheme } from "@react-navigation/native";
 import HTMLView from "react-native-htmlview";
 import { Screen } from "@/router/helpers/types";
-import { WebBrowserPresentationStyle } from "expo-web-browser/src/WebBrowser.types";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PapillonModernHeader } from "@/components/Global/PapillonModernHeader";
 import { useCurrentAccount } from "@/stores/account";
 import { AccountService } from "@/stores/account/types";
 import getAndOpenFile from "@/utils/files/getAndOpenFile";
 import { AutoFileIcon } from "@/components/Global/FileIcon";
-import { FileText, Link, Paperclip, CircleAlert, FileIcon } from "lucide-react-native";
+import { Paperclip, CircleAlert } from "lucide-react-native";
 import LinkFavicon, { getURLDomain } from "@/components/Global/LinkFavicon";
 import { timestampToString } from "@/utils/format/DateHelper";
+import parse_homeworks from "@/utils/format/format_pronote_homeworks";
 
 const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
   const theme = useTheme();
@@ -48,7 +48,9 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
   });
 
   const homework: Homework = route.params.homework || {};
+
   const account = useCurrentAccount((store) => store.account!);
+
 
   const openUrl = (url: string) => {
     if (
@@ -172,7 +174,7 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ route }) => {
 
           <NativeItem>
             <HTMLView
-              value={`<body>${homework.content.replaceAll("<br>", " ")}</body>`}
+              value={`<body>${parse_homeworks(homework.content)}</body>`}
               stylesheet={stylesText}
               onLinkPress={(url) => openUrl(url)}
             />
