@@ -96,14 +96,14 @@ export default (): ExpoConfig => ({
         locationWhenInUsePermission:
           "Papillon utilise ton emplacement pour trouver les établissements autour de toi.",
         cameraPermission:
-          "Papillon utilise ta caméra pour scanner des QR-codes pour vous connecter, pour capturer des documents, ou pour des fonctionnalités amusantes telles que les réaction.",
+          "Papillon utilise ta caméra pour scanner des QR-codes pour te connecter, pour capturer des documents, ou pour des fonctionnalités amusantes telles que les réactions.",
       },
     ],
     [
       "expo-camera",
       {
         cameraPermission:
-          "Papillon utilise ta caméra pour scanner des QR-codes pour vous connecter, pour capturer des documents, ou pour des fonctionnalités amusantes telles que les réaction.",
+          "Papillon utilise ta caméra pour scanner des QR-codes pour te connecter, pour capturer des documents, ou pour des fonctionnalités amusantes telles que les réactions.",
         microphonePermission:
           "Papillon utilise ton micro pour enregistrer des travaux audio ou des cours.",
         recordAudioAndroid: true,
@@ -113,7 +113,7 @@ export default (): ExpoConfig => ({
       "expo-sensors",
       {
         motionPermission:
-          "Papillon utilise les capteurs de mouvement de ton appareil pour de nombreuses fonctionnalités interactives.",
+          "Papillon utilise les capteurs de mouvements de ton appareil pour de nombreuses fonctionnalités intéractives.",
       },
     ],
     [
