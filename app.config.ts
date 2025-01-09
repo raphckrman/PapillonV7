@@ -113,7 +113,7 @@ export default (): ExpoConfig => ({
       "expo-sensors",
       {
         motionPermission:
-          "Papillon utilise les capteurs de mouvements de ton appareil pour de nombreuses fonctionnalités intéractives.",
+          "Papillon utilise les capteurs de mouvement de ton appareil pour de nombreuses fonctionnalités interactives.",
       },
     ],
     [
