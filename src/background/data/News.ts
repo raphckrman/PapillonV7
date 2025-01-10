@@ -40,9 +40,10 @@ const fetchNews = async (): Promise<Information[]> => {
           id: `${account.name}-news`,
           title: `[${account.name}] Nouvelle actualité`,
           subtitle: differences[0].title,
-          body: differences[0].content
-            ? parse_news_resume(differences[0].content)
-            : "Aucun résumé disponible.",
+          body:
+            differences[0].content && !differences[0].content.includes("<img")
+              ? `${parse_news_resume(differences[0].content).slice(0, 100)}...`
+              : "Aucun résumé disponible.",
           ios: {
             categoryId: account.name,
           },
@@ -52,7 +53,9 @@ const fetchNews = async (): Promise<Information[]> => {
         papillonNotify({
           id: `${account.name}-news`,
           title: `[${account.name}] Nouvelles actualités`,
-          body: `Tu as ${differences.length} nouvelles actualités.`,
+          body: differences.flatMap((element) => {
+            return element.title ?? "Sans titre";
+          }).join("<br />"),
           ios: {
             categoryId: account.name,
           },
