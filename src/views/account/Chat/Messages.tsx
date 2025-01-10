@@ -93,7 +93,6 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
     } catch (e) {
       console.error("Erreur lors du chargement des discussions :", e);
     }
-
   }, [enabled, supported]);
 
   const getChatCreator = useCallback(
