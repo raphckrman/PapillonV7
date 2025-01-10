@@ -38,7 +38,7 @@ const fetchNews = async (): Promise<Information[]> => {
       case 1:
         papillonNotify({
           id: `${account.name}-news`,
-          title: `[${account.name}] Nouvelle information`,
+          title: `[${account.name}] Nouvelle actualité`,
           subtitle: differences[0].title,
           body: differences[0].content
             ? parse_news_resume(differences[0].content)
@@ -51,8 +51,8 @@ const fetchNews = async (): Promise<Information[]> => {
       default:
         papillonNotify({
           id: `${account.name}-news`,
-          title: `[${account.name}] Nouvelles informations`,
-          body: `Tu as ${differences.length} nouvelles informations.`,
+          title: `[${account.name}] Nouvelles actualités`,
+          body: `Tu as ${differences.length} nouvelles actualités.`,
           ios: {
             categoryId: account.name,
           },
