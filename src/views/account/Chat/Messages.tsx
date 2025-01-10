@@ -119,7 +119,7 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
           </TouchableOpacity>
         )}
       </PapillonHeader>
-      {!supported || !enabled ?
+      {!supported || !enabled ? (
         <View
           style={{
             flex: 1,
