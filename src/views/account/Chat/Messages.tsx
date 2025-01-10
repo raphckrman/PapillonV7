@@ -242,7 +242,7 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
           )}
           <InsetsBottomView />
         </ScrollView>
-      }
+      )}
     </>
   );
 };
