@@ -53,9 +53,11 @@ const fetchNews = async (): Promise<Information[]> => {
         papillonNotify({
           id: `${account.name}-news`,
           title: `[${account.name}] Nouvelles actualités`,
-          body: differences.flatMap((element) => {
-            return element.title ?? "Sans titre";
-          }).join("<br />"),
+          body: differences
+            .flatMap((element) => {
+              return `- ${element.title ?? "Sans titre"}`;
+            })
+            .join("<br />"),
           ios: {
             categoryId: account.name,
           },
