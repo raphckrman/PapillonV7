@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import {
   ScrollView,
   LogBox,
@@ -34,6 +34,7 @@ import PapillonHeader from "@/components/Global/PapillonHeader";
 import { SquarePen } from "lucide-react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
+import { TabLocation } from "pawnote";
 
 // Voir la documentation de `react-navigation`.
 //
@@ -46,13 +47,19 @@ LogBox.ignoreLogs([
 
 const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
   const theme = useTheme();
+
   const { colors } = theme;
 
   const account = useCurrentAccount((state) => state.account!);
+
   const [chats, setChats] = useState<Chat[] | null>(null);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const getChatCreator = (chat: Chat) => chat.creator === account.name ? chat.recipient : chat.creator;
+
+  const supported = account.service === AccountService.Pronote;
+
+  const enabled = supported && account.instance?.user.resources[0].tabs.get(TabLocation.Discussions);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -62,148 +69,167 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
 
   useEffect(() => {
     void (async () => {
-      const chats = await getChats(account);
-      setChats(chats);
+      await fetchChats();
     })();
   }, [account?.instance]);
 
   const onRefresh = async () => {
     setRefreshing(true);
-    const chats = await getChats(account);
-    setChats(chats);
+    await fetchChats();
     setRefreshing(false);
   };
 
-  if (account.service !== AccountService.Pronote)
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: theme.colors.background,
-          padding: 20,
-        }}
-      >
-        <MissingItem
-          emoji={"🚧"}
-          title={"Fonctionnalité en construction"}
-          description={
-            "Cette page est en cours de développement, revenez plus tard."
-          }
-        />
-      </View>
-    );
+  const fetchChats = useCallback(async () => {
+    if (!enabled || !supported) {
+      return;
+    }
+
+    const chats = await getChats(account);
+
+    setChats(chats);
+  }, [account?.instance, enabled, supported]);
 
   return (
     <>
       <PapillonHeader route={route} navigation={navigation}>
-        <TouchableOpacity style={{
-          flex: 1,
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 7,
-          paddingRight: 8,
-        }}
-        onPress={() => navigation.navigate("ChatCreate")}>
-          <NativeText color={theme.colors.primary}>Composer</NativeText>
-          <SquarePen color={theme.colors.primary}/>
-        </TouchableOpacity>
+        {supported || enabled &&
+          <TouchableOpacity style={{
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 7,
+            paddingRight: 8,
+          }}
+          onPress={() => navigation.navigate("ChatCreate")}>
+            <NativeText color={theme.colors.primary}>Composer</NativeText>
+            <SquarePen color={theme.colors.primary} />
+          </TouchableOpacity>
+        }
       </PapillonHeader>
-      <ScrollView
-        contentContainerStyle={{
-          padding: 20,
-          paddingTop: 0,
-        }}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-      >
-        {!chats ? (
-          <Reanimated.View
-            entering={FadeIn.springify().mass(1).damping(20).stiffness(300)}
-            exiting={
-              Platform.OS === "ios"
-                ? FadeOut.springify().mass(1).damping(20).stiffness(300)
-                : undefined
-            }
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              padding: 26,
-            }}
-          >
-            <ActivityIndicator size={"large"} />
-
-            <Text
+      {!supported || !enabled ?
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: theme.colors.background,
+            padding: 20,
+          }}
+        >
+          {!supported &&
+            <MissingItem
+              emoji="🚧"
+              title="Fonctionnalité en construction"
+              description="Cette page est en cours de développement, revenez plus tard."
+              entering={animPapillon(FadeInDown)}
+              exiting={animPapillon(FadeOut)}
+              style={{ paddingVertical: 26 }}
+            />
+          }
+          {!enabled &&
+            <MissingItem
+              emoji="💬"
+              title="Discussions désactivées"
+              description="Les discussions ne sont pas activées par ton établissement."
+              entering={animPapillon(FadeInDown)}
+              exiting={animPapillon(FadeOut)}
+              style={{ paddingVertical: 26 }}
+            />
+          }
+        </View>
+        :
+        <ScrollView
+          contentContainerStyle={{
+            padding: 20,
+            paddingTop: 0,
+          }}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        >
+          {!chats ? (
+            <Reanimated.View
+              entering={FadeIn.springify().mass(1).damping(20).stiffness(300)}
+              exiting={
+                Platform.OS === "ios"
+                  ? FadeOut.springify().mass(1).damping(20).stiffness(300)
+                  : undefined
+              }
               style={{
-                color: colors.text,
-                fontSize: 18,
-                textAlign: "center",
-                fontFamily: "semibold",
-                marginTop: 10,
+                justifyContent: "center",
+                alignItems: "center",
+                padding: 26,
               }}
             >
-              Chargement des discussions...
-            </Text>
-
-            <Text
-              style={{
-                color: colors.text,
-                fontSize: 16,
-                textAlign: "center",
-                fontFamily: "medium",
-                marginTop: 4,
-                opacity: 0.5,
-              }}
-            >
-              Vos conversations arrivent...
-            </Text>
-          </Reanimated.View>
-        ) : chats.length === 0 ? (
-          <MissingItem
-            emoji="💬"
-            title="Aucune discussion"
-            description="Commencez une nouvelle discussion pour les afficher ici."
-            entering={animPapillon(FadeInDown)}
-            exiting={animPapillon(FadeOut)}
-            style={{ paddingVertical: 26 }}
-          />
-        ) : (
-          <NativeList>
-            {chats.map((chat) => (
-              <NativeItem
-                key={chat.id}
-                onPress={() => navigation.navigate("Chat", { handle: chat })}
-                leading={
-                  <InitialIndicator
-                    initial={parse_initials(getChatCreator(chat))}
-                    color={getProfileColorByName(getChatCreator(chat)).bright}
-                    textColor={getProfileColorByName(getChatCreator(chat)).dark}
-                  />
-                }
+              <ActivityIndicator size={"large"} />
+              <Text
+                style={{
+                  color: colors.text,
+                  fontSize: 18,
+                  textAlign: "center",
+                  fontFamily: "semibold",
+                  marginTop: 10,
+                }}
               >
-                <View
-                  style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
-                >
-                  {!chat.read && (
-                    <View
-                      style={{
-                        backgroundColor: getProfileColorByName(getChatCreator(chat))
-                          .dark,
-                        borderRadius: 5,
-                        height: 10,
-                        width: 10,
-                      }}
+                Chargement des discussions…
+              </Text>
+              <Text
+                style={{
+                  color: colors.text,
+                  fontSize: 16,
+                  textAlign: "center",
+                  fontFamily: "medium",
+                  marginTop: 4,
+                  opacity: 0.5,
+                }}
+              >
+                Vos conversations arrivent...
+              </Text>
+            </Reanimated.View>
+          ) : chats.length === 0 ? (
+            <MissingItem
+              emoji="💬"
+              title="Aucune discussion"
+              description="Commencez une nouvelle discussion pour les afficher ici."
+              entering={animPapillon(FadeInDown)}
+              exiting={animPapillon(FadeOut)}
+              style={{ paddingVertical: 26 }}
+            />
+          ) : (
+            <NativeList>
+              {chats.map((chat) => (
+                <NativeItem
+                  key={chat.id}
+                  onPress={() => navigation.navigate("Chat", { handle: chat })}
+                  leading={
+                    <InitialIndicator
+                      initial={parse_initials(getChatCreator(chat))}
+                      color={getProfileColorByName(getChatCreator(chat)).bright}
+                      textColor={getProfileColorByName(getChatCreator(chat)).dark}
                     />
-                  )}
-                  <NativeText variant={"subtitle"}>{getChatCreator(chat)}</NativeText>
-                </View>
-                <NativeText>{chat.subject || "Aucun sujet"}</NativeText>
-                <NativeText variant={"subtitle"}>Il y a {Math.floor((new Date().getTime() - new Date(chat.date).getTime()) / (1000 * 60 * 60 * 24))} jours</NativeText>
-              </NativeItem>
-            ))}
-          </NativeList>
-        )}
-
-        <InsetsBottomView />
-      </ScrollView>
+                  }
+                >
+                  <View
+                    style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
+                  >
+                    {!chat.read && (
+                      <View
+                        style={{
+                          backgroundColor: getProfileColorByName(getChatCreator(chat))
+                            .dark,
+                          borderRadius: 5,
+                          height: 10,
+                          width: 10,
+                        }}
+                      />
+                    )}
+                    <NativeText variant={"subtitle"}>{getChatCreator(chat)}</NativeText>
+                  </View>
+                  <NativeText>{chat.subject || "Aucun sujet"}</NativeText>
+                  <NativeText variant={"subtitle"}>Il y a {Math.floor((new Date().getTime() - new Date(chat.date).getTime()) / (1000 * 60 * 60 * 24))} jours</NativeText>
+                </NativeItem>
+              ))}
+            </NativeList>
+          )}
+          <InsetsBottomView />
+        </ScrollView>
+      }
     </>
   );
 };
