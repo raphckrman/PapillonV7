@@ -33,6 +33,8 @@ const papillonNotify = async (props: Notification) => {
         channelId,
         timestamp,
         showTimestamp: true,
+        smallIcon: "@mipmap/ic_launcher_foreground",
+        color: "#32AB8E",
       }
     });
   });
