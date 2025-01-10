@@ -96,7 +96,7 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
   }, [enabled, supported]);
 
   const getChatCreator = useCallback(
-    (chat: Chat) => (chat.creator === account.name ? chat.recipient : chat.creator),
+    (chat: Chat) => chat.creator === account.name ? chat.recipient : chat.creator,
     [account.name]
   );
 
