@@ -103,19 +103,21 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
   return (
     <>
       <PapillonHeader route={route} navigation={navigation}>
-        {(supported && enabled) &&
-          <TouchableOpacity style={{
-            flex: 1,
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 7,
-            paddingRight: 8,
-          }}
-          onPress={() => navigation.navigate("ChatCreate")}>
+        {supported && enabled && (
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 7,
+              paddingRight: 8,
+            }}
+            onPress={() => navigation.navigate("ChatCreate")}
+          >
             <NativeText color={theme.colors.primary}>Composer</NativeText>
             <SquarePen color={theme.colors.primary} />
           </TouchableOpacity>
-        }
+        )}
       </PapillonHeader>
       {!supported || !enabled ?
         <View
