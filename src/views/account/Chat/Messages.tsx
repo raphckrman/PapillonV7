@@ -148,7 +148,7 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
             />
           }
         </View>
-        :
+      ) : (
         <ScrollView
           contentContainerStyle={{
             padding: 20,
