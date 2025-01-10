@@ -55,8 +55,6 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
   const [chats, setChats] = useState<Chat[] | null>(null);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
-  const getChatCreator = (chat: Chat) => chat.creator === account.name ? chat.recipient : chat.creator;
-
   const supported = account.service === AccountService.Pronote;
 
   const enabled = supported && account.instance?.user.resources[0].tabs.get(TabLocation.Discussions);
@@ -84,15 +82,24 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
       return;
     }
 
-    const chats = await getChats(account);
+    try {
+      const chats = await getChats(account);
+      setChats(chats);
+    } catch (e) {
+      console.error("Erreur lors du chargement des discussions :", e);
+    }
 
-    setChats(chats);
-  }, [account?.instance, enabled, supported]);
+  }, [enabled, supported]);
+
+  const getChatCreator = useCallback(
+    (chat: Chat) => (chat.creator === account.name ? chat.recipient : chat.creator),
+    [account.name]
+  );
 
   return (
     <>
       <PapillonHeader route={route} navigation={navigation}>
-        {supported || enabled &&
+        {(supported && enabled) &&
           <TouchableOpacity style={{
             flex: 1,
             flexDirection: "row",
