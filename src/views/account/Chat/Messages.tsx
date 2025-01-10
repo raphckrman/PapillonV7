@@ -127,7 +127,7 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
             padding: 20,
           }}
         >
-          {!supported &&
+          {!supported ? (
             <MissingItem
               emoji="🚧"
               title="Fonctionnalité en construction"
@@ -136,8 +136,7 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
               exiting={animPapillon(FadeOut)}
               style={{ paddingVertical: 26 }}
             />
-          }
-          {!enabled &&
+          ) : !enabled && (
             <MissingItem
               emoji="💬"
               title="Discussions désactivées"
@@ -146,7 +145,7 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
               exiting={animPapillon(FadeOut)}
               style={{ paddingVertical: 26 }}
             />
-          }
+          )}
         </View>
       ) : (
         <ScrollView
