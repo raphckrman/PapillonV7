@@ -55,7 +55,7 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = () => {
       return;
     }
 
-    if (await requestNotificationPermission()) return;
+    await requestNotificationPermission();
 
     await mutateProperty("personalization", { notifications: { ...notifications, enabled: newValue } });
     setEnabled(newValue);
