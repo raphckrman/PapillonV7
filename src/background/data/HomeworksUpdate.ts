@@ -31,7 +31,7 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
 
   if (
     notificationsTypesPermissions?.enabled &&
-    notificationsTypesPermissions?.homeworks
+    notificationsTypesPermissions?.homeworksUpdate
   ) {
     switch (differences.length) {
       case 0:
