@@ -1,5 +1,5 @@
 import type { Screen } from "@/router/helpers/types";
-import { ActivityIndicator, Alert, Platform, ScrollView, Share, ShareContent, TouchableOpacity } from "react-native";
+import { ActivityIndicator, Alert, Platform, ScrollView, TouchableOpacity } from "react-native";
 import {
   NativeIcon,
   NativeItem,
@@ -8,20 +8,19 @@ import {
   NativeText,
 } from "@/components/Global/NativeComponents";
 import React, { useEffect, useState } from "react";
-import { get_brute_logs, get_logs, Log, delete_logs } from "@/utils/logger/logger";
+import { get_logs, Log, delete_logs } from "@/utils/logger/logger";
 import {
   CircleAlert,
   CircleX,
   Code,
   Delete,
-  ShareIcon,
   Trash2,
   TriangleAlert,
   X,
 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PressableScale } from "react-native-pressable-scale";
-import { FadeInDown, FadeInUp, FadeOut, FadeOutDown, FadeOutUp } from "react-native-reanimated";
+import { FadeInDown, FadeOutUp } from "react-native-reanimated";
 import { animPapillon } from "@/utils/ui/animations";
 import { useTheme } from "@react-navigation/native";
 import { useAlert } from "@/providers/AlertProvider";
@@ -146,7 +145,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
               Obtention des logs...
             </NativeText>
             <NativeText variant="subtitle">
-              Cela peut prendre plusieurs secondes, patiente un peu.
+              Cela peut prendre plusieurs secondes, patiente s'il te plaît.
             </NativeText>
           </NativeItem>
         </NativeList>
