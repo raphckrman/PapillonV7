@@ -1,8 +1,5 @@
 import type pronote from "pawnote";
-import type {
-  Account as PawdirecteAccount,
-  Session as PawdirecteSession
-} from "pawdirecte";
+import type { Account as PawdirecteAccount, Session as PawdirecteSession } from "pawdirecte";
 import type { Client as ARDClient } from "pawrd";
 import { Client as TurboselfClient } from "turboself-api";
 import { Client as AliseClient, BookingDay } from "alise-api";
