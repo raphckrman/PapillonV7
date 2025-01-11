@@ -198,7 +198,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ navigation, refresh, endRef
               </TouchableOpacity>
             </View>
             <NativeText variant="subtitle">
-              Cliquez ici pour voir tous les changements et les dernières nouveautés.
+              Clique ici pour voir tous les changements et les dernières nouveautés.
             </NativeText>
           </TouchableOpacity>
         </NativeList>
@@ -218,7 +218,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ navigation, refresh, endRef
           {errorTitle.label} {errorTitle.emoji}
         </NativeText>
         <NativeText variant="subtitle">
-          Vous êtes hors ligne. Les données affichées peuvent être obsolètes.
+          Tu es hors ligne. Les données affichées peuvent être obsolètes.
         </NativeText>
       </NativeItem>
     </NativeList>
