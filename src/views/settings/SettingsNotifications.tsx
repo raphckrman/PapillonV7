@@ -86,12 +86,12 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
 
   // Schoolary notifications
   const notificationSchoolary = [
-    // {
-    //   icon: <NativeIcon icon={<CalendarCheck />} color={colors.primary} />,
-    //   title: "Modification de cours",
-    //   message: "Cours de mathématiques annulé dans 10 minutes",
-    //   personalizationValue: "timeTable",
-    // },
+    {
+      icon: <NativeIcon icon={<CalendarCheck />} color={colors.primary} />,
+      title: "Modification de cours",
+      message: "Le cours de mathématiques (10h-11h) a été annulé",
+      personalizationValue: "timetable",
+    },
     {
       icon: <NativeIcon icon={<BookCheck />} color={colors.primary} />,
       title: "Nouveau devoir",

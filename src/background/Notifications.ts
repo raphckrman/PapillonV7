@@ -52,11 +52,19 @@ const createChannelNotification = async () => {
     description: "Te notifie lorsque tu as de nouvelles notes",
     sound: "default",
   });
+
+  await notifee.createChannel({
+    id: "Lessons",
+    groupId: "Papillon",
+    name: "Emploi du temps",
+    description: "Te notifie lorsque ton emploi du temps du jour est modifié",
+    sound: "default",
+  });
 };
 
 const papillonNotify = async (
   props: Notification,
-  channelId: "News" | "Homeworks" | "Grades"
+  channelId: "News" | "Homeworks" | "Grades" | "Lessons"
 ) => {
   // Add timestamp for Android
   const timestamp = new Date().getTime();

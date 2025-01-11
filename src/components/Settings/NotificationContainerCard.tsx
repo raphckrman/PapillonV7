@@ -122,7 +122,7 @@ const NotificationContainerCard = ({
                 <Reanimated.Text
                   numberOfLines={2}
                   style={[styles.message, textAnimatedStyle]}>
-                  Tu as cours en salle B03 avec M. Perruche dans 5 minutes.
+                  Le cours de géographie (16h-17h) a un changement de salle ! Tu dois aller en salle B106
                 </Reanimated.Text>
               </View>
             </View>

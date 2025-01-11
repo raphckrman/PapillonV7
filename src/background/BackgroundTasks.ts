@@ -8,6 +8,7 @@ import { log } from "@/utils/logger/logger";
 import { getAccounts, getSwitchToFunction } from "./utils/accounts";
 import { fetchHomeworks } from "./data/HomeworksUpdate";
 import { fetchGrade } from "./data/Grades";
+import { fetchLessons } from "./data/Lessons";
 
 /**
  * Background fetch function that fetches all the data
@@ -26,6 +27,7 @@ const backgroundFetch = async () => {
       fetchNews(),
       fetchHomeworks(),
       fetchGrade(),
+      fetchLessons(),
     ]);
   }
 
