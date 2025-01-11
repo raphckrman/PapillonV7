@@ -6,12 +6,12 @@ import {
 } from "@/components/Global/NativeComponents";
 import { getSubjectData } from "@/services/shared/Subject";
 import { getCourseSpeciality } from "@/utils/format/format_cours_name";
-import {AverageDiffGrade, getAverageDiffGrade} from "@/utils/grades/getAverages";
+import { AverageDiffGrade, getAverageDiffGrade } from "@/utils/grades/getAverages";
 import { useTheme } from "@react-navigation/native";
 import { User, UserMinus, UserPlus, Users } from "lucide-react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { View, ScrollView } from "react-native";
-import {Screen} from "@/router/helpers/types";
+import { Screen } from "@/router/helpers/types";
 
 
 const GradeSubjectScreen: Screen<"GradeSubject"> = ({ route, navigation }) => {
@@ -42,12 +42,16 @@ const GradeSubjectScreen: Screen<"GradeSubject"> = ({ route, navigation }) => {
     {
       icon: <Users />,
       label: "Moy. de classe",
-      value: parseFloat((subject.average?.classAverage?.value || -1).toString()).toFixed(2),
+      value: parseFloat((subject.average?.classAverage?.value || -1).toString()).toFixed(2) !== "-1.00"
+        ? parseFloat((subject.average?.classAverage?.value || -1).toString()).toFixed(2)
+        : "??",
     },
     {
       icon: <UserPlus />,
       label: "Moy. la plus haute",
-      value: parseFloat((subject.average?.max?.value || -1).toString()).toFixed(2),
+      value: parseFloat((subject.average?.max?.value || -1).toString()).toFixed(2) !== "-1.00"
+        ? parseFloat((subject.average?.max?.value || -1).toString()).toFixed(2)
+        : "??",
     },
     {
       icon: <UserMinus />,
