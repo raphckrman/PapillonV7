@@ -26,7 +26,6 @@ import { useAccounts, useCurrentAccount } from "@/stores/account";
 import { Audio } from "expo-av";
 import { authTokenToSkolengoTokenSet } from "@/services/skolengo/skolengo-types";
 import { getSkolengoAccount } from "@/services/skolengo/skolengo-account";
-import { log } from "@/utils/logger/logger";
 import { wait } from "@/services/skolengo/data/utils";
 import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 
