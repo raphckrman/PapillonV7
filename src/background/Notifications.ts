@@ -1,4 +1,4 @@
-import { expoGoWrapper } from "@/utils/native/expoGoAlert";
+import { isExpoGo } from "@/utils/native/expoGoAlert";
 import notifee, {
   AuthorizationStatus,
   Notification,
@@ -6,6 +6,8 @@ import notifee, {
 import { Platform } from "react-native";
 
 const requestNotificationPermission = async () => {
+  if (isExpoGo()) return false;
+
   const settings = await notifee.requestPermission();
   if (Platform.OS === "ios") {
     if (settings.authorizationStatus >= AuthorizationStatus.AUTHORIZED) {
@@ -56,24 +58,19 @@ const papillonNotify = async (
   props: Notification,
   channelId: "News" | "Homeworks" | "Grades"
 ) => {
-  return expoGoWrapper(async () => {
-    const statut = await requestNotificationPermission();
-    if (statut) {
-      // Add timestamp for Android
-      const timestamp = new Date().getTime();
+  // Add timestamp for Android
+  const timestamp = new Date().getTime();
 
-      // Display a notification
-      await notifee.displayNotification({
-        ...props,
-        android: {
-          channelId,
-          timestamp,
-          showTimestamp: true,
-          smallIcon: "@mipmap/ic_launcher_foreground",
-          color: "#32AB8E",
-        },
-      });
-    }
+  // Display a notification
+  await notifee.displayNotification({
+    ...props,
+    android: {
+      channelId,
+      timestamp,
+      showTimestamp: true,
+      smallIcon: "@mipmap/ic_launcher_foreground",
+      color: "#32AB8E",
+    },
   });
 };
 
