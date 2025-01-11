@@ -1,15 +1,20 @@
 name: Checks (TypeScript + ESLint)
 
 on:
+  push:
+    branches:
+      - main
+      - development
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+      - development
 
 jobs:
-  lint:
-    permissions: write-all
-    name: 🛠️ TypeScript and ESLint
+  lint-main:
+    name: 🛠️ TypeScript and ESLint on Main
     runs-on: ubuntu-latest
-
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v3
@@ -24,15 +29,57 @@ jobs:
         run: npm ci
 
       - name: 🔍 Run TypeScript and ESLint checks
-        id: lint
         run: |
           tsc > tsc.log 2>&1 || true
           eslint . > eslint.log 2>&1 || true
           cat tsc.log eslint.log > lint.log
         continue-on-error: true
 
-      - name: 👁️‍🗨️ Comment on Pull Request
-        if: steps.lint.outcome == 'failure'
+      - name: 📄 Output Logs
+        run: cat lint.log
+
+      - name: 🛠️ Commit and Push Fixes (Main)
+        if: success() || failure()
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          if git diff --quiet; then
+            echo "No changes to commit."
+          else
+            git add .
+            git commit -m "🔧 Auto-fix ESLint issues"
+            git push
+          fi
+
+  lint-development:
+    name: 🛠️ TypeScript and ESLint on Development
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/development'
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: 💾 Install dependencies
+        run: npm ci
+
+      - name: 🔍 Run TypeScript and ESLint checks
+        run: |
+          tsc > tsc.log 2>&1 || true
+          eslint . > eslint.log 2>&1 || true
+          cat tsc.log eslint.log > lint.log
+        continue-on-error: true
+
+      - name: 📄 Output Logs
+        run: cat lint.log
+
+      - name: 👁️‍🗨️ Comment on Pull Request (Development)
+        if: github.event_name == 'pull_request' && failure()
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -43,9 +90,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `⚠️ Erreur(s) détectée(s) par TypeScript/ESLint !\n\`\`\`\n${lintLogContent}\n\`\`\``
+              body: `⚠️ Erreur(s) détectée(s) sur la branche development !\n\`\`\`\n${lintLogContent}\n\`\`\``
             });
-
-      - name: 🧹 Clean up
-        if: always()
-        run: rm -f lint.log tsc.log eslint.log
