@@ -42,11 +42,19 @@ const createChannelNotification = async () => {
     description: "Te notifie lorsque tu as de nouveaux devoirs",
     sound: "default",
   });
+
+  await notifee.createChannel({
+    id: "Grades",
+    groupId: "Papillon",
+    name: "Notes",
+    description: "Te notifie lorsque tu as de nouvelles notes",
+    sound: "default",
+  });
 };
 
 const papillonNotify = async (
   props: Notification,
-  channelId: "News" | "Homeworks"
+  channelId: "News" | "Homeworks" | "Grades"
 ) => {
   return expoGoWrapper(async () => {
     const statut = await requestNotificationPermission();

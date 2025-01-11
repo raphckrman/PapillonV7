@@ -104,12 +104,12 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
     //   message: "N’oublie pas de terminer ton devoir de français pour demain",
     //   personalizationValue: "homework",
     // },
-    // {
-    //   icon: <NativeIcon icon={<TrendingUp />} color={colors.primary} />,
-    //   title: "Nouvelle note",
-    //   message: "Nouvelle note disponible : 18/20 en histoire",
-    //   personalizationValue: "grades",
-    // },
+    {
+      icon: <NativeIcon icon={<TrendingUp />} color={colors.primary} />,
+      title: "Nouvelle note",
+      message: "Nouvelle note publiée en histoire",
+      personalizationValue: "grades",
+    },
     {
       icon: <NativeIcon icon={<Newspaper />} color={colors.primary} />,
       title: "Nouvelle actualité",
