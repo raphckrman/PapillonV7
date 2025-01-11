@@ -52,7 +52,7 @@ export const dateToEpochWeekNumber = (date: Date): number => {
   const commonDay = dayToWeekCommonDay(date);
   const epochWeekNumber = Math.floor((commonDay.getTime() + EPOCH_WN_CONFIG.adjustEpochInitialDate  - ( (EPOCH_WN_CONFIG.setMiddleDay - 1) /7 ) * EPOCH_WN_CONFIG.numberOfMsInAWeek) / EPOCH_WN_CONFIG.numberOfMsInAWeek);
   // this is the opposite of the weekNumberToMiddleDate function
-  return epochWeekNumber;
+  return epochWeekNumber + 1;
 };
 
 /**
