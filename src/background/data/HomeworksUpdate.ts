@@ -43,7 +43,10 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
             title: `[${account.name}] Nouveau devoir`,
             subtitle: differences[0].subject,
             body: differences[0].content
-              ? parse_homeworks_resume(differences[0].content)
+              ? `${parse_homeworks_resume(differences[0].content).slice(
+                0,
+                100
+              )}...`
               : "Aucun résumé disponible.",
             ios: {
               categoryId: account.name,
