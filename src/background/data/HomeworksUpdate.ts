@@ -37,27 +37,33 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
       case 0:
         break;
       case 1:
-        papillonNotify({
-          id: `${account.name}-homeworks`,
-          title: `[${account.name}] Nouveau devoir`,
-          subtitle: differences[0].subject,
-          body: differences[0].content
-            ? parse_homeworks_resume(differences[0].content)
-            : "Aucun résumé disponible.",
-          ios: {
-            categoryId: account.name,
+        papillonNotify(
+          {
+            id: `${account.name}-homeworks`,
+            title: `[${account.name}] Nouveau devoir`,
+            subtitle: differences[0].subject,
+            body: differences[0].content
+              ? parse_homeworks_resume(differences[0].content)
+              : "Aucun résumé disponible.",
+            ios: {
+              categoryId: account.name,
+            },
           },
-        });
+          "Homeworks"
+        );
         break;
       default:
-        papillonNotify({
-          id: `${account.name}-homeworks`,
-          title: `[${account.name}] Nouveaux devoirs`,
-          body: `Tu as ${differences.length} nouveaux devoirs.`,
-          ios: {
-            categoryId: account.name,
+        papillonNotify(
+          {
+            id: `${account.name}-homeworks`,
+            title: `[${account.name}] Nouveaux devoirs`,
+            body: `Tu as ${differences.length} nouveaux devoirs.`,
+            ios: {
+              categoryId: account.name,
+            },
           },
-        });
+          "Homeworks"
+        );
         break;
     }
   }

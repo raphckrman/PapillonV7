@@ -36,32 +36,41 @@ const fetchNews = async (): Promise<Information[]> => {
       case 0:
         break;
       case 1:
-        papillonNotify({
-          id: `${account.name}-news`,
-          title: `[${account.name}] Nouvelle actualité`,
-          subtitle: differences[0].title,
-          body:
-            differences[0].content && !differences[0].content.includes("<img")
-              ? `${parse_news_resume(differences[0].content).slice(0, 100)}...`
-              : "Aucun résumé disponible.",
-          ios: {
-            categoryId: account.name,
+        papillonNotify(
+          {
+            id: `${account.name}-news`,
+            title: `[${account.name}] Nouvelle actualité`,
+            subtitle: differences[0].title,
+            body:
+              differences[0].content && !differences[0].content.includes("<img")
+                ? `${parse_news_resume(differences[0].content).slice(
+                  0,
+                  100
+                )}...`
+                : "Aucun résumé disponible.",
+            ios: {
+              categoryId: account.name,
+            },
           },
-        });
+          "News"
+        );
         break;
       default:
-        papillonNotify({
-          id: `${account.name}-news`,
-          title: `[${account.name}] Nouvelles actualités`,
-          body: differences
-            .flatMap((element) => {
-              return `- ${element.title ?? "Sans titre"}`;
-            })
-            .join("<br />"),
-          ios: {
-            categoryId: account.name,
+        papillonNotify(
+          {
+            id: `${account.name}-news`,
+            title: `[${account.name}] Nouvelles actualités`,
+            body: differences
+              .flatMap((element) => {
+                return `- ${element.title ?? "Sans titre"}`;
+              })
+              .join("<br />"),
+            ios: {
+              categoryId: account.name,
+            },
           },
-        });
+          "News"
+        );
         break;
     }
   }
