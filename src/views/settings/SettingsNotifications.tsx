@@ -17,11 +17,13 @@ import {
   NativeText
 } from "@/components/Global/NativeComponents";
 import NotificationContainerCard from "@/components/Settings/NotificationContainerCard";
-import { requestNotificationPermission } from "@/background/Notifications";
+import { createChannelNotification, requestNotificationPermission } from "@/background/Notifications";
 import { alertExpoGo, isExpoGo } from "@/utils/native/expoGoAlert";
 import { useCurrentAccount } from "@/stores/account";
 
-const SettingsNotifications: Screen<"SettingsNotifications"> = () => {
+const SettingsNotifications: Screen<"SettingsNotifications"> = ({
+  navigation
+}) => {
   const theme = useTheme();
   const { colors } = theme;
 
@@ -31,7 +33,31 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = () => {
   const notifications = account.personalization.notifications;
 
   // Global state
-  const [enabled, setEnabled] = useState(notifications?.enabled || false);
+  const [enabled, setEnabled] = useState<boolean | null>(
+    notifications?.enabled || false
+  );
+  useEffect(() => {
+    const test = async () => {
+      const statut = await requestNotificationPermission();
+      if (!statut) {
+        setEnabled(null);
+        setTimeout(() => {
+          mutateProperty("personalization", {
+            notifications: { ...notifications, enabled: false }
+          });
+        }, 1500);
+      } else if (enabled !== null) {
+        if (enabled) createChannelNotification();
+        setTimeout(() => {
+          mutateProperty("personalization", {
+            notifications: { ...notifications, enabled }
+          });
+        }, 1500);
+      }
+    };
+
+    test();
+  }, [enabled]);
 
   // Animation states
   const opacity = useSharedValue(0);
@@ -55,11 +81,6 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = () => {
       return;
     }
 
-    if (newValue) await requestNotificationPermission();
-
-    mutateProperty("personalization", {
-      notifications: { ...notifications, enabled: newValue }
-    });
     setEnabled(newValue);
   };
 
@@ -108,9 +129,10 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = () => {
         theme={theme}
         isEnable={enabled}
         setEnabled={askEnabled}
+        navigation={navigation}
       />
 
-      {notifications?.enabled && (
+      {enabled && (
         <>
           <NativeListHeader label={"Notifications scolaires"} />
           <NativeList>
