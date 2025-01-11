@@ -20,11 +20,11 @@ import * as StoreReview from "expo-store-review";
 import HomeworkItem from "./Atoms/Item";
 import { PressableScale } from "react-native-pressable-scale";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Book, CheckSquare, ChevronLeft, ChevronRight, CircleDashed, CircleDotDashed, Search, X } from "lucide-react-native";
+import { Book, CheckSquare, ChevronLeft, ChevronRight, CircleDashed, Search, X } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BlurView } from "expo-blur";
 
-import Reanimated, { Easing, FadeIn, FadeInLeft, FadeInUp, FadeOut, FadeOutDown, FadeOutLeft, FadeOutRight, FadeOutUp, LinearTransition, ZoomIn, ZoomOut } from "react-native-reanimated";
+import Reanimated, { Easing, FadeIn, FadeInLeft, FadeInUp, FadeOut, FadeOutDown, FadeOutLeft, LinearTransition, ZoomIn, ZoomOut } from "react-native-reanimated";
 import { animPapillon } from "@/utils/ui/animations";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
 import AnimatedNumber from "@/components/Global/AnimatedNumber";
@@ -292,7 +292,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
               <MissingItem
                 emoji="🔍"
                 title="Aucun résultat"
-                description="Aucun devoir ne correspond à votre recherche."
+                description="Aucun devoir ne correspond à ta recherche."
               />
               :
               hideDone ?
