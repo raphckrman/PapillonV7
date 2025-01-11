@@ -7,6 +7,7 @@ import { fetchNews } from "./data/News";
 import { log } from "@/utils/logger/logger";
 import { getAccounts, getSwitchToFunction } from "./utils/accounts";
 import { fetchHomeworks } from "./data/HomeworksUpdate";
+import { fetchGrade } from "./data/Grades";
 
 /**
  * Background fetch function that fetches all the data
@@ -24,6 +25,7 @@ const backgroundFetch = async () => {
     await Promise.all([
       fetchNews(),
       fetchHomeworks(),
+      fetchGrade(),
     ]);
   }
 
