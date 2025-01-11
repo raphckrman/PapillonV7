@@ -15,7 +15,7 @@ interface AnimatedNumberProps {
    * d'animer chaque chiffre et d'avoir un
    * flottant fixé, par exemple.
    */
-  value: string | any;
+  value: string | number;
 
   /**
    * Style du texte du nombre.
