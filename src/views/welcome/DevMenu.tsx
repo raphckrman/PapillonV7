@@ -117,7 +117,7 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
               })}
             >
               <NativeText>
-              GradeReaction
+                GradeReaction
               </NativeText>
             </NativeItem>
 

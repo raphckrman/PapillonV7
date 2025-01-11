@@ -11,7 +11,6 @@ import { WebView } from "react-native-webview";
 import type { Screen } from "@/router/helpers/types";
 import { FadeInDown, FadeOutUp } from "react-native-reanimated";
 import { animPapillon } from "@/utils/ui/animations";
-import { da } from "date-fns/locale";
 
 const capitalizeFirst = (str: string) => {
   str = str.toLowerCase();
