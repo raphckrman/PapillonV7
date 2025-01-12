@@ -131,7 +131,7 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
             <MissingItem
               emoji="🚧"
               title="Fonctionnalité en construction"
-              description="Cette page est en cours de développement, revenez plus tard."
+              description="Cette page est en cours de développement, reviens plus tard."
               entering={animPapillon(FadeInDown)}
               exiting={animPapillon(FadeOut)}
               style={{ paddingVertical: 26 }}
