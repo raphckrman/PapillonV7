@@ -89,7 +89,7 @@ const Grades: Screen<"Grades"> = ({ route, navigation }) => {
       setIsLoading(true);
       await updateData();
 
-      if(isRefreshing && account.identityProvider?.identifier !== undefined) {
+      if(isRefreshing && account.identityProvider?.identifier) {
         navigation.navigate("BackgroundIdentityProvider");
       }
 
