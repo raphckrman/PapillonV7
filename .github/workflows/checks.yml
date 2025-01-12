@@ -2,19 +2,15 @@ name: Checks (TypeScript + ESLint)
 
 on:
   push:
-    branches:
-      - main
-      - development
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
-      - development
+    branches: [ "main" ]
 
 jobs:
   lint-main:
     name: 🛠️ TypeScript and ESLint on Main
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/remotes/origin/main'
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v3
@@ -52,9 +48,9 @@ jobs:
           fi
 
   lint-development:
-    name: 🛠️ TypeScript and ESLint on Development
+    name: 🛠️ TypeScript and ESLint on Pull Request
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/development'
+    if: github.ref != 'refs/remotes/origin/main'
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v3
