@@ -124,18 +124,18 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
           value: "x" + grade.coefficient.toFixed(2),
         },
         grade.outOf.value !== 20 &&
-					!grade.student.disabled && {
+          !grade.student.disabled && {
           icon: <Calculator />,
           title: "Remis sur /20",
           description: "Valeur recalculée sur 20",
           value:
-							typeof grade.student.value === "number" &&
-							typeof grade.outOf.value === "number"
-							  ? ((grade.student.value / grade.outOf.value) * 20).toFixed(2)
-							  : "??",
+              typeof grade.student.value === "number" &&
+              typeof grade.outOf.value === "number"
+                ? ((grade.student.value / grade.outOf.value) * 20).toFixed(2)
+                : "??",
           bareme: "/20",
         },
-      ],
+      ].filter(Boolean),
     },
     {
       title: "Ma classe",
@@ -159,13 +159,13 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
           title: "Note minimale",
           description: "Moins bonne note de la classe",
           value:
-						grade.min.value?.toFixed(2) &&
-						grade.min.value.toFixed(2) !== "-1.00"
-						  ? grade.min.value?.toFixed(2)
-						  : "??",
+            grade.min.value?.toFixed(2) &&
+            grade.min.value.toFixed(2) !== "-1.00"
+              ? grade.min.value?.toFixed(2)
+              : "??",
           bareme: "/" + grade.outOf.value,
         },
-      ],
+      ].filter(Boolean),
     },
     {
       title: "Influence",
@@ -175,42 +175,42 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
           title: "Moyenne générale",
           description: "Impact estimé sur la moyenne générale",
           value:
-						gradeDiff.difference === undefined
-						  ? "???"
-						  : (gradeDiff.difference > 0
-						    ? "- "
-						    : gradeDiff.difference === 0
-						      ? "+/- "
-						      : "+ ") +
-							  gradeDiff.difference.toFixed(2).replace("-", "") +
-							  " pts",
+            gradeDiff.difference === undefined
+              ? "???"
+              : (gradeDiff.difference > 0
+                ? "- "
+                : gradeDiff.difference === 0
+                  ? "+/- "
+                  : "+ ") +
+                gradeDiff.difference.toFixed(2).replace("-", "") +
+                " pts",
           color:
-						gradeDiff.difference === undefined
-						  ? void 0
-						  : gradeDiff.difference < 0
-						    ? "#4CAF50"
-						    : gradeDiff.difference === 0
-						      ? theme.colors.text
-						      : "#F44336",
+            gradeDiff.difference === undefined
+              ? void 0
+              : gradeDiff.difference < 0
+                ? "#4CAF50"
+                : gradeDiff.difference === 0
+                  ? theme.colors.text
+                  : "#F44336",
         },
         !grade.average.disabled && {
           icon: <School />,
           title: "Moyenne de la classe",
           description: "Impact de la note sur la moyenne de la classe",
           value:
-						classDiff.difference === undefined
-						  ? "???"
-						  : (classDiff.difference > 0
-						    ? "- "
-						    : gradeDiff.difference === 0
-						      ? "+/- "
-						      : "+ ") +
-							  classDiff.difference.toFixed(2).replace("-", "") +
-							  " pts",
+            classDiff.difference === undefined
+              ? "???"
+              : (classDiff.difference > 0
+                ? "- "
+                : gradeDiff.difference === 0
+                  ? "+/- "
+                  : "+ ") +
+                classDiff.difference.toFixed(2).replace("-", "") +
+                " pts",
         },
-      ],
+      ].filter(Boolean),
     },
-  ];
+  ].filter(list => list.items.length > 0);
 
   return (
     <View
