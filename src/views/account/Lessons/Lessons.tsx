@@ -32,7 +32,6 @@ import {
 import PapillonPicker from "@/components/Global/PapillonPicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { WeekFrequency } from "@/services/shared/Timetable";
-import { frequency } from "pawnote";
 
 const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const account = useCurrentAccount((store) => store.account!);
