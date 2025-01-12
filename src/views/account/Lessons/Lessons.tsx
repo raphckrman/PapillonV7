@@ -36,6 +36,8 @@ import { frequency } from "pawnote";
 
 const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const account = useCurrentAccount((store) => store.account!);
+  const mutateProperty = useCurrentAccount((store) => store.mutateProperty);
+
   const timetables = useTimetableStore((store) => store.timetables);
 
   const outsideNav = route.params?.outsideNav;
@@ -45,7 +47,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const loadedWeeks = useRef<Set<number>>(new Set());
   const currentlyLoadingWeeks = useRef<Set<number>>(new Set());
 
-  const [shouldShowWeekFrequency, setShouldShowWeekFrequency] = useState(true);
+  const [shouldShowWeekFrequency, setShouldShowWeekFrequency] = useState(account.personalization.showWeekFrequency);
   const [weekFrequency, setWeekFrequency] = useState<WeekFrequency | null>(null);
 
   useEffect(() => {
@@ -74,6 +76,15 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
       setWeekFrequency((await getWeekFrequency(account, weekNumber)));
     })();
   }, [pickerDate, account.instance]);
+
+  useEffect(() => {
+    void (async () => {
+      mutateProperty("personalization", {
+        ...account.personalization,
+        showWeekFrequency: shouldShowWeekFrequency
+      });
+    })();
+  }, [shouldShowWeekFrequency]);
 
   useEffect(() => {
     loadTimetableWeek(getWeekFromDate(new Date()), true);
