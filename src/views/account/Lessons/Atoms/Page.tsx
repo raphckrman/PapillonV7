@@ -1,7 +1,6 @@
-import { NativeText } from "@/components/Global/NativeComponents";
 import { useTheme } from "@react-navigation/native";
-import React, { useCallback, useMemo, useState } from "react";
-import { ActivityIndicator, Image, Platform, RefreshControl as RNRefreshControl, ScrollView, Text, View } from "react-native";
+import React from "react";
+import { Image, Platform, RefreshControl as RNRefreshControl, ScrollView, Text, View } from "react-native";
 import { TimetableItem } from "./Item";
 import { createNativeWrapper } from "react-native-gesture-handler";
 
@@ -11,12 +10,14 @@ import Reanimated, {
   FadeOutUp
 } from "react-native-reanimated";
 
-import { Activity, Sofa, Utensils } from "lucide-react-native";
-import LessonsNoCourseItem from "./NoCourse";
-import { Timetable, TimetableClass } from "@/services/shared/Timetable";
+import { Sofa, Utensils } from "lucide-react-native";
+import { TimetableClass } from "@/services/shared/Timetable";
 import { animPapillon } from "@/utils/ui/animations";
 import LessonsLoading from "./Loading";
 import MissingItem from "@/components/Global/MissingItem";
+import { getHolidayEmoji } from "@/utils/format/holidayEmoji";
+
+const emoji = getHolidayEmoji();
 
 const RefreshControl = createNativeWrapper(RNRefreshControl, {
   disallowInterruption: true,
@@ -104,7 +105,7 @@ export const Page = ({ day, date, current, paddingTop, refreshAction, loading, w
           <MissingItem
             emoji="🌴"
             title="C'est le week-end !"
-            description="Profitez de votre week-end, il n'y a pas de cours aujourd'hui."
+            description="Profite de ton week-end, il n'y a pas de cours aujourd'hui."
             entering={animPapillon(FadeInDown)}
             exiting={animPapillon(FadeOut)}
           />
@@ -120,9 +121,9 @@ export const Page = ({ day, date, current, paddingTop, refreshAction, loading, w
       )}
 
       {day.length === 1 && current && !loading && (day[0].type === "vacation" ? <MissingItem
-        emoji="🏝️"
+        emoji={emoji}
         title="C'est les vacances !"
-        description="Profitez de vos vacances, à bientôt."
+        description="Profite de tes vacances, à bientôt."
         entering={animPapillon(FadeInDown)}
         exiting={animPapillon(FadeOut)}
       />: <></>

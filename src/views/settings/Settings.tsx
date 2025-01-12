@@ -28,7 +28,9 @@ import {
   Route,
   Scroll,
   Settings as SettingsLucide,
-  Sparkles, SunMoon,
+  Sparkles,
+  SunMoon,
+  Smile,
   SwatchBook,
   WandSparkles,
   X
@@ -114,6 +116,12 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           color: "#D79400",
           label: "Services externes",
           onPress: () => navigation.navigate("SettingsExternalServices"),
+        },
+        {
+          icon: <Smile />,
+          color: "#136B00",
+          label: "Réactions",
+          onPress: () => navigation.navigate("SettingsReactions"),
         },
       ],
     },
@@ -224,7 +232,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           label: "Se déconnecter",
           onPress: () => {
             if (Platform.OS === "ios") {
-              Alert.alert("Se déconnecter", "Êtes-vous sûr de vouloir vous déconnecter ?", [
+              Alert.alert("Se déconnecter", "Es-tu sûr de vouloir te déconnecter ?", [
                 {
                   text: "Annuler",
                   style: "cancel",
@@ -244,7 +252,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
             } else {
               showAlert({
                 title: "Se déconnecter",
-                message: "Êtes-vous sûr de vouloir vous déconnecter ?",
+                message: "Es-tu sûr de vouloir te déconnecter ?",
                 actions: [
                   {
                     title: "Annuler",
