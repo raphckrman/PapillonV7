@@ -75,7 +75,7 @@ jobs:
         run: cat lint.log
 
       - name: 👁️‍🗨️ Comment on Pull Request (Development)
-        if: github.event_name == 'pull_request' && failure()
+        if: steps.lint.outcome == 'failure'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -86,5 +86,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `⚠️ Erreur(s) détectée(s) sur la branche development !\n\`\`\`\n${lintLogContent}\n\`\`\``
+              body: `⚠️ Erreur(s) détectée(s) par TypeScript/ESLint !\n\`\`\`\n${lintLogContent}\n\`\`\``
             });
