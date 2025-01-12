@@ -66,8 +66,8 @@ jobs:
 
       - name: 🔍 Run TypeScript and ESLint checks
         run: |
-          tsc > tsc.log 2>&1 || true
-          eslint . > eslint.log 2>&1 || true
+          npx tsc > tsc.log 2>&1 || true
+          npx eslint . > eslint.log 2>&1 || true
           cat tsc.log eslint.log > lint.log
         continue-on-error: true
 
