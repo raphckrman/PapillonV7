@@ -193,7 +193,7 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
               <HTMLView value={`<body>${parse_homeworks(homework.content).replace("\n", "")}</body>`} stylesheet={stylesText} />
               {contentLines.length > 5 && (
                 <LinearGradient
-                  colors={["transparent", theme.colors.background + "80"]}
+                  colors={[theme.colors.background + "00", theme.colors.background + "80"]}
                   style={{
                     position: "absolute",
                     top: 0,
