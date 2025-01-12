@@ -133,6 +133,8 @@ export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
       });
       associatedAccount.instance = instance;
       associatedAccount.authentication = authentication;
+      // Persist authentification value (f.e if token was renewed, it's important to make it persistant)
+      useAccounts.getState().update(associatedAccount.localID, "authentication", authentication);
       log("reloaded associated account", "[switchTo]");
     }
 
