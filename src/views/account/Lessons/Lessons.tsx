@@ -379,14 +379,14 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
                 navigation.navigate("LessonsImportIcal", {});
               }
             },
-            weekFrequency && {
+            ...(weekFrequency != null) ? [{
               icon: <Eye />,
               label: "Afficher type sem.",
               onPress: () => {
                 setShouldShowWeekFrequency(!shouldShowWeekFrequency);
               },
               checked: shouldShowWeekFrequency,
-            }
+            }] : []
           ]}
         >
           <PapillonHeaderAction
