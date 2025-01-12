@@ -37,7 +37,9 @@ const GradeSubjectScreen: Screen<"GradeSubject"> = ({ route, navigation }) => {
     {
       icon: <User />,
       label: "Ta moyenne",
-      value: parseFloat((subject.average?.average?.value || -1).toString()).toFixed(2),
+      value: parseFloat((subject.average?.average?.value || -1).toString()).toFixed(2) !== "-1.00"
+        ? parseFloat((subject.average?.average?.value || -1).toString()).toFixed(2)
+        : "N.Not",
     },
     {
       icon: <Users />,
