@@ -208,9 +208,7 @@ const getAveragesHistory = (
     });
 
     // remove NaN values
-    return history.filter((x) => !isNaN(x.value));
-
-    return history; // Retourner l'historique généré
+    return history.filter((x) => !isNaN(x.value) || x.value < 0);
   }
   catch(e) {
     return [];
