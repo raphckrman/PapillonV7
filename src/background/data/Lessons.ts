@@ -70,7 +70,7 @@ const fetchLessons = async (): Promise<Timetable> => {
             statut =
               "est un cours modifié, consulte l'emploi du temps pour plus de détails";
           default:
-            if (lessonsEvent[0].statusText === "Changement de Salle") {
+            if (lessonsEvent[0].statusText === "Changement de salle") {
               statut = "a un changement de salle ! ";
               if (lessonsEvent[0].room) {
                 if (lessonsEvent[0].room.includes(",")) {
