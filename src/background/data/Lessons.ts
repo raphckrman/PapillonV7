@@ -6,17 +6,15 @@ import { Timetable, TimetableClassStatus } from "@/services/shared/Timetable";
 
 const getAllLessonsForDay = (lessons: Record<number, Timetable>) => {
   const date = new Date();
+  date.setHours(0, 0, 0, 0);
   const week = dateToEpochWeekNumber(date);
   const timetable = lessons[week] || [];
-
-  const newDate = new Date(date);
-  newDate.setHours(0, 0, 0, 0);
 
   const day = timetable.filter((lesson) => {
     const lessonDate = new Date(lesson.startTimestamp);
     lessonDate.setHours(0, 0, 0, 0);
 
-    return lessonDate.getTime() === newDate.getTime();
+    return lessonDate.getTime() === date.getTime();
   });
 
   return day;
