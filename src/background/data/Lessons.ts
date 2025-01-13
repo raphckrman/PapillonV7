@@ -107,7 +107,7 @@ const fetchLessons = async (): Promise<Timetable> => {
             body: `Les cours suivants ont été modifiés, consulte l'emploi du temps pour plus de détails.<br />
             ${lessonsEvent
               .flatMap((element) => {
-                return `- ${element.title ?? "Sans titre"}`;
+                return `- ${element.title}`;
               })
               .join("<br />")}`,
             ios: {
