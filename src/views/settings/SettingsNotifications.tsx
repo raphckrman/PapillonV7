@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, Switch } from "react-native";
+import { Alert, Platform, ScrollView, Switch } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { useTheme } from "@react-navigation/native";
 import {
   CalendarCheck,
   BookCheck,
   TrendingUp,
-  Newspaper
+  Newspaper,
+  Info
 } from "lucide-react-native";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 import {
@@ -20,6 +21,8 @@ import NotificationContainerCard from "@/components/Settings/NotificationContain
 import { createChannelNotification, requestNotificationPermission } from "@/background/Notifications";
 import { alertExpoGo, isExpoGo } from "@/utils/native/expoGoAlert";
 import { useCurrentAccount } from "@/stores/account";
+import { PressableScale } from "react-native-pressable-scale";
+import { useAlert } from "@/providers/AlertProvider";
 
 const SettingsNotifications: Screen<"SettingsNotifications"> = ({
   navigation
@@ -118,6 +121,8 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
     },
   ];
 
+  const { showAlert } = useAlert();
+
   return (
     <ScrollView
       contentContainerStyle={{
@@ -165,7 +170,43 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
                   />
                 }
               >
-                <NativeText variant="title">{notification.title}</NativeText>
+                <NativeText variant="title">
+                  {notification.title}
+                  {notification.personalizationValue === "timetable" && (
+                    <PressableScale
+                      onPress={() => {
+                        if (Platform.OS === "ios") {
+                          Alert.alert("Information", "Pour le moment, tu es prévenu de ton emploi du temps uniquement 15 minutes avant le 1er cours de la journée.", [
+                            {
+                              text: "OK",
+                            },
+                          ]);
+                        } else {
+                          showAlert({
+                            title: "Information",
+                            message: "Pour le moment, tu es prévenu de ton emploi du temps uniquement 15 minutes avant le 1er cours de la journée.",
+                            actions: [
+                              {
+                                title: "OK",
+                                onPress: () => {},
+                                backgroundColor: theme.colors.card,
+                              },
+                            ],
+                          });
+                        }
+                      }}
+                    >
+                      <Info
+                        size={24}
+                        color={colors.primary}
+                        style={{
+                          marginLeft: 10,
+                          marginBottom: -5,
+                        }}
+                      />
+                    </PressableScale>
+                  )}
+                </NativeText>
                 <NativeText
                   style={{
                     color: colors.text + "80",
