@@ -7,7 +7,8 @@ import {
   BookCheck,
   TrendingUp,
   Newspaper,
-  Info
+  Info,
+  NotepadText
 } from "lucide-react-native";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 import {
@@ -112,6 +113,12 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
       title: "Nouvelle actualité",
       message: "Nouvelle actualité : \"Les élèves de 3ème partent en voyage scolaire\"",
       personalizationValue: "news",
+    },
+    {
+      icon: <NativeIcon icon={<NotepadText />} color={colors.primary} />,
+      title: "Nouvelle événement sur la Vie Scolaire",
+      message: "Tu as été en retard de 5 min à 11h10",
+      personalizationValue: "attendance",
     },
   ];
 
