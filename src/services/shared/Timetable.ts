@@ -38,7 +38,7 @@ export enum TimetableClassStatus {
 }
 
 export interface WeekFrequency {
-  textLabel: String,
-  freqLabel: String
+  textLabel: string,
+  freqLabel: string,
   num: number
 }

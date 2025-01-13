@@ -329,7 +329,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
             {pickerDate.toLocaleDateString("fr-FR", { month: "long" })}
           </Reanimated.Text>
 
-          { weekFrequency && shouldShowWeekFrequency && (
+          {weekFrequency && shouldShowWeekFrequency && (
             <Reanimated.View
               layout={animPapillon(LinearTransition)}
               entering={FadeIn.duration(150)}

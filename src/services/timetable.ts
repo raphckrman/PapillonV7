@@ -57,15 +57,14 @@ export async function updateTimetableForWeekInCache <T extends Account> (account
 
 /**
  * Gets the week "frequency" object for the given week number.
- * 
+ *
  * @example "Q1"/"Q2", "S1"/"S2"
  */
 export async function getWeekFrequency <T extends Account> (account: T, epochWeekNumber: number): Promise<WeekFrequency | null> {
   switch (account.service) {
     case AccountService.Pronote:
-      const { getWeekFrequency } = await import('./pronote/timetable');
+      const { getWeekFrequency } = await import("./pronote/timetable");
       const weekNumber = epochWNToPronoteWN(epochWeekNumber, account);
-      
       return getWeekFrequency(account, weekNumber);
     default:
       return null;

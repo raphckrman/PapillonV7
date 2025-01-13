@@ -124,8 +124,8 @@ export const getWeekFrequency = (account: PronoteAccount, weekNumber: number): W
     return null;
 
   return {
-    textLabel: 'Semaine',
+    textLabel: "Semaine",
     freqLabel: frequency.label,
     num: frequency.fortnight
-  }
-}
+  };
+};
