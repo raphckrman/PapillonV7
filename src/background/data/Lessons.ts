@@ -46,17 +46,21 @@ const fetchLessons = async (): Promise<Timetable> => {
       case 0:
         break;
       case 1:
-        const dateLessonsDebut = `${new Date(
-          lessonsEvent[0].startTimestamp
-        ).getHours()}h${new Date(
-          lessonsEvent[0].startTimestamp
-        ).getMinutes()}min`;
+        const dateLessonsDebut = `${new Date(lessonsEvent[0].startTimestamp)
+          .getHours()
+          .toString()
+          .padStart(2, "0")}:${new Date(lessonsEvent[0].startTimestamp)
+          .getMinutes()
+          .toString()
+          .padStart(2, "0")}`;
 
-        const dateLessonsFin = `${new Date(
-          lessonsEvent[0].endTimestamp
-        ).getHours()}h${new Date(
-          lessonsEvent[0].endTimestamp
-        ).getMinutes()}min`;
+        const dateLessonsFin = `${new Date(lessonsEvent[0].endTimestamp)
+          .getHours()
+          .toString()
+          .padStart(2, "0")}:${new Date(lessonsEvent[0].endTimestamp)
+          .getMinutes()
+          .toString()
+          .padStart(2, "0")}`;
 
         let statut: string = "";
 
