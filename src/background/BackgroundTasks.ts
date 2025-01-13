@@ -6,7 +6,7 @@ import { expoGoWrapper } from "@/utils/native/expoGoAlert";
 import { fetchNews } from "./data/News";
 import { log } from "@/utils/logger/logger";
 import { getAccounts, getSwitchToFunction } from "./utils/accounts";
-import { fetchHomeworks } from "./data/HomeworksUpdate";
+import { fetchHomeworks } from "./data/Homeworks";
 import { fetchGrade } from "./data/Grades";
 import { fetchLessons } from "./data/Lessons";
 

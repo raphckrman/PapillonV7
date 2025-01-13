@@ -1,7 +1,7 @@
 import { getCurrentAccount } from "../utils/accounts";
 import { papillonNotify } from "../Notifications";
 import parse_homeworks_resume from "@/utils/format/format_pronote_news";
-import { getHomeworks, updateHomeworksState } from "../utils/homeworksUpdate";
+import { getHomeworks, updateHomeworksState } from "../utils/homeworks";
 import { Homework } from "@/services/shared/Homework";
 import { dateToEpochWeekNumber } from "@/utils/epochWeekNumber";
 
@@ -31,7 +31,7 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
 
   if (
     notificationsTypesPermissions?.enabled &&
-    notificationsTypesPermissions?.homeworksUpdate
+    notificationsTypesPermissions?.homeworks
   ) {
     switch (differences.length) {
       case 0:

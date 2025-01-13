@@ -99,14 +99,8 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
       icon: <NativeIcon icon={<BookCheck />} color={colors.primary} />,
       title: "Nouveau devoir",
       message: "Nouveau devoir : \"Apporter le manuel\"",
-      personalizationValue: "homeworksUpdate",
+      personalizationValue: "homeworks",
     },
-    // {
-    //   icon: <NativeIcon icon={<BookCheck />} color={colors.primary} />,
-    //   title: "Travail à faire pour demain",
-    //   message: "N’oublie pas de terminer ton devoir de français pour demain",
-    //   personalizationValue: "homework",
-    // },
     {
       icon: <NativeIcon icon={<TrendingUp />} color={colors.primary} />,
       title: "Nouvelle note",

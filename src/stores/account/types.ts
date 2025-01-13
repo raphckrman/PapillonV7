@@ -50,7 +50,6 @@ export interface Personalization {
     enabled?: boolean
     news?: boolean
     homeworks?: boolean
-    homeworksUpdate?: boolean
     grades?: boolean
     timetable?: boolean
     attendance?: boolean
