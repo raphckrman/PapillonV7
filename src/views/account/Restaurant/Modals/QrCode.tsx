@@ -184,7 +184,6 @@ const RestaurantQrCode: Screen<"RestaurantQrCode"> = ({ route, navigation }) => 
                   </View>
                 );
               } else if (code instanceof Blob) {
-                // Convertir le Blob en URL
                 const imageUrl = URL.createObjectURL(code);
 
                 return (
