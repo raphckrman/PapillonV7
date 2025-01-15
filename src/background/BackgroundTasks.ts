@@ -1,3 +1,4 @@
+import notifee, { EventType } from "@notifee/react-native";
 import * as BackgroundFetch from "expo-background-fetch";
 import * as TaskManager from "expo-task-manager";
 import { BackgroundFetchResult } from "expo-background-fetch";
@@ -11,6 +12,32 @@ import { fetchGrade } from "./data/Grades";
 import { fetchLessons } from "./data/Lessons";
 import { fetchAttendance } from "./data/Attendance";
 import { fetchEvaluation } from "./data/Evaluation";
+
+// Gestion des notifs quand app en arrière-plan
+notifee.onBackgroundEvent(async ({ type, detail }) => {
+  const { notification, pressAction } = detail;
+
+  switch (type) {
+    case EventType.ACTION_PRESS:
+      console.log(`[Notifee] Action press: ${pressAction?.id}`);
+      /*
+      Ici on va gérer les redirections vers une page de l'app
+      par exemple quand on clique sur une notification
+
+      if (pressAction?.id === "open_lessons") {
+        console.log("Open lessons screen");
+      }
+      */
+      break;
+
+    case EventType.DISMISSED:
+      console.log(`[Notifee] Notification dismissed: ${notification?.id}`);
+      break;
+
+    default:
+      console.log(`[Notifee] Background event type: ${type}`);
+  }
+});
 
 /**
  * Background fetch function that fetches all the data

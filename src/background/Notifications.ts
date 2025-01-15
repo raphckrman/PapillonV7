@@ -81,7 +81,13 @@ const createChannelNotification = async () => {
 
 const papillonNotify = async (
   props: Notification,
-  channelId: "News" | "Homeworks" | "Grades" | "Lessons" | "Attendance" | "Evaluation"
+  channelId:
+    | "News"
+    | "Homeworks"
+    | "Grades"
+    | "Lessons"
+    | "Attendance"
+    | "Evaluation"
 ) => {
   // Add timestamp for Android
   const timestamp = new Date().getTime();
@@ -95,6 +101,7 @@ const papillonNotify = async (
       showTimestamp: true,
       smallIcon: "@mipmap/ic_launcher_foreground",
       color: "#32AB8E",
+      // à intégrer => `actions`
     },
   });
 };
