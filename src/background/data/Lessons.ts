@@ -84,6 +84,8 @@ const fetchLessons = async (): Promise<Timetable> => {
                   statut += `Tu dois aller en salle ${lessonsEvent[0].room}`;
                 }
               }
+            } else if (lessonsEvent[0].statusText === "Devoir Surveillé") {
+              statut = "est un devoir surveillé";
             } else {
               statut = `a un statut : ${lessonsEvent[0].statusText}`;
             }
@@ -94,7 +96,13 @@ const fetchLessons = async (): Promise<Timetable> => {
           {
             id: `${account.name}-lessons`,
             title: `[${account.name}] Emploi du temps du jour`,
-            // subtitle: lessonsEvent[0].title,
+            subtitle: new Date(
+              lessonsEvent[0].startTimestamp
+            ).toLocaleDateString("fr-FR", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+            }),
             body: `Le cours de ${lessonsEvent[0].title} (${dateLessonsDebut}-${dateLessonsFin}) ${statut}`,
             ios: {
               categoryId: account.name,
@@ -108,6 +116,13 @@ const fetchLessons = async (): Promise<Timetable> => {
           {
             id: `${account.name}-lessons`,
             title: `[${account.name}] Emploi du temps du jour`,
+            subtitle: new Date(
+              lessonsEvent[0].startTimestamp
+            ).toLocaleDateString("fr-FR", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+            }),
             body: `Les cours suivants ont été modifiés, consulte l'emploi du temps pour plus de détails.<br />
             ${lessonsEvent
               .flatMap((element) => {
