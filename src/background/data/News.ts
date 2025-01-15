@@ -60,11 +60,15 @@ const fetchNews = async (): Promise<Information[]> => {
           {
             id: `${account.name}-news`,
             title: `[${account.name}] Nouvelles actualités`,
-            body: differences
+            body: `
+            ${differences.length} nouvelles actualités ont été publiées :<br />
+            ${differences
               .flatMap((element) => {
                 return `- ${element.title ?? "Sans titre"}`;
               })
-              .join("<br />"),
+              .join("<br />")
+              .slice(0, 200)}...
+            `,
             ios: {
               categoryId: account.name,
             },
