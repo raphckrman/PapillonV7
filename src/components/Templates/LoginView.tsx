@@ -90,6 +90,17 @@ const LoginView: React.FC<{
     onLogin(username, password, customFieldsDict);
   };
 
+  const translateError = (error: string | null): string | null => {
+    if (!error) return null;
+  
+    if (error.includes("challenge")) {
+      return "Un CAPTCHA est requis pour se connecter, utilise l'ENT pour te connecter.";
+    }
+  
+    // Add other error translations here
+    return error;
+  };
+
   return (
     <KeyboardAvoidingView
       behavior="height"
@@ -165,7 +176,7 @@ const LoginView: React.FC<{
             }}
           >
             <NativeItem icon={<AlertTriangle />}>
-              <NativeText variant="subtitle">{error}</NativeText>
+              <NativeText variant="subtitle">{translateError(error)}</NativeText>
             </NativeItem>
           </NativeList>
         )}
