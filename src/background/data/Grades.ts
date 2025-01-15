@@ -39,7 +39,7 @@ const fetchGrade = async (): Promise<Grade[]> => {
           {
             id: `${account.name}-grades`,
             title: `[${account.name}] Nouvelle note`,
-            // subtitle: differences[0].title,
+            subtitle: defaultPeriod,
             body: `Une nouvelle note en ${differences[0].subjectName} a été publiée`,
             ios: {
               categoryId: account.name,
@@ -52,6 +52,7 @@ const fetchGrade = async (): Promise<Grade[]> => {
         papillonNotify(
           {
             id: `${account.name}-grades`,
+            subtitle: defaultPeriod, 
             title: `[${account.name}] Nouvelles notes`,
             body: `${differences.length} nouvelles notes (${differences
               .flatMap((element) => {
