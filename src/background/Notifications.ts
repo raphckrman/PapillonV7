@@ -69,11 +69,19 @@ const createChannelNotification = async () => {
       "Te notifie lorsque tu as de nouvelles absences/retards/observations/punitions",
     sound: "default",
   });
+
+  await notifee.createChannel({
+    id: "Evaluation",
+    groupId: "Papillon",
+    name: "Compétences",
+    description: "Te notifie lorsque tu as de nouvelles compétences",
+    sound: "default",
+  });
 };
 
 const papillonNotify = async (
   props: Notification,
-  channelId: "News" | "Homeworks" | "Grades" | "Lessons" | "Attendance"
+  channelId: "News" | "Homeworks" | "Grades" | "Lessons" | "Attendance" | "Evaluation"
 ) => {
   // Add timestamp for Android
   const timestamp = new Date().getTime();

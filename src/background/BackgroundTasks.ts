@@ -10,6 +10,7 @@ import { fetchHomeworks } from "./data/Homeworks";
 import { fetchGrade } from "./data/Grades";
 import { fetchLessons } from "./data/Lessons";
 import { fetchAttendance } from "./data/Attendance";
+import { fetchEvaluation } from "./data/Evaluation";
 
 /**
  * Background fetch function that fetches all the data
@@ -30,6 +31,7 @@ const backgroundFetch = async () => {
       fetchGrade(),
       fetchLessons(),
       fetchAttendance(),
+      fetchEvaluation(),
     ]);
   }
 

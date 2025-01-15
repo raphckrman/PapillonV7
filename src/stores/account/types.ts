@@ -53,6 +53,7 @@ export interface Personalization {
     grades?: boolean
     timetable?: boolean
     attendance?: boolean
+    evaluation?: boolean
   }
   icalURLs: PapillonIcalURL[],
   tabs: Tab[],

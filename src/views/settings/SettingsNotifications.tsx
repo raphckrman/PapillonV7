@@ -8,7 +8,8 @@ import {
   TrendingUp,
   Newspaper,
   Info,
-  NotepadText
+  NotepadText,
+  BookPlus
 } from "lucide-react-native";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 import {
@@ -119,6 +120,12 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
       title: "Nouvelle événement sur la Vie Scolaire",
       message: "Tu as été en retard de 5 min à 11h10",
       personalizationValue: "attendance",
+    },
+    {
+      icon: <NativeIcon icon={<BookPlus />} color={colors.primary} />,
+      title: "Nouvelle compétence",
+      message: "Nouvelle compétence publiée en histoire",
+      personalizationValue: "evaluation",
     },
   ];
 
