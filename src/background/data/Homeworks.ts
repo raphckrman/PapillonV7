@@ -1,6 +1,5 @@
 import { getCurrentAccount } from "../utils/accounts";
 import { papillonNotify } from "../Notifications";
-import parse_homeworks_resume from "@/utils/format/format_pronote_news";
 import { getHomeworks, updateHomeworksState } from "../utils/homeworks";
 import { Homework } from "@/services/shared/Homework";
 import { dateToEpochWeekNumber } from "@/utils/epochWeekNumber";
@@ -22,6 +21,15 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 
+  // @ts-expect-error
+  let firstDate = account.instance?.instance?.firstDate || null;
+  if (!firstDate) {
+    firstDate = new Date();
+    firstDate.setMonth(8);
+    firstDate.setDate(1);
+  }
+  const firstDateEpoch = dateToEpochWeekNumber(firstDate);
+
   const SemaineAct = dateToEpochWeekNumber(new Date());
   const currentHomeworks = getHomeworks()[SemaineAct];
   await updateHomeworksState(account);
@@ -41,13 +49,11 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
           {
             id: `${account.name}-homeworks`,
             title: `[${account.name}] Nouveau devoir`,
-            subtitle: differences[0].subject,
-            body: differences[0].content
-              ? `${parse_homeworks_resume(differences[0].content).slice(
-                0,
-                100
-              )}...`
-              : "Aucun résumé disponible.",
+            subtitle: `Semaine ${(
+              ((SemaineAct - (firstDateEpoch % 52)) % 52) +
+              1
+            ).toString()}`,
+            body: `Un nouveau devoir en ${differences[0].subject} a été publié`,
             ios: {
               categoryId: account.name,
             },
@@ -60,7 +66,15 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
           {
             id: `${account.name}-homeworks`,
             title: `[${account.name}] Nouveaux devoirs`,
-            body: `Tu as ${differences.length} nouveaux devoirs.`,
+            subtitle: `Semaine ${(
+              ((SemaineAct - (firstDateEpoch % 52)) % 52) +
+              1
+            ).toString()}`,
+            body: `${differences.length} nouveaux devoirs (${differences
+              .flatMap((element) => {
+                return element.subject;
+              })
+              .join("/")}) ont été publiés`,
             ios: {
               categoryId: account.name,
             },
