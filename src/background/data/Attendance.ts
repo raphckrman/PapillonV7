@@ -81,19 +81,60 @@ const fetchAttendance = async (): Promise<Attendance> => {
         let explication = "";
 
         if (differences.absences.length === 1) {
+          const dateAbsencesDebut = `${new Date(
+            differences.absences[0].fromTimestamp
+          )
+            .getHours()
+            .toString()
+            .padStart(2, "0")}:${new Date(differences.absences[0].fromTimestamp)
+            .getMinutes()
+            .toString()
+            .padStart(2, "0")}`;
+
+          const dateAbsencesFin = `${new Date(
+            differences.absences[0].toTimestamp
+          )
+            .getHours()
+            .toString()
+            .padStart(2, "0")}:${new Date(differences.absences[0].toTimestamp)
+            .getMinutes()
+            .toString()
+            .padStart(2, "0")}`;
+
           thenewevent = "Nouvelle absence";
-          explication = `Tu as été absent de ${differences.absences[0].fromTimestamp} à ${differences.absences[0].toTimestamp}.`;
+          explication = `Tu as été absent de ${dateAbsencesDebut} à ${dateAbsencesFin}.`;
         } else if (differences.delays.length === 1) {
+          const dateRetard = `${new Date(differences.delays[0].timestamp)
+            .getHours()
+            .toString()
+            .padStart(2, "0")}:${new Date(differences.delays[0].timestamp)
+            .getMinutes()
+            .toString()
+            .padStart(2, "0")}`;
+
           thenewevent = "Nouveau retard";
-          explication = `Tu as été en retard de ${differences.delays[0].duration} à ${differences.delays[0].timestamp}.`;
+          explication = `Tu as été en retard de ${differences.delays[0].duration} à ${dateRetard}.`;
         } else if (differences.observations.length === 1) {
+          const dateObservations = `${new Date(
+            differences.observations[0].timestamp
+          )
+            .getHours()
+            .toString()
+            .padStart(2, "0")}:${new Date(differences.observations[0].timestamp)
+            .getMinutes()
+            .toString()
+            .padStart(2, "0")}`;
+
           thenewevent = "Nouvelle observation";
           explication = `Tu as eu une observation en ${
             differences.observations[0].subjectName ?? "Matière inconnue"
-          } à ${differences.observations[0].timestamp}.`;
+          } à ${dateObservations}.`;
         } else {
           thenewevent = "Nouvelle punition";
-          explication = "";
+          explication = `
+          Tu as eu une punition en ${differences.punishments[0].duringLesson}.<br />
+          Raison : ${differences.punishments[0].reason}
+          `;
         }
 
         papillonNotify(
