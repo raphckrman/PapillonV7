@@ -25,7 +25,10 @@ const fetchGrade = async (): Promise<Grade[]> => {
   await updateGradeState(account, defaultPeriod);
   const updatedGrade = getGrades().grades[defaultPeriod];
 
-  const differences = getDifferences(grades[defaultPeriod], updatedGrade);
+  const differences = getDifferences(
+    grades[defaultPeriod] ?? [],
+    updatedGrade ?? []
+  );
 
   if (
     notificationsTypesPermissions?.enabled &&

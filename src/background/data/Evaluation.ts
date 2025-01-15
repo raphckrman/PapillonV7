@@ -25,7 +25,10 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
   await updateEvaluationState(account, defaultPeriod);
   const updatedEvaluation = getEvaluation().evaluation[defaultPeriod];
 
-  const differences = getDifferences(evaluation[defaultPeriod], updatedEvaluation);
+  const differences = getDifferences(
+    evaluation[defaultPeriod] ?? [],
+    updatedEvaluation ?? []
+  );
 
   if (
     notificationsTypesPermissions?.enabled &&
