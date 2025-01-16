@@ -220,7 +220,7 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
             injectPassword();
           }
 
-          if(url.startsWith("https://notes9.iutlan.univ-rennes1.fr/") && canExtractJSON) {
+          if(url.startsWith("https://notes9.iutlan.univ-rennes.fr/") && canExtractJSON) {
             redirectToData();
             setCanExtractJSON(false);
           }
