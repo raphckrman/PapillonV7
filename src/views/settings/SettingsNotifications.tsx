@@ -219,11 +219,11 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
                       }}
                     >
                       <Info
-                        size={24}
+                        size={20}
                         color={colors.primary}
                         style={{
-                          marginLeft: 10,
-                          marginBottom: -5,
+                          marginLeft: 5,
+                          marginBottom: -3,
                         }}
                       />
                     </PressableScale>
