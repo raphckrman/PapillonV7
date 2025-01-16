@@ -61,13 +61,12 @@ const fetchNews = async (): Promise<Information[]> => {
             id: `${account.name}-news`,
             title: `[${account.name}] Nouvelles actualités`,
             body: `
-            ${differences.length} nouvelles actualités ont été publiées :<br />
+            ${differences.length} nouvelles actualités ont été publiées par :<br />
             ${differences
               .flatMap((element) => {
-                return `- ${element.title ?? "Sans titre"}`;
+                return `- ${element.author}`;
               })
-              .join("<br />")
-              .slice(0, 200)}...
+              .join("<br />")}
             `,
             ios: {
               categoryId: account.name,
