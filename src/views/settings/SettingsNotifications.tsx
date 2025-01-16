@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Platform, ScrollView, Switch } from "react-native";
+import { Alert, Platform, ScrollView, Switch, View } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { useTheme } from "@react-navigation/native";
 import {
@@ -93,38 +93,38 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
   const notificationSchoolary = [
     {
       icon: <NativeIcon icon={<CalendarCheck />} color={colors.primary} />,
-      title: "Modification de cours",
-      message: "Le cours de mathématiques (10h-11h) a été annulé",
+      title: "Emploi du temps du jour modifié",
+      message: "Le cours de Musique (10:00-11:00) a été annulé",
       personalizationValue: "timetable",
     },
     {
       icon: <NativeIcon icon={<BookCheck />} color={colors.primary} />,
       title: "Nouveau devoir",
-      message: "Nouveau devoir : \"Apporter le manuel\"",
+      message: "Un nouveau devoir en Mathématiques a été publié",
       personalizationValue: "homeworks",
     },
     {
       icon: <NativeIcon icon={<TrendingUp />} color={colors.primary} />,
       title: "Nouvelle note",
-      message: "Nouvelle note publiée en histoire",
+      message: "Une nouvelle note en Anglais a été publiée",
       personalizationValue: "grades",
     },
     {
       icon: <NativeIcon icon={<Newspaper />} color={colors.primary} />,
       title: "Nouvelle actualité",
-      message: "Nouvelle actualité : \"Les élèves de 3ème partent en voyage scolaire\"",
+      message: "Chers élèves, chers collègues, Dans le cadre du prix \"Non au harcèlement\", 9 affiches ont été réa...",
       personalizationValue: "news",
     },
     {
       icon: <NativeIcon icon={<NotepadText />} color={colors.primary} />,
       title: "Nouvelle événement sur la Vie Scolaire",
-      message: "Tu as été en retard de 5 min à 11h10",
+      message: "Tu as été en retard de 5 min à 11:10",
       personalizationValue: "attendance",
     },
     {
       icon: <NativeIcon icon={<BookPlus />} color={colors.primary} />,
       title: "Nouvelle compétence",
-      message: "Nouvelle compétence publiée en histoire",
+      message: "Une nouvelle compétence en Histoire a été publiée",
       personalizationValue: "evaluation",
     },
   ];
@@ -147,6 +147,16 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
 
       {enabled && (
         <>
+          <View>
+            <NativeList inline>
+              <NativeItem icon={<Info />}>
+                <NativeText variant="body">
+                  Toutes les 15 minutes, Papillon va se connecter à ton compte
+                  et te notifie en fonction des paramètres ci-dessous
+                </NativeText>
+              </NativeItem>
+            </NativeList>
+          </View>
           <NativeListHeader label={"Notifications scolaires"} />
           <NativeList>
             {notificationSchoolary.map((notification, index) => (
@@ -184,15 +194,19 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
                     <PressableScale
                       onPress={() => {
                         if (Platform.OS === "ios") {
-                          Alert.alert("Information", "Pour le moment, tu es prévenu de ton emploi du temps uniquement 15 minutes avant le 1er cours de la journée.", [
-                            {
-                              text: "OK",
-                            },
-                          ]);
+                          Alert.alert(
+                            "Information",
+                            "Pour le moment, tu es prévenu de ton emploi du temps modifié uniquement 15 minutes avant le 1er cours de la journée.",
+                            [
+                              {
+                                text: "OK",
+                              }
+                            ]
+                          );
                         } else {
                           showAlert({
                             title: "Information",
-                            message: "Pour le moment, tu es prévenu de ton emploi du temps uniquement 15 minutes avant le 1er cours de la journée.",
+                            message: "Pour le moment, tu es prévenu de ton emploi du temps modifié uniquement 15 minutes avant le 1er cours de la journée.",
                             actions: [
                               {
                                 title: "OK",
