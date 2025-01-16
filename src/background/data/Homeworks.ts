@@ -70,11 +70,14 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
               ((SemaineAct - (firstDateEpoch % 52)) % 52) +
               1
             ).toString()}`,
-            body: `${differences.length} nouveaux devoirs (${differences
+            body: `
+            ${differences.length} nouveaux devoirs ont été publiés :<br />
+            ${differences
               .flatMap((element) => {
-                return element.subject;
+                return `- ${element.subject}`;
               })
-              .join("/")}) ont été publiés`,
+              .join("<br />")}
+            `,
             ios: {
               categoryId: account.name,
             },

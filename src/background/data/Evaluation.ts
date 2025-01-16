@@ -57,11 +57,14 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
             id: `${account.name}-evaluation`,
             subtitle: defaultPeriod,
             title: `[${account.name}] Nouvelles compétences`,
-            body: `${differences.length} nouvelles compétences (${differences
+            body: `
+            ${differences.length} nouvelles compétences ont été publiées :<br />
+            ${differences
               .flatMap((element) => {
-                return element.subjectName;
+                return `- ${element.subjectName}`;
               })
-              .join("/")}) ont été publiées`,
+              .join("<br />")}
+            `,
             ios: {
               categoryId: account.name,
             },
