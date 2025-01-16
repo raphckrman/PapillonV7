@@ -113,7 +113,7 @@ const fetchAttendance = async (): Promise<Attendance> => {
             .padStart(2, "0")}`;
 
           thenewevent = "Nouveau retard";
-          explication = `Tu as été en retard de ${differences.delays[0].duration} à ${dateRetard}.`;
+          explication = `Tu as été en retard de ${differences.delays[0].duration} min à ${dateRetard}.`;
         } else if (differences.observations.length === 1) {
           const dateObservations = `${new Date(
             differences.observations[0].timestamp
@@ -132,8 +132,8 @@ const fetchAttendance = async (): Promise<Attendance> => {
         } else {
           thenewevent = "Nouvelle punition";
           explication = `
-          Tu as eu une punition en ${differences.punishments[0].duringLesson}.<br />
-          Raison : ${differences.punishments[0].reason}
+          Tu as eu une punition de ${differences.punishments[0].givenBy}.<br />
+          Raison : ${differences.punishments[0].reason.circumstances}
           `;
         }
 
