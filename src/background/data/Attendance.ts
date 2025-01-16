@@ -151,18 +151,54 @@ const fetchAttendance = async (): Promise<Attendance> => {
         );
         break;
       default:
+        let LesExplication: string[] = [];
+
+        if (differences.absences.length > 0) {
+          if (differences.absences.length === 1) {
+            LesExplication.push("1 nouvelle absence");
+          } else {
+            LesExplication.push(
+              `${differences.absences.length} nouvelles absences`
+            );
+          }
+        }
+
+        if (differences.delays.length > 0) {
+          if (differences.delays.length === 1) {
+            LesExplication.push("1 nouveau retard");
+          } else {
+            LesExplication.push(
+              `${differences.delays.length} nouveaux retards`
+            );
+          }
+        }
+
+        if (differences.observations.length > 0) {
+          if (differences.observations.length === 1) {
+            LesExplication.push("1 nouvelle observation");
+          } else {
+            LesExplication.push(
+              `${differences.observations.length} nouvelles observations`
+            );
+          }
+        }
+
+        if (differences.punishments.length > 0) {
+          if (differences.absences.length === 1) {
+            LesExplication.push("1 nouvelle punition");
+          } else {
+            LesExplication.push(
+              `${differences.punishments.length} nouvelles punitions`
+            );
+          }
+        }
+
         papillonNotify(
           {
             id: `${account.name}-attendance`,
             title: `[${account.name}] Vie Scolaire`,
             subtitle: defaultPeriod,
-            body: `
-            De nouveaux événements ont été publiés, consulte la vie scolaire pour plus de détails :<br />
-            - Nouvelle(s) absence(s) : ${differences.absences.length}<br />
-            - Nouveau(x) retard(s) : ${differences.delays.length}<br />
-            - Nouvelle(s) observation(s) : ${differences.observations.length}<br />
-            - Nouvelle(s) punition(s) : ${differences.punishments.length}
-            `,
+            body: `De nouveaux événements ont été publiés, consulte la vie scolaire pour plus de détails : ${LesExplication.join(", ")}.`,
             ios: {
               categoryId: account.name,
             },
