@@ -144,7 +144,8 @@
     "pretty": "Français",
     "formats": {
       "default": [
-        "français"
+        "français",
+        "francais"
       ]
     }
   },
