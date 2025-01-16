@@ -103,7 +103,6 @@
     "pretty": "Éducation civique",
     "formats": {
       "default": [
-        "education civique",
         "education civique"
       ]
     }
@@ -125,7 +124,6 @@
       "default": [
         "education physique et sportive",
         "ed physique sport",
-        "education physique et sportive",
         "eps"
       ]
     }
@@ -136,8 +134,8 @@
     "formats": {
       "default": [
         "education musicale",
-        "education musicale",
-        "educ musicale"
+        "educ musicale",
+        "musique"
       ]
     }
   },
@@ -146,8 +144,7 @@
     "pretty": "Français",
     "formats": {
       "default": [
-        "français",
-        "francais"
+        "français"
       ]
     }
   },
@@ -159,7 +156,6 @@
         "histoire geographie",
         "histoire geo",
         "histoire geograph",
-        "histoire-geographie",
         "histoire-geographie"
       ]
     }
@@ -200,7 +196,6 @@
     "formats": {
       "default": [
         "mathematiques",
-        "mathematiques",
         "mathematiques 1ere",
         "math 1ere",
         "math",
@@ -226,7 +221,8 @@
         "physique chimie",
         "physique chim",
         "phys chim",
-        "phys chimie"
+        "phys chimie",
+        "physique-chimie"
       ]
     }
   },
@@ -236,8 +232,7 @@
     "formats": {
       "default": [
         "sciences economiques et sociales",
-        "sc econo sociales",
-        "sciences economiques et sociales"
+        "sc econo sociales"
       ]
     }
   },
@@ -246,7 +241,6 @@
     "pretty": "Sciences de la Vie & de la Terre",
     "formats": {
       "default": [
-        "sciences de la vie et de la terre",
         "sciences de la vie et de la terre",
         "sciences vie terre",
         "svt"
