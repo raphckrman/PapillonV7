@@ -379,7 +379,7 @@
   },
   {
     "label": "special",
-    "pretty": "Cours excepptionnel obligatoire",
+    "pretty": "Cours exceptionnel obligatoire",
     "formats": {
       "default": [
         "action intervention sortie examen"
@@ -388,10 +388,10 @@
   },
   {
     "label": "art",
-    "pretty": "Arts-plastique",
+    "pretty": "Arts Plastiques",
     "formats": {
       "default": [
-        "arts plastique",
+        "arts plastiques",
         "arts",
         "arts plast",
         "arts pla"
