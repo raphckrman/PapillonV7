@@ -42,7 +42,7 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
     notifications?.enabled || false
   );
   useEffect(() => {
-    const test = async () => {
+    const handleNotificationPermission = async () => {
       const statut = await requestNotificationPermission();
       if (!statut) {
         setEnabled(null);
