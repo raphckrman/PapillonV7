@@ -61,7 +61,7 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
       }
     };
 
-    test();
+    handleNotificationPermission();
   }, [enabled]);
 
   // Animation states
