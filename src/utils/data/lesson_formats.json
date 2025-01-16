@@ -136,7 +136,8 @@
     "formats": {
       "default": [
         "education musicale",
-        "education musicale"
+        "education musicale",
+        "educ musicale"
       ]
     }
   },
@@ -201,7 +202,9 @@
         "mathematiques",
         "mathematiques",
         "mathematiques 1ere",
-        "math 1ere"
+        "math 1ere",
+        "math",
+        "maths"
       ]
     }
   },
@@ -221,7 +224,9 @@
     "formats": {
       "default": [
         "physique chimie",
-        "phys chim"
+        "physique chim",
+        "phys chim",
+        "phys chimie"
       ]
     }
   },
@@ -243,7 +248,8 @@
       "default": [
         "sciences de la vie et de la terre",
         "sciences de la vie et de la terre",
-        "sciences vie terre"
+        "sciences vie terre",
+        "svt"
       ]
     }
   },
@@ -374,6 +380,27 @@
     "formats": {
       "default": [
         "eco et droit du numerique"
+      ]
+    }
+  },
+  {
+    "label": "special",
+    "pretty": "Cours excepptionnel obligatoire",
+    "formats": {
+      "default": [
+        "action intervention sortie examen"
+      ]
+    }
+  },
+  {
+    "label": "art",
+    "pretty": "Arts-plastique",
+    "formats": {
+      "default": [
+        "arts plastique",
+        "arts",
+        "arts plast",
+        "arts pla",
       ]
     }
   }
