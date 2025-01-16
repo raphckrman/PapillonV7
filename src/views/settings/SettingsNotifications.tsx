@@ -211,7 +211,7 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
                               {
                                 title: "OK",
                                 onPress: () => {},
-                                backgroundColor: theme.colors.card,
+                                primary: true,
                               },
                             ],
                           });
