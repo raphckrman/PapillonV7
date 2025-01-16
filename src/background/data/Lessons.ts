@@ -95,7 +95,7 @@ const fetchLessons = async (): Promise<Timetable> => {
         papillonNotify(
           {
             id: `${account.name}-lessons`,
-            title: `[${account.name}] Emploi du temps du jour`,
+            title: `[${account.name}] Emploi du temps du jour modifié`,
             subtitle: new Date(
               lessonsEvent[0].startTimestamp
             ).toLocaleDateString("fr-FR", {
