@@ -5,7 +5,7 @@ import * as Haptics from "expo-haptics";
 const useSoundHapticsWrapper = () => {
   const { enableHaptics, enableSon } = useThemeSoundHaptics();
 
-  const triggerHapticFeedback = async (
+  const playHaptics = async (
     type: "impact" | "notification",
     // Objet pour éviter les erreurs TypeScript
     haptic: {
@@ -25,7 +25,7 @@ const useSoundHapticsWrapper = () => {
     }
   };
 
-  return { triggerHapticFeedback, playSound };
+  return { playHaptics, playSound };
 };
 
 export default useSoundHapticsWrapper;
