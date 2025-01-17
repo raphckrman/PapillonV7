@@ -27,7 +27,7 @@ import { defaultProfilePicture } from "@/utils/ui/default-profile-picture";
 import { useTheme } from "@react-navigation/native";
 import { BlurView } from "expo-blur";
 import { Check, Cog, Plus } from "lucide-react-native";
-import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
+import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 
 const ContextMenu: React.FC<{
   style?: any;
@@ -39,7 +39,7 @@ const ContextMenu: React.FC<{
   const theme = useTheme();
   const { colors } = theme;
   const navigation = useNavigation();
-  const { enableHaptics } = useThemeSoundHaptics();
+  const { playHaptics } = useSoundHapticsWrapper();
 
   const [opened, setOpened] = useState(false); // État pour gérer l'ouverture du menu contextuel
 
@@ -54,11 +54,6 @@ const ContextMenu: React.FC<{
       setOpened(true);
     }
   }, [shouldOpenContextMenu]);
-
-  // Fonction pour activer un effet haptique à l'ouverture du menu
-  const openEffects = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-  };
 
   return (
     <>
@@ -76,7 +71,9 @@ const ContextMenu: React.FC<{
           <TouchableOpacity
             onPress={() => {
               setOpened(!opened);
-              if (enableHaptics) openEffects();
+              playHaptics("impact", {
+                impact: Haptics.ImpactFeedbackStyle.Light,
+              });
             }}
             // @ts-expect-error
             pointerEvents="auto"
@@ -92,7 +89,9 @@ const ContextMenu: React.FC<{
           <TouchableNativeFeedback
             onPress={() => {
               setOpened(!opened);
-              if (enableHaptics) openEffects();
+              playHaptics("impact", {
+                impact: Haptics.ImpactFeedbackStyle.Light,
+              });
             }}
             useForeground={true}
             style={{

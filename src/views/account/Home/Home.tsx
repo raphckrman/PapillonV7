@@ -61,14 +61,14 @@ import * as Haptics from "expo-haptics";
 import ModalContent from "@/views/account/Home/ModalContent";
 import {AnimatedScrollView} from "react-native-reanimated/lib/typescript/reanimated2/component/ScrollView";
 import useScreenDimensions from "@/hooks/useScreenDimensions";
-import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
+import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 
 const Home: Screen<"HomeScreen"> = ({ navigation }) => {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const corners = useMemo(() => getCorners(), []);
   const focused = useIsFocused();
-  const { enableHaptics } = useThemeSoundHaptics();
+  const { playHaptics } = useSoundHapticsWrapper();
 
   const {isTablet} = useScreenDimensions();
 
@@ -253,7 +253,9 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
         }}
         onScroll={(e) => {
           if (e.nativeEvent.contentOffset.y > 125 && canHaptics) {
-            if (enableHaptics) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            playHaptics("impact", {
+              impact: Haptics.ImpactFeedbackStyle.Light,
+            });
             setCanHaptics(false);
           } else if (e.nativeEvent.contentOffset.y < 125 && !canHaptics) {
             setCanHaptics(true);

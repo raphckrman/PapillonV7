@@ -16,10 +16,9 @@ import pronote from "pawnote";
 
 import { useAccounts, useCurrentAccount } from "@/stores/account";
 import { Account, AccountService } from "@/stores/account/types";
-import { Audio } from "expo-av";
 import defaultPersonalization from "@/services/pronote/default-personalization";
 import extract_pronote_name from "@/utils/format/extract_pronote_name";
-import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
+import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 
 const makeUUID = (): string => {
   let dt = new Date().getTime();
@@ -44,7 +43,6 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
   const { colors } = theme;
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanned, setScanned] = useState(false);
-  const [sound, setSound] = useState<Audio.Sound | null>(null);
 
   const [inputFocus, setInputFocus] = useState(false);
 
@@ -56,7 +54,7 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
   const codeInput = React.createRef<TextInput>();
   const [QRData, setQRData] = useState<string | null>(null);
 
-  const { enableSon, enableHaptics } = useThemeSoundHaptics();
+  const { playHaptics, playSound } = useSoundHapticsWrapper();
 
   async function loginQR () {
     setScanned(false);
@@ -133,7 +131,7 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
         queueMicrotask(() => {
           // Reset the navigation stack to the "Home" screen.
           // Prevents the user from going back to the login screen.
-          if (enableSon) playSound();
+          playSound("@/../assets/sound/4.wav");
           navigation.reset({
             index: 0,
             routes: [{ name: "AccountCreated" }],
@@ -147,29 +145,6 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
       return;
     }
   }
-
-  React.useEffect(() => {
-    const loadSound = async () => {
-      const { sound } = await Audio.Sound.createAsync(
-        require("@/../assets/sound/4.wav")
-      );
-      setSound(sound);
-    };
-
-    loadSound();
-
-    return () => {
-      if (sound) {
-        sound.unloadAsync();
-      }
-    };
-  }, []);
-
-  const playSound = async () => {
-    if (sound) {
-      await sound.replayAsync();
-    }
-  };
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -187,7 +162,9 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
     data: string;
   }) => {
     setScanned(true);
-    if (enableHaptics) Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    playHaptics("notification", {
+      notification: Haptics.NotificationFeedbackType.Success,
+    });
     setQRData(data);
     setPinModalVisible(true);
   };

@@ -12,7 +12,7 @@ import { useAccounts } from "@/stores/account";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import MaskedView from "@react-native-masked-view/masked-view";
 import * as Haptics from "expo-haptics";
-import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
+import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 
 type Props = {
   navigation: any;
@@ -27,7 +27,7 @@ const QrcodeScanner: Screen<"QrcodeScanner"> = ({ navigation, route }) => {
   const accountID = route.params?.accountID;
   const [hasPermission, setHasPermission] = React.useState<boolean | null>(null);
   const [scanned, setScanned] = React.useState(false);
-  const { enableHaptics } = useThemeSoundHaptics();
+  const { playHaptics } = useSoundHapticsWrapper();
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -45,7 +45,9 @@ const QrcodeScanner: Screen<"QrcodeScanner"> = ({ navigation, route }) => {
     data: string;
   }) => {
     setScanned(true);
-    if (enableHaptics) Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    playHaptics("notification", {
+      notification: Haptics.NotificationFeedbackType.Success,
+    });
     update<ExternalAccount>(accountID, "data", { "qrcodedata": data, "qrcodetype": type });
     navigation.navigate("PriceDetectionOnboarding", { accountID });
   };
