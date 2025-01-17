@@ -22,7 +22,7 @@ const getAllLessonsForDay = (lessons: Record<number, Timetable>) => {
 };
 
 const fetchLessons = async (): Promise<Timetable> => {
-  log("[background fetch]", "Running background Lessons");
+  log("Running background Lessons", "BackgroundEvent");
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 

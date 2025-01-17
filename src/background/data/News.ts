@@ -20,7 +20,7 @@ const getDifferences = (
 };
 
 const fetchNews = async (): Promise<Information[]> => {
-  log("[background fetch]", "Running background News");
+  log("Running background News", "BackgroundEvent");
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 

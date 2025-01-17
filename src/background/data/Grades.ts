@@ -19,7 +19,7 @@ const getDifferences = (
 };
 
 const fetchGrade = async (): Promise<Grade[]> => {
-  log("[background fetch]", "Running background Grade");
+  log("Running background Grade", "BackgroundEvent");
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 

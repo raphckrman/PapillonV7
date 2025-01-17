@@ -19,7 +19,7 @@ const getDifferences = (
 };
 
 const fetchEvaluation = async (): Promise<Evaluation[]> => {
-  log("[background fetch]", "Running background Evaluation");
+  log("Running background Evaluation", "BackgroundEvent");
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 

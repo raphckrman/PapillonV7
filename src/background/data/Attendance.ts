@@ -53,7 +53,7 @@ const getDifferences = (
 };
 
 const fetchAttendance = async (): Promise<Attendance> => {
-  log("[background fetch]", "Running background Attendance");
+  log("Running background Attendance", "BackgroundEvent");
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 
