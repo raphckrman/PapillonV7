@@ -26,13 +26,13 @@ import { animPapillon } from "@/utils/ui/animations";
 import * as Haptics from "expo-haptics";
 import { PressableScale } from "react-native-pressable-scale";
 import { ReanimatedGraphProps, ReanimatedGraphPublicMethods } from "@birdwingo/react-native-reanimated-graph/src/core/dto/graphDTO";
-// Using require to set custom types bc module types are broken
-const ReanimatedGraph: React.ForwardRefExoticComponent<ReanimatedGraphProps & React.RefAttributes<ReanimatedGraphPublicMethods>> = require("@birdwingo/react-native-reanimated-graph").default;
 import { useCurrentAccount } from "@/stores/account";
 import AnimatedNumber from "@/components/Global/AnimatedNumber";
 import type { Grade } from "@/services/shared/Grade";
 import { AlertTriangle, Check, ExternalLink, PieChart, TrendingUp } from "lucide-react-native";
 import { useAlert } from "@/providers/AlertProvider";
+// Using require to set custom types bc module types are broken
+const ReanimatedGraph: React.ForwardRefExoticComponent<ReanimatedGraphProps & React.RefAttributes<ReanimatedGraphPublicMethods>> = require("@birdwingo/react-native-reanimated-graph").default;
 
 interface GradesAverageGraphProps {
   grades: Grade[];
@@ -329,26 +329,26 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
                 </Reanimated.View>
               </View>
               <View style={[styles.gradeInfo, styles.gradeRight]}>
-              <NativeText numberOfLines={1}>Moyenne classe</NativeText>
-              <Reanimated.View
-                style={[styles.gradeValue]}
-                layout={animPapillon(LinearTransition)}
-              >
-                {classAvg !== null ? (
-                  <>
-                    <AnimatedNumber
-                      value={classAvg.toFixed(2)}
-                      style={styles.gradeNumberClass}
-                    />
-                    <Reanimated.View layout={animPapillon(LinearTransition)}>
-                      <NativeText style={[styles.gradeOutOf]}>/20</NativeText>
-                    </Reanimated.View>
-                  </>
-                ) : (
-                  <NativeText style={styles.gradeNumberClass}>Inconnue</NativeText>
-                )}
-              </Reanimated.View>
-            </View>
+                <NativeText numberOfLines={1}>Moyenne classe</NativeText>
+                <Reanimated.View
+                  style={[styles.gradeValue]}
+                  layout={animPapillon(LinearTransition)}
+                >
+                  {classAvg !== null ? (
+                    <>
+                      <AnimatedNumber
+                        value={classAvg.toFixed(2)}
+                        style={styles.gradeNumberClass}
+                      />
+                      <Reanimated.View layout={animPapillon(LinearTransition)}>
+                        <NativeText style={[styles.gradeOutOf]}>/20</NativeText>
+                      </Reanimated.View>
+                    </>
+                  ) : (
+                    <NativeText style={styles.gradeNumberClass}>Inconnue</NativeText>
+                  )}
+                </Reanimated.View>
+              </View>
             </Reanimated.View>
 
             {showDetails && maxAvg > 0 && minAvg > 0 ? (
