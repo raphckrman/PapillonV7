@@ -7,7 +7,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { NativeList, NativeItem, NativeListHeader } from "@/components/Global/NativeComponents";
 import { NativeText } from "@/components/Global/NativeComponents";
 import PapillonCheckbox from "@/components/Global/PapillonCheckbox";
-import Animated, {FadeInDown, FadeOutDown} from "react-native-reanimated";
 import ApparenceContainerCard from "@/components/Settings/ApparenceContainerCard";
 import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 

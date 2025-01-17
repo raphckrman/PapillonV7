@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Image, Text, View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -11,7 +11,6 @@ import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import { useTheme } from "@react-navigation/native";
 
 import * as WebBrowser from "expo-web-browser";
-import * as SplashScreen from "expo-splash-screen";
 
 const PRIVACY_POLICY_URL = "https://docs.papillon.bzh/legal/privacy";
 const TERMS_OF_SERVICE_URL = "https://docs.papillon.bzh/legal/terms";
