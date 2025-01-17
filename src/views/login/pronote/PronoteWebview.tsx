@@ -73,7 +73,7 @@ const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
   ).toUTCString();
 
   useEffect(() => {
-    playSound("@/../assets/sound/3.wav");
+    playSound(require("@/../assets/sound/3.wav"));
   }, []);
 
   const INJECT_PRONOTE_JSON = `
@@ -325,7 +325,7 @@ const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
                 queueMicrotask(() => {
                   // Reset the navigation stack to the "Home" screen.
                   // Prevents the user from going back to the login screen.
-                  playSound("@/../assets/sound/4.wav");
+                  playSound(require("@/../assets/sound/4.wav"));
                   navigation.reset({
                     index: 0,
                     routes: [{ name: "AccountCreated" }],

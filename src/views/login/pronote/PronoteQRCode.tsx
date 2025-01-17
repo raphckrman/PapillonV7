@@ -131,7 +131,7 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
         queueMicrotask(() => {
           // Reset the navigation stack to the "Home" screen.
           // Prevents the user from going back to the login screen.
-          playSound("@/../assets/sound/4.wav");
+          playSound(require("@/../assets/sound/4.wav"));
           navigation.reset({
             index: 0,
             routes: [{ name: "AccountCreated" }],

@@ -19,9 +19,9 @@ const useSoundHapticsWrapper = () => {
     }
   };
 
-  const playSound = async (srcSound: string) => {
+  const playSound = async (srcSound: any) => {
     if (enableSon) {
-      const { sound } = await Sound.createAsync(require(srcSound));
+      const { sound } = await Sound.createAsync(srcSound);
       await sound.setPositionAsync(0);
       await sound.playAsync();
     }

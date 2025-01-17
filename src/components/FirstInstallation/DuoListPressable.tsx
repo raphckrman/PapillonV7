@@ -41,7 +41,7 @@ const DuoListPressable: React.FC<{
       playHaptics("impact", {
         impact: Haptics.ImpactFeedbackStyle.Light,
       });
-      playSound("@/../assets/sound/click_003.wav");
+      playSound(require("@/../assets/sound/click_003.wav"));
     }
     else {
       scale.value = withTiming(1, { duration: 100, easing: Easing.linear });

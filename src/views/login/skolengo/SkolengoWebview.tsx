@@ -59,7 +59,7 @@ const SkolengoWebview: Screen<"SkolengoWebview"> = ({ route, navigation }) => {
   let webViewRef = createRef<WebView>();
 
   useEffect(() => {
-    playSound("@/../assets/sound/3.wav");
+    playSound(require("@/../assets/sound/3.wav"));
   }, []);
 
   return (

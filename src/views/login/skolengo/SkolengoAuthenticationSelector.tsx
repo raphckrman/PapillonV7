@@ -31,7 +31,7 @@ const SkolengoAuthenticationSelector: Screen<"SkolengoAuthenticationSelector"> =
         break;
     }
 
-    playSound("@/../assets/sound/2.wav");
+    playSound(require("@/../assets/sound/2.wav"));
   };
 
   return (
