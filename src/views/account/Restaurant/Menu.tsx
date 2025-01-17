@@ -211,13 +211,13 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
   const getLabelIcon = (label: string) => {
     switch (label) {
       case "Assemblé sur place":
-        return <CookingPot size={12} color="#FFFFFF" />;
+        return <CookingPot size={12} strokeWidth={3} color="#FFFFFF" />;
       case "Issu de l'Agriculture Biologique":
-        return <Sprout size={12} color="#FFFFFF" />;
+        return <Sprout size={12} strokeWidth={3} color="#FFFFFF" />;
       case "Fait maison - Recette du chef":
-        return <ChefHat size={12} color="#FFFFFF" />;
+        return <ChefHat size={12} strokeWidth={3} color="#FFFFFF" />;
       case "Produits locaux":
-        return <MapPin size={12} color="#FFFFFF" />;
+        return <MapPin size={12} strokeWidth={3} color="#FFFFFF" />;
       default:
         return null;
     }
