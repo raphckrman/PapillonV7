@@ -117,7 +117,7 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
     },
     {
       icon: <NativeIcon icon={<NotepadText />} color={colors.primary} />,
-      title: "Nouvelle événement sur la Vie Scolaire",
+      title: "Nouvel événement sur la Vie Scolaire",
       message: "Tu as été en retard de 5 min à 11:10",
       personalizationValue: "attendance",
     },
