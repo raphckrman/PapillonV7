@@ -9,8 +9,8 @@ const useSoundHapticsWrapper = () => {
     type: "impact" | "notification",
     // Objet pour éviter les erreurs TypeScript
     haptic: {
-      impact?: Haptics.ImpactFeedbackStyle,
-      notification?: Haptics.NotificationFeedbackType
+      impact?: Haptics.ImpactFeedbackStyle;
+      notification?: Haptics.NotificationFeedbackType;
     }
   ) => {
     if (enableHaptics) {
@@ -19,9 +19,11 @@ const useSoundHapticsWrapper = () => {
     }
   };
 
-  const playSound = (sound: Sound) => {
+  const playSound = async (srcSound: string) => {
     if (enableSon) {
-      sound.replayAsync();
+      const { sound } = await Sound.createAsync(require(srcSound));
+      await sound.setPositionAsync(0);
+      await sound.playAsync();
     }
   };
 
