@@ -7,17 +7,32 @@ export const timestampToString = (timestamp: number) => {
 
   const difference = Math.ceil((date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
-  return difference === 0
-    ? "Aujourd'hui"
-    : difference === 1
-      ? "Demain"
-      : difference === 2
-        ? "Après-demain"
-        : difference === -1
-          ? "Hier"
-          : difference === -2
-            ? "Avant-hier"
-            : difference < 0
-              ? `Il y a ${0 - difference} jours`
-              : `Dans ${difference} jours`;
+  let formattedDate: string;
+
+  switch (difference) {
+    case -2:
+      formattedDate = "Avant-hier";
+      break;
+    case -1:
+      formattedDate = "Hier";
+      break;
+    case 0:
+      formattedDate = "Aujourd'hui";
+      break;
+    case 1:
+      formattedDate = "Demain";
+      break;
+    case 2:
+      formattedDate = "Après-demain";
+      break;
+    default:
+      if (difference < 0) {
+        formattedDate = `Il y a ${0 - difference} jours`;
+      } else {
+        formattedDate = `Dans ${difference} jours`;
+      }
+      break;
+  }
+
+  return formattedDate;
 };
