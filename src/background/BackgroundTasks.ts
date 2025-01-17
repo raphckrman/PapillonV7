@@ -79,7 +79,7 @@ const registerBackgroundTasks = async () => {
       if (!isRegistered) {
         expoGoWrapper(async () => {
           await BackgroundFetch.registerTaskAsync("background-fetch", {
-            minimumInterval: 60 * 1, // 15 minutes
+            minimumInterval: 60 * 15, // 15 minutes
             stopOnTerminate: false, // Maintenir après fermeture (Android)
             startOnBoot: true, // Redémarrer au démarrage (Android)
           });
