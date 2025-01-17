@@ -75,13 +75,13 @@ const registerBackgroundTasks = async () => {
       startOnBoot: true, // android only
     });
 
-    console.log("[background fetch] Registered background fetch");
+    log("[background fetch]", "Registered background fetch");
   });
 };
 
 const unsetBackgroundFetch = async () => {
   BackgroundFetch.unregisterTaskAsync("background-fetch");
-  console.log("[background fetch] Unregistered background fetch");
+  log("[background fetch]", "Unregistered background fetch");
 };
 
 export {
