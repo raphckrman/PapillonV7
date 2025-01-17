@@ -1,3 +1,4 @@
+import "@/background/BackgroundTasks";
 import notifee, { EventType } from "@notifee/react-native";
 import Router from "@/router";
 import { useFonts } from "expo-font";
