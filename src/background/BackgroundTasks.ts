@@ -62,6 +62,7 @@ const backgroundFetch = async () => {
     ]);
   }
 
+  log("[background fetch]", "Finish background fetch");
   return BackgroundFetchResult.NewData;
 };
 

@@ -3,6 +3,7 @@ import { getCurrentAccount } from "../utils/accounts";
 import { papillonNotify } from "../Notifications";
 import parse_news_resume from "@/utils/format/format_pronote_news";
 import { Information } from "@/services/shared/Information";
+import { log } from "@/utils/logger/logger";
 
 const getDifferences = (
   currentNews: Information[],
@@ -19,6 +20,7 @@ const getDifferences = (
 };
 
 const fetchNews = async (): Promise<Information[]> => {
+  log("[background fetch]", "Running background News");
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 

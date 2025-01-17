@@ -2,6 +2,7 @@ import { getCurrentAccount } from "../utils/accounts";
 import { papillonNotify } from "../Notifications";
 import { Evaluation } from "@/services/shared/Evaluation";
 import { getEvaluation, updateEvaluationState } from "../utils/evaluation";
+import { log } from "@/utils/logger/logger";
 
 const getDifferences = (
   currentEvaluation: Evaluation[],
@@ -18,6 +19,7 @@ const getDifferences = (
 };
 
 const fetchEvaluation = async (): Promise<Evaluation[]> => {
+  log("[background fetch]", "Running background Evaluation");
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 
