@@ -83,24 +83,43 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
     return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
   };
 
-  const updateDatePicker = async (date: Date) => {
+  const onDatePickerSelect =async  (date?: Date) => {
+    if(!date) {
+      return
+    }
+
+    const newDate = new Date(date);
+
+    newDate.setHours(0, 0, 0, 0);
+
+    if(newDate.valueOf() === pickerDate.valueOf()) {
+      return;
+    }
+
+    setPickerDate(newDate);
+
     setMenuLoading(true);
+
     const newWeek = getWeekNumber(date);
 
     if (currentWeek !== newWeek) {
       setCurrentWeek(newWeek);
+
       const allBookings: BookingTerminal[] = [];
+
       for (const account of linkedAccounts) {
         const bookingsForAccount = await getBookingsAvailableFromExternal(account, newWeek);
         allBookings.push(...bookingsForAccount);
       }
+      
       setAllBookings(allBookings);
     }
 
     const dailyMenu = account ? await getMenu(account, date).catch(() => null) : null;
     setCurrentMenu(dailyMenu);
+    
     setMenuLoading(false);
-  };
+  }
 
   const handleBookTogglePress = async (terminal: BookingTerminal, bookingDay: BookingDay) => {
     const newBookingStatus = !bookingDay.booked;
@@ -501,14 +520,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
             showDatePicker={showDatePicker}
             setShowDatePicker={setShowDatePicker}
             currentDate={pickerDate}
-            onDateSelect={(date: Date | undefined) => {
-              if (!date) return;
-              const newDate = new Date(date);
-              newDate.setHours(0, 0, 0, 0);
-              setPickerDate(newDate);
-              updateDatePicker(newDate);
-              setShowDatePicker(false);
-            }}
+            onDateSelect={onDatePickerSelect}
           />
         </>
       )}
