@@ -5,33 +5,57 @@ export const timestampToString = (timestamp: number) => {
   today.setHours(0, 0, 0, 0);
   date.setHours(0, 0, 0, 0);
 
-  const difference = Math.ceil((date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-
   let formattedDate: string;
 
-  switch (difference) {
-    case -2:
-      formattedDate = "Avant-hier";
-      break;
-    case -1:
-      formattedDate = "Hier";
-      break;
-    case 0:
-      formattedDate = "Aujourd'hui";
-      break;
-    case 1:
-      formattedDate = "Demain";
-      break;
-    case 2:
-      formattedDate = "Après-demain";
-      break;
-    default:
-      if (difference < 0) {
-        formattedDate = `Il y a ${0 - difference} jours`;
+  let dateDifference = [
+    date.getFullYear() - today.getFullYear(),
+    date.getMonth() - today.getMonth(),
+    date.getDate() - today.getDate(),
+  ];
+
+  let yearDifference = Math.trunc(
+    dateDifference[0] + dateDifference[1] / 12 + dateDifference[2] / 365,
+  );
+
+  let monthDifference = Math.trunc(
+    dateDifference[0] * 12 +
+      dateDifference[1] + dateDifference[2] / 30.4,
+  );
+
+  let dayDifference = Math.round(
+    (date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+  );
+
+  if (yearDifference < -1) {
+    formattedDate = `Il y a ${0 - yearDifference} ans`;
+  } else if (yearDifference === -1) {
+    formattedDate = "Il y a 1 an";
+  } else if (yearDifference === 1) {
+    formattedDate = "Dans 1 an";
+  } else if (yearDifference > 1) {
+    formattedDate = `Dans ${yearDifference} ans`;
+  } else {
+    if (monthDifference < 0) {
+      formattedDate = `Il y a ${0 - monthDifference} mois`;
+    } else if (monthDifference > 0) {
+      formattedDate = `Dans ${monthDifference} mois`;
+    } else {
+      if (dayDifference < -2) {
+        formattedDate = `Il y a ${0 - dayDifference} jours`;
+      } else if (dayDifference === -2) {
+        formattedDate = "Avant-hier";
+      } else if (dayDifference === -1) {
+        formattedDate = "Hier";
+      } else if (dayDifference === 0) {
+        formattedDate = "Aujourd'hui";
+      } else if (dayDifference === 1) {
+        formattedDate = "Demain";
+      } else if (dayDifference === 2) {
+        formattedDate = "Après-demain";
       } else {
-        formattedDate = `Dans ${difference} jours`;
+        formattedDate = `Dans ${dayDifference} jours`;
       }
-      break;
+    }
   }
 
   return formattedDate;
