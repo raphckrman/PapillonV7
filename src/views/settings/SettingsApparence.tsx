@@ -8,7 +8,6 @@ import { NativeList, NativeItem, NativeListHeader } from "@/components/Global/Na
 import { NativeText } from "@/components/Global/NativeComponents";
 import PapillonCheckbox from "@/components/Global/PapillonCheckbox";
 import ApparenceContainerCard from "@/components/Settings/ApparenceContainerCard";
-import * as Brightness from "expo-brightness";
 import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 
 const SettingsApparence: Screen<"SettingsApparence"> = () => {
