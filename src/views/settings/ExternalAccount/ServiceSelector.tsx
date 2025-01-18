@@ -16,14 +16,10 @@ const ExternalAccountSelector: Screen<"ExternalAccountSelector"> = ({ navigation
   return (
     <SafeAreaView style={styles.container}>
       <PapillonShineBubble
-        noFlex
-        message={"Pour commencer, quel est ton service de cantine ?"}
-        width={250}
+        message="Pour commencer, quel est ton service de cantine ?"
         numberOfLines={2}
+        width={260}
         offsetTop={"15%"}
-        style={{
-          height: 180,
-        }}
       />
 
       <Reanimated.ScrollView
