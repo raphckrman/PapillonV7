@@ -76,6 +76,7 @@
       ]
     },
     "plugins": [
+      "./plugins/notifee-mod.js",
       [
         "expo-font",
         {
