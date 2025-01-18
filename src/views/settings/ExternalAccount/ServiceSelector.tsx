@@ -7,7 +7,6 @@ import PapillonShineBubble from "@/components/FirstInstallation/PapillonShineBub
 import { AccountService } from "@/stores/account/types";
 import DuoListPressable from "@/components/FirstInstallation/DuoListPressable";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
-import { LinearGradient } from "expo-linear-gradient";
 
 const ExternalAccountSelector: Screen<"ExternalAccountSelector"> = ({ navigation }) => {
   type Service = AccountService | "Other";

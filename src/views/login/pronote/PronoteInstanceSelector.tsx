@@ -9,7 +9,6 @@ import {
   Keyboard,
   KeyboardEvent,
   SafeAreaView,
-  Text,
 } from "react-native";
 import pronote from "pawnote";
 import Reanimated, {
