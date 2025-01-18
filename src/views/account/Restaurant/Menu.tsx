@@ -55,9 +55,11 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [refreshCount, setRefreshCount] = useState(0);
 
+  const currentDate = new Date();
+
   const [allBalances, setAllBalances] = useState<Balance[] | null>(null);
   const [allHistories, setAllHistories] = useState<ReservationHistory[] | null>(null);
-  const [allQRCodes, setAllQRCodes] = useState<string[] | null>(null);
+  const [allQRCodes, setAllQRCodes] = useState<Array<string | Blob> | null>(null);
   const [allBookings, setAllBookings] = useState<BookingTerminal[] | null>(null);
   const [currentMenu, setCurrentMenu] = useState<PawnoteMenu | null>(null);
   const [currentWeek, setCurrentWeek] = useState<number>(0);
@@ -140,7 +142,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
       try {
         const newBalances: Balance[] = [];
         const newHistories: ReservationHistory[] = [];
-        const newQRCodes: string[] = [];
+        const newQRCodes: Array<string | Blob> = [];
         const newBookings: BookingTerminal[] = [];
 
         const dailyMenu = account ? await getMenu(account, pickerDate).catch(() => null) : null;
@@ -292,7 +294,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
           </View>
           }
 
-          {allBookings && allBookings.some((terminal) => terminal.days.some((day) => day.date?.toDateString() === pickerDate.toDateString())) && (
+          {allBookings && pickerDate.getTime() > currentDate.getTime() && allBookings.some((terminal) => terminal.days.some((day) => day.date?.toDateString() === pickerDate.toDateString())) && (
             <>
               <NativeListHeader label="Réservations disponibles" />
               <NativeList>
