@@ -26,14 +26,10 @@ export const timestampToString = (timestamp: number) => {
     (date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
   );
 
-  if (yearDifference < -1) {
-    formattedDate = `Il y a ${0 - yearDifference} ans`;
-  } else if (yearDifference === -1) {
-    formattedDate = "Il y a 1 an";
-  } else if (yearDifference === 1) {
-    formattedDate = "Dans 1 an";
-  } else if (yearDifference > 1) {
-    formattedDate = `Dans ${yearDifference} ans`;
+  if (yearDifference <= -1) {
+    formattedDate = `Il y a ${0 - yearDifference} an${yearDifference < -1 ? "s" : ""}`;
+  } else if (yearDifference >= 1) {
+    formattedDate = `Dans ${yearDifference} an${yearDifference > 1 ? "s" : ""}`;
   } else {
     if (monthDifference < 0) {
       formattedDate = `Il y a ${0 - monthDifference} mois`;
