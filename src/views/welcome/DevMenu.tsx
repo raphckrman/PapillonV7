@@ -125,11 +125,6 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
                   }
                 }
               })}
-            >
-              <NativeText>
-                NoteReaction
-              </NativeText>
-            </NativeItem>
 
             <NativeItem
               onPress={() => navigation.navigate("ColorSelector")}
