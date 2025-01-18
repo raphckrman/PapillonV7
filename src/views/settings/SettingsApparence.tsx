@@ -8,6 +8,7 @@ import { NativeList, NativeItem, NativeListHeader } from "@/components/Global/Na
 import { NativeText } from "@/components/Global/NativeComponents";
 import PapillonCheckbox from "@/components/Global/PapillonCheckbox";
 import ApparenceContainerCard from "@/components/Settings/ApparenceContainerCard";
+import * as Brightness from "expo-brightness";
 import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 
 const SettingsApparence: Screen<"SettingsApparence"> = () => {
@@ -36,7 +37,7 @@ const SettingsApparence: Screen<"SettingsApparence"> = () => {
           leading={<SunMoon color={theme.colors.text} />}
           trailing={
             <PapillonCheckbox
-              color={"#1e316a"}
+              color={"#1E316A"}
               checked={whatTheme === 0}
               onPress={() => setWhatTheme(0)}
               style={{ marginRight: 5 }}
@@ -52,7 +53,7 @@ const SettingsApparence: Screen<"SettingsApparence"> = () => {
           leading={<Sun color={theme.colors.text} />}
           trailing={
             <PapillonCheckbox
-              color={"#1e316a"}
+              color={"#1E316A"}
               checked={whatTheme === 1}
               onPress={() => setWhatTheme(1)}
               style={{ marginRight: 5 }}
@@ -68,7 +69,7 @@ const SettingsApparence: Screen<"SettingsApparence"> = () => {
           leading={<Moon color={theme.colors.text} />}
           trailing={
             <PapillonCheckbox
-              color={"#1e316a"}
+              color={"#1E316A"}
               checked={whatTheme === 2}
               onPress={() => setWhatTheme(2)}
               style={{ marginRight: 5 }}

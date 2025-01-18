@@ -138,7 +138,7 @@ export type RouteParameters = {
 
   Menu?: undefined;
   RestaurantQrCode: {
-    QrCodes: string[];
+    QrCodes: Array<string | Blob>;
   };
   RestaurantHistory: {
     histories: ReservationHistory[];
