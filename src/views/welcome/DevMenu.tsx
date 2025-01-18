@@ -119,7 +119,7 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
               <NativeText>
                 GradeReaction
               </NativeText>
-            </NativeItem> */}
+            </NativeItem>
 
             <NativeItem
               onPress={() => navigation.navigate("ColorSelector")}
