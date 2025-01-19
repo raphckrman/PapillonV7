@@ -38,6 +38,24 @@ function get_file_from_stacktrace (stack: string): string
   return (res);
 }
 
+
+function obtain_function_name (from?: string): string {
+  const error = new Error(); // On génère une erreur pour obtenir la stacktrace
+  const stack = error.stack?.split("\n") || [];
+
+  const relevantLine = stack
+    .slice(3) // Ignore les premières lignes (celle du logger)
+    .find((line) => line.includes("at ") && line.includes("http")) // Recherche une ligne pertinente
+    ?.trim();
+
+  // Extraire le nom de la fonction ou utiliser `from` si on trouve pas
+  let functionName = (relevantLine && RegExp(/at (\S+)\s\(/).exec(relevantLine)?.[1]) ?? from;
+  // `anon` cherche à matcher avec `anonymous` et `?anon_0_` qui sont des fonctions anonymes
+  if (!functionName || functionName.includes("anon")) functionName = "UNKOWN";
+
+  return functionName;
+}
+
 function save_logs_to_memory (log: string)
 {
   AsyncStorage.getItem("logs")
