@@ -24,6 +24,10 @@ const useSoundHapticsWrapper = () => {
   const playSound = async (srcSound: any) => {
     if (enableSon) {
       const { sound } = await Sound.createAsync(srcSound);
+      const onPlaybackStatusUpdate = async (status: AVPlaybackStatus) => {
+        if (status.isLoaded && status.didJustFinish) await sound.unloadAsync();
+      };
+      sound.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
       await sound.setPositionAsync(0);
       await sound.playAsync();
     }
