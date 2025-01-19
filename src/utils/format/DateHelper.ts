@@ -1,3 +1,12 @@
+const numericDateFormatter = new Intl.RelativeTimeFormat("fr", {
+  numeric: "always",
+  style: "long",
+});
+const dateFormatter = new Intl.RelativeTimeFormat("fr", {
+  numeric: "auto",
+  style: "long",
+});
+
 export const timestampToString = (timestamp: number) => {
   const date = new Date(timestamp);
   const today = new Date();
@@ -28,42 +37,13 @@ export const timestampToString = (timestamp: number) => {
 
   if (yearDifference === 0) {
     if (monthDifference === 0) {
-      if (Math.abs(dayDifference) > 2) {
-        let prefix = dayDifference < 0 ? "Il y a " : "Dans ";
-        let suffix = " jours";
-        formattedDate = prefix + Math.abs(dayDifference) + suffix;
-      } else {
-        switch (dayDifference) {
-          case -2:
-            formattedDate = "Avant-hier";
-            break;
-          case -1:
-            formattedDate = "Hier";
-            break;
-          case 0:
-            formattedDate = "Aujourd'hui";
-            break;
-          case 1:
-            formattedDate = "Demain";
-            break;
-          case 2:
-            formattedDate = "Après-demain";
-            break;
-          default:
-            formattedDate = "";
-            break;
-        }
-      }
+      formattedDate = dateFormatter.format(dayDifference, "days");
     } else {
-      let prefix = monthDifference < 0 ? "Il y a " : "Dans ";
-      let suffix = " mois";
-      formattedDate = prefix + Math.abs(monthDifference) + suffix;
+      formattedDate = numericDateFormatter.format(monthDifference, "months");
     }
   } else {
-    let prefix = yearDifference < 0 ? "Il y a " : "Dans ";
-    let suffix = " an" + (Math.abs(yearDifference) > 1 ? "s" : "");
-    formattedDate = prefix + Math.abs(yearDifference) + suffix;
+    formattedDate = numericDateFormatter.format(yearDifference, "years");
   }
 
-  return formattedDate;
+  return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
 };
