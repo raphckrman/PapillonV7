@@ -28,20 +28,31 @@ export const timestampToString = (timestamp: number) => {
 
   if (yearDifference === 0) {
     if (monthDifference === 0) {
-      if (dayDifference < -2) {
-        formattedDate = `Il y a ${0 - dayDifference} jours`;
-      } else if (dayDifference === -2) {
-        formattedDate = "Avant-hier";
-      } else if (dayDifference === -1) {
-        formattedDate = "Hier";
-      } else if (dayDifference === 0) {
-        formattedDate = "Aujourd'hui";
-      } else if (dayDifference === 1) {
-        formattedDate = "Demain";
-      } else if (dayDifference === 2) {
-        formattedDate = "Après-demain";
+      if (Math.abs(dayDifference) > 2) {
+        let prefix = dayDifference < 0 ? "Il y a " : "Dans ";
+        let suffix = " jours";
+        formattedDate = prefix + Math.abs(dayDifference) + suffix;
       } else {
-        formattedDate = `Dans ${dayDifference} jours`;
+        switch (dayDifference) {
+          case -2:
+            formattedDate = "Avant-hier";
+            break;
+          case -1:
+            formattedDate = "Hier";
+            break;
+          case 0:
+            formattedDate = "Aujourd'hui";
+            break;
+          case 1:
+            formattedDate = "Demain";
+            break;
+          case 2:
+            formattedDate = "Après-demain";
+            break;
+          default:
+            formattedDate = "";
+            break;
+        }
       }
     } else {
       let prefix = monthDifference < 0 ? "Il y a " : "Dans ";
