@@ -75,13 +75,20 @@ jobs:
           cat tsc.log eslint.log > lint.log
         continue-on-error: true
 
+      - name: 📋 Check if lint logs are empty
+        id: check_logs
+        run: |
+          if [ -s lint.log ]; then
+            echo "is_empty=false" >> $GITHUB_ENV
+          else
+            echo "is_empty=true" >> $GITHUB_ENV
+          fi
+
       - name: 📄 Output Logs
         run: cat lint.log
 
       - name: 👁️‍🗨️ Comment on Pull Request
-        if: env.LINT_EMPTY != 'true'
-        env:
-          LINT_EMPTY: ${{ steps.check_logs.outputs.is_empty }}
+        if: env.is_empty == 'false'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
