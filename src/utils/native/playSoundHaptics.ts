@@ -2,6 +2,8 @@ import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 import { Sound } from "expo-av/build/Audio";
 import * as Haptics from "expo-haptics";
 
+import type { AVPlaybackStatus } from "expo-av/build/AV.types";
+
 const useSoundHapticsWrapper = () => {
   const { enableHaptics, enableSon } = useThemeSoundHaptics();
 
