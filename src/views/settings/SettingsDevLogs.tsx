@@ -17,7 +17,6 @@ import {
   CircleAlert,
   CircleX,
   Code,
-  Delete,
   Layers,
   Trash2,
   TriangleAlert,
@@ -28,7 +27,6 @@ import {
   X,
 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { PressableScale } from "react-native-pressable-scale";
 import {
   FadeInDown,
   FadeOutUp,
