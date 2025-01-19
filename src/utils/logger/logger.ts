@@ -72,25 +72,25 @@ function save_logs_to_memory (log: string)
 }
 
 function log (message: string, from: string): void {
-  let log = get_message(0, get_iso_date(), get_file_from_stacktrace(from), message);
+  let log = get_message(0, get_iso_date(), obtain_function_name(from), message);
   save_logs_to_memory(log);
   console.log(log);
 }
 
 function error (message: string, from: string): void {
-  let log = get_message(1, get_iso_date(), get_file_from_stacktrace(from), message);
+  let log = get_message(1, get_iso_date(), obtain_function_name(from), message);
   save_logs_to_memory(log);
   console.log(log);
 }
 
 function warn (message: string, from: string): void {
-  let log = get_message(2, get_iso_date(), get_file_from_stacktrace(from), message);
+  let log = get_message(2, get_iso_date(), obtain_function_name(from), message);
   save_logs_to_memory(log);
   console.log(log);
 }
 
 function info (message: string, from: string): void {
-  let log = get_message(3, get_iso_date(), get_file_from_stacktrace(from), message);
+  let log = get_message(3, get_iso_date(), obtain_function_name(from), message);
   save_logs_to_memory(log);
   console.log(log);
 }
