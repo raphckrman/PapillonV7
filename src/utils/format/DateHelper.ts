@@ -26,16 +26,8 @@ export const timestampToString = (timestamp: number) => {
     (date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
   );
 
-  if (yearDifference <= -1) {
-    formattedDate = `Il y a ${0 - yearDifference} an${yearDifference < -1 ? "s" : ""}`;
-  } else if (yearDifference >= 1) {
-    formattedDate = `Dans ${yearDifference} an${yearDifference > 1 ? "s" : ""}`;
-  } else {
-    if (monthDifference < 0) {
-      formattedDate = `Il y a ${0 - monthDifference} mois`;
-    } else if (monthDifference > 0) {
-      formattedDate = `Dans ${monthDifference} mois`;
-    } else {
+  if (yearDifference === 0) {
+    if (monthDifference === 0) {
       if (dayDifference < -2) {
         formattedDate = `Il y a ${0 - dayDifference} jours`;
       } else if (dayDifference === -2) {
@@ -51,7 +43,15 @@ export const timestampToString = (timestamp: number) => {
       } else {
         formattedDate = `Dans ${dayDifference} jours`;
       }
+    } else {
+      let prefix = monthDifference < 0 ? "Il y a " : "Dans ";
+      let suffix = " mois";
+      formattedDate = prefix + Math.abs(monthDifference) + suffix;
     }
+  } else {
+    let prefix = yearDifference < 0 ? "Il y a " : "Dans ";
+    let suffix = " an" + (Math.abs(yearDifference) > 1 ? "s" : "");
+    formattedDate = prefix + Math.abs(yearDifference) + suffix;
   }
 
   return formattedDate;
