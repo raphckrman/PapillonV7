@@ -56,14 +56,6 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
       );
       setLoading(false);
     });
-
-    navigation.setOptions({
-      headerRight: (props) => (
-        <PressableScale onPress={() => delete_logs()}>
-          <Delete />
-        </PressableScale>
-      ),
-    });
   }, [navigation]);
 
   return (
