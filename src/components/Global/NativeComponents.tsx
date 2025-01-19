@@ -75,6 +75,7 @@ export const NativeList: React.FC<NativeListProps> = ({
     >
       <Reanimated.View
         style={[{
+          flex: 1,
           borderRadius: 16,
           borderCurve: "continuous",
           overflow: "hidden",
