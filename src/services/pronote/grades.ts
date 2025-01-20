@@ -30,27 +30,27 @@ export const getGradesPeriods = (account: PronoteAccount): { periods: Period[], 
 
 const decodeGradeValue = (value: pronote.GradeValue | undefined): GradeValue => {
   if (typeof value === "undefined")
-    return { value: null, disabled: true };
+    return { value: null, disabled: true, status: "unknown" };
 
   switch (value.kind) {
     case pronote.GradeKind.Grade:
-      return { value: value.points, disabled: false };
+      return { value: value.points ?? 0, disabled: false, status: null };
     case pronote.GradeKind.Absent:
-      return { value: null, disabled: true, information: GradeInformation.Absent };
+      return { value: null, disabled: true, status: "Abs" };
     case pronote.GradeKind.Exempted:
-      return { value: null, disabled: true, information: GradeInformation.Exempted };
+      return { value: null, disabled: true, status: "Disp" };
     case pronote.GradeKind.NotGraded:
-      return { value: null, disabled: true, information: GradeInformation.NotGraded };
+      return { value: null, disabled: true, status: "N. Not" };
     case pronote.GradeKind.Unfit:
-      return { value: null, disabled: true, information: GradeInformation.Unfit };
+      return { value: null, disabled: true, status: null };
     case pronote.GradeKind.Unreturned:
-      return { value: null, disabled: true, information: GradeInformation.Unreturned };
+      return { value: null, disabled: true, status: null };
     case pronote.GradeKind.AbsentZero:
-      return { value: 0, disabled: false, information: GradeInformation.Absent };
+      return { value: 0, disabled: false, status: "Abs" };
     case pronote.GradeKind.UnreturnedZero:
-      return { value: 0, disabled: false, information: GradeInformation.Unreturned };
+      return { value: 0, disabled: false, status: null };
     default:
-      return { value: null, disabled: true };
+      return { value: null, disabled: true, status: null };
   }
 };
 
