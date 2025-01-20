@@ -260,7 +260,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
     }
   };
 
-  function renderAllergens(allergens: ReadonlyArray<FoodAllergen>) {
+  function renderAllergens (allergens: ReadonlyArray<FoodAllergen>) {
     if (allergens.length === 0) {
       return null;
     }
@@ -279,7 +279,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
     );
   }
 
-  function renderLabels(labels: ReadonlyArray<FoodLabel>) {
+  function renderLabels (labels: ReadonlyArray<FoodLabel>) {
     if (labels.length === 0) {
       return null;
     }
