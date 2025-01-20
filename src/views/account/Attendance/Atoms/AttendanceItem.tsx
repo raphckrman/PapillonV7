@@ -1,4 +1,4 @@
-import { type ReactNode, type Dispatch, type SetStateAction, useState } from "react";
+import { type ReactNode, useState } from "react";
 import type { Attendance } from "@/services/shared/Attendance";
 import type { Absence } from "@/services/shared/Absence";
 
@@ -89,7 +89,7 @@ const AttendanceItem: React.FC<AttendanceItemProps> = ({
         const not_justified = "justified" in item && !item.justified;
         const justification = "reasons" in item ? item.reasons || NO_JUSTICATION : "reason" in item ? item.reason.text : NO_JUSTICATION;
         const dateString = toTimestamp
-        ? `Du ${new Date(timestamp).toLocaleDateString("fr-FR", {
+          ? `Du ${new Date(timestamp).toLocaleDateString("fr-FR", {
             day: "2-digit",
             month: "2-digit",
             year: new Date(timestamp).getFullYear() !== new Date().getFullYear() ? "2-digit" : undefined,
@@ -104,7 +104,7 @@ const AttendanceItem: React.FC<AttendanceItemProps> = ({
             hour: "2-digit",
             minute: "2-digit",
           })}`
-        : `${new Date(timestamp).toLocaleDateString("fr-FR", {
+          : `${new Date(timestamp).toLocaleDateString("fr-FR", {
             weekday: "long",
             day: "2-digit",
             month: "short",
