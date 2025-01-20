@@ -75,14 +75,12 @@ const NewsListItem: React.FC<NewsListItemProps> = ({ index, message, navigation,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+          marginTop: 5,
         }}
       >
         <NativeText
           numberOfLines={1}
           variant="subtitle"
-          style={{
-            marginTop: 6,
-          }}
         >
           {formatDate(message.date)}
         </NativeText>
