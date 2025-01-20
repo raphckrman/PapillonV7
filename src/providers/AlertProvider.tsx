@@ -12,6 +12,7 @@ type AlertAction = {
   onPress?: () => void;
   icon?: React.ReactElement;
   primary?: boolean;
+  danger?: boolean;
   backgroundColor?: string;
 };
 
@@ -182,7 +183,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
               </View>
 
               <View style={[styles.buttons, { borderColor: colors.border, backgroundColor: colors.text + "0a" }]}>
-                {(alert.actions ?? []).map(({ title, onPress, icon, primary, backgroundColor }) => (
+                {(alert.actions ?? []).map(({ title, onPress, icon, primary, danger, backgroundColor }) => (
                   <Pressable
                     key={title}
                     onPress={() => {
@@ -194,6 +195,9 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                       primary && styles.primaryButton,
                       primary && {
                         backgroundColor: backgroundColor ? backgroundColor : colors.primary,
+                      },
+                      danger && {
+                        backgroundColor: "#b62000",
                       },
                       {
                         opacity: primary ? (pressed ? 0.6 : 1) : (pressed ? 0.3 : 0.6),
