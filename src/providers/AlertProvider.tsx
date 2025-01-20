@@ -3,7 +3,9 @@ import { Check } from "lucide-react-native";
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import { Modal, View, Text, StyleSheet, Dimensions, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Reanimated, { LinearTransition, FadeInDown, FadeOutDown } from "react-native-reanimated";
+import Reanimated, { FadeIn, FadeOut, LinearTransition } from "react-native-reanimated";
+import { PapillonContextEnter, PapillonContextExit } from "@/utils/ui/animations";
+import { BlurView } from "expo-blur";
 
 type AlertAction = {
   title: string;
@@ -111,8 +113,36 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={hideAlert}
-        animationType="fade"
+        animationType="none"
       >
+        {visible && (
+          <Reanimated.View
+            entering={FadeIn.duration(150)}
+            exiting={FadeOut.duration(150)}
+            style={{
+              zIndex: -199,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+            }}
+            pointerEvents={"none"}
+          >
+            <BlurView
+              intensity={10}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
+            />
+          </Reanimated.View>
+        )}
+
         <Reanimated.View
           style={styles.modalContainer}
           layout={LinearTransition}
@@ -132,10 +162,11 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                   marginBottom: 10 + insets.bottom,
                   width: Dimensions.get("window").width - 20,
                   maxWidth: 600,
+                  transformOrigin: "bottom",
                 }
               ]}
-              entering={FadeInDown.duration(200)}
-              exiting={FadeOutDown.duration(100)}
+              entering={PapillonContextEnter}
+              exiting={PapillonContextExit}
             >
               <View style={styles.contentContainer}>
                 <View style={[styles.titleContainer]}>
@@ -190,7 +221,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0)",
   },
 
   alertBox: {
