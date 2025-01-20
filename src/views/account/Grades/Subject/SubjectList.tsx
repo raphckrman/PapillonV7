@@ -9,7 +9,6 @@ import React, { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 import Reanimated, {
   FadeInDown,
-  FadeInUp,
   FadeOutUp,
 } from "react-native-reanimated";
 import SubjectTitle from "./SubjectTitle";

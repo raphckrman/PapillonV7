@@ -6,13 +6,12 @@ import {
 } from "@/components/Global/NativeComponents";
 import { getSubjectData } from "@/services/shared/Subject";
 import { useTheme } from "@react-navigation/native";
-import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
-import { Image, ScrollView, Text, View, Platform, TouchableOpacity } from "react-native";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { Image, ScrollView, Text, View, Platform } from "react-native";
 import * as StoreReview from "expo-store-review";
 import {
   Asterisk,
   Calculator,
-  Maximize2,
   Scale,
   School,
   UserMinus,
@@ -24,7 +23,6 @@ import type { AverageDiffGrade } from "@/utils/grades/getAverages";
 import { Screen } from "@/router/helpers/types";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
   const { grade, allGrades = [] } = route.params;
@@ -335,7 +333,7 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
               }}
               numberOfLines={1}
             >
-                {grade.student.disabled ? (grade.student.status === null ? "N. Not" : grade.student.status) : grade.student.value?.toFixed(2)}
+              {grade.student.disabled ? (grade.student.status === null ? "N. Not" : grade.student.status) : grade.student.value?.toFixed(2)}
             </Text>
             <Text
               style={{

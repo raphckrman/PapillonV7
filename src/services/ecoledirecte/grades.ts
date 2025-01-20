@@ -3,7 +3,6 @@ import type { Period } from "@/services/shared/Period";
 import  {
   type AverageOverview,
   type Grade,
-  GradeInformation,
   type GradeValue,
 } from "@/services/shared/Grade";
 import ecoledirecte, {
