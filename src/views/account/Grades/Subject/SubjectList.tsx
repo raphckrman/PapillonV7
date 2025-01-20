@@ -9,7 +9,6 @@ import React, { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 import Reanimated, {
   FadeInDown,
-  FadeInUp,
   FadeOutUp,
 } from "react-native-reanimated";
 import SubjectTitle from "./SubjectTitle";
@@ -21,12 +20,14 @@ interface SubjectItemProps {
   subject: GradesPerSubject;
   allGrades: Grade[];
   navigation: NativeStackNavigationProp<RouteParameters, keyof RouteParameters>;
+  index?: number;
 }
 
 const SubjectItem: React.FC<SubjectItemProps> = ({
   subject,
   allGrades,
   navigation,
+  index,
 }) => {
   const [subjectData, setSubjectData] = useState({
     color: "#888888",
