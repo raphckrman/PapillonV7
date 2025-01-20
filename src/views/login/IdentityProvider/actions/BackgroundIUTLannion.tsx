@@ -1,17 +1,16 @@
-import { NativeText } from "@/components/Global/NativeComponents";
-import PapillonSpinner from "@/components/Global/PapillonSpinner";
 import defaultPersonalization from "@/services/local/default-personalization";
 import { useAccounts, useCurrentAccount } from "@/stores/account";
 import { AccountService, Identity, LocalAccount } from "@/stores/account/types";
 import uuid from "@/utils/uuid-v4";
 import { useTheme } from "@react-navigation/native";
 import React from "react";
-import { Alert, Button, View } from "react-native";
+import { Alert, View } from "react-native";
 import { WebView } from "react-native-webview";
 import type { Screen } from "@/router/helpers/types";
-import { FadeInDown, FadeOutUp } from "react-native-reanimated";
+import PapillonSpinner from "@/components/Global/PapillonSpinner";
+import { NativeText } from "@/components/Global/NativeComponents";
 import { animPapillon } from "@/utils/ui/animations";
-import { da } from "date-fns/locale";
+import { FadeInDown, FadeOutUp } from "react-native-reanimated";
 
 const capitalizeFirst = (str: string) => {
   str = str.toLowerCase();
@@ -146,7 +145,7 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
     if(redirectCount >= 2) {
       Alert.alert(
         "Erreur",
-        "Impossible de se connecter au portail de l'IUT de Lannion. Vérifiez vos identifiants et réessayez.",
+        "Impossible de se connecter au portail de l'IUT de Lannion. Vérifie tes identifiants et réessaye.",
         [{ text: "OK", onPress: () => navigation.goBack() }]
       );
       navigation.goBack();
@@ -217,7 +216,7 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
         onLoad={(data) => {
           const url = data.nativeEvent.url;
 
-          if(url.startsWith("https://sso-cas.univ-rennes1.fr//login?")) {
+          if(url.startsWith("https://sso-cas.univ-rennes.fr//login?")) {
             injectPassword();
           }
 
@@ -231,6 +230,16 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
                 window.ReactNativeWebView.postMessage(document.body.innerText);
               `);
           }
+        }}
+
+        onError={(data) => {
+          console.error(data);
+          Alert.alert(
+            "Erreur",
+            "Impossible de se connecter au portail de l'IUT de Lannion. Vérifie ta connexion internet et réessaye.",
+            [{ text: "OK", onPress: () => navigation.goBack() }]
+          );
+          navigation.goBack();
         }}
 
         onMessage={(event) => {
