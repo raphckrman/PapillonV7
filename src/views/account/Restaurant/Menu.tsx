@@ -87,7 +87,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
 
   const onDatePickerSelect =async  (date?: Date) => {
     if(!date) {
-      return
+      return;
     }
 
     const newDate = new Date(date);
@@ -113,15 +113,15 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
         const bookingsForAccount = await getBookingsAvailableFromExternal(account, newWeek);
         allBookings.push(...bookingsForAccount);
       }
-      
+
       setAllBookings(allBookings);
     }
 
     const dailyMenu = account ? await getMenu(account, date).catch(() => null) : null;
     setCurrentMenu(dailyMenu);
-    
+
     setMenuLoading(false);
-  }
+  };
 
   const handleBookTogglePress = async (terminal: BookingTerminal, bookingDay: BookingDay) => {
     const newBookingStatus = !bookingDay.booked;
@@ -242,7 +242,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
       default:
         return null;
     }
-  }
+  };
 
   const getLabelName = (label: string) => {
     switch (label) {
@@ -259,7 +259,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
     }
   };
 
-  function renderAllergens(allergens: ReadonlyArray<FoodAllergen>) {
+  function renderAllergens (allergens: ReadonlyArray<FoodAllergen>) {
     if(allergens.length === 0) {
       return null;
     }
@@ -275,10 +275,10 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
           Allergènes : {allergens.map(allergen => allergen.name).join(", ")}
         </NativeText>
       </View>
-    )
+    );
   }
-  
-  function renderLabels(labels: ReadonlyArray<FoodLabel>) {
+
+  function renderLabels (labels: ReadonlyArray<FoodLabel>) {
     if(labels.length === 0) {
       return null;
     }
@@ -294,7 +294,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
           </View>
         ))}
       </View>
-    )
+    );
   }
 
   return (
