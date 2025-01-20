@@ -445,13 +445,13 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                               <NativeItem key={index}>
                                 <NativeText variant="subtitle">{title}</NativeText>
                                 {items.map((food, idx) => (
-                                  <>
-                                    <NativeText key={idx} variant="title">
+                                  <React.Fragment key={idx}>
+                                    <NativeText variant="title">
                                       {food.name ?? ""}
                                     </NativeText>
                                     {renderAllergens(food.allergens)}
                                     {renderLabels(food.labels)}
-                                  </>
+                                  </React.Fragment>
                                 ))}
                               </NativeItem>
                             )
@@ -459,7 +459,6 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                         </NativeList>
                       </>
                     )}
-
                     {currentMenu?.dinner?.main && (
                       <>
                         <NativeListHeader label="Menu du soir" />
@@ -476,13 +475,13 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                               <NativeItem key={index}>
                                 <NativeText variant="subtitle">{title}</NativeText>
                                 {items.map((food, idx) => (
-                                  <>
-                                    <NativeText key={idx} variant="title">
+                                  <React.Fragment key={idx}>
+                                    <NativeText variant="title">
                                       {food.name ?? ""}
                                     </NativeText>
                                     {renderAllergens(food.allergens)}
                                     {renderLabels(food.labels)}
-                                  </>
+                                  </React.Fragment>
                                 ))}
                               </NativeItem>
                             )
@@ -520,7 +519,6 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                   style={{ marginTop: 16 }}
                 />
               </>}
-
             <LessonsDateModal
               showDatePicker={showDatePicker}
               setShowDatePicker={setShowDatePicker}
@@ -529,7 +527,6 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
             />
           </>
         )}
-
         <InsetsBottomView />
       </ScrollView>
     </>
