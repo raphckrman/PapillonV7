@@ -20,12 +20,14 @@ interface SubjectItemProps {
   subject: GradesPerSubject;
   allGrades: Grade[];
   navigation: NativeStackNavigationProp<RouteParameters, keyof RouteParameters>;
+  index?: number;
 }
 
 const SubjectItem: React.FC<SubjectItemProps> = ({
   subject,
   allGrades,
   navigation,
+  index,
 }) => {
   const [subjectData, setSubjectData] = useState({
     color: "#888888",
