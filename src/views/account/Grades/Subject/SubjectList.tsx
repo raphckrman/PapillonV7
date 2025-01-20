@@ -72,7 +72,12 @@ const SubjectItem: React.FC<SubjectItemProps> = ({
             }}
           />
         )}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => {
+          if (!item.description) {
+            return item.id + "_" + Math.random();
+          }
+          return item.id;
+        }}
         removeClippedSubviews={true}
         maxToRenderPerBatch={10}
         initialNumToRender={8}
