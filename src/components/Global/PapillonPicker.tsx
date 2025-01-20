@@ -21,7 +21,7 @@ interface PapillonPickerProps {
   delay?: number,
   direction?: "left" | "right",
   animated?: boolean,
-  onSelectionChange?: (item: string) => unknown
+  onSelectionChange?: any
 }
 
 const PapillonPicker: React.FC<PapillonPickerProps> = ({
