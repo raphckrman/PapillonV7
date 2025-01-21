@@ -90,15 +90,6 @@ const LoginView: React.FC<{
     onLogin(username, password, customFieldsDict);
   };
 
-  const translateError = (error: string | null): string | null => {
-    if (!error) return null;
-    if (error.includes("challenge")) {
-      return "Impossible de se connecter, utilises la connexion par l'ENT";
-    }
-    // Add other error translations here
-    return error;
-  };
-
   return (
     <KeyboardAvoidingView
       behavior="height"
