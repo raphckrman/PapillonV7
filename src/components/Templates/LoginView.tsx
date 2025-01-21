@@ -92,11 +92,9 @@ const LoginView: React.FC<{
 
   const translateError = (error: string | null): string | null => {
     if (!error) return null;
-  
     if (error.includes("challenge")) {
       return "Un CAPTCHA est requis pour se connecter, utilise l'ENT pour te connecter.";
     }
-  
     // Add other error translations here
     return error;
   };
