@@ -21,6 +21,10 @@ const GradesScodocUE = ({ account, navigation }: { account: PrimaryAccount, navi
     const ues = account.identityProvider?.rawData["relevé"]["ues"];
     const uekeys = Object.keys(ues);
 
+    if (uekeys.length === 0) {
+      return null;
+    }
+
     // @ts-expect-error
     const ressources = account.identityProvider?.rawData["relevé"]["ressources"];
     // @ts-expect-error
