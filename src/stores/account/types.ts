@@ -40,6 +40,7 @@ export interface Personalization {
   hideProfilePicOnHomeScreen: boolean,
   hideTabTitles: boolean,
   showTabBackground: boolean,
+  showWeekFrequency: boolean,
   transparentTabBar: boolean,
   hideTabBar: boolean,
   popupRestauration?: boolean,
