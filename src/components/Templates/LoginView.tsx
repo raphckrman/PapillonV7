@@ -93,7 +93,7 @@ const LoginView: React.FC<{
   const translateError = (error: string | null): string | null => {
     if (!error) return null;
     if (error.includes("challenge")) {
-      return "Un CAPTCHA est requis pour se connecter, utilise l'ENT pour te connecter.";
+      return "Impossible de se connecter, utilises la connexion par l'ENT";
     }
     // Add other error translations here
     return error;
@@ -174,7 +174,7 @@ const LoginView: React.FC<{
             }}
           >
             <NativeItem icon={<AlertTriangle />}>
-              <NativeText variant="subtitle">{translateError(error)}</NativeText>
+              <NativeText variant="subtitle">Impossible de se connecter, vérifie tes identifiants ou utilise le portail de ton ENT pour te connecter.</NativeText>
             </NativeItem>
           </NativeList>
         )}
