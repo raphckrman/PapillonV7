@@ -1,3 +1,4 @@
+import React from "react";
 import type { Screen } from "@/router/helpers/types";
 import { useTheme } from "@react-navigation/native";
 import { BellRing } from "lucide-react-native";
