@@ -16,10 +16,13 @@ const GradesScodocUE = ({ account, navigation }: { account: PrimaryAccount, navi
   const { colors } = useTheme();
   const { showAlert } = useAlert();
 
+  // @ts-expect-error
   const ues = account.identityProvider?.rawData["relevé"]["ues"];
   const uekeys = Object.keys(ues);
 
+  // @ts-expect-error
   const ressources = account.identityProvider?.rawData["relevé"]["ressources"];
+  // @ts-expect-error
   const saes = account.identityProvider?.rawData["relevé"]["saes"];
 
   const finalUes = uekeys.map((ue) => {
@@ -58,7 +61,12 @@ const GradesScodocUE = ({ account, navigation }: { account: PrimaryAccount, navi
 
       <NativeList>
         {finalUes.map((ue) => {
-          const grades = [];
+          interface ueGrade {
+            key: string,
+            type: "ressources" | "saes"
+          }
+
+          const grades: ueGrade[] = [];
           const [opened, setOpened] = useState(false);
 
           Object.keys(ue.ressources).forEach((res) => {
