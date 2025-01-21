@@ -192,6 +192,8 @@ export interface LocalAccount extends BaseAccount {
     username: string
     password: string
   }
+
+  providers?: string[]
 }
 
 export interface TurboselfAccount extends BaseExternalAccount {
