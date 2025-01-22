@@ -33,11 +33,11 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
   const firstDateEpoch = dateToEpochWeekNumber(firstDate);
 
   const SemaineAct = dateToEpochWeekNumber(new Date());
-  const currentHwSemaineActuelle = getHomeworks()[SemaineAct];
-  const currentHwSemaineProchaine = getHomeworks()[SemaineAct + 1];
+  const currentHwSemaineActuelle = getHomeworks()[SemaineAct] ?? [];
+  const currentHwSemaineProchaine = getHomeworks()[SemaineAct + 1] ?? [];
   await updateHomeworksState(account);
-  const updatedHwSemaineActuelle = getHomeworks()[SemaineAct];
-  const updatedHwSemaineProchaine = getHomeworks()[SemaineAct + 1];
+  const updatedHwSemaineActuelle = getHomeworks()[SemaineAct] ?? [];
+  const updatedHwSemaineProchaine = getHomeworks()[SemaineAct + 1] ?? [];
 
   const differencesHwSemaineActuelle = getDifferences(
     currentHwSemaineActuelle,
