@@ -33,35 +33,64 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
   const firstDateEpoch = dateToEpochWeekNumber(firstDate);
 
   const SemaineAct = dateToEpochWeekNumber(new Date());
-  const currentHomeworks = getHomeworks()[SemaineAct];
+  const currentHwSemaineActuelle = getHomeworks()[SemaineAct];
+  const currentHwSemaineProchaine = getHomeworks()[SemaineAct + 1];
   await updateHomeworksState(account);
-  const updatedHomeworks = getHomeworks()[SemaineAct];
+  const updatedHwSemaineActuelle = getHomeworks()[SemaineAct];
+  const updatedHwSemaineProchaine = getHomeworks()[SemaineAct + 1];
 
-  const differences = getDifferences(currentHomeworks, updatedHomeworks);
+  const differencesHwSemaineActuelle = getDifferences(
+    currentHwSemaineActuelle,
+    updatedHwSemaineProchaine
+  );
+  const differencesHwSemaineProchaine = getDifferences(
+    currentHwSemaineProchaine,
+    updatedHwSemaineProchaine
+  );
+  const differences =
+    differencesHwSemaineActuelle.length + differencesHwSemaineProchaine.length;
 
   if (
     notificationsTypesPermissions?.enabled &&
     notificationsTypesPermissions?.homeworks
   ) {
-    switch (differences.length) {
+    switch (differences) {
       case 0:
         break;
       case 1:
-        papillonNotify(
-          {
-            id: `${account.name}-homeworks`,
-            title: `[${account.name}] Nouveau devoir`,
-            subtitle: `Semaine ${(
-              ((SemaineAct - (firstDateEpoch % 52)) % 52) +
-              1
-            ).toString()}`,
-            body: `Un nouveau devoir en ${differences[0].subject} a été publié`,
-            ios: {
-              categoryId: account.name,
+        if (differencesHwSemaineActuelle.length === 1) {
+          papillonNotify(
+            {
+              id: `${account.name}-homeworks`,
+              title: `[${account.name}] Nouveau devoir`,
+              subtitle: `Semaine ${(
+                ((SemaineAct - (firstDateEpoch % 52)) % 52) +
+                1
+              ).toString()}`,
+              body: `Un nouveau devoir en ${differencesHwSemaineActuelle[0].subject} a été publié`,
+              ios: {
+                categoryId: account.name,
+              },
             },
-          },
-          "Homeworks"
-        );
+            "Homeworks"
+          );
+        } else {
+          papillonNotify(
+            {
+              id: `${account.name}-homeworks`,
+              title: `[${account.name}] Nouveau devoir`,
+              subtitle: `Semaine ${(
+                ((SemaineAct - (firstDateEpoch % 52)) % 52) +
+                2
+              ).toString()}`,
+              body: `Un nouveau devoir en ${differencesHwSemaineProchaine[0].subject} a été publié`,
+              ios: {
+                categoryId: account.name,
+              },
+            },
+            "Homeworks"
+          );
+        }
         break;
       default:
         papillonNotify(
@@ -73,8 +102,13 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
               1
             ).toString()}`,
             body: `
-            ${differences.length} nouveaux devoirs ont été publiés :<br />
-            ${differences
+            ${differences} nouveaux devoirs ont été publiés :<br />
+            ${differencesHwSemaineActuelle
+              .flatMap((element) => {
+                return `- ${element.subject}`;
+              })
+              .join("<br />")}
+            ${differencesHwSemaineProchaine
               .flatMap((element) => {
                 return `- ${element.subject}`;
               })
@@ -90,7 +124,7 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
     }
   }
 
-  return updatedHomeworks;
+  return updatedHwSemaineActuelle ?? updatedHwSemaineProchaine;
 };
 
 export { fetchHomeworks };
