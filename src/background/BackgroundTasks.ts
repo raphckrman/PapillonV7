@@ -5,7 +5,7 @@ import { BackgroundFetchResult } from "expo-background-fetch";
 import { expoGoWrapper } from "@/utils/native/expoGoAlert";
 
 import { fetchNews } from "./data/News";
-import { log, error, warn, info } from "@/utils/logger/logger";
+import { log, error } from "@/utils/logger/logger";
 import { getAccounts, getSwitchToFunction } from "./utils/accounts";
 import { fetchHomeworks } from "./data/Homeworks";
 import { fetchGrade } from "./data/Grades";
@@ -39,19 +39,22 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
   }
 });
 
-/**
- * Background fetch function that fetches all the data
- * @warning This task should not last more than 30 seconds
- * @returns BackgroundFetchResult.NewData
- */
-const backgroundFetch = () => {
+let isBackgroundFetchRunning = false;
+
+const backgroundFetch = async () => {
+  if (isBackgroundFetchRunning) {
+    log("⚠️ Background fetch already running. Skipping...", "BackgroundEvent");
+    return BackgroundFetchResult.NoData;
+  }
+
+  isBackgroundFetchRunning = true;
   log("Running background fetch", "BackgroundEvent");
 
   try {
     const accounts = getAccounts();
     const switchTo = getSwitchToFunction();
 
-    accounts.forEach(async (account) => {
+    for (const account of accounts) {
       await switchTo(account);
 
       await fetchNews();
@@ -60,44 +63,42 @@ const backgroundFetch = () => {
       await fetchLessons();
       await fetchAttendance();
       await fetchEvaluation();
-    });
+    }
 
     log("✅ Finish background fetch", "BackgroundEvent");
     return BackgroundFetchResult.NewData;
   } catch (ERRfatal) {
     error(`❌ Task failed: ${ERRfatal}`, "BackgroundEvent");
     return BackgroundFetchResult.Failed;
+  } finally {
+    isBackgroundFetchRunning = false;
   }
 };
 
 TaskManager.defineTask("background-fetch", backgroundFetch);
 
-const registerBackgroundTasks = async () => {
-  await TaskManager.isTaskRegisteredAsync("background-fetch").then(
-    async (isRegistered) => {
-      if (!isRegistered) {
-        expoGoWrapper(async () => {
-          await BackgroundFetch.registerTaskAsync("background-fetch", {
-            minimumInterval: 60 * 15, // 15 minutes
-            stopOnTerminate: false, // Maintenir après fermeture (Android)
-            startOnBoot: true, // Redémarrer au démarrage (Android)
-          });
-
-          log("✅ Background task registered", "BackgroundEvent");
-        });
-      } else {
-        warn("⚠️ Background task already registered, unregister task...", "BackgroundEvent");
-        await BackgroundFetch.unregisterTaskAsync("background-fetch");
-        info("🔁 Re-register background task...", "BackgroundEvent");
-        registerBackgroundTasks();
-      }
-    }
-  );
-};
-
 const unsetBackgroundFetch = async () => {
   await BackgroundFetch.unregisterTaskAsync("background-fetch");
   log("✅ Background task unregistered", "BackgroundEvent");
+};
+
+const registerBackgroundTasks = async () => {
+  const isRegistered = await TaskManager.isTaskRegisteredAsync("background-fetch");
+
+  if (isRegistered) {
+    log("⚠️ Background task already registered. Unregister background task.", "BackgroundEvent");
+    await unsetBackgroundFetch();
+  }
+
+  expoGoWrapper(async () => {
+    await BackgroundFetch.registerTaskAsync("background-fetch", {
+      minimumInterval: 60 * 15,
+      stopOnTerminate: false,
+      startOnBoot: true,
+    });
+
+    log("✅ Background task registered", "BackgroundEvent");
+  });
 };
 
 export { registerBackgroundTasks, unsetBackgroundFetch };
