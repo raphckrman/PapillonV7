@@ -44,7 +44,7 @@ export default (): ExpoConfig => ({
     },
   },
   android: {
-    versionCode: parseInt(PackageJSON.version.replaceAll(".", "")),
+    versionCode: parseInt(PackageJSON.version.replaceAll(".", "") + "0"),
     playStoreUrl:
       "https://play.google.com/store/apps/details?id=xyz.getpapillon.app",
     adaptiveIcon: {
