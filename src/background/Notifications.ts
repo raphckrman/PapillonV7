@@ -101,6 +101,10 @@ const papillonNotify = async (
       showTimestamp: true,
       smallIcon: "@mipmap/ic_launcher_foreground",
       color: "#32AB8E",
+      pressAction: {
+        id: "default",
+        launchActivity: "MainActivity",
+      }
       // à intégrer => `actions`
     },
   });
