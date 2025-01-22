@@ -5,7 +5,7 @@ import { BackgroundFetchResult } from "expo-background-fetch";
 import { expoGoWrapper } from "@/utils/native/expoGoAlert";
 
 import { fetchNews } from "./data/News";
-import { log, error, warn } from "@/utils/logger/logger";
+import { log, error, warn, info } from "@/utils/logger/logger";
 import { getAccounts, getSwitchToFunction } from "./utils/accounts";
 import { fetchHomeworks } from "./data/Homeworks";
 import { fetchGrade } from "./data/Grades";
@@ -44,24 +44,23 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
  * @warning This task should not last more than 30 seconds
  * @returns BackgroundFetchResult.NewData
  */
-const backgroundFetch = async () => {
+const backgroundFetch = () => {
   log("Running background fetch", "BackgroundEvent");
 
   try {
     const accounts = getAccounts();
     const switchTo = getSwitchToFunction();
 
-    for (const account of accounts) {
+    accounts.forEach(async (account) => {
       await switchTo(account);
-      await Promise.all([
-        fetchNews(),
-        fetchHomeworks(),
-        fetchGrade(),
-        fetchLessons(),
-        fetchAttendance(),
-        fetchEvaluation(),
-      ]);
-    }
+
+      await fetchNews();
+      await fetchHomeworks();
+      await fetchGrade();
+      await fetchLessons();
+      await fetchAttendance();
+      await fetchEvaluation();
+    });
 
     log("✅ Finish background fetch", "BackgroundEvent");
     return BackgroundFetchResult.NewData;
@@ -75,7 +74,7 @@ TaskManager.defineTask("background-fetch", backgroundFetch);
 
 const registerBackgroundTasks = async () => {
   await TaskManager.isTaskRegisteredAsync("background-fetch").then(
-    (isRegistered) => {
+    async (isRegistered) => {
       if (!isRegistered) {
         expoGoWrapper(async () => {
           await BackgroundFetch.registerTaskAsync("background-fetch", {
@@ -87,7 +86,10 @@ const registerBackgroundTasks = async () => {
           log("✅ Background task registered", "BackgroundEvent");
         });
       } else {
-        warn("⚠️ Background task already registered", "BackgroundEvent");
+        warn("⚠️ Background task already registered, unregister task...", "BackgroundEvent");
+        await BackgroundFetch.unregisterTaskAsync("background-fetch");
+        info("🔁 Re-register background task...", "BackgroundEvent");
+        registerBackgroundTasks();
       }
     }
   );
