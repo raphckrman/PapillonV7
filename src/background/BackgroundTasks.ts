@@ -2,7 +2,7 @@ import notifee, { EventType } from "@notifee/react-native";
 import * as BackgroundFetch from "expo-background-fetch";
 import * as TaskManager from "expo-task-manager";
 import { BackgroundFetchResult } from "expo-background-fetch";
-import { expoGoWrapper } from "@/utils/native/expoGoAlert";
+import Constants from "expo-constants";
 
 import { fetchNews } from "./data/News";
 import { log, error } from "@/utils/logger/logger";
@@ -90,7 +90,7 @@ const registerBackgroundTasks = async () => {
     await unsetBackgroundFetch();
   }
 
-  expoGoWrapper(async () => {
+  if (!Constants.appOwnership) {
     await BackgroundFetch.registerTaskAsync("background-fetch", {
       minimumInterval: 60 * 15,
       stopOnTerminate: false,
@@ -98,7 +98,7 @@ const registerBackgroundTasks = async () => {
     });
 
     log("✅ Background task registered", "BackgroundEvent");
-  });
+  }
 };
 
 export { registerBackgroundTasks, unsetBackgroundFetch };
