@@ -103,7 +103,7 @@ const papillonNotify = async (
       color: "#32AB8E",
       pressAction: {
         id: "default",
-        launchActivity: "MainActivity",
+        launchActivity: "xyz.getpapillon.app.MainActivity",
       }
       // à intégrer => `actions`
     },
