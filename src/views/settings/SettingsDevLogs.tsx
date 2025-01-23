@@ -35,6 +35,7 @@ import { animPapillon } from "@/utils/ui/animations";
 import { useTheme } from "@react-navigation/native";
 import { useAlert } from "@/providers/AlertProvider";
 import MissingItem from "@/components/Global/MissingItem";
+import formatDate from "@/utils/format/format_date_complets";
 
 const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
   const { colors } = useTheme();
@@ -220,7 +221,11 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
                   }
                 >
                   <NativeText variant="title">{log.message}</NativeText>
-                  <NativeText variant="subtitle">{log.date}</NativeText>
+                  <NativeText variant="subtitle">
+                    {formatDate(log.date)} à {new Date(log.date).getHours()}:
+                    {new Date(log.date).getMinutes()}:
+                    {new Date(log.date).getSeconds()}
+                  </NativeText>
                   <NativeText variant="subtitle">{log.from}</NativeText>
                 </NativeItem>
               );
