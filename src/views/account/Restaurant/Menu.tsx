@@ -370,7 +370,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
               />
             </HorizontalList>
 
-            {(true || currentMenu || (allBookings && allBookings.some((terminal) => terminal.days.some((day) => day.date?.toDateString() === pickerDate.toDateString())))) &&
+            {(currentMenu || (allBookings && allBookings?.some((terminal) => terminal.days.some((day) => day.date?.toDateString() === pickerDate.toDateString())))) &&
               <View style={styles.calendarContainer}>
                 <Reanimated.View
                   layout={animPapillon(LinearTransition)}
@@ -378,12 +378,14 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                   exiting={animPapillon(ZoomOut)}
                 >
                   <PressableScale
-                    onPress={() => onDatePickerSelect(new Date(pickerDate.setDate(pickerDate.getDate() - 1)))}
+                    onPress={() => {
+                      onDatePickerSelect(new Date(pickerDate.setDate(pickerDate.getDate() - 1)));
+                      setRefreshCount(refreshCount + 1);
+                    }}
                     activeScale={0.8}
                   >
                     <BlurView
                       style={[styles.weekPickerText, {
-                        color: theme.colors.text,
                         backgroundColor: theme.colors.border,
                         padding: 8,
                         borderRadius: 100,
@@ -421,12 +423,14 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                   exiting={animPapillon(ZoomOut)}
                 >
                   <PressableScale
-                    onPress={() => onDatePickerSelect(new Date(pickerDate.setDate(pickerDate.getDate() + 1)))}
+                    onPress={() => {
+                      onDatePickerSelect(new Date(pickerDate.setDate(pickerDate.getDate() + 1)));
+                      setRefreshCount(refreshCount + 1);
+                    }}
                     activeScale={0.8}
                   >
                     <BlurView
                       style={[styles.weekPickerText, {
-                        color: theme.colors.text,
                         backgroundColor: theme.colors.border,
                         padding: 8,
                         borderRadius: 100,
