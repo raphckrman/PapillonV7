@@ -49,7 +49,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
     get_logs().then((logs) => {
       setLogs(
         logs.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
         )
       );
       setLoading(false);
