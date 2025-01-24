@@ -6,7 +6,7 @@ import {
 } from "@/components/Global/NativeComponents";
 import { getSubjectData } from "@/services/shared/Subject";
 import { useTheme } from "@react-navigation/native";
-import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Image, ScrollView, Text, View, Platform } from "react-native";
 import * as StoreReview from "expo-store-review";
 import {
