@@ -26,7 +26,7 @@ const sortingFunctions: Record<number, SortingFunction> = {
   2: (a, b) => (b.average?.average?.value || 0) - (a.average?.average?.value || 0)
 };
 
-const sortings: PickerData[] = [
+const sortings: PickerData = [
   {
     label: "Alphabétique",
     icon: <ArrowDownAZ />,
