@@ -7,7 +7,7 @@ import Reanimated, { FadeInRight, FadeOutLeft, LinearTransition } from "react-na
 import { FlatList, View } from "react-native";
 import SubjectItem from "./SubjectList";
 import { useCallback, useMemo, useState } from "react";
-import PapillonPicker, { PickerDataItem } from "@/components/Global/PapillonPicker";
+import PapillonPicker, { PickerData } from "@/components/Global/PapillonPicker";
 import { ArrowDownAZ, Calendar, ChevronDown, TrendingUp } from "lucide-react-native";
 import { useTheme } from "@react-navigation/native";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
@@ -26,7 +26,7 @@ const sortingFunctions: Record<number, SortingFunction> = {
   2: (a, b) => (b.average?.average?.value || 0) - (a.average?.average?.value || 0)
 };
 
-const sortings: PickerDataItem[] = [
+const sortings: PickerData[] = [
   {
     label: "Alphabétique",
     icon: <ArrowDownAZ />,
@@ -56,7 +56,7 @@ const Subject: React.FC<SubjectProps> = ({
     return [...gradesPerSubject].sort(sortFn);
   }, [gradesPerSubject, sorting]);
 
-  const handleSortingChange = useCallback((item: PickerDataItem) => {
+  const handleSortingChange = useCallback((item: PickerData) => {
     setIsLoading(true);
     // Use requestAnimationFrame to prevent UI blocking
     requestAnimationFrame(() => {
