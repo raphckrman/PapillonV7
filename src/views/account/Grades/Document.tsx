@@ -164,7 +164,7 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
               : "??",
           bareme: "/" + grade.outOf.value,
         },
-      ].filter(Boolean),
+      ].filter(Boolean).filter((value) => value.value != "??"),
     },
     {
       title: "Influence",
