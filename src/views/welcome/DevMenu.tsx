@@ -107,12 +107,12 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
                   subjectName: "Développement",
                   description: "Typage avec Vince",
                   timestamp: new Date().getTime(),
-                  outOf: { value: 7 },
+                  outOf: { value: 7, status: null },
                   coefficient: 7,
-                  student: { value: 7 },
-                  average: { value: 7 },
-                  max: { value: 7 },
-                  min: { value: 1 }
+                  student: { value: 7, status: null },
+                  average: { value: 7, status: null },
+                  max: { value: 7, status: null },
+                  min: { value: 1, status: null }
                 }
               })}
             >
