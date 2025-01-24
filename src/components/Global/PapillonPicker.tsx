@@ -10,9 +10,7 @@ import { NativeText } from "./NativeComponents";
 import { BlurView } from "expo-blur";
 import { Check } from "lucide-react-native";
 
-export type PickerDataItem = { label: string, icon?: JSX.Element, onPress?: () => unknown, checked?: boolean };
-
-type PickerData = string[] | PickerDataItem[];
+type PickerData = string[] | { label: string, icon?: JSX.Element, onPress: () => unknown, checked?: boolean }[];
 
 interface PapillonPickerProps {
   children: React.ReactNode
