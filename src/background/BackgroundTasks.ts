@@ -3,9 +3,10 @@ import * as BackgroundFetch from "expo-background-fetch";
 import * as TaskManager from "expo-task-manager";
 import { BackgroundFetchResult } from "expo-background-fetch";
 import { isExpoGo } from "@/utils/native/expoGoAlert";
+import Constants from "expo-constants";
 
 import { fetchNews } from "./data/News";
-import { log, error } from "@/utils/logger/logger";
+import { log, error, warn } from "@/utils/logger/logger";
 import { getAccounts, getSwitchToFunction } from "./utils/accounts";
 import { fetchHomeworks } from "./data/Homeworks";
 import { fetchGrade } from "./data/Grades";
@@ -83,21 +84,34 @@ const unsetBackgroundFetch = async () => {
 };
 
 const registerBackgroundTasks = async () => {
-  const isRegistered = await TaskManager.isTaskRegisteredAsync("background-fetch");
+  const isRegistered = await TaskManager.isTaskRegisteredAsync(
+    "background-fetch"
+  );
 
   if (isRegistered) {
-    log("⚠️ Background task already registered. Unregister background task.", "BackgroundEvent");
+    warn(
+      "⚠️ Background task already registered. Unregister background task...",
+      "BackgroundEvent"
+    );
     await unsetBackgroundFetch();
   }
 
   if (!isExpoGo()) {
-    await BackgroundFetch.registerTaskAsync("background-fetch", {
-      minimumInterval: 60 * 15,
-      stopOnTerminate: false,
-      startOnBoot: true,
-    });
-
-    log("✅ Background task registered", "BackgroundEvent");
+    try {
+      await BackgroundFetch.registerTaskAsync("background-fetch", {
+        minimumInterval: 60 * 15,
+        stopOnTerminate: false,
+        startOnBoot: true,
+      });
+      log("✅ Background task registered", "BackgroundEvent");
+    } catch (err) {
+      error(`❌ Failed to register background task: ${err}`, "BackgroundEvent");
+    }
+  } else {
+    error(
+      `🚨 Running in Expo Go (Constants => ${Constants.appOwnership}). Skipping background task registration...`,
+      "BackgroundEvent"
+    );
   }
 };
 
