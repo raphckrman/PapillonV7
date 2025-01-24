@@ -34,7 +34,7 @@ import {
 import { animPapillon } from "@/utils/ui/animations";
 import { useTheme } from "@react-navigation/native";
 import { useAlert } from "@/providers/AlertProvider";
-import MissingItem from "@/components/Global/MissingItem.tsx";
+import MissingItem from "@/components/Global/MissingItem";
 
 const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
   const { colors } = useTheme();
