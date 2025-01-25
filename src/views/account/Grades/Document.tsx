@@ -1,32 +1,17 @@
-import {
-  NativeItem,
-  NativeList,
-  NativeListHeader,
-  NativeText,
-} from "@/components/Global/NativeComponents";
-import { getSubjectData } from "@/services/shared/Subject";
-import { useTheme } from "@react-navigation/native";
-import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
-import { Image, ScrollView, Text, View, Platform, TouchableOpacity } from "react-native";
+import {NativeItem, NativeList, NativeListHeader, NativeText,} from "@/components/Global/NativeComponents";
+import {getSubjectData} from "@/services/shared/Subject";
+import {useTheme} from "@react-navigation/native";
+import React, {useCallback, useEffect, useLayoutEffect, useState} from "react";
+import {Image, Platform, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import * as StoreReview from "expo-store-review";
-import {
-  Asterisk,
-  Calculator,
-  Maximize2,
-  Scale,
-  School,
-  UserMinus,
-  UserPlus,
-  Users,
-} from "lucide-react-native";
-import { getAverageDiffGrade } from "@/utils/grades/getAverages";
-import type { AverageDiffGrade } from "@/utils/grades/getAverages";
-import { Screen } from "@/router/helpers/types";
+import {Asterisk, Calculator, Maximize2, Scale, School, UserMinus, UserPlus, Users,} from "lucide-react-native";
+import type {AverageDiffGrade} from "@/utils/grades/getAverages";
+import {getAverageDiffGrade} from "@/utils/grades/getAverages";
+import {Screen} from "@/router/helpers/types";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useGradesStore } from "@/stores/grades";
-import { LinearGradient } from "expo-linear-gradient";
+import {useGradesStore} from "@/stores/grades";
+import {LinearGradient} from "expo-linear-gradient";
 import AnimatedEmoji from "@/components/Grades/AnimatedEmoji";
 import GradeModal from "@/components/Grades/GradeModal";
 
@@ -34,7 +19,6 @@ import GradeModal from "@/components/Grades/GradeModal";
 const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
   const { grade, allGrades = [] } = route.params;
   const theme = useTheme();
-  const insets = useSafeAreaInsets();
   const [modalOpen, setModalOpen] = useState(false);
   const [isReactionBeingTaken, setIsReactionBeingTaken] = useState(false);
 
@@ -240,20 +224,19 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
   }, [currentReel]);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", handleFocus);
-    return unsubscribe;
+    return navigation.addListener("focus", handleFocus);
   }, [navigation, handleFocus]);
 
   return (
     <View style={{ flex: 1 }}>
-
-      <GradeModal
-        isVisible={modalOpen}
-        reel={reels[grade.id]}
-        onClose={() => setModalOpen(false)}
-        DeleteGrade={() => deleteReel(grade.id)}
-      />
-
+      {reels[grade.id] &&
+            <GradeModal
+              isVisible={modalOpen}
+              reel={reels[grade.id]}
+              onClose={() => setModalOpen(false)}
+              DeleteGrade={() => deleteReel(grade.id)}
+            />
+      }
       <View style={{ borderCurve: "continuous", minHeight: 180, backgroundColor: "#000000" }}>
         <View
           style={{
