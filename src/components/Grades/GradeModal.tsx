@@ -5,14 +5,16 @@ import {
   Image,
   TouchableOpacity,
   Text,
-  Alert
+  Alert, ScrollView
 } from "react-native";
-import { Download, Trash, Share } from "lucide-react-native";
+import {Download, Trash, Share, Trash2, Dot, Ellipsis} from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BlurView } from "expo-blur";
 import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
+import {PressableScale} from "react-native-pressable-scale";
+import {NativeText} from "@/components/Global/NativeComponents";
 interface GradeModalProps {
   isVisible: boolean;
   imageBase64: string;
@@ -58,175 +60,127 @@ const GradeModal: React.FC<GradeModalProps> = ({
       onRequestClose={onClose}
     >
       <BlurView
-        intensity={100}
-        tint="dark"
+        intensity={95}
+        tint="systemThickMaterialDark"
         style={{
           flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
+          paddingTop: insets.top + 16,
+          paddingBottom: insets.bottom + 16,
+          gap: 20,
         }}
       >
-        <View
+        <Image
+          source={{ uri: `data:image/jpeg;base64,${imageBase64}` }}
           style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: 20,
-            alignItems: "center",
-            flexDirection: "column",
-            paddingTop: insets.top,
+            flex: 1,
+            objectFit: "contain",
+            paddingHorizontal: 20,
+          }}
+        />
+        <ScrollView
+          horizontal={true}
+          style={{
+            flex: 1,
+            maxHeight: 100,
+          }}
+          contentContainerStyle={{
+            paddingHorizontal: 20,
+            justifyContent: "center",
+            gap: 16,
           }}
         >
-          <Image
-            source={{ uri: `data:image/jpeg;base64,${imageBase64}` }}
+          <PressableScale
             style={{
-              width: "90%",
-              height: 500,
-              objectFit: "contain",
-            }}
-          />
-          <View
-            style={{
-              width: "100%",
-              height: 170,
-              padding: 20,
-
+              alignItems: "center",
               justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "row",
-              gap: 35,
+              gap: 8,
             }}
+            onPress={saveimage}
           >
-            <TouchableOpacity
+            <View
               style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 7,
-              }}
-              onPress={saveimage}
-            >
-              <View
-                style={{
-                  padding: 15,
-                  borderRadius: 100,
-                  backgroundColor: "#000000",
-                }}
-              >
-                <Download color="white" size={30} />
-              </View>
-              <Text
-                style={{
-                  color: "#FFFFFF",
-                  fontSize: 15,
-                  fontFamily: "semibold",
-                  textAlign: "center",
-                  textAlignVertical: "center"
-                }}
-              >
-                Télécharger
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 7,
-              }}
-              onPress={shareImage}
-            >
-              <View
-                style={{
-                  padding: 15,
-                  borderRadius: 100,
-                  backgroundColor: "#0E7CCB",
-                }}
-              >
-                <Share color="white" size={30} />
-              </View>
-              <Text
-                style={{
-                  color: "#FFFFFF",
-                  fontSize: 15,
-                  fontFamily: "semibold",
-                  textAlign: "center",
-                  textAlignVertical: "center"
-                }}
-              >
-                Partager
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 7,
-              }}
-              onPress={DeleteGrade}
-            >
-              <View
-                style={{
-                  padding: 15,
-                  borderRadius: 100,
-                  backgroundColor: "#888888",
-                }}
-              >
-                <Trash color="white" size={30} />
-              </View>
-              <Text
-                style={{
-                  color: "#FFFFFF",
-                  fontSize: 15,
-                  fontFamily: "semibold",
-                  textAlign: "center",
-                  textAlignVertical: "center"
-                }}
-              >
-                Supprimer
-              </Text>
-            </TouchableOpacity>
-
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              alignItems: "center",
-              width: "100%",
-              gap: 20,
-              paddingHorizontal: 20,
-              position: "absolute",
-              bottom: insets.bottom+50,
-              left: 0,
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                flex: 1,
-                paddingHorizontal: 10,
-                paddingVertical: 20,
-                backgroundColor: "#FFFFFF50",
+                width: 60,
+                height: 60,
+                backgroundColor: "#000",
                 justifyContent: "center",
                 alignItems: "center",
                 borderRadius: 100,
               }}
-              onPress={onClose}
             >
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontFamily: "semibold",
-                  letterSpacing: 1,
-                  textTransform: "uppercase",
-                  textAlign: "center",
-                  color: "#FFFFFF",
-                }}
-              >
-                Fermer
-              </Text>
-            </TouchableOpacity>
-          </View>
+              <Download color="white" size={24} />
+            </View>
+            <NativeText style={{color: "#FFF", fontSize: 15}}>Enregistrer</NativeText>
+          </PressableScale>
+          <PressableScale
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+            }}
+            onPress={shareImage}
+          >
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                backgroundColor: "#FFF",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+              }}
+            >
+              <Ellipsis color="#000" size={24} />
+            </View>
+            <NativeText style={{color: "#FFF", fontSize: 15}}>Autre</NativeText>
+          </PressableScale>
+        </ScrollView>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            alignItems: "center",
+            width: "100%",
+            gap: 10,
+            paddingHorizontal: 20,
+          }}
+        >
+          <PressableScale
+            style={{
+              width: 85,
+              height: 55,
+              backgroundColor: "#FFFFFF10",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 100,
+            }}
+            onPress={DeleteGrade}
+          >
+            <Trash2 color="white" size={24} />
+          </PressableScale>
+          <PressableScale
+            style={{
+              flex: 1,
+              height: 55,
+              backgroundColor: "#FFFFFF40",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 100,
+            }}
+            onPress={onClose}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                fontFamily: "semibold",
+                letterSpacing: 1,
+                textTransform: "uppercase",
+                textAlign: "center",
+                color: "#FFFFFF",
+              }}
+            >
+              Fermer
+            </Text>
+          </PressableScale>
         </View>
       </BlurView>
     </Modal>
