@@ -71,10 +71,7 @@ const fetchAttendance = async (): Promise<Attendance> => {
     differences.observations.length +
     differences.punishments.length;
 
-  if (
-    notificationsTypesPermissions?.enabled &&
-    notificationsTypesPermissions?.attendance
-  ) {
+  if (notificationsTypesPermissions?.attendance) {
     switch (LAdifference) {
       case 0:
         break;

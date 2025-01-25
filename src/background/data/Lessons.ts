@@ -39,7 +39,6 @@ const fetchLessons = async (): Promise<Timetable> => {
   const oneHourBefore = lessonsDay[0]?.startTimestamp - 15 * 60 * 1000;
 
   if (
-    notificationsTypesPermissions?.enabled &&
     notificationsTypesPermissions?.timetable &&
     now >= oneHourBefore &&
     now < lessonsDay[0]?.startTimestamp

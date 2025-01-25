@@ -52,10 +52,7 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
   const differences =
     differencesHwSemaineActuelle.length + differencesHwSemaineProchaine.length;
 
-  if (
-    notificationsTypesPermissions?.enabled &&
-    notificationsTypesPermissions?.homeworks
-  ) {
+  if (notificationsTypesPermissions?.homeworks) {
     switch (differences) {
       case 0:
         break;

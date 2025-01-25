@@ -30,10 +30,7 @@ const fetchNews = async (): Promise<Information[]> => {
 
   const differences = getDifferences(currentNews, updatedNews);
 
-  if (
-    notificationsTypesPermissions?.enabled &&
-    notificationsTypesPermissions?.news
-  ) {
+  if (notificationsTypesPermissions?.news) {
     switch (differences.length) {
       case 0:
         break;

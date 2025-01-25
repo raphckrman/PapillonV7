@@ -32,10 +32,7 @@ const fetchGrade = async (): Promise<Grade[]> => {
     updatedGrade ?? []
   );
 
-  if (
-    notificationsTypesPermissions?.enabled &&
-    notificationsTypesPermissions?.grades
-  ) {
+  if (notificationsTypesPermissions?.grades) {
     switch (differences.length) {
       case 0:
         break;

@@ -32,10 +32,7 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
     updatedEvaluation ?? []
   );
 
-  if (
-    notificationsTypesPermissions?.enabled &&
-    notificationsTypesPermissions?.evaluation
-  ) {
+  if (notificationsTypesPermissions?.evaluation) {
     switch (differences.length) {
       case 0:
         break;
