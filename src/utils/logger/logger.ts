@@ -17,7 +17,7 @@ export function get_iso_date () {
 function get_message (type: number, date: string, from: string, message: string): string
 {
   return (format
-    .replaceAll("%TYPE%", type_list[type])
+    .replaceAll("%TYPE%", type_list[type].padEnd(5))
     .replaceAll("%DATE%", date)
     .replaceAll("%FROM%", from)
     .replaceAll("%MESSAGE%", message)
