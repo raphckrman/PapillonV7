@@ -23,6 +23,7 @@ export default (): ExpoConfig => ({
     bundleIdentifier: "xyz.getpapillon.ios",
     associatedDomains: ["applinks:getpapillon.xyz"],
     infoPlist: {
+      LSApplicationQueriesSchemes: ["instagram-stories"],
       CFBundleURLTypes: [
         {
           CFBundleURLSchemes: ["papillon", "izly"],

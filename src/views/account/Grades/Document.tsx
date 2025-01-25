@@ -249,7 +249,7 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
 
       <GradeModal
         isVisible={modalOpen}
-        imageBase64={reels[grade.id]?.image}
+        reel={reels[grade.id]}
         onClose={() => setModalOpen(false)}
         DeleteGrade={() => deleteReel(grade.id)}
       />
