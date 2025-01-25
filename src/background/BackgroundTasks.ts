@@ -8,7 +8,7 @@ import { log, error, warn } from "@/utils/logger/logger";
 import { getAccounts, getSwitchToFunction } from "./utils/accounts";
 import { fetchHomeworks } from "./data/Homeworks";
 import { fetchGrade } from "./data/Grades";
-import { fetchLessons } from "./data/Lessons";
+// import { fetchLessons } from "./data/Lessons";
 import { fetchAttendance } from "./data/Attendance";
 import { fetchEvaluation } from "./data/Evaluation";
 
@@ -55,13 +55,16 @@ const backgroundFetch = async () => {
 
     for (const account of accounts) {
       await switchTo(account);
+      const notificationsTypesPermissions = account.personalization.notifications;
 
-      await fetchNews();
-      await fetchHomeworks();
-      await fetchGrade();
-      await fetchLessons();
-      await fetchAttendance();
-      await fetchEvaluation();
+      if (notificationsTypesPermissions?.enabled) {
+        await fetchNews();
+        await fetchHomeworks();
+        await fetchGrade();
+        // await fetchLessons(); // Disabled for now
+        await fetchAttendance();
+        await fetchEvaluation();
+      }
     }
 
     log("✅ Finish background fetch", "BackgroundEvent");

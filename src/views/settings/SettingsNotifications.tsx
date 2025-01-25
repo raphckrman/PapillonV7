@@ -3,7 +3,7 @@ import { Alert, Platform, ScrollView, Switch, View } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { useTheme } from "@react-navigation/native";
 import {
-  CalendarCheck,
+  // CalendarCheck,
   BookCheck,
   TrendingUp,
   Newspaper,
@@ -85,12 +85,12 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
 
   // Schoolary notifications
   const notificationSchoolary = [
-    {
-      icon: <NativeIcon icon={<CalendarCheck />} color={colors.primary} />,
-      title: "Emploi du temps du jour modifié",
-      message: "Le cours de Musique (10:00-11:00) a été annulé",
-      personalizationValue: "timetable",
-    },
+    // {
+    //   icon: <NativeIcon icon={<CalendarCheck />} color={colors.primary} />,
+    //   title: "Emploi du temps du jour modifié",
+    //   message: "Le cours de Musique (10:00-11:00) a été annulé",
+    //   personalizationValue: "timetable",
+    // },
     {
       icon: <NativeIcon icon={<BookCheck />} color={colors.primary} />,
       title: "Nouveau devoir",
