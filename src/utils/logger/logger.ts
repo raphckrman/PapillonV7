@@ -37,9 +37,9 @@ function obtain_function_name (from?: string): string {
   // Extraire le nom de la fonction ou utiliser `from` si on trouve pas
   let functionName = (relevantLine && RegExp(/at (\S+)\s\(/).exec(relevantLine)?.[1]) ?? from;
   // `anon` cherche à matcher avec `anonymous` et `?anon_0_` qui sont des fonctions anonymes
-  if (!functionName || functionName.includes("anon")) functionName = "UNKOWN";
+  if (functionName?.includes("anon_0_") || functionName?.includes("anonymous")) functionName = "";
 
-  return functionName;
+  return functionName || (from ?? "UNKOWN");
 }
 
 function save_logs_to_memory (log: string)
