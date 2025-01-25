@@ -23,7 +23,6 @@ export default (): ExpoConfig => ({
     bundleIdentifier: "xyz.getpapillon.ios",
     associatedDomains: ["applinks:getpapillon.xyz"],
     infoPlist: {
-      LSApplicationQueriesSchemes: ["instagram-stories"],
       CFBundleURLTypes: [
         {
           CFBundleURLSchemes: ["papillon", "izly"],
@@ -124,5 +123,22 @@ export default (): ExpoConfig => ({
           "Papillon utilise tes photos et vidéos pour personnaliser ton profil, ta gestion des cours et bien plus.",
       },
     ],
+    [
+      "react-native-share",
+      {
+        ios: [
+          "fb",
+          "instagram",
+          "twitter",
+          "tiktoksharesdk",
+        ],
+        android: [
+          "com.facebook.katana",
+          "com.instagram.android",
+          "com.twitter.android",
+          "com.zhiliaoapp.musically",
+        ]
+      }
+    ]
   ],
 });
