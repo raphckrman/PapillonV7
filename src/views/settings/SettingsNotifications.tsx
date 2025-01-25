@@ -155,47 +155,46 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
             </NativeList>
           </View>
           <NativeListHeader label="Autre" />
-          <NativeList>
-            <ButtonCta
-              value="Test des notifications"
-              icon={
-                loading ? (
-                  <View>
-                    <PapillonSpinner
-                      strokeWidth={3}
-                      size={22}
-                      color={theme.colors.text}
-                    />
-                  </View>
-                ) : undefined
-              }
-              primary={!loading}
-              style={{
-                minWidth: null,
-                maxWidth: null,
-                width: "75%",
-                alignSelf: "center",
-              }}
-              onPress={async () => {
-                setLoading(true);
-                await papillonNotify(
-                  {
-                    id: `${account.name}-test`,
-                    title: `[${account.name}] Coucou, c'est Papillon 👋`,
-                    subtitle: "Test",
-                    body: "Si tu me vois, c'est que tout fonctionne correctement !",
-                    ios: {
-                      categoryId: account.name,
-                    },
+          <ButtonCta
+            value="Test des notifications"
+            icon={
+              loading ? (
+                <View>
+                  <PapillonSpinner
+                    strokeWidth={3}
+                    size={22}
+                    color={theme.colors.text}
+                  />
+                </View>
+              ) : undefined
+            }
+            primary={!loading}
+            style={{
+              marginTop: 14,
+              minWidth: null,
+              maxWidth: null,
+              width: "75%",
+              alignSelf: "center",
+            }}
+            onPress={async () => {
+              setLoading(true);
+              await papillonNotify(
+                {
+                  id: `${account.name}-test`,
+                  title: `[${account.name}] Coucou, c'est Papillon 👋`,
+                  subtitle: "Test",
+                  body: "Si tu me vois, c'est que tout fonctionne correctement !",
+                  ios: {
+                    categoryId: account.name,
                   },
-                  "Test"
-                );
-                setTimeout(() => {
-                  setLoading(false);
-                }, 500);
-              }}
-            />
-          </NativeList>
+                },
+                "Test"
+              );
+              setTimeout(() => {
+                setLoading(false);
+              }, 500);
+            }}
+          />
           <NativeListHeader label="Notifications scolaires" />
           <NativeList>
             {notificationSchoolary.map((notification, index) => (
