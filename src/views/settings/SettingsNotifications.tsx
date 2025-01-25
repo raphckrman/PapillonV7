@@ -170,6 +170,12 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
                 ) : undefined
               }
               primary={!loading}
+              style={{
+                minWidth: null,
+                maxWidth: null,
+                width: "75%",
+                alignSelf: "center",
+              }}
               onPress={async () => {
                 setLoading(true);
                 await papillonNotify(
