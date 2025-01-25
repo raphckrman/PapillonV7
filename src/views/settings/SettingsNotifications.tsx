@@ -9,7 +9,9 @@ import {
   Newspaper,
   Info,
   NotepadText,
-  BookPlus
+  BookPlus,
+  CheckCircle2,
+  CircleAlert
 } from "lucide-react-native";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 import {
@@ -26,6 +28,9 @@ import { PressableScale } from "react-native-pressable-scale";
 import { useAlert } from "@/providers/AlertProvider";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
+import * as TaskManager from "expo-task-manager";
+import { registerBackgroundTasks, unsetBackgroundFetch } from "@/background/BackgroundTasks";
+import { error } from "@/utils/logger/logger";
 
 const SettingsNotifications: Screen<"SettingsNotifications"> = ({
   navigation
@@ -43,6 +48,8 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
     notifications?.enabled || false
   );
   const [loading, setLoading] = useState(false);
+  const [isBackgroundActive, setIsBackgroundActive] = useState<null | boolean>(null);
+
   useEffect(() => {
     const handleNotificationPermission = async () => {
       const statut = await requestNotificationPermission();
@@ -65,6 +72,24 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
 
     handleNotificationPermission();
   }, [enabled]);
+
+  useEffect(() => {
+    const checkBackgroundTaskStatus = async () => {
+      try {
+        const isRegistered = await TaskManager.isTaskRegisteredAsync("background-fetch");
+        setTimeout(() => {
+          setIsBackgroundActive(isRegistered);
+        }, 500);
+      } catch (err) {
+        error(`❌ Failed to register background task: ${err}`, "BackgroundEvent");
+        setIsBackgroundActive(false);
+      }
+    };
+
+    if (!loading) {
+      checkBackgroundTaskStatus();
+    }
+  }, [isBackgroundActive, loading]);
 
   // Animation states
   const opacity = useSharedValue(0);
@@ -146,11 +171,74 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
         <>
           <View>
             <NativeList inline>
-              <NativeItem icon={<Info />}>
+              <NativeItem
+                icon={
+                  isBackgroundActive ? (
+                    <CheckCircle2 />
+                  ) : isBackgroundActive === false ? (
+                    <CircleAlert />
+                  ) : (
+                    <PapillonSpinner />
+                  )
+                }
+                onPress={() => {
+                  if (Platform.OS === "ios") {
+                    Alert.alert(
+                      "Information",
+                      "Le background permet à Papillon de te connecter à ton compte toutes les 15 minutes et te notifie en fonction des paramètres ci-dessous",
+                      [
+                        {
+                          text: "OK",
+                        }
+                      ]
+                    );
+                  } else {
+                    showAlert({
+                      title: "Information",
+                      message: "Le background permet à Papillon de te connecter à ton compte toutes les 15 minutes et te notifie en fonction des paramètres ci-dessous",
+                      actions: [
+                        {
+                          title: "OK",
+                          onPress: () => {},
+                          primary: true,
+                        },
+                      ],
+                    });
+                  }
+                }}
+              >
                 <NativeText variant="body">
-                  Toutes les 15 minutes, Papillon va se connecter à ton compte
-                  et te notifie en fonction des paramètres ci-dessous
+                  {isBackgroundActive === true
+                    ? "Le background est actuellement actif."
+                    : isBackgroundActive === false
+                      ? "Le background n'est pas actif."
+                      : "Vérification du background..."}
                 </NativeText>
+                {isBackgroundActive !== null && (
+                  <ButtonCta
+                    value={isBackgroundActive ? "Réinitialiser" : "Activer"}
+                    primary={true}
+                    style={{
+                      marginTop: 14,
+                      minWidth: null,
+                      maxWidth: null,
+                      width: "85%",
+                      alignSelf: "center",
+                    }}
+                    onPress={async () => {
+                      setLoading(true);
+                      setIsBackgroundActive(null);
+                      if (isBackgroundActive) {
+                        await unsetBackgroundFetch();
+                      }
+
+                      await registerBackgroundTasks();
+                      setTimeout(() => {
+                        setLoading(false);
+                      }, 500);
+                    }}
+                  />
+                )}
               </NativeItem>
             </NativeList>
           </View>
@@ -158,7 +246,7 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
           <ButtonCta
             value="Test des notifications"
             icon={
-              loading ? (
+              loading && isBackgroundActive !== null ? (
                 <View>
                   <PapillonSpinner
                     strokeWidth={3}
@@ -168,6 +256,7 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
                 </View>
               ) : undefined
             }
+            disabled={loading}
             primary={!loading}
             style={{
               marginTop: 14,
