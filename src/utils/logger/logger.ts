@@ -33,7 +33,7 @@ function get_file_from_stacktrace (stack: string): string
       .split(/\/\/localhost:\d\d\d\d\//g)[1]
       .split("//&")[0];
   } catch (e) {
-    res = "UNKOWN";
+    res = "UNKNOWN";
   }
   return (res);
 }
