@@ -2,7 +2,8 @@ import { Alert } from "react-native";
 import Constants from "expo-constants";
 
 export const isExpoGo = () => {
-  return Constants.appOwnership === "expo";
+  console.log(Constants.expoConfig?.extra?.EXPO_ENV);
+  return Constants.expoConfig?.extra?.EXPO_ENV === "expo";
 };
 
 export const alertExpoGo = async () => {
