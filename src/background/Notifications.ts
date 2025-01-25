@@ -1,4 +1,3 @@
-import { isExpoGo } from "@/utils/native/expoGoAlert";
 import notifee, {
   AuthorizationStatus,
   Notification,
@@ -6,8 +5,6 @@ import notifee, {
 import { Platform } from "react-native";
 
 const requestNotificationPermission = async () => {
-  if (isExpoGo()) return false;
-
   const settings = await notifee.requestPermission();
   if (Platform.OS === "ios") {
     if (settings.authorizationStatus >= AuthorizationStatus.AUTHORIZED) {

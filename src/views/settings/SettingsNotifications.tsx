@@ -21,7 +21,6 @@ import {
 } from "@/components/Global/NativeComponents";
 import NotificationContainerCard from "@/components/Settings/NotificationContainerCard";
 import { createChannelNotification, requestNotificationPermission } from "@/background/Notifications";
-import { alertExpoGo, isExpoGo } from "@/utils/native/expoGoAlert";
 import { useCurrentAccount } from "@/stores/account";
 import { PressableScale } from "react-native-pressable-scale";
 import { useAlert } from "@/providers/AlertProvider";
@@ -81,11 +80,6 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
   }, [enabled]);
 
   const askEnabled = async (newValue: boolean) => {
-    if (isExpoGo()) {
-      alertExpoGo();
-      return;
-    }
-
     setEnabled(newValue);
   };
 
