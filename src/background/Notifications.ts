@@ -20,6 +20,13 @@ const requestNotificationPermission = async () => {
 };
 
 const createChannelNotification = async () => {
+  await notifee.createChannel({
+    id: "Test",
+    name: "Test",
+    description: "Permet de tester les notifications",
+    sound: "default",
+  });
+
   await notifee.createChannelGroup({
     id: "Papillon",
     name: "Notifications Scolaires",
@@ -79,6 +86,7 @@ const createChannelNotification = async () => {
 const papillonNotify = async (
   props: Notification,
   channelId:
+    | "Test"
     | "News"
     | "Homeworks"
     | "Grades"

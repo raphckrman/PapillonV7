@@ -20,10 +20,12 @@ import {
   NativeText
 } from "@/components/Global/NativeComponents";
 import NotificationContainerCard from "@/components/Settings/NotificationContainerCard";
-import { createChannelNotification, requestNotificationPermission } from "@/background/Notifications";
+import { createChannelNotification, papillonNotify, requestNotificationPermission } from "@/background/Notifications";
 import { useCurrentAccount } from "@/stores/account";
 import { PressableScale } from "react-native-pressable-scale";
 import { useAlert } from "@/providers/AlertProvider";
+import ButtonCta from "@/components/FirstInstallation/ButtonCta";
+import PapillonSpinner from "@/components/Global/PapillonSpinner";
 
 const SettingsNotifications: Screen<"SettingsNotifications"> = ({
   navigation
@@ -40,6 +42,7 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
   const [enabled, setEnabled] = useState<boolean | null>(
     notifications?.enabled || false
   );
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const handleNotificationPermission = async () => {
       const statut = await requestNotificationPermission();
@@ -151,7 +154,43 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
               </NativeItem>
             </NativeList>
           </View>
-          <NativeListHeader label={"Notifications scolaires"} />
+          <NativeListHeader label="Autre" />
+          <NativeList>
+            <ButtonCta
+              value="Test des notifications"
+              icon={
+                loading ? (
+                  <View>
+                    <PapillonSpinner
+                      strokeWidth={3}
+                      size={22}
+                      color={theme.colors.text}
+                    />
+                  </View>
+                ) : undefined
+              }
+              primary={!loading}
+              onPress={async () => {
+                setLoading(true);
+                await papillonNotify(
+                  {
+                    id: `${account.name}-test`,
+                    title: `[${account.name}] Coucou, c'est Papillon 👋`,
+                    subtitle: "Test",
+                    body: "Si tu me vois, c'est que tout fonctionne correctement !",
+                    ios: {
+                      categoryId: account.name,
+                    },
+                  },
+                  "Test"
+                );
+                setTimeout(() => {
+                  setLoading(false);
+                }, 500);
+              }}
+            />
+          </NativeList>
+          <NativeListHeader label="Notifications scolaires" />
           <NativeList>
             {notificationSchoolary.map((notification, index) => (
               <NativeItem
