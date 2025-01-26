@@ -378,9 +378,7 @@ const SettingsTabs = () => {
 
           <NativeListHeader label="Réorganiser les onglets" />
 
-          <NativeList
-            animated
-          >
+          <NativeList>
             {showNewTabsNotification && (
               <NativeItem
                 leading={
@@ -402,6 +400,7 @@ const SettingsTabs = () => {
             )}
 
             <NestableDraggableFlatList
+              key={tabs.map((tab) => tab.tab).join(",")}
               initialNumToRender={tabs.length}
               scrollEnabled={false}
               data={tabs}
