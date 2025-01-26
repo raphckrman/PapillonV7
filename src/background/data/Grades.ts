@@ -2,7 +2,7 @@ import { getCurrentAccount } from "../utils/accounts";
 import { papillonNotify } from "../Notifications";
 import { Grade } from "@/services/shared/Grade";
 import { getGrades, updateGradeState } from "../utils/grades";
-import { log } from "@/utils/logger/logger";
+import { info } from "@/utils/logger/logger";
 
 const getDifferences = (
   currentGrade: Grade[],
@@ -19,7 +19,7 @@ const getDifferences = (
 };
 
 const fetchGrade = async (): Promise<Grade[]> => {
-  log("Running background Grade", "BackgroundEvent");
+  info("▶️ Running background Grades", "BackgroundEvent");
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 

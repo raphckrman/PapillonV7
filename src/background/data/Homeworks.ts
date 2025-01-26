@@ -3,7 +3,7 @@ import { papillonNotify } from "../Notifications";
 import { getHomeworks, updateHomeworksState } from "../utils/homeworks";
 import { Homework } from "@/services/shared/Homework";
 import { dateToEpochWeekNumber } from "@/utils/epochWeekNumber";
-import { log } from "@/utils/logger/logger";
+import { info } from "@/utils/logger/logger";
 
 const getDifferences = (
   currentHomeworks: Homework[],
@@ -19,7 +19,7 @@ const getDifferences = (
 };
 
 const fetchHomeworks = async (): Promise<Homework[]> => {
-  log("Running background Homeworks", "BackgroundEvent");
+  info("▶️ Running background Homeworks", "BackgroundEvent");
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 

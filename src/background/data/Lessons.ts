@@ -3,7 +3,7 @@ import { papillonNotify } from "../Notifications";
 import { getLessons, updateLessonsState } from "../utils/lessons";
 import { dateToEpochWeekNumber } from "@/utils/epochWeekNumber";
 import { Timetable, TimetableClassStatus } from "@/services/shared/Timetable";
-import { log } from "@/utils/logger/logger";
+import { info } from "@/utils/logger/logger";
 
 const getAllLessonsForDay = (lessons: Record<number, Timetable>) => {
   const date = new Date();
@@ -22,7 +22,7 @@ const getAllLessonsForDay = (lessons: Record<number, Timetable>) => {
 };
 
 const fetchLessons = async (): Promise<Timetable> => {
-  log("Running background Lessons", "BackgroundEvent");
+  info("▶️ Running background Lessons", "BackgroundEvent");
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 

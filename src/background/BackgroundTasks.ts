@@ -42,12 +42,11 @@ let isBackgroundFetchRunning = false;
 
 const backgroundFetch = async () => {
   if (isBackgroundFetchRunning) {
-    log("⚠️ Background fetch already running. Skipping...", "BackgroundEvent");
+    warn("⚠️ Background fetch already running. Skipping...", "BackgroundEvent");
     return BackgroundFetchResult.NoData;
   }
 
   isBackgroundFetchRunning = true;
-  log("Running background fetch", "BackgroundEvent");
 
   try {
     const accounts = getAccounts();
