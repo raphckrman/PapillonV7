@@ -122,12 +122,12 @@ async function get_logs (): Promise<Log[]> {
   if (res) value = JSON.parse(res);
 
   value.forEach((item) => {
-    let arr = item.split("]");
+    const matchs = /\[([A-Z\s]+)\]\[(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z)]\[(\S+)\] (.+)/gm.exec(item);
     returned.push({
-      type: arr[0].replace("[", ""),
-      date: arr[1].replace("[", ""),
-      from: arr[2].replace("[", ""),
-      message: arr[3].trim()
+      type: matchs?.[1]! ?? "Unkown type", // The index 0 is used for the global match
+      date: matchs?.[2]! ?? "Unkown date",
+      from: matchs?.[3]! ?? "Unkown from",
+      message: matchs?.[4]! ?? "Unkown content"
     });
   });
 
