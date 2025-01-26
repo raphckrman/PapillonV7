@@ -418,10 +418,12 @@ const SettingsTabs = () => {
                       leading={
                         <LottieView
                           source={item.icon}
-                          colorFilters={[{
-                            keypath: "*",
-                            color: theme.colors.text,
-                          }]}
+                          colorFilters={[
+                            {
+                              keypath: "*",
+                              color: theme.colors.text,
+                            }
+                          ]}
                           style={{ width: 24, height: 24, marginVertical: 2 }}
                         />
                       }
@@ -435,40 +437,38 @@ const SettingsTabs = () => {
                             width: 70,
                           }}
                         >
-                          {!safeTabs.includes(item.tab) && (
+                          {!safeTabs.includes(item.tab) && !loading && (
                             <Reanimated.View
                               entering={ZoomIn.springify().mass(1).damping(20).stiffness(300)}
                               exiting={ZoomOut.duration(300)}
                             >
-                              {!loading && (
-                                <PapillonCheckbox
-                                  checked={item.enabled}
-                                  onPress={() => {
-                                    if (!item.enabled && tabs.filter(t => t.enabled).length === 5) {
-                                      if (Platform.OS === "ios") {
-                                        Alert.alert("Information", "Tu ne peux pas ajouter plus de 5 onglets sur la page d'accueil.", [
+                              <PapillonCheckbox
+                                checked={item.enabled}
+                                onPress={() => {
+                                  if (!item.enabled && tabs.filter(t => t.enabled).length === 5) {
+                                    if (Platform.OS === "ios") {
+                                      Alert.alert("Information", "Tu ne peux pas ajouter plus de 5 onglets sur la page d'accueil.", [
+                                        {
+                                          text: "OK",
+                                        },
+                                      ]);
+                                    } else {
+                                      showAlert({
+                                        title: "Information",
+                                        message: "Tu ne peux pas ajouter plus de 5 onglets sur la page d'accueil.",
+                                        actions: [
                                           {
-                                            text: "OK",
+                                            title: "OK",
+                                            onPress: () => {},
+                                            backgroundColor: theme.colors.card,
                                           },
-                                        ]);
-                                      } else {
-                                        showAlert({
-                                          title: "Information",
-                                          message: "Tu ne peux pas ajouter plus de 5 onglets sur la page d'accueil.",
-                                          actions: [
-                                            {
-                                              title: "OK",
-                                              onPress: () => {},
-                                              backgroundColor: theme.colors.card,
-                                            },
-                                          ],
-                                        });
-                                      }
+                                        ],
+                                      });
                                     }
-                                    toggleTab(item.tab);
-                                  }}
-                                />
-                              )}
+                                  }
+                                  toggleTab(item.tab);
+                                }}
+                              />
                             </Reanimated.View>
                           )}
 
@@ -480,7 +480,9 @@ const SettingsTabs = () => {
                         </View>
                       }
                     >
-                      <NativeText variant="title">{item.label}</NativeText>
+                      <NativeText variant="title">
+                        {item.label}
+                      </NativeText>
                     </NativeItem>
                   </View>
                 </ShadowDecorator>
