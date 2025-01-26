@@ -74,19 +74,19 @@ function log (message: string, from: string): void {
 function error (message: string, from: string): void {
   let log = get_message(1, get_iso_date(), get_file_from_stacktrace(from), message);
   save_logs_to_memory(log);
-  console.log(log);
+  console.error(log);
 }
 
 function warn (message: string, from: string): void {
   let log = get_message(2, get_iso_date(), get_file_from_stacktrace(from), message);
   save_logs_to_memory(log);
-  console.log(log);
+  console.warn(log);
 }
 
 function info (message: string, from: string): void {
   let log = get_message(3, get_iso_date(), get_file_from_stacktrace(from), message);
   save_logs_to_memory(log);
-  console.log(log);
+  console.info(log);
 }
 
 function navigate (to: string): void {
