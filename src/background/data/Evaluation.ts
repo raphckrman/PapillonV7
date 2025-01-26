@@ -43,9 +43,6 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
             title: `[${account.name}] Nouvelle compétence`,
             subtitle: defaultPeriod,
             body: `Une nouvelle compétence en ${differences[0].subjectName} a été publiée`,
-            ios: {
-              categoryId: account.name,
-            },
           },
           "Evaluation"
         );
@@ -64,9 +61,6 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
               })
               .join("<br />")}
             `,
-            ios: {
-              categoryId: account.name,
-            },
           },
           "Evaluation"
         );

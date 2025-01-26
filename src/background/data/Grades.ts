@@ -43,9 +43,6 @@ const fetchGrade = async (): Promise<Grade[]> => {
             title: `[${account.name}] Nouvelle note`,
             subtitle: defaultPeriod,
             body: `Une nouvelle note en ${differences[0].subjectName} a été publiée`,
-            ios: {
-              categoryId: account.name,
-            },
           },
           "Grades"
         );
@@ -64,9 +61,6 @@ const fetchGrade = async (): Promise<Grade[]> => {
               })
               .join("<br />")}
             `,
-            ios: {
-              categoryId: account.name,
-            },
           },
           "Grades"
         );

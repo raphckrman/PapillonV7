@@ -105,9 +105,6 @@ const fetchLessons = async (): Promise<Timetable> => {
               month: "long",
             }),
             body: `Le cours de ${lessonsEvent[0].title} (${dateLessonsDebut}-${dateLessonsFin}) ${statut}`,
-            ios: {
-              categoryId: account.name,
-            },
           },
           "Lessons"
         );
@@ -130,9 +127,6 @@ const fetchLessons = async (): Promise<Timetable> => {
                 return `- ${element.title}`;
               })
               .join("<br />")}`,
-            ios: {
-              categoryId: account.name,
-            },
           },
           "Lessons"
         );

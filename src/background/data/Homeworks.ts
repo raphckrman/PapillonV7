@@ -67,9 +67,6 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
                 1
               ).toString()}`,
               body: `Un nouveau devoir en ${differencesHwSemaineActuelle[0].subject} a été publié`,
-              ios: {
-                categoryId: account.name,
-              },
             },
             "Homeworks"
           );
@@ -83,9 +80,6 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
                 2
               ).toString()}`,
               body: `Un nouveau devoir en ${differencesHwSemaineProchaine[0].subject} a été publié`,
-              ios: {
-                categoryId: account.name,
-              },
             },
             "Homeworks"
           );
@@ -113,9 +107,6 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
               })
               .join("<br />")}
             `,
-            ios: {
-              categoryId: account.name,
-            },
           },
           "Homeworks"
         );

@@ -142,9 +142,6 @@ const fetchAttendance = async (): Promise<Attendance> => {
             title: `[${account.name}] ${thenewevent}`,
             subtitle: defaultPeriod,
             body: explication,
-            ios: {
-              categoryId: account.name,
-            },
           },
           "Attendance"
         );
@@ -198,9 +195,6 @@ const fetchAttendance = async (): Promise<Attendance> => {
             title: `[${account.name}] Vie Scolaire`,
             subtitle: defaultPeriod,
             body: `De nouveaux événements ont été publiés, consulte la vie scolaire pour plus de détails : ${LesExplication.join(", ")}.`,
-            ios: {
-              categoryId: account.name,
-            },
           },
           "Attendance"
         );

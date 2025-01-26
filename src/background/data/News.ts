@@ -47,9 +47,6 @@ const fetchNews = async (): Promise<Information[]> => {
                   100
                 )}...`
                 : "Aucun résumé disponible.",
-            ios: {
-              categoryId: account.name,
-            },
           },
           "News"
         );
@@ -67,9 +64,6 @@ const fetchNews = async (): Promise<Information[]> => {
               })
               .join("<br />")}
             `,
-            ios: {
-              categoryId: account.name,
-            },
           },
           "News"
         );

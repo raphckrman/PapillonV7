@@ -1,4 +1,5 @@
 import notifee, {
+  AndroidImportance,
   AuthorizationStatus,
   Notification,
 } from "@notifee/react-native";
@@ -113,15 +114,25 @@ const papillonNotify = async (
     android: {
       channelId,
       timestamp,
-      showTimestamp: true,
+      showTimestamp: channelId !== "Status" ? true : false,
+      showChronometer: channelId === "Status" ? true : false,
       smallIcon: "@mipmap/ic_launcher_foreground",
       color: "#32AB8E",
-      pressAction: {
-        id: "default",
-        launchActivity: "xyz.getpapillon.app.MainActivity",
-      }
+      pressAction:
+        channelId !== "Test" && channelId !== "Status"
+          ? {
+            id: "default",
+            launchActivity: "xyz.getpapillon.app.MainActivity",
+          }
+          : undefined,
       // à intégrer => `actions`
     },
+    ios: {
+      threadId: channelId,
+      badgeCount: channelId !== "Status" ? 1 : 0,
+      sound: channelId !== "Status" ? "default" : undefined,
+      // à intégrer => `categoryId`
+    }
   });
 };
 
