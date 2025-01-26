@@ -11,6 +11,7 @@ import { fetchGrade } from "./data/Grades";
 // import { fetchLessons } from "./data/Lessons";
 import { fetchAttendance } from "./data/Attendance";
 import { fetchEvaluation } from "./data/Evaluation";
+import { papillonNotify } from "./Notifications";
 
 // Gestion des notifs quand app en arrière-plan
 notifee.onBackgroundEvent(async ({ type, detail }) => {
@@ -47,6 +48,13 @@ const backgroundFetch = async () => {
   }
 
   isBackgroundFetchRunning = true;
+  papillonNotify(
+    {
+      id: "statusBackground",
+      body: "Récupération des données des comptes les plus récentes en arrière-plan...",
+    },
+    "Status"
+  );
 
   try {
     const accounts = getAccounts();
@@ -73,6 +81,7 @@ const backgroundFetch = async () => {
     return BackgroundFetchResult.Failed;
   } finally {
     isBackgroundFetchRunning = false;
+    notifee.cancelNotification("statusBackground");
   }
 };
 

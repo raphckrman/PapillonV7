@@ -27,6 +27,15 @@ const createChannelNotification = async () => {
     sound: "default",
   });
 
+  await notifee.createChannel({
+    id: "Status",
+    name: "Statut du background",
+    description: "Affiche quand le background est actuellement actif",
+    vibration: false,
+    importance: AndroidImportance.MIN,
+    badge: false,
+  });
+
   await notifee.createChannelGroup({
     id: "Papillon",
     name: "Notifications Scolaires",
@@ -87,6 +96,7 @@ const papillonNotify = async (
   props: Notification,
   channelId:
     | "Test"
+    | "Status"
     | "News"
     | "Homeworks"
     | "Grades"
