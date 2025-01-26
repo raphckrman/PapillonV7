@@ -91,7 +91,10 @@ const PronoteCredentials: Screen<"PronoteCredentials"> = ({ route, navigation })
       setLoading(false);
 
       if (error instanceof Error) {
-        setError(error.message);
+        if (error.name === "BadCredentialsError")
+          setError("Nom d'utilisateur ou mot de passe incorrect");
+        else
+          setError(error.message);
       }
       else {
         setError("Erreur inconnue");
