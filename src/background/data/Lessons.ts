@@ -93,7 +93,7 @@ const fetchLessons = async (): Promise<Timetable> => {
             break;
         }
 
-        papillonNotify(
+        await papillonNotify(
           {
             id: `${account.name}-lessons`,
             title: `[${account.name}] Emploi du temps du jour modifié`,
@@ -110,7 +110,7 @@ const fetchLessons = async (): Promise<Timetable> => {
         );
         break;
       default:
-        papillonNotify(
+        await papillonNotify(
           {
             id: `${account.name}-lessons`,
             title: `[${account.name}] Emploi du temps du jour`,

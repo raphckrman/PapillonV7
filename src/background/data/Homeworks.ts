@@ -58,7 +58,7 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
         break;
       case 1:
         if (differencesHwSemaineActuelle.length === 1) {
-          papillonNotify(
+          await papillonNotify(
             {
               id: `${account.name}-homeworks`,
               title: `[${account.name}] Nouveau devoir`,
@@ -71,7 +71,7 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
             "Homeworks"
           );
         } else {
-          papillonNotify(
+          await papillonNotify(
             {
               id: `${account.name}-homeworks`,
               title: `[${account.name}] Nouveau devoir`,
@@ -86,7 +86,7 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
         }
         break;
       default:
-        papillonNotify(
+        await papillonNotify(
           {
             id: `${account.name}-homeworks`,
             title: `[${account.name}] Nouveaux devoirs`,

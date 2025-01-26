@@ -136,7 +136,7 @@ const fetchAttendance = async (): Promise<Attendance> => {
           `;
         }
 
-        papillonNotify(
+        await papillonNotify(
           {
             id: `${account.name}-attendance`,
             title: `[${account.name}] ${thenewevent}`,
@@ -189,12 +189,14 @@ const fetchAttendance = async (): Promise<Attendance> => {
           }
         }
 
-        papillonNotify(
+        await papillonNotify(
           {
             id: `${account.name}-attendance`,
             title: `[${account.name}] Vie Scolaire`,
             subtitle: defaultPeriod,
-            body: `De nouveaux événements ont été publiés, consulte la vie scolaire pour plus de détails : ${LesExplication.join(", ")}.`,
+            body: `De nouveaux événements ont été publiés, consulte la vie scolaire pour plus de détails : ${LesExplication.join(
+              ", "
+            )}.`,
           },
           "Attendance"
         );

@@ -35,7 +35,7 @@ const fetchNews = async (): Promise<Information[]> => {
       case 0:
         break;
       case 1:
-        papillonNotify(
+        await papillonNotify(
           {
             id: `${account.name}-news`,
             title: `[${account.name}] Nouvelle actualité`,
@@ -52,12 +52,14 @@ const fetchNews = async (): Promise<Information[]> => {
         );
         break;
       default:
-        papillonNotify(
+        await papillonNotify(
           {
             id: `${account.name}-news`,
             title: `[${account.name}] Nouvelles actualités`,
             body: `
-            ${differences.length} nouvelles actualités ont été publiées par :<br />
+            ${
+              differences.length
+            } nouvelles actualités ont été publiées par :<br />
             ${differences
               .flatMap((element) => {
                 return `- ${element.author}`;

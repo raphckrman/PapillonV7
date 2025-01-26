@@ -37,7 +37,7 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
       case 0:
         break;
       case 1:
-        papillonNotify(
+        await papillonNotify(
           {
             id: `${account.name}-evaluation`,
             title: `[${account.name}] Nouvelle compétence`,
@@ -48,7 +48,7 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
         );
         break;
       default:
-        papillonNotify(
+        await papillonNotify(
           {
             id: `${account.name}-evaluation`,
             subtitle: defaultPeriod,

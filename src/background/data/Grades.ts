@@ -37,7 +37,7 @@ const fetchGrade = async (): Promise<Grade[]> => {
       case 0:
         break;
       case 1:
-        papillonNotify(
+        await papillonNotify(
           {
             id: `${account.name}-grades`,
             title: `[${account.name}] Nouvelle note`,
@@ -48,7 +48,7 @@ const fetchGrade = async (): Promise<Grade[]> => {
         );
         break;
       default:
-        papillonNotify(
+        await papillonNotify(
           {
             id: `${account.name}-grades`,
             subtitle: defaultPeriod,

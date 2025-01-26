@@ -48,7 +48,7 @@ const backgroundFetch = async () => {
   }
 
   isBackgroundFetchRunning = true;
-  papillonNotify(
+  await papillonNotify(
     {
       id: "statusBackground",
       body: "Récupération des données des comptes les plus récentes en arrière-plan...",
@@ -62,7 +62,8 @@ const backgroundFetch = async () => {
 
     for (const account of accounts) {
       await switchTo(account);
-      const notificationsTypesPermissions = account.personalization.notifications;
+      const notificationsTypesPermissions =
+        account.personalization.notifications;
 
       if (notificationsTypesPermissions?.enabled) {
         await fetchNews();
