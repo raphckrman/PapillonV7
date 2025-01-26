@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Alert, Image, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { CameraView, PermissionStatus, useCameraPermissions } from "expo-camera";
+import { Text, View, Linking, StyleSheet, TouchableOpacity, Image, Alert } from "react-native";
+import { CameraView, useCameraPermissions, PermissionStatus } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { Check, X } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
