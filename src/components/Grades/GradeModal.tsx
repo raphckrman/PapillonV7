@@ -20,13 +20,32 @@ import { NativeText } from "@/components/Global/NativeComponents";
 import { Reel } from "@/services/shared/Reel";
 import { captureRef } from "react-native-view-shot";
 import Constants from "expo-constants";
-import { Social, type ShareSingleOptions } from "react-native-share";
 
 interface GradeModalProps {
   isVisible: boolean;
   reel: Reel;
   onClose: () => void;
   DeleteGrade: () => void;
+}
+
+interface ShareOptions {
+  appId: string;
+  urls?: string[];
+  url?: string;
+  type?: string;
+  filename?: string;
+  message?: string;
+  title?: string;
+  subject?: string;
+  email?: string;
+  recipient?: string;
+  social: "facebook"|"facebookstories"|"pagesmanager"|"twitter"|"whatsapp"
+          |"whatsappbusiness" |"instagram"|"instagramstories"|"googleplus"
+          |"email"|"pinterest"|"linkedin"|"sms" |"telegram"|"snapchat"
+          |"messenger"|"viber"|"discord";
+  forceDialog?: boolean;
+  stickerImage?: string;
+  backgroundImage?: string;
 }
 
 const convertToBase64 = async (uri: string): Promise<string> => {
@@ -49,7 +68,7 @@ const GradeModal: React.FC<GradeModalProps> = ({
   const insets = useSafeAreaInsets();
   const stickersRef = React.useRef<View>(null);
 
-  const shareToSocial = async (option: ShareSingleOptions) => {
+  const shareToSocial = async (option: ShareOptions) => {
     const isExpoGo = Constants.appOwnership === "expo";
     if (isExpoGo) {
       Alert.alert("Fonctionnalité indisponible", "Cette fonctionnalité n'est pas disponible dans Expo Go. Pour l'utiliser, tu peux tester l'application sur ton propre appareil.");
@@ -172,7 +191,7 @@ const GradeModal: React.FC<GradeModalProps> = ({
                 appId: "497734022878553",
                 stickerImage: `data:image/png;base64,${stickers}`,
                 backgroundImage: `data:image/png;base64,${reel.imagewithouteffect}`,
-                social: Social.InstagramStories,
+                social: "instagramstories",
               });
             }}
           >
