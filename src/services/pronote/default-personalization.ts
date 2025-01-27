@@ -25,12 +25,14 @@ const defaultPersonalization = async (instance: pronote.SessionHandle): Promise<
     profilePictureB64: user.profilePicture
       ? await downloadAsBase64(user.profilePicture.url)
       : void 0,
-
+    initialProfilePictureB64: user.profilePicture
+      ? await downloadAsBase64(user.profilePicture.url)
+      : void 0,
     tabs: defaultTabs.filter(current => defaultPronoteTabs.includes(current.tab)).map((tab, index) => ({
       name: tab.tab,
       enabled: index <= 4
     }))
-  };
+  };  
 };
 
 export default defaultPersonalization;

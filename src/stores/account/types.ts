@@ -36,6 +36,7 @@ export interface PapillonIcalURL {
 export interface Personalization {
   color: PersonalizationColor
   profilePictureB64?: string,
+  initialProfilePictureB64?: string,
   hideNameOnHomeScreen: boolean,
   hideProfilePicOnHomeScreen: boolean,
   hideTabTitles: boolean,

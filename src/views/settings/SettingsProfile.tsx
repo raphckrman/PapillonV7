@@ -26,6 +26,15 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
   const [firstName, setFirstName] = useState(account.studentName?.first ?? "");
   const [lastName, setLastName] = useState(account.studentName?.last ?? "");
 
+  const resetProfilePic = () => {
+    const initialPic = account.personalization.initialProfilePictureB64;
+    setProfilePic(initialPic);
+    mutateProperty("personalization", {
+      ...account.personalization,
+      profilePictureB64: initialPic,
+    });
+  };
+
   // on name change, update the account name
   useEffect(() => {
     let newLastName = lastName;
@@ -176,6 +185,21 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
               </NativeText>
             )}
           </NativeItem>
+          
+          {profilePic && (
+            <NativeItem
+              chevron={false}
+              onPress={resetProfilePic}
+              icon={<Camera />}
+            >
+              <NativeText variant="title">
+                Réinitialiser la photo de profil
+              </NativeText>
+              <NativeText variant="subtitle">
+                Supprime la photo actuelle et rétablit l'image par défaut.
+              </NativeText>
+            </NativeItem>
+          )}
         </NativeList>
 
         <NativeListHeader
