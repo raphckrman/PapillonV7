@@ -178,7 +178,7 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
                         }));
                       }
                     }}
-                    color="green"
+                    color={theme.colors.primary}
                   />
                 }
               >
