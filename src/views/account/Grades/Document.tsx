@@ -1,36 +1,17 @@
-import {
-  NativeItem,
-  NativeList,
-  NativeListHeader,
-  NativeText,
-} from "@/components/Global/NativeComponents";
-import { getSubjectData } from "@/services/shared/Subject";
-import { useTheme } from "@react-navigation/native";
-import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
-import { Image, ScrollView, Text, View, Platform, TouchableOpacity, Modal } from "react-native";
+import {NativeItem, NativeList, NativeListHeader, NativeText,} from "@/components/Global/NativeComponents";
+import {getSubjectData} from "@/services/shared/Subject";
+import {useTheme} from "@react-navigation/native";
+import React, {useCallback, useEffect, useLayoutEffect, useState} from "react";
+import {Image, Platform, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import * as StoreReview from "expo-store-review";
-import {
-  Asterisk,
-  Calculator,
-  Download,
-  Expand,
-  Maximize2,
-  Scale,
-  School,
-  SmilePlus,
-  Trash,
-  UserMinus,
-  UserPlus,
-  Users,
-} from "lucide-react-native";
-import { getAverageDiffGrade } from "@/utils/grades/getAverages";
-import type { AverageDiffGrade } from "@/utils/grades/getAverages";
-import { Screen } from "@/router/helpers/types";
+import {Asterisk, Calculator, Maximize2, Scale, School, UserMinus, UserPlus, Users,} from "lucide-react-native";
+import type {AverageDiffGrade} from "@/utils/grades/getAverages";
+import {getAverageDiffGrade} from "@/utils/grades/getAverages";
+import {Screen} from "@/router/helpers/types";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useGradesStore } from "@/stores/grades";
-import { LinearGradient } from "expo-linear-gradient";
+import {useGradesStore} from "@/stores/grades";
+import {LinearGradient} from "expo-linear-gradient";
 import AnimatedEmoji from "@/components/Grades/AnimatedEmoji";
 import GradeModal from "@/components/Grades/GradeModal";
 
@@ -38,7 +19,6 @@ import GradeModal from "@/components/Grades/GradeModal";
 const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
   const { grade, allGrades = [] } = route.params;
   const theme = useTheme();
-  const insets = useSafeAreaInsets();
   const [modalOpen, setModalOpen] = useState(false);
   const [isReactionBeingTaken, setIsReactionBeingTaken] = useState(false);
 
@@ -138,15 +118,15 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
           value: "x" + grade.coefficient.toFixed(2),
         },
         grade.outOf.value !== 20 &&
-          !grade.student.disabled && {
+                !grade.student.disabled && {
           icon: <Calculator />,
           title: "Remis sur /20",
           description: "Valeur recalculée sur 20",
           value:
-              typeof grade.student.value === "number" &&
-              typeof grade.outOf.value === "number"
-                ? ((grade.student.value / grade.outOf.value) * 20).toFixed(2)
-                : "??",
+                        typeof grade.student.value === "number" &&
+                        typeof grade.outOf.value === "number"
+                          ? ((grade.student.value / grade.outOf.value) * 20).toFixed(2)
+                          : "??",
           bareme: "/20",
         },
       ],
@@ -173,10 +153,10 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
           title: "Note minimale",
           description: "Moins bonne note de la classe",
           value:
-            grade.min.value?.toFixed(2) &&
-            grade.min.value.toFixed(2) !== "-1.00"
-              ? grade.min.value?.toFixed(2)
-              : "??",
+                        grade.min.value?.toFixed(2) &&
+                        grade.min.value.toFixed(2) !== "-1.00"
+                          ? grade.min.value?.toFixed(2)
+                          : "??",
           bareme: "/" + grade.outOf.value,
         },
       ],
@@ -189,38 +169,38 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
           title: "Moyenne générale",
           description: "Impact estimé sur la moyenne générale",
           value:
-            gradeDiff.difference === undefined
-              ? "???"
-              : (gradeDiff.difference > 0
-                ? "- "
-                : gradeDiff.difference === 0
-                  ? "+/- "
-                  : "+ ") +
-                gradeDiff.difference.toFixed(2).replace("-", "") +
-                " pts",
+                        gradeDiff.difference === undefined
+                          ? "???"
+                          : (gradeDiff.difference > 0
+                            ? "- "
+                            : gradeDiff.difference === 0
+                              ? "+/- "
+                              : "+ ") +
+                            gradeDiff.difference.toFixed(2).replace("-", "") +
+                            " pts",
           color:
-            gradeDiff.difference === undefined
-              ? void 0
-              : gradeDiff.difference < 0
-                ? "#4CAF50"
-                : gradeDiff.difference === 0
-                  ? theme.colors.text
-                  : "#F44336",
+                        gradeDiff.difference === undefined
+                          ? void 0
+                          : gradeDiff.difference < 0
+                            ? "#4CAF50"
+                            : gradeDiff.difference === 0
+                              ? theme.colors.text
+                              : "#F44336",
         },
         !grade.average.disabled && {
           icon: <School />,
           title: "Moyenne de la classe",
           description: "Impact de la note sur la moyenne de la classe",
           value:
-            classDiff.difference === undefined
-              ? "???"
-              : (classDiff.difference > 0
-                ? "- "
-                : gradeDiff.difference === 0
-                  ? "+/- "
-                  : "+ ") +
-                classDiff.difference.toFixed(2).replace("-", "") +
-                " pts",
+                        classDiff.difference === undefined
+                          ? "???"
+                          : (classDiff.difference > 0
+                            ? "- "
+                            : gradeDiff.difference === 0
+                              ? "+/- "
+                              : "+ ") +
+                            classDiff.difference.toFixed(2).replace("-", "") +
+                            " pts",
         },
       ],
     },
@@ -244,20 +224,19 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
   }, [currentReel]);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", handleFocus);
-    return unsubscribe;
+    return navigation.addListener("focus", handleFocus);
   }, [navigation, handleFocus]);
 
   return (
     <View style={{ flex: 1 }}>
-
-      <GradeModal
-        isVisible={modalOpen}
-        imageBase64={reels[grade.id]?.image}
-        onClose={() => setModalOpen(false)}
-        DeleteGrade={() => deleteReel(grade.id)}
-      />
-
+      {reels[grade.id] &&
+            <GradeModal
+              isVisible={modalOpen}
+              reel={reels[grade.id]}
+              onClose={() => setModalOpen(false)}
+              DeleteGrade={() => deleteReel(grade.id)}
+            />
+      }
       <View style={{ borderCurve: "continuous", minHeight: 180, backgroundColor: "#000000" }}>
         <View
           style={{
@@ -339,10 +318,10 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
             <TouchableOpacity
               style={{
                 position: "absolute",
-                bottom: 12,
-                right: 12,
-                paddingHorizontal: 12,
-                paddingVertical: 6,
+                bottom: 20,
+                right: 20,
+                paddingHorizontal: 10,
+                paddingVertical: 8,
                 borderRadius: 100,
                 backgroundColor: "#00000043",
                 zIndex: 50,
@@ -505,8 +484,7 @@ const GradeDocument: Screen<"GradeDocument"> = ({ route, navigation }) => {
                                 fontSize: 18,
                                 lineHeight: 22,
                                 fontFamily: "semibold",
-                                color:
-                                  "color" in item ? item.color : theme.colors.text,
+                                color: "color" in item ? item.color : theme.colors.text,
                               }}
                             >
                               {item.value}
