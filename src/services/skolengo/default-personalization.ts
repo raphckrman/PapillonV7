@@ -13,6 +13,7 @@ const defaultSkolengoPersonalization = async (instance: SkolengoAccount["instanc
     MagicHomeworks: true,
     MagicNews: true,
     profilePictureB64: void 0,
+    initialProfilePictureB64: void 0,
 
     tabs: defaultTabs.filter(current => skoTabs.includes(current.tab)).map((tab, index) => ({
       name: tab.tab,

@@ -32,7 +32,7 @@ const defaultPersonalization = async (instance: pronote.SessionHandle): Promise<
       name: tab.tab,
       enabled: index <= 4
     }))
-  };  
+  };
 };
 
 export default defaultPersonalization;

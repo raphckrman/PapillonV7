@@ -26,6 +26,12 @@ export default async function defaultPersonalization (account: Account): Promise
         Pragma: "no-cache"
       })
       : void 0,
+    initialProfilePictureB64: account.profilePictureURL
+      ? await downloadAsBase64(account.profilePictureURL, {
+        Referer: ".ecoledirecte.com/",
+        Pragma: "no-cache"
+      })
+      : void 0,
     tabs: defaultTabs.filter(current => defaultEDTabs.includes(current.tab)).map((tab, index) => ({
       name: tab.tab,
       enabled: index <= 4
