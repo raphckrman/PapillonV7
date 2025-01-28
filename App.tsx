@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAccounts, useCurrentAccount } from "@/stores/account";
 import {AccountService, PrimaryAccount} from "@/stores/account/types";
 import { log } from "@/utils/logger/logger";
+import { isExpoGo } from "@/utils/native/expoGoAlert";
 import { atobPolyfill, btoaPolyfill } from "js-base64";
 import { registerBackgroundTasks } from "@/background/BackgroundTasks";
 
@@ -139,7 +140,9 @@ export default function App () {
       "[Reanimated] Property ",
     ]);
 
-    registerBackgroundTasks();
+    if (!isExpoGo()) {
+      registerBackgroundTasks();
+    };
   }, []);
 
   const applyGlobalPolyfills = useCallback(() => {

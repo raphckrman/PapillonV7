@@ -2,6 +2,7 @@ import notifee, { EventType } from "@notifee/react-native";
 import * as BackgroundFetch from "expo-background-fetch";
 import * as TaskManager from "expo-task-manager";
 import { BackgroundFetchResult } from "expo-background-fetch";
+import { isExpoGo } from "@/utils/native/expoGoAlert";
 
 import { fetchNews } from "./data/News";
 import { log, error, warn } from "@/utils/logger/logger";

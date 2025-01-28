@@ -76,6 +76,9 @@ export default (): ExpoConfig => ({
       "android.permission.ACCESS_FINE_LOCATION",
     ],
   },
+  extra: {
+    EXPO_ENV: "expo",
+  },
   plugins: [
     "./plugins/notifee-mod.js",
     [

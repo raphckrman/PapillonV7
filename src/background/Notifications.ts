@@ -1,3 +1,4 @@
+import { alertExpoGo, isExpoGo } from "@/utils/native/expoGoAlert";
 import notifee, {
   AndroidImportance,
   AuthorizationStatus,
@@ -6,16 +7,21 @@ import notifee, {
 import { Platform } from "react-native";
 
 const requestNotificationPermission = async () => {
-  const settings = await notifee.requestPermission();
-  if (Platform.OS === "ios") {
-    if (settings.authorizationStatus >= AuthorizationStatus.AUTHORIZED) {
-      return true;
+  if (!isExpoGo()) {
+    const settings = await notifee.requestPermission();
+    if (Platform.OS === "ios") {
+      if (settings.authorizationStatus >= AuthorizationStatus.AUTHORIZED) {
+        return true;
+      }
+      return false;
+    } else {
+      if (settings.authorizationStatus === AuthorizationStatus.AUTHORIZED) {
+        return true;
+      }
+      return false;
     }
-    return false;
   } else {
-    if (settings.authorizationStatus === AuthorizationStatus.AUTHORIZED) {
-      return true;
-    }
+    alertExpoGo();
     return false;
   }
 };
