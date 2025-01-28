@@ -102,6 +102,9 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
     setMaxAvg(maxAvg);
     setMinAvg(minAvg);
 
+    hst = hst.filter((p) => isNaN(p.value) === false);
+    console.log(hst.map((p) => p.value));
+
     graphRef.current?.updateData({
       xAxis: hst.map((p, i) => new Date(p.date).getTime()),
       yAxis: hst.map((p) => p.value),
@@ -229,7 +232,7 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
                   xAxis={gradesHistory.map((p, i) =>
                     new Date(p.date).getTime()
                   )}
-                  yAxis={gradesHistory.map((p) => p.value)}
+                  yAxis={gradesHistory.map((p) => !isNaN(p.value) ? p.value : (currentAvg ?? 10))}
                   color={theme.colors.primary}
                   showXAxisLegend={false}
                   showYAxisLegend={false}
