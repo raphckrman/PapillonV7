@@ -18,6 +18,7 @@ import { useCurrentAccount } from "@/stores/account";
 import LinkFavicon, { getURLDomain } from "@/components/Global/LinkFavicon";
 import { AutoFileIcon } from "@/components/Global/FileIcon";
 import { timestampToString } from "@/utils/format/DateHelper";
+import parse_homeworks from "@/utils/format/format_pronote_homeworks";
 
 
 interface HomeworkItemProps {
@@ -34,6 +35,7 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
   const theme = useTheme();
   const [subjectData, setSubjectData] = useState(getSubjectData(homework.subject));
   const [category, setCategory] = useState<string | null>(null);
+  const [shouldShowMoreGradient, setShouldShowMoreGradient] = useState(false);
   const account = useCurrentAccount((store) => store.account!);
 
   const route = useRoute();
@@ -44,7 +46,8 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
       fontFamily: "medium",
       fontSize: 16,
       lineHeight: 22,
-    }
+      maxHeight: 22 * 5,
+    },
   });
 
   useEffect(() => {
@@ -71,8 +74,6 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
     setIsLoading(false);
     setMainLoaded(true);
   }, [homework.done]);
-
-
 
   const renderCategoryOrReturnType = () => {
     if (category) {
@@ -186,10 +187,30 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
             entering={FadeIn.duration(200)}
             exiting={FadeOut.duration(200).delay(50)}
           >
-            <HTMLView
-              value={`<body>${homework.content.replaceAll("<br>", " ")}</body>`}
-              stylesheet={stylesText}
-            />
+
+            <View
+              onLayout={(event) => {
+                const { height } = event.nativeEvent.layout;
+                if (height >= 22 * 5) {
+                  setShouldShowMoreGradient(true);
+                }
+              }}
+            >
+              <HTMLView value={`<body>${parse_homeworks(homework.content).replace("\n", "")}</body>`} stylesheet={stylesText} />
+              {shouldShowMoreGradient && (
+                <LinearGradient
+                  colors={[theme.colors.background + "40", theme.colors.background]}
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    height: 44,
+                    zIndex: 1,
+                  }}
+                />
+              )}
+            </View>
             {route.name === "HomeScreen" && (
               <View style={{ flex: 1, flexDirection: "row", gap: 4, paddingBottom: 4, paddingTop: 8, alignItems: "center", alignSelf: "flex-start" }}>
                 <Clock
@@ -209,7 +230,7 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
                 flexDirection: "row",
                 alignItems: "center",
                 gap: 6,
-                marginTop: 4,
+                marginTop: 8,
                 borderWidth: 1,
                 alignSelf: "flex-start",
                 borderColor: theme.colors.text + "33",
