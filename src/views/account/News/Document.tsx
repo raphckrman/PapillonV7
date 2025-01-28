@@ -146,6 +146,7 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
         style={{
           flex: 1,
           paddingTop: 106 - 16,
+          backgroundColor: theme.colors.background,
         }}
       >
         <View
