@@ -4,9 +4,13 @@ import { AccountService, Identity, LocalAccount } from "@/stores/account/types";
 import uuid from "@/utils/uuid-v4";
 import { useTheme } from "@react-navigation/native";
 import React from "react";
-import { Alert } from "react-native";
+import { Alert, View } from "react-native";
 import { WebView } from "react-native-webview";
 import type { Screen } from "@/router/helpers/types";
+import PapillonSpinner from "@/components/Global/PapillonSpinner";
+import { NativeText } from "@/components/Global/NativeComponents";
+import { animPapillon } from "@/utils/ui/animations";
+import { FadeInDown, FadeOutUp } from "react-native-reanimated";
 
 const providers = ["scodoc", "moodle", "ical"];
 
@@ -84,8 +88,6 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
       mutateProperty("identity", buildIdentity(data));
 
       retreiveGrades(data);
-
-      // navigation.goBack();
     }
   };
 
@@ -93,17 +95,30 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
   const [currentSemestre, setCurrentSemestre] = React.useState(0);
 
   const retreiveGrades = async (data: any) => {
-    const scodocData = data;
-    const semestres = (scodocData["semestres"] as any);
+    setStep("Récupération des notes");
 
-    setSemestresToRetrieve(semestres);
-    await retreiveNextSemestre(semestres);
+    try {
+      const scodocData = data;
+      const semestres = (scodocData["semestres"] as any);
+
+      setSemestresToRetrieve(semestres);
+      await retreiveNextSemestre(currentSemestre, semestres);
+    }
+    catch (e) {
+      console.error(e);
+      Alert.alert(
+        "Erreur",
+        "Impossible de récupérer les notes de l'IUT de Lannion. Vérifie ta connexion internet et réessaye.",
+        [{ text: "OK", onPress: () => navigation.goBack() }]
+      );
+      navigation.goBack();
+    }
   };
 
-  const retreiveNextSemestre = async (semestres: any[] = semestresToRetrieve) => {
-    console.log("Retreive next semestre");
-    const sem = semestres[currentSemestre];
+  const retreiveNextSemestre = async (cs: number, semestres: any[] = semestresToRetrieve) => {
+    const sem = semestres[cs];
     console.log(sem);
+    setStep("Récupération du semestre " + sem.semestre_id);
     wbref.current?.injectJavaScript(`
       window.location.href = "https://notes9.iutlan.univ-rennes1.fr/services/data.php?q=relev%C3%A9Etudiant&semestre=" + ${sem.formsemestre_id};
     `);
@@ -111,9 +126,41 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
 
   const processSemestre = async (data: any) => {
     // ajouter le semestre ici
+    const newServiceData = account?.serviceData || {};
+
+    if (!newServiceData["semestres"]) {
+      newServiceData["semestres"] = {};
+    }
+
+    const semesterName = "Semestre " + semestresToRetrieve[currentSemestre].semestre_id;
+    console.log(semesterName);
+
+    newServiceData["semestres"][semesterName] = data;
+    mutateProperty("serviceData", newServiceData);
 
     // passer au prochain semestre
-    // #TODO
+    const newCurrentSemestre = currentSemestre + 1;
+    setCurrentSemestre(newCurrentSemestre);
+
+    if (newCurrentSemestre < semestresToRetrieve.length) {
+      await retreiveNextSemestre(newCurrentSemestre, semestresToRetrieve);
+    }
+    else {
+      if(firstLogin) {
+        queueMicrotask(() => {
+          // Reset the navigation stack to the "Home" screen.
+          // Prevents the user from going back to the login screen.
+          navigation.goBack();
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "AccountCreated" }],
+          });
+        });
+      }
+      else {
+        navigation.goBack();
+      }
+    }
   };
 
   const actionFirstLogin = async (data: any) => {
@@ -156,15 +203,7 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
     createStoredAccount(local_account);
     switchTo(local_account);
 
-    queueMicrotask(() => {
-      // Reset the navigation stack to the "Home" screen.
-      // Prevents the user from going back to the login screen.
-      navigation.goBack();
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "AccountCreated" }],
-      });
-    });
+    retreiveGrades(data);
   };
 
   const wbref = React.useRef<WebView>(null);
@@ -208,7 +247,7 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
 
   return (
     <>
-      {/* <View
+      <View
         style={{
           backgroundColor: theme.colors.background,
           padding: 10,
@@ -237,7 +276,7 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
           Cela peut prendre quelques secondes...
         </NativeText>
         <View style={{ height: 50 }} />
-      </View> */}
+      </View>
 
       <WebView
         source={{ uri: url }}

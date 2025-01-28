@@ -13,7 +13,26 @@ export const saveIUTLanGrades = async (account: LocalAccount, periodName: string
     // console.log(periodName);
 
     // Il faudrait peut-être penser à typer cette partie, tous les types sont any :(
-    const scodocData = account.identityProvider.rawData;
+    const scodocData = account.serviceData.semestres[periodName];
+
+    if (!scodocData) {
+      return {
+        grades: [],
+        averages: {
+          classOverall: {
+            value: null,
+            disabled: true,
+            status: null,
+          },
+          overall: {
+            value: null,
+            disabled: true,
+            status: null,
+          },
+          subjects: []
+        }
+      };
+    }
 
     const ressources = (scodocData["relevé"] as any).ressources;
     const saes = (scodocData["relevé"] as any).saes;
