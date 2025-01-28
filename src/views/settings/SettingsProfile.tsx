@@ -10,6 +10,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import * as Clipboard from "expo-clipboard";
 import { TouchableOpacity } from "react-native-gesture-handler";
+//import { getDefaultProfilePicture } from "@/utils/GetProfilePicture";
 
 const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
   const theme = useTheme();
@@ -25,6 +26,18 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
 
   const [firstName, setFirstName] = useState(account.studentName?.first ?? "");
   const [lastName, setLastName] = useState(account.studentName?.last ?? "");
+
+  console.warn(account)
+
+  async function resetProfilePic(account: Account) {
+    const initialPic = await getDefaultProfilePicture(account);
+  
+    setProfilePic(initialPic);
+    mutateProperty("personalization", {
+      ...account.personalization,
+      profilePictureB64: initialPic,
+    });
+  }
 
   // on name change, update the account name
   useEffect(() => {
@@ -176,6 +189,21 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
               </NativeText>
             )}
           </NativeItem>
+          
+          {profilePic && (
+            <NativeItem
+              chevron={false}
+              onPress={resetProfilePic}
+              icon={<Camera />}
+            >
+              <NativeText variant="title">
+                Réinitialiser la photo de profil
+              </NativeText>
+              <NativeText variant="subtitle">
+                Supprime la photo actuelle et rétablit l'image par défaut.
+              </NativeText>
+            </NativeItem>
+          )}
         </NativeList>
 
         <NativeListHeader
