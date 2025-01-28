@@ -20,7 +20,6 @@ export default async function defaultPersonalization (customDefaults?: Partial<P
     MagicHomeworks: true,
     MagicNews: true,
     profilePictureB64: undefined,
-    initialProfilePictureB64: undefined,
     tabs: defaultTabs.filter(current => defaultLocalTabs.includes(current.tab)).map((tab, index) => ({
       name: tab.tab,
       enabled: index <= 4

@@ -76,9 +76,6 @@ export default (): ExpoConfig => ({
       "android.permission.ACCESS_FINE_LOCATION",
     ],
   },
-  extra: {
-    EXPO_ENV: "expo",
-  },
   plugins: [
     [
       "expo-font",

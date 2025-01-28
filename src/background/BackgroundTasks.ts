@@ -1,7 +1,7 @@
 import * as BackgroundFetch from "expo-background-fetch";
 import * as TaskManager from "expo-task-manager";
 import { BackgroundFetchResult } from "expo-background-fetch";
-import { isExpoGo } from "@/utils/native/expoGoAlert";
+import { expoGoWrapper } from "@/utils/native/expoGoAlert";
 import { useAccounts, useCurrentAccount } from "@/stores/account";
 
 import { fetchNews } from "./data/News";
@@ -26,7 +26,7 @@ const backgroundFetch = async () => {
 };
 
 const registerBackgroundTasks = async () => {
-  if (!isExpoGo()) {
+  expoGoWrapper(async () => {
     TaskManager.defineTask("background-fetch", () => backgroundFetch());
 
     BackgroundFetch?.registerTaskAsync("background-fetch", {
@@ -38,7 +38,7 @@ const registerBackgroundTasks = async () => {
     backgroundFetch();
 
     console.log("[background fetch] Registered background fetch");
-  };
+  });
 };
 
 const unsetBackgroundFetch = async () => {

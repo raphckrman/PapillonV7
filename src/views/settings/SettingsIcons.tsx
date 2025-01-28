@@ -12,7 +12,7 @@ import colorsList from "@/utils/data/colors.json";
 
 import { getIconName, setIconName } from "@candlefinance/app-icon";
 import PapillonCheckbox from "@/components/Global/PapillonCheckbox";
-import { alertExpoGo, isExpoGo } from "@/utils/native/expoGoAlert";
+import { expoGoWrapper } from "@/utils/native/expoGoAlert";
 import { useAlert } from "@/providers/AlertProvider";
 
 type Icon = {
@@ -47,11 +47,11 @@ const SettingsIcons: Screen<"SettingsIcons"> = ({ navigation }) => {
   const [currentIcon, setIcon] = React.useState("default");
 
   useEffect(() => {
-    if (!isExpoGo()) {
+    expoGoWrapper(() => {
       getIconName().then((icon) => {
         setIcon(icon);
       });
-    };
+    });
   }, []);
 
   const setNewIcon = (icon: Icon) => {
@@ -61,20 +61,16 @@ const SettingsIcons: Screen<"SettingsIcons"> = ({ navigation }) => {
 
       const iconConstructName = icon.id + (colorItem ? "_" + colorItem.id : "");
 
-      if (!isExpoGo()) {
+      expoGoWrapper(() => {
         setIconName(iconConstructName);
         setIcon(iconConstructName);
-      } else {
-        alertExpoGo();
-      };
+      }, true);
     }
     else {
-      if (!isExpoGo()) {
+      expoGoWrapper(() => {
         setIconName(icon.id);
         setIcon(icon.id);
-      } else {
-        alertExpoGo();
-      };
+      }, true);
     }
   };
 

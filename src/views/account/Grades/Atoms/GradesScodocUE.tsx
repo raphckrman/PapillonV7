@@ -40,7 +40,6 @@ const GradesScodocUE = ({ account, navigation }: { account: PrimaryAccount, navi
     return (
       <>
         <NativeListHeader
-          animated
           label="Unités d'enseignement"
           trailing={
             <TouchableOpacity
@@ -65,7 +64,7 @@ const GradesScodocUE = ({ account, navigation }: { account: PrimaryAccount, navi
           }
         />
 
-        <NativeList animated>
+        <NativeList>
           {finalUes.map((ue) => {
             interface ueGrade {
               key: string,
