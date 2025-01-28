@@ -72,7 +72,7 @@ const GradesScodocUE = ({ account, navigation, selectedPeriod }: { account: Prim
           }
         />
 
-        <NativeList animated>
+        <NativeList animated layout={anim2Papillon(LinearTransition)}>
           {finalUes.map((ue) => {
             interface ueGrade {
               key: string,
