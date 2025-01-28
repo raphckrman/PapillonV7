@@ -87,7 +87,9 @@ const backgroundFetch = async () => {
   }
 };
 
-TaskManager.defineTask("background-fetch", backgroundFetch);
+if (!isExpoGo()) {
+  TaskManager.defineTask("background-fetch", backgroundFetch);
+}
 
 const unsetBackgroundFetch = async () => {
   await BackgroundFetch.unregisterTaskAsync("background-fetch");
