@@ -5,11 +5,13 @@ import  {
 } from "@/services/shared/Grade";
 import uuid from "@/utils/uuid-v4";
 
-export const saveIUTLanGrades = async (account: LocalAccount): Promise<{
+export const saveIUTLanGrades = async (account: LocalAccount, periodName: string): Promise<{
   grades: Grade[];
   averages: AverageOverview;
 }> => {
   try {
+    // console.log(periodName);
+
     // Il faudrait peut-être penser à typer cette partie, tous les types sont any :(
     const scodocData = account.identityProvider.rawData;
 
@@ -167,4 +169,29 @@ export const saveIUTLanGrades = async (account: LocalAccount): Promise<{
       }
     };
   }
+};
+
+export const saveIUTLanPeriods = async (account: LocalAccount): Promise<any> => {
+  const scodocData = account.identityProvider.rawData;
+
+  const semestres = (scodocData["semestres"] as any).map((semestre: any) => {
+    return {
+      name: "Semestre " + semestre.semestre_id,
+      startTimestamp: 1609459200,
+      endTimestamp: 1622505600
+    };
+  });
+
+  const finalData = {
+    periods: semestres.length > 0 ? semestres : [
+      {
+        name: "Toutes",
+        startTimestamp: 1609459200,
+        endTimestamp: 1622505600
+      },
+    ],
+    defaultPeriod: semestres.length > 0 ? semestres[semestres.length - 1].name : "Toutes"
+  };
+
+  return finalData;
 };
