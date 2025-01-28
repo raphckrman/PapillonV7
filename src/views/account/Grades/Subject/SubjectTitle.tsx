@@ -1,13 +1,12 @@
-import AnimatedNumber from "@/components/Global/AnimatedNumber";
 import { NativeText } from "@/components/Global/NativeComponents";
 import { getCourseSpeciality } from "@/utils/format/format_cours_name";
 import { useTheme } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import { View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { type RouteParameters } from "@/router/helpers/types";
-import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import type { Grade, GradesPerSubject } from "@/services/shared/Grade";
+import {type RouteParameters} from "@/router/helpers/types";
+import type {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import type {Grade, GradesPerSubject} from "@/services/shared/Grade";
 import { getSubjectAverage } from "@/utils/grades/getAverages";
 
 type SubjectTitleParameters = {
@@ -97,21 +96,13 @@ const SubjectTitle = ({ navigation, subject, subjectData, allGrades }: SubjectTi
           gap: 2,
         }}
       >
-        <AnimatedNumber
-          value={
-            typeof subject.average.average?.value === "number"
-              ? subject.average.average.value.toFixed(2)
-              : (calculatedAverage !== -1
-                ? calculatedAverage.toFixed(2)
-                : "N.Not")
-          }
+        <NativeText
           style={{
             fontSize: 18,
             lineHeight: 20,
             fontFamily: "semibold",
           }}
-          contentContainerStyle={null}
-        />
+        >{typeof subject.average.average?.value === "number" ? subject.average.average.value.toFixed(2) : calculatedAverage !== -1 ? calculatedAverage.toFixed(2) : "N/A"}</NativeText>
         <NativeText
           style={{
             fontSize: 15,
