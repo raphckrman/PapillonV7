@@ -3,7 +3,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Alert, Image, Platform, Text, View } from "react-native";
 import { useAccounts, useCurrentAccount } from "@/stores/account";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import AppJSON from "../../../app.json";
+import PackageJSON from "../../../package.json";
 
 import Reanimated, {
   FadeIn,
@@ -34,7 +34,8 @@ import {
   SwatchBook,
   WandSparkles,
   X,
-  Blocks
+  Blocks,
+  HelpCircle
 } from "lucide-react-native";
 
 import { NativeIcon, NativeItem, NativeList, NativeListHeader, NativeText } from "@/components/Global/NativeComponents";
@@ -223,6 +224,12 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           color: "#c75110",
           label: "Quoi de neuf ?",
           onPress: () => navigation.navigate("ChangelogScreen"),
+        },
+        {
+          icon: <HelpCircle />,
+          color: "#0E7CCB",
+          label: "Besoin d'aide ?",
+          onPress: () => openUrl("https://support.papillon.bzh/"),
         },
         {
           icon: <Info />,
@@ -448,7 +455,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
             marginTop: 24,
           }}
         >
-          version {AppJSON.expo.version} {Platform.OS} {__DEV__ ? "(développeur)" : ""} {"\n"}
+          version {PackageJSON.version} {Platform.OS} {__DEV__ ? "(développeur)" : ""} {"\n"}
           fabriqué avec ❤️ par les contributeurs Papillon
         </Text>
       </Reanimated.ScrollView>

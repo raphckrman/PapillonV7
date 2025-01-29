@@ -6,6 +6,7 @@ import { error, log } from "@/utils/logger/logger";
 import { fetchIcalData } from "./local/ical";
 import {MultiServiceFeature} from "@/stores/multiService/types";
 import {getFeatureAccount} from "@/utils/multiservice";
+import { WeekFrequency } from "./shared/Timetable";
 
 /**
  * Updates the state and cache for the timetable of given week number.
@@ -62,4 +63,20 @@ export async function updateTimetableForWeekInCache <T extends Account> (account
 
   // Fetch iCal data
   await fetchIcalData(account, force);
+}
+
+/**
+ * Gets the week "frequency" object for the given week number.
+ *
+ * @example "Q1"/"Q2", "S1"/"S2"
+ */
+export async function getWeekFrequency <T extends Account> (account: T, epochWeekNumber: number): Promise<WeekFrequency | null> {
+  switch (account.service) {
+    case AccountService.Pronote:
+      const { getWeekFrequency } = await import("./pronote/timetable");
+      const weekNumber = epochWNToPronoteWN(epochWeekNumber, account);
+      return getWeekFrequency(account, weekNumber);
+    default:
+      return null;
+  }
 }

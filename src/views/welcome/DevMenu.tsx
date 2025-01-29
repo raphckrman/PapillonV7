@@ -103,28 +103,23 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
             <NativeItem
               onPress={() => navigation.navigate("GradeReaction", {
                 grade: {
-                  id: "mmmhm",
-                  subjectName: "Éval TS avec Armand",
-                  description: "Note de test",
-                  timestamp: 1735996215000,
-                  average: {
-                    value: 0.2
-                  },
-                  coefficient: 40,
-                  min: {
-                    value: 0
-                  },
-                  max: {
-                    value: 20
-                  },
-                  student: {
-                    value: 0
-                  },
-                  outOf: {
-                    value: 20
-                  }
+                  id: "devGrade",
+                  subjectName: "Développement",
+                  description: "Typage avec Vince",
+                  timestamp: new Date().getTime(),
+                  outOf: { value: 7, status: null },
+                  coefficient: 7,
+                  student: { value: 7, status: null },
+                  average: { value: 7, status: null },
+                  max: { value: 7, status: null },
+                  min: { value: 1, status: null }
                 }
               })}
+            >
+              <NativeText>
+                GradeReaction
+              </NativeText>
+            </NativeItem>
 
             <NativeItem
               onPress={() => navigation.navigate("ColorSelector")}

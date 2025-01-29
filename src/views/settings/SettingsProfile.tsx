@@ -10,7 +10,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import * as Clipboard from "expo-clipboard";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { th } from "date-fns/locale";
 
 const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
   const theme = useTheme();
@@ -279,7 +278,7 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
           </NativeItem>
         </NativeList>
 
-        {account.identity && Object.keys(account.identity) !== undefined && Object.keys(account.identity).length > 0 && (
+        {Object.keys(account.identity ?? {})?.length > 0 && (
           <NativeListHeader
             label="Informations d'identité"
             trailing={
