@@ -2,7 +2,7 @@ import { type Account, AccountService } from "@/stores/account/types";
 import { useGradesStore } from "@/stores/grades";
 import type { Period } from "./shared/Period";
 import type { AverageOverview, Grade } from "./shared/Grade";
-import { error } from "@/utils/logger/logger";
+import { error, log } from "@/utils/logger/logger";
 import { checkIfSkoSupported } from "./skolengo/default-personalization";
 import {MultiServiceFeature} from "@/stores/multiService/types";
 import {getFeatureAccount} from "@/utils/multiservice";
