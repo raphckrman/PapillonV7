@@ -21,6 +21,22 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 
+  await papillonNotify(
+    {
+      id: "statusBackground",
+      title: account.name,
+      body: "Récupération des derniers devoirs...",
+      android: {
+        progress: {
+          max: 100,
+          current: 100 / 6 * 2,
+          indeterminate: false,
+        },
+      },
+    },
+    "Status"
+  );
+
   // @ts-expect-error
   let firstDate = account.instance?.instance?.firstDate || null;
   if (!firstDate) {

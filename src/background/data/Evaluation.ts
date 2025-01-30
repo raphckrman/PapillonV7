@@ -21,6 +21,22 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 
+  await papillonNotify(
+    {
+      id: "statusBackground",
+      title: account.name,
+      body: "Récupération des dernières compétences...",
+      android: {
+        progress: {
+          max: 100,
+          current: 100 / 6 * 6,
+          indeterminate: false,
+        },
+      },
+    },
+    "Status"
+  );
+
   const { defaultPeriod, evaluation } = getEvaluation();
   await updateEvaluationState(account, defaultPeriod);
   const updatedEvaluation = getEvaluation().evaluation[defaultPeriod];

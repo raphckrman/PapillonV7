@@ -21,6 +21,22 @@ const fetchGrade = async (): Promise<Grade[]> => {
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 
+  await papillonNotify(
+    {
+      id: "statusBackground",
+      title: account.name,
+      body: "Récupération des dernières notes...",
+      android: {
+        progress: {
+          max: 100,
+          current: 100 / 6 * 3,
+          indeterminate: false,
+        },
+      },
+    },
+    "Status"
+  );
+
   const { defaultPeriod, grades } = getGrades();
   await updateGradeState(account, defaultPeriod);
   const updatedGrade = getGrades().grades[defaultPeriod];

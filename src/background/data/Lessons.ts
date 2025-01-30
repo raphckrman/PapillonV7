@@ -24,6 +24,22 @@ const fetchLessons = async (): Promise<Timetable> => {
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 
+  await papillonNotify(
+    {
+      id: "statusBackground",
+      title: account.name,
+      body: "Récupération des dernières actualités...",
+      android: {
+        progress: {
+          max: 100,
+          current: 100 / 6 * 4,
+          indeterminate: false,
+        },
+      },
+    },
+    "Status"
+  );
+
   const weekNumber = dateToEpochWeekNumber(new Date());
   await updateLessonsState(account, weekNumber);
   const updatedLessons = getLessons();

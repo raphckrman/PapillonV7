@@ -55,6 +55,22 @@ const fetchAttendance = async (): Promise<Attendance> => {
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 
+  await papillonNotify(
+    {
+      id: "statusBackground",
+      title: account.name,
+      body: "Récupération des dernières événement de la vie scolaire...",
+      android: {
+        progress: {
+          max: 100,
+          current: 100 / 6 * 5,
+          indeterminate: false,
+        },
+      },
+    },
+    "Status"
+  );
+
   const { defaultPeriod, attendances } = getAttendance();
   await updateAttendanceState(account, defaultPeriod);
   const updatedAttendance = getAttendance().attendances[defaultPeriod];

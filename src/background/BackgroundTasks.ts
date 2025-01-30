@@ -53,6 +53,11 @@ const backgroundFetch = async () => {
     {
       id: "statusBackground",
       body: "Récupération des données des comptes les plus récentes en arrière-plan...",
+      android: {
+        progress: {
+          indeterminate: true,
+        },
+      },
     },
     "Status"
   );

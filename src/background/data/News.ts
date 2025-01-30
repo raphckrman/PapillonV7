@@ -22,6 +22,22 @@ const fetchNews = async (): Promise<Information[]> => {
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 
+  await papillonNotify(
+    {
+      id: "statusBackground",
+      title: account.name,
+      body: "Récupération des dernières actualités...",
+      android: {
+        progress: {
+          max: 100,
+          current: 100 / 6 * 1,
+          indeterminate: false,
+        },
+      },
+    },
+    "Status"
+  );
+
   const currentNews = getNews();
   await updateNewsState(account);
   const updatedNews = getNews();
