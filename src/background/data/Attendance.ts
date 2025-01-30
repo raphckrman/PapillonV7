@@ -2,7 +2,6 @@ import { getCurrentAccount } from "../utils/accounts";
 import { papillonNotify } from "../Notifications";
 import { Attendance } from "@/services/shared/Attendance";
 import { getAttendance, updateAttendanceState } from "../utils/attendance";
-import { info } from "@/utils/logger/logger";
 
 const getDifferences = (
   currentAttendance: Attendance,
@@ -53,7 +52,6 @@ const getDifferences = (
 };
 
 const fetchAttendance = async (): Promise<Attendance> => {
-  info("▶️ Running background Attendance", "BackgroundEvent");
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 

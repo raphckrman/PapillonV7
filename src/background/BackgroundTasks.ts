@@ -5,7 +5,7 @@ import { BackgroundFetchResult } from "expo-background-fetch";
 import { isExpoGo } from "@/utils/native/expoGoAlert";
 
 import { fetchNews } from "./data/News";
-import { log, error, warn } from "@/utils/logger/logger";
+import { log, error, warn, info } from "@/utils/logger/logger";
 import { getAccounts, getSwitchToFunction } from "./utils/accounts";
 import { fetchHomeworks } from "./data/Homeworks";
 import { fetchGrade } from "./data/Grades";
@@ -67,11 +67,19 @@ const backgroundFetch = async () => {
         account.personalization.notifications;
 
       if (notificationsTypesPermissions?.enabled) {
+        info("▶️ Running background News", "BackgroundEvent");
         await fetchNews();
+        info("▶️ Running background Homeworks", "BackgroundEvent");
         await fetchHomeworks();
+        info("▶️ Running background Grades", "BackgroundEvent");
         await fetchGrade();
-        // await fetchLessons(); // Disabled for now
+        /* Disabled for now
+        info("▶️ Running background Lessons", "BackgroundEvent");
+        await fetchLessons();
+        */
+        info("▶️ Running background Attendance", "BackgroundEvent");
         await fetchAttendance();
+        info("▶️ Running background Evaluation", "BackgroundEvent");
         await fetchEvaluation();
       }
     }
