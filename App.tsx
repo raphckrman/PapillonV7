@@ -117,6 +117,7 @@ export default function App () {
 
       if (nextAppState === "active") {
         log("🔄 App is active", "AppState");
+        notifee.setBadgeCount(0);
         await handleBackgroundState();
         backgroundStartTime.current = null;
       } else if (nextAppState.match(/inactive|background/)) {
