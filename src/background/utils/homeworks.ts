@@ -22,4 +22,8 @@ export const updateHomeworksState = async (account: PrimaryAccount) => {
     account,
     epochWNToDate(getCurrentWeekNumber())
   );
+  await updateHomeworkForWeekInCache(
+    account,
+    epochWNToDate(getCurrentWeekNumber() + 1)
+  );
 };
