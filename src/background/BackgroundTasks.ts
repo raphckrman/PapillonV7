@@ -32,11 +32,10 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
       break;
 
     case EventType.DISMISSED:
-      console.log(`[Notifee] Notification dismissed: ${notification?.id}`);
+      let badgeCount = await notifee.getBadgeCount();
+      badgeCount--;
+      await notifee.setBadgeCount(badgeCount);
       break;
-
-    default:
-      console.log(`[Notifee] Background event type: ${type}`);
   }
 });
 

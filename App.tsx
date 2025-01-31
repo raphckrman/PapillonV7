@@ -26,7 +26,7 @@ const BACKGROUND_LIMITS: Partial<Record<AccountService, number>> = {
 export default function App () {
   useEffect(() => {
     // Gestion des notifs quand app en premier plan
-    const unsubscribe = notifee.onForegroundEvent(({ type, detail }) => {
+    const unsubscribe = notifee.onForegroundEvent(async ({ type, detail }) => {
       const { notification, pressAction } = detail;
 
       switch (type) {
@@ -43,11 +43,10 @@ export default function App () {
           break;
 
         case EventType.DISMISSED:
-          console.log(`[Notifee] Notification dismissed: ${notification?.id}`);
+          let badgeCount = await notifee.getBadgeCount();
+          badgeCount--;
+          await notifee.setBadgeCount(badgeCount);
           break;
-
-        default:
-          console.log(`[Notifee] Foreground event type: ${type}`);
       }
     });
 
