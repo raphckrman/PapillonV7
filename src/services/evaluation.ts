@@ -1,10 +1,10 @@
 import { type Account, AccountService } from "@/stores/account/types";
 import type { Period } from "./shared/Period";
-import {useEvaluationStore} from "@/stores/evaluation";
-import {Evaluation} from "@/services/shared/Evaluation";
-import {error, log} from "@/utils/logger/logger";
 import {getFeatureAccount} from "@/utils/multiservice";
 import {MultiServiceFeature} from "@/stores/multiService/types";
+import { useEvaluationStore } from "@/stores/evaluation";
+import { Evaluation } from "@/services/shared/Evaluation";
+import { error, log } from "@/utils/logger/logger";
 
 const getDefaultPeriod = (periods: Period[]): string => {
   const now = Date.now();
@@ -65,6 +65,6 @@ export async function updateEvaluationsInCache <T extends Account> (account: T, 
     useEvaluationStore.getState().updateEvaluations(periodName, evaluations);
   }
   catch (err) {
-    error(`not updated, see:${err}`, "updateGradesAndAveragesInCache");
+    error(`evaluations not updated, see:${err}`, "updateGradesAndAveragesInCache");
   }
 }
