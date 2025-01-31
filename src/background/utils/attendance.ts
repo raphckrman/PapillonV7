@@ -1,4 +1,7 @@
-import { updateAttendanceInCache, updateAttendancePeriodsInCache } from "@/services/attendance";
+import {
+  updateAttendanceInCache,
+  updateAttendancePeriodsInCache,
+} from "@/services/attendance";
 import { PrimaryAccount } from "@/stores/account/types";
 import { useAttendanceStore } from "@/stores/attendance";
 
@@ -13,6 +16,7 @@ export const updateAttendanceState = async (
   account: PrimaryAccount,
   period: string
 ) => {
-  await updateAttendancePeriodsInCache(account);
-  await updateAttendanceInCache(account, period);
+  await updateAttendancePeriodsInCache(account).then(
+    async () => await updateAttendanceInCache(account, period)
+  );
 };

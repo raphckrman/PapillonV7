@@ -1,4 +1,7 @@
-import { updateEvaluationPeriodsInCache, updateEvaluationsInCache } from "@/services/evaluation";
+import {
+  updateEvaluationPeriodsInCache,
+  updateEvaluationsInCache,
+} from "@/services/evaluation";
 import { PrimaryAccount } from "@/stores/account/types";
 import { useEvaluationStore } from "@/stores/evaluation";
 
@@ -13,6 +16,7 @@ export const updateEvaluationState = async (
   account: PrimaryAccount,
   period: string
 ) => {
-  await updateEvaluationPeriodsInCache(account);
-  await updateEvaluationsInCache(account, period);
+  await updateEvaluationPeriodsInCache(account).then(
+    async () => await updateEvaluationsInCache(account, period)
+  );
 };

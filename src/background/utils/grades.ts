@@ -1,4 +1,7 @@
-import { updateGradesAndAveragesInCache, updateGradesPeriodsInCache } from "@/services/grades";
+import {
+  updateGradesAndAveragesInCache,
+  updateGradesPeriodsInCache,
+} from "@/services/grades";
 import { PrimaryAccount } from "@/stores/account/types";
 import { useGradesStore } from "@/stores/grades";
 
@@ -13,6 +16,7 @@ export const updateGradeState = async (
   account: PrimaryAccount,
   period: string
 ) => {
-  await updateGradesPeriodsInCache(account);
-  await updateGradesAndAveragesInCache(account, period);
+  await updateGradesPeriodsInCache(account).then(
+    async () => await updateGradesAndAveragesInCache(account, period)
+  );
 };
