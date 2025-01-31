@@ -80,6 +80,7 @@ export default (): ExpoConfig => ({
     EXPO_ENV: "expo",
   },
   plugins: [
+    "./plugins/notifee-mod.js",
     [
       "expo-font",
       {
