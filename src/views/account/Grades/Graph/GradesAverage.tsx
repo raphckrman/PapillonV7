@@ -97,7 +97,7 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
 
     originalCurrentAvgRef.current = hst[hst.length - 1].value;
 
-    setClassAvg(cla.length > 0 ? cla[cla.length - 1].value : null);
+    setClassAvg(cla[cla.length - 1].value);
 
     setMaxAvg(maxAvg);
     setMinAvg(minAvg);
@@ -337,7 +337,7 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
                   style={[styles.gradeValue]}
                   layout={animPapillon(LinearTransition)}
                 >
-                  {classAvg !== null ? (
+                  { !Number.isNaN(classAvg) ? (
                     <>
                       <AnimatedNumber
                         value={classAvg.toFixed(2)}
