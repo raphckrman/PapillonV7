@@ -3,6 +3,14 @@ import { papillonNotify } from "../Notifications";
 import { Attendance } from "@/services/shared/Attendance";
 import { getAttendance, updateAttendanceState } from "../utils/attendance";
 
+const formatHoursMinutes = (timestamp: number) => {
+  const LAdate = new Date(timestamp);
+  const heures = LAdate.getHours().toString().padStart(2, "0");
+  const minutes = LAdate.getMinutes().toString().padStart(2, "0");
+
+  return `${heures}:${minutes}`;
+};
+
 const getDifferences = (
   currentAttendance: Attendance,
   updatedAttendance: Attendance
@@ -65,7 +73,7 @@ const fetchAttendance = async (): Promise<Attendance> => {
         android: {
           progress: {
             max: 100,
-            current: 100 / 6 * 5,
+            current: (100 / 6) * 5,
             indeterminate: false,
           },
         },
@@ -81,10 +89,10 @@ const fetchAttendance = async (): Promise<Attendance> => {
       updatedAttendance
     );
     const LAdifference =
-    differences.absences.length +
-    differences.delays.length +
-    differences.observations.length +
-    differences.punishments.length;
+      differences.absences.length +
+      differences.delays.length +
+      differences.observations.length +
+      differences.punishments.length;
 
     switch (LAdifference) {
       case 0:
@@ -94,49 +102,19 @@ const fetchAttendance = async (): Promise<Attendance> => {
         let explication = "";
 
         if (differences.absences.length === 1) {
-          const dateAbsencesDebut = `${new Date(
-            differences.absences[0].fromTimestamp
-          )
-            .getHours()
-            .toString()
-            .padStart(2, "0")}:${new Date(differences.absences[0].fromTimestamp)
-            .getMinutes()
-            .toString()
-            .padStart(2, "0")}`;
+          const dateAbsencesDebut = formatHoursMinutes(differences.absences[0].fromTimestamp);
 
-          const dateAbsencesFin = `${new Date(
-            differences.absences[0].toTimestamp
-          )
-            .getHours()
-            .toString()
-            .padStart(2, "0")}:${new Date(differences.absences[0].toTimestamp)
-            .getMinutes()
-            .toString()
-            .padStart(2, "0")}`;
+          const dateAbsencesFin = formatHoursMinutes(differences.absences[0].toTimestamp);
 
           thenewevent = "Nouvelle absence";
           explication = `Tu as été absent de ${dateAbsencesDebut} à ${dateAbsencesFin}.`;
         } else if (differences.delays.length === 1) {
-          const dateRetard = `${new Date(differences.delays[0].timestamp)
-            .getHours()
-            .toString()
-            .padStart(2, "0")}:${new Date(differences.delays[0].timestamp)
-            .getMinutes()
-            .toString()
-            .padStart(2, "0")}`;
+          const dateRetard = formatHoursMinutes(differences.delays[0].timestamp);
 
           thenewevent = "Nouveau retard";
           explication = `Tu as été en retard de ${differences.delays[0].duration} min à ${dateRetard}.`;
         } else if (differences.observations.length === 1) {
-          const dateObservations = `${new Date(
-            differences.observations[0].timestamp
-          )
-            .getHours()
-            .toString()
-            .padStart(2, "0")}:${new Date(differences.observations[0].timestamp)
-            .getMinutes()
-            .toString()
-            .padStart(2, "0")}`;
+          const dateObservations = formatHoursMinutes(differences.observations[0].timestamp);
 
           thenewevent = "Nouvelle observation";
           explication = `Tu as eu une observation en ${
