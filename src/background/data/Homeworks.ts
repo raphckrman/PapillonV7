@@ -41,7 +41,7 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
         android: {
           progress: {
             max: 100,
-            current: 100 / 6 * 2,
+            current: (100 / 6) * 2,
             indeterminate: false,
           },
         },
@@ -65,7 +65,8 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
       updatedHwSemaineProchaine
     );
     const differences =
-    differencesHwSemaineActuelle.length + differencesHwSemaineProchaine.length;
+      differencesHwSemaineActuelle.length +
+      differencesHwSemaineProchaine.length;
 
     switch (differences) {
       case 0:
@@ -100,26 +101,50 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
         }
         break;
       default:
+        const subjectCounts: Record<string, number> = {};
+
+        [
+          ...differencesHwSemaineActuelle,
+          ...differencesHwSemaineProchaine,
+        ].forEach((hw) => {
+          subjectCounts[hw.subject] = (subjectCounts[hw.subject] || 0) + 1;
+        });
+
+        const subjectPreview = Object.entries(subjectCounts)
+          .map(([subject, count]) =>
+            count > 1 ? `${count}x ${subject}` : subject
+          )
+          .join(", ");
+
+        let subtitle = "Semaine ";
+        if (differencesHwSemaineActuelle.length > 0) {
+          subtitle += (
+            ((SemaineAct - (firstDateEpoch % 52)) % 52) +
+            1
+          ).toString();
+        }
+        if (differencesHwSemaineProchaine.length > 0) {
+          if (differencesHwSemaineActuelle.length > 0) {
+            subtitle += `et ${(
+              ((SemaineAct - (firstDateEpoch % 52)) % 52) +
+              2
+            ).toString()}`;
+          } else {
+            subtitle += (
+              ((SemaineAct - (firstDateEpoch % 52)) % 52) +
+              2
+            ).toString();
+          }
+        }
+
         await papillonNotify(
           {
             id: `${account.name}-homeworks`,
             title: `[${account.name}] Nouveaux devoirs`,
-            subtitle: `Semaine ${(
-              ((SemaineAct - (firstDateEpoch % 52)) % 52) +
-              1
-            ).toString()}`,
+            subtitle,
             body: `
-            ${differences} nouveaux devoirs ont été publiés :<br />
-            ${differencesHwSemaineActuelle
-              .flatMap((element) => {
-                return `- ${element.subject}`;
-              })
-              .join("<br />")}
-            ${differencesHwSemaineProchaine
-              .flatMap((element) => {
-                return `- ${element.subject}`;
-              })
-              .join("<br />")}
+            ${differences} nouveaux devoirs :<br />
+            ${subjectPreview}
             `,
           },
           "Homeworks"
