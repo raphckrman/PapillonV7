@@ -52,7 +52,9 @@ const UnivRennes1_Login: Screen<"UnivRennes1_Login"> = ({ navigation }) => {
         schoolName: data.caccount.data.attachmentDpt.name.replace("Institut Universitaire de Technologie", "IUT") + " - Université de Rennes",
 
         personalization: await defaultPersonalization(),
-        identity: {}
+        identity: {},
+        serviceData: {},
+        providers: []
       };
 
       createStoredAccount(local_account);
