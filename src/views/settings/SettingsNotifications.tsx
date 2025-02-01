@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Platform, ScrollView, Switch, View } from "react-native";
+import { Alert, Platform, ScrollView, Switch } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { useTheme } from "@react-navigation/native";
 import {
@@ -9,9 +9,7 @@ import {
   Newspaper,
   Info,
   NotepadText,
-  BookPlus,
-  CheckCircle2,
-  CircleAlert
+  BookPlus
 } from "lucide-react-native";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 import {
@@ -22,15 +20,10 @@ import {
   NativeText
 } from "@/components/Global/NativeComponents";
 import NotificationContainerCard from "@/components/Settings/NotificationContainerCard";
-import { createChannelNotification, papillonNotify, requestNotificationPermission } from "@/background/Notifications";
+import { createChannelNotification, requestNotificationPermission } from "@/background/Notifications";
 import { useCurrentAccount } from "@/stores/account";
 import { PressableScale } from "react-native-pressable-scale";
 import { useAlert } from "@/providers/AlertProvider";
-import ButtonCta from "@/components/FirstInstallation/ButtonCta";
-import PapillonSpinner from "@/components/Global/PapillonSpinner";
-import * as TaskManager from "expo-task-manager";
-import { registerBackgroundTasks, unsetBackgroundFetch } from "@/background/BackgroundTasks";
-import { error } from "@/utils/logger/logger";
 
 const SettingsNotifications: Screen<"SettingsNotifications"> = ({
   navigation
@@ -48,7 +41,6 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
     notifications?.enabled || false
   );
   const [loading, setLoading] = useState(false);
-  const [isBackgroundActive, setIsBackgroundActive] = useState<null | boolean>(null);
 
   useEffect(() => {
     const handleNotificationPermission = async () => {
@@ -72,24 +64,6 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
 
     handleNotificationPermission();
   }, [enabled]);
-
-  useEffect(() => {
-    const checkBackgroundTaskStatus = async () => {
-      try {
-        const isRegistered = await TaskManager.isTaskRegisteredAsync("background-fetch");
-        setTimeout(() => {
-          setIsBackgroundActive(isRegistered);
-        }, 500);
-      } catch (err) {
-        error(`❌ Failed to register background task: ${err}`, "BackgroundEvent");
-        setIsBackgroundActive(false);
-      }
-    };
-
-    if (!loading) {
-      checkBackgroundTaskStatus();
-    }
-  }, [isBackgroundActive, loading]);
 
   // Animation states
   const opacity = useSharedValue(0);
@@ -169,121 +143,6 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
 
       {enabled && (
         <>
-          <View>
-            <NativeList inline>
-              <NativeItem
-                icon={
-                  isBackgroundActive ? (
-                    <CheckCircle2 />
-                  ) : isBackgroundActive === false ? (
-                    <CircleAlert />
-                  ) : (
-                    <PapillonSpinner />
-                  )
-                }
-                onPress={() => {
-                  if (Platform.OS === "ios") {
-                    Alert.alert(
-                      "Information",
-                      "Le background permet à Papillon de te connecter à ton compte toutes les 15 minutes et te notifie en fonction des paramètres ci-dessous",
-                      [
-                        {
-                          text: "OK",
-                        }
-                      ]
-                    );
-                  } else {
-                    showAlert({
-                      title: "Information",
-                      message: "Le background permet à Papillon de te connecter à ton compte toutes les 15 minutes et te notifie en fonction des paramètres ci-dessous",
-                      actions: [
-                        {
-                          title: "OK",
-                          onPress: () => {},
-                          primary: true,
-                        },
-                      ],
-                    });
-                  }
-                }}
-              >
-                <NativeText variant="body">
-                  {isBackgroundActive === true
-                    ? "Le background est actuellement actif."
-                    : isBackgroundActive === false
-                      ? "Le background n'est pas actif."
-                      : "Vérification du background..."}
-                </NativeText>
-                {isBackgroundActive !== null && (
-                  <ButtonCta
-                    value={isBackgroundActive ? "Réinitialiser" : "Activer"}
-                    primary={true}
-                    style={{
-                      marginTop: 14,
-                      minWidth: null,
-                      maxWidth: null,
-                      width: "85%",
-                      alignSelf: "center",
-                    }}
-                    onPress={async () => {
-                      setLoading(true);
-                      setIsBackgroundActive(null);
-                      if (isBackgroundActive) {
-                        await unsetBackgroundFetch();
-                      }
-
-                      await registerBackgroundTasks();
-                      setTimeout(() => {
-                        setLoading(false);
-                      }, 500);
-                    }}
-                  />
-                )}
-              </NativeItem>
-            </NativeList>
-          </View>
-          <NativeListHeader label="Autre" />
-          <ButtonCta
-            value="Test des notifications"
-            icon={
-              loading && isBackgroundActive !== null ? (
-                <View>
-                  <PapillonSpinner
-                    strokeWidth={3}
-                    size={22}
-                    color={theme.colors.text}
-                  />
-                </View>
-              ) : undefined
-            }
-            disabled={loading}
-            primary={!loading}
-            style={{
-              marginTop: 14,
-              minWidth: null,
-              maxWidth: null,
-              width: "75%",
-              alignSelf: "center",
-            }}
-            onPress={async () => {
-              setLoading(true);
-              await papillonNotify(
-                {
-                  id: `${account.name}-test`,
-                  title: `[${account.name}] Coucou, c'est Papillon 👋`,
-                  subtitle: "Test",
-                  body: "Si tu me vois, c'est que tout fonctionne correctement !",
-                  ios: {
-                    categoryId: account.name,
-                  },
-                },
-                "Test"
-              );
-              setTimeout(() => {
-                setLoading(false);
-              }, 500);
-            }}
-          />
           <NativeListHeader label="Notifications scolaires" />
           <NativeList>
             {notificationSchoolary.map((notification, index) => (
