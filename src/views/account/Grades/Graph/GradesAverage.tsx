@@ -54,7 +54,7 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
 
   const [currentAvg, setCurrentAvg] = useState(0);
   const [originalCurrentAvg, setOriginalCurrentAvg] = useState(0);
-  const [classAvg, setClassAvg] = useState<number | null>(0);
+  const [classAvg, setClassAvg] = useState<number>(0);
   const [maxAvg, setMaxAvg] = useState(0);
   const [minAvg, setMinAvg] = useState(0);
 
