@@ -31,7 +31,7 @@ const fetchGrade = async (): Promise<Grade[]> => {
         android: {
           progress: {
             max: 100,
-            current: 100 / 6 * 3,
+            current: (100 / 6) * 3,
             indeterminate: false,
           },
         },
@@ -54,26 +54,37 @@ const fetchGrade = async (): Promise<Grade[]> => {
         await papillonNotify(
           {
             id: `${account.name}-grades`,
-            title: `[${account.name}] Nouvelle note`,
+            title: `[${account.name}] Nouvelle note en ${differences[0].subjectName}`,
             subtitle: defaultPeriod,
-            body: `Une nouvelle note en ${differences[0].subjectName} a été publiée`,
+            body: `Titre : ${
+              differences[0].description || "Note sans titre"
+            }, Coefficient : ${differences[0].coefficient}`,
           },
           "Grades"
         );
         break;
       default:
+        const gradeCounts: Record<string, number> = {};
+
+        differences.forEach((grade) => {
+          gradeCounts[grade.subjectName] =
+            (gradeCounts[grade.subjectName] || 0) + 1;
+        });
+
+        const gradePreview = Object.entries(gradeCounts)
+          .map(([subject, count]) =>
+            count > 1 ? `${count}x ${subject}` : subject
+          )
+          .join(", ");
+
         await papillonNotify(
           {
             id: `${account.name}-grades`,
             subtitle: defaultPeriod,
             title: `[${account.name}] Nouvelles notes`,
             body: `
-            ${differences.length} nouvelles notes ont été publiées :<br />
-            ${differences
-              .flatMap((element) => {
-                return `- ${element.subjectName}`;
-              })
-              .join("<br />")}
+            ${differences.length} nouvelles notes :<br />
+            ${gradePreview}
             `,
           },
           "Grades"
