@@ -32,7 +32,7 @@ const fetchNews = async (): Promise<Information[]> => {
         android: {
           progress: {
             max: 100,
-            current: 100 / 6 * 1,
+            current: (100 / 6) * 1,
             indeterminate: false,
           },
         },
@@ -52,7 +52,7 @@ const fetchNews = async (): Promise<Information[]> => {
         await papillonNotify(
           {
             id: `${account.name}-news`,
-            title: `[${account.name}] Nouvelle actualité`,
+            title: `[${account.name}] Nouvelle actualité par ${differences[0].author}`,
             subtitle: differences[0].title,
             body:
               differences[0].content && !differences[0].content.includes("<img")
@@ -66,19 +66,25 @@ const fetchNews = async (): Promise<Information[]> => {
         );
         break;
       default:
+        const newsCounts: Record<string, number> = {};
+
+        differences.forEach((the_news) => {
+          newsCounts[the_news.author] = (newsCounts[the_news.author] || 0) + 1;
+        });
+
+        const newsPreview = Object.entries(newsCounts)
+          .map(([subject, count]) =>
+            count > 1 ? `${count}x ${subject}` : subject
+          )
+          .join(", ");
+
         await papillonNotify(
           {
             id: `${account.name}-news`,
             title: `[${account.name}] Nouvelles actualités`,
             body: `
-            ${
-              differences.length
-            } nouvelles actualités ont été publiées par :<br />
-            ${differences
-              .flatMap((element) => {
-                return `- ${element.author}`;
-              })
-              .join("<br />")}
+            ${differences.length} nouvelles actualités par :<br />
+            ${newsPreview}
             `,
           },
           "News"
