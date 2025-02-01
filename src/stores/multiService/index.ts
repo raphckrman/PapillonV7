@@ -3,7 +3,6 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { create } from "zustand";
 import { log } from "@/utils/logger/logger";
 import {MultiServiceSpace, MultiServiceStore} from "@/stores/multiService/types";
-import {useAccounts} from "@/stores/account";
 
 
 /**

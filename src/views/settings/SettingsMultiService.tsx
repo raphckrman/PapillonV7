@@ -4,7 +4,7 @@ import {useTheme} from "@react-navigation/native";
 import type {Screen} from "@/router/helpers/types";
 import MultiServiceContainerCard from "@/components/Settings/MultiServiceContainerCard";
 import {NativeIcon, NativeItem, NativeList, NativeListHeader, NativeText} from "@/components/Global/NativeComponents";
-import {ImageIcon, PlugZap, Plus, Type, Trash2} from "lucide-react-native";
+import {ImageIcon, PlugZap, Plus, Type} from "lucide-react-native";
 import {useAccounts, useCurrentAccount} from "@/stores/account";
 import {useMultiService} from "@/stores/multiService";
 import BottomSheet from "@/components/Modals/PapillonBottomSheet";

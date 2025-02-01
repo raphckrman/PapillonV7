@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import type { Screen } from "@/router/helpers/types";
-import { StyleSheet } from "react-native";
 
 import pronote from "pawnote";
 import uuid from "@/utils/uuid-v4";
