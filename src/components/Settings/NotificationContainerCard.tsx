@@ -8,6 +8,7 @@ import {
   Platform,
   Alert,
   Linking,
+  NativeModules,
 } from "react-native";
 import LottieView from "lottie-react-native";
 import Reanimated, {
@@ -36,7 +37,15 @@ const openNotificationSettings = () => {
   if (Platform.OS === "ios") {
     Linking.openURL("app-settings:");
   } else {
+    const { getConstants } = NativeModules.RNDeviceInfo || {};
+    const packageName = getConstants?.().bundleId || "xyz.getpapillon.app";
+
     Linking.openSettings();
+    setTimeout(() => {
+      Linking.openURL(
+        `android.settings.APP_NOTIFICATION_SETTINGS?package=${packageName}`
+      );
+    }, 500);
   }
 };
 
@@ -44,7 +53,7 @@ const NotificationContainerCard = ({
   theme,
   isEnable,
   setEnabled,
-  navigation
+  navigation,
 }: NotificationContainerCardProps) => {
   const { colors } = theme;
 
@@ -88,10 +97,19 @@ const NotificationContainerCard = ({
 
   return (
     <NativeList>
-      <View style={[styles.notificationView, {backgroundColor: colors.primary + "22"}]}>
+      <View
+        style={[
+          styles.notificationView,
+          { backgroundColor: colors.primary + "22" },
+        ]}
+      >
         <View style={styles.innerNotificationView}>
-          <Reanimated.View style={[styles.animatedContainer, containerAnimatedStyle]}>
-            <Reanimated.View style={[styles.bellOffContainer, invertedTextAnimatedStyle]}>
+          <Reanimated.View
+            style={[styles.animatedContainer, containerAnimatedStyle]}
+          >
+            <Reanimated.View
+              style={[styles.bellOffContainer, invertedTextAnimatedStyle]}
+            >
               <LottieView
                 source={require("@/../assets/lottie/header_notification_belloff.json")}
                 ref={animationref}
@@ -116,13 +134,19 @@ const NotificationContainerCard = ({
               />
               <View style={styles.textContainer}>
                 <View style={styles.titleRow}>
-                  <Reanimated.Text style={[styles.title, textAnimatedStyle]}>Papillon</Reanimated.Text>
-                  <Reanimated.Text style={[styles.time, textAnimatedStyle]}>il y a 22 min</Reanimated.Text>
+                  <Reanimated.Text style={[styles.title, textAnimatedStyle]}>
+                    Papillon
+                  </Reanimated.Text>
+                  <Reanimated.Text style={[styles.time, textAnimatedStyle]}>
+                    il y a 22 min
+                  </Reanimated.Text>
                 </View>
                 <Reanimated.Text
                   numberOfLines={2}
-                  style={[styles.message, textAnimatedStyle]}>
-                  Le cours de géographie (16:00-17:00) a un changement de salle ! Tu dois aller en salle B106
+                  style={[styles.message, textAnimatedStyle]}
+                >
+                  Le cours de géographie (16:00-17:00) a un changement de salle
+                  ! Tu dois aller en salle B106
                 </Reanimated.Text>
               </View>
             </View>
