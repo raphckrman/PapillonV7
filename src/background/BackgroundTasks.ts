@@ -114,16 +114,11 @@ const registerBackgroundTasks = async () => {
   );
 
   if (isRegistered) {
-    /* warn(
+    warn(
       "⚠️ Background task already registered. Unregister background task...",
       "BackgroundEvent"
     );
     await unsetBackgroundFetch();
-    */
-    warn(
-      "⚠️ Background task already registered. Erasing previous background task...",
-      "BackgroundEvent"
-    );
   }
 
   try {
