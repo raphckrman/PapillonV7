@@ -3,6 +3,7 @@ import { papillonNotify } from "../Notifications";
 import { getHomeworks, updateHomeworksState } from "../utils/homeworks";
 import { Homework } from "@/services/shared/Homework";
 import { dateToEpochWeekNumber } from "@/utils/epochWeekNumber";
+import parse_homeworks from "@/utils/format/format_pronote_homeworks";
 
 const getDifferences = (
   currentHomeworks: Homework[],
@@ -76,12 +77,12 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
           await papillonNotify(
             {
               id: `${account.name}-homeworks`,
-              title: `[${account.name}] Nouveau devoir`,
+              title: `[${account.name}] Nouveau devoir en ${differencesHwSemaineActuelle[0].subject}`,
               subtitle: `Semaine ${(
                 ((SemaineAct - (firstDateEpoch % 52)) % 52) +
                 1
               ).toString()}`,
-              body: `Un nouveau devoir en ${differencesHwSemaineActuelle[0].subject} a été publié`,
+              body: parse_homeworks(differencesHwSemaineActuelle[0].content),
             },
             "Homeworks"
           );
@@ -89,12 +90,12 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
           await papillonNotify(
             {
               id: `${account.name}-homeworks`,
-              title: `[${account.name}] Nouveau devoir`,
+              title: `[${account.name}] Nouveau devoir en ${differencesHwSemaineProchaine[0].subject}`,
               subtitle: `Semaine ${(
                 ((SemaineAct - (firstDateEpoch % 52)) % 52) +
                 2
               ).toString()}`,
-              body: `Un nouveau devoir en ${differencesHwSemaineProchaine[0].subject} a été publié`,
+              body: parse_homeworks(differencesHwSemaineProchaine[0].content),
             },
             "Homeworks"
           );
