@@ -2,7 +2,12 @@ import { getCurrentAccount } from "../utils/accounts";
 import { papillonNotify } from "../Notifications";
 import { getLessons, updateLessonsState } from "../utils/lessons";
 import { dateToEpochWeekNumber } from "@/utils/epochWeekNumber";
-import { Timetable, TimetableClassStatus } from "@/services/shared/Timetable";
+import {
+  Timetable,
+  TimetableClass,
+  TimetableClassStatus,
+} from "@/services/shared/Timetable";
+import { formatHoursMinutes } from "../utils/format";
 
 const getAllLessonsForDay = (lessons: Record<number, Timetable>) => {
   const date = new Date();
@@ -10,14 +15,25 @@ const getAllLessonsForDay = (lessons: Record<number, Timetable>) => {
   const week = dateToEpochWeekNumber(date);
   const timetable = lessons[week] || [];
 
-  const day = timetable.filter((lesson) => {
+  const lessonsOfDay = timetable.filter((lesson) => {
     const lessonDate = new Date(lesson.startTimestamp);
     lessonDate.setHours(0, 0, 0, 0);
 
     return lessonDate.getTime() === date.getTime();
   });
 
-  return day;
+  return lessonsOfDay;
+};
+
+const getDifferences = (
+  currentLessons: TimetableClass[],
+  updatedLessons: TimetableClass[],
+  compareFn: (a: TimetableClass, b: TimetableClass) => boolean
+): TimetableClass[] => {
+  return updatedLessons.filter(
+    (updatedItem) =>
+      !currentLessons.some((item) => compareFn(item, updatedItem))
+  );
 };
 
 const fetchLessons = async (): Promise<Timetable> => {
@@ -33,11 +49,11 @@ const fetchLessons = async (): Promise<Timetable> => {
     {
       id: "statusBackground",
       title: account.name,
-      body: "Récupération des dernières actualités...",
+      body: "Récupération de l'emploi du temps...",
       android: {
         progress: {
           max: 100,
-          current: 100 / 6 * 4,
+          current: (100 / 6) * 4,
           indeterminate: false,
         },
       },
@@ -48,65 +64,79 @@ const fetchLessons = async (): Promise<Timetable> => {
   const weekNumber = dateToEpochWeekNumber(new Date());
   await updateLessonsState(account, weekNumber);
   const updatedLessons = getLessons();
-  const lessonsDay = getAllLessonsForDay(updatedLessons);
-  const lessonsEvent = lessonsDay.filter((element) => element.statusText);
 
-  // Notifie 15 minutes avant le début du 1er cours
-  // De base, je voulais faire 1 heure avant, mais la notif sera modifiée à chaque fois
-  // comme la fréquence du background est de 15 minutes
-  const now = new Date().getTime();
-  const oneHourBefore = lessonsDay[0]?.startTimestamp - 15 * 60 * 1000;
+  const differencesStatus = getDifferences(
+    getAllLessonsForDay(currentLessons) ?? [],
+    getAllLessonsForDay(updatedLessons) ?? [],
+    (a, b) => a.status === b.status && a.statusText === b.statusText
+  );
+  const differencesTimestamp = getDifferences(
+    getAllLessonsForDay(currentLessons) ?? [],
+    getAllLessonsForDay(updatedLessons) ?? [],
+    (a, b) =>
+      a.startTimestamp === b.startTimestamp && a.endTimestamp === b.endTimestamp
+  );
+  const totalDifference =
+    differencesStatus.length + differencesTimestamp.length;
 
-  if (
-    now >= oneHourBefore &&
-      now < lessonsDay[0]?.startTimestamp
-  ) {
-    switch (lessonsEvent.length) {
-      case 0:
-        break;
-      case 1:
-        const dateLessonsDebut = `${new Date(lessonsEvent[0].startTimestamp)
-          .getHours()
-          .toString()
-          .padStart(2, "0")}:${new Date(lessonsEvent[0].startTimestamp)
-          .getMinutes()
-          .toString()
-          .padStart(2, "0")}`;
+  switch (totalDifference) {
+    case 0:
+      break;
+    case 1:
+      if (differencesTimestamp.length === 1) {
+        const dateLessonsDebut = formatHoursMinutes(
+          differencesTimestamp[0].startTimestamp
+        );
+        const dateLessonsFin = formatHoursMinutes(
+          differencesTimestamp[0].endTimestamp
+        );
 
-        const dateLessonsFin = `${new Date(lessonsEvent[0].endTimestamp)
-          .getHours()
-          .toString()
-          .padStart(2, "0")}:${new Date(lessonsEvent[0].endTimestamp)
-          .getMinutes()
-          .toString()
-          .padStart(2, "0")}`;
+        await papillonNotify(
+          {
+            id: `${account.name}-lessons`,
+            title: `[${account.name}] EdT modifié`,
+            subtitle: new Date(
+              differencesTimestamp[0].startTimestamp
+            ).toLocaleDateString("fr-FR", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+            }),
+            body: `${differencesStatus[0].subject} (${dateLessonsDebut}-${dateLessonsFin}) : Horaire du cours modifié`,
+          },
+          "Lessons"
+        );
+      } else {
+        const dateLessonsDebut = formatHoursMinutes(
+          differencesStatus[0].startTimestamp
+        );
+        const dateLessonsFin = formatHoursMinutes(
+          differencesStatus[0].endTimestamp
+        );
 
         let statut: string = "";
 
-        switch (lessonsEvent[0].status) {
-          case TimetableClassStatus.CANCELED:
-            statut = "a été annulé";
-            break;
+        switch (differencesTimestamp[0].status) {
           case TimetableClassStatus.TEST:
-            statut = "est un devoir surveillé";
+            statut = "Devoir surveillé";
+            break;
           case TimetableClassStatus.MODIFIED:
-            statut =
-              "est un cours modifié, consulte l'emploi du temps pour plus de détails";
+            statut = "Cours modifié, ouvrir pour plus de détails";
+            break;
           default:
-            if (lessonsEvent[0].statusText === "Changement de salle") {
-              statut = "a un changement de salle ! ";
-              if (lessonsEvent[0].room) {
-                if (lessonsEvent[0].room.includes(",")) {
-                  statut +=
-                    "Consulte l'emploi du temps pour regarder les salles de cours";
+            if (differencesStatus[0].statusText === "Changement de salle") {
+              statut = "Changement de salle";
+              if (differencesStatus[0].room) {
+                if (differencesStatus[0].room.includes(",")) {
+                  statut += ", ouvrir pour plus de détails";
                 } else {
-                  statut += `Tu dois aller en salle ${lessonsEvent[0].room}`;
+                  statut += ` ➡️ ${differencesStatus[0].room}`;
                 }
               }
-            } else if (lessonsEvent[0].statusText === "Devoir Surveillé") {
-              statut = "est un devoir surveillé";
+            } else if (differencesStatus[0].statusText === "Devoir Surveillé") {
+              statut = "Devoir surveillé";
             } else {
-              statut = `a un statut : ${lessonsEvent[0].statusText}`;
+              statut = differencesStatus[0].statusText ?? "";
             }
             break;
         }
@@ -114,44 +144,52 @@ const fetchLessons = async (): Promise<Timetable> => {
         await papillonNotify(
           {
             id: `${account.name}-lessons`,
-            title: `[${account.name}] Emploi du temps du jour modifié`,
+            title: `[${account.name}] EdT modifié`,
             subtitle: new Date(
-              lessonsEvent[0].startTimestamp
+              differencesStatus[0].startTimestamp
             ).toLocaleDateString("fr-FR", {
               weekday: "long",
               day: "numeric",
               month: "long",
             }),
-            body: `Le cours de ${lessonsEvent[0].title} (${dateLessonsDebut}-${dateLessonsFin}) ${statut}`,
+            body: `${differencesStatus[0].subject} (${dateLessonsDebut}-${dateLessonsFin}) : ${statut}`,
           },
           "Lessons"
         );
-        break;
-      default:
-        await papillonNotify(
-          {
-            id: `${account.name}-lessons`,
-            title: `[${account.name}] Emploi du temps du jour`,
-            subtitle: new Date(
-              lessonsEvent[0].startTimestamp
-            ).toLocaleDateString("fr-FR", {
-              weekday: "long",
-              day: "numeric",
-              month: "long",
-            }),
-            body: `Les cours suivants ont été modifiés, consulte l'emploi du temps pour plus de détails.<br />
-            ${lessonsEvent
-              .flatMap((element) => {
-                return `- ${element.title}`;
-              })
-              .join("<br />")}`,
-          },
-          "Lessons"
-        );
-        break;
-    }
+      }
+      break;
+    default:
+      const lessonsCounts: Record<string, number> = {};
+
+      [...differencesStatus, ...differencesTimestamp].forEach((hw) => {
+        lessonsCounts[hw.title] = (lessonsCounts[hw.title] || 0) + 1;
+      });
+
+      const lessonsPreview = Object.entries(lessonsCounts)
+        .map(([subject, count]) =>
+          count > 1 ? `${count}x ${subject}` : subject
+        )
+        .join(", ");
+
+      await papillonNotify(
+        {
+          id: `${account.name}-lessons`,
+          title: `[${account.name}] EdT modifié`,
+          subtitle: new Date(
+            differencesStatus[0].startTimestamp
+          ).toLocaleDateString("fr-FR", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+          }),
+          body: `${totalDifference} cours modifiés :<br />
+            ${lessonsPreview}`,
+        },
+        "Lessons"
+      );
+      break;
   }
-  return lessonsEvent;
+  return differencesStatus ?? differencesTimestamp;
 };
 
 export { fetchLessons };

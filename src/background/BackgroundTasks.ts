@@ -9,7 +9,7 @@ import { log, error, warn, info } from "@/utils/logger/logger";
 import { getAccounts, getSwitchToFunction } from "./utils/accounts";
 import { fetchHomeworks } from "./data/Homeworks";
 import { fetchGrade } from "./data/Grades";
-// import { fetchLessons } from "./data/Lessons";
+import { fetchLessons } from "./data/Lessons";
 import { fetchAttendance } from "./data/Attendance";
 import { fetchEvaluation } from "./data/Evaluation";
 import { papillonNotify } from "./Notifications";
@@ -77,10 +77,8 @@ const backgroundFetch = async () => {
         await fetchHomeworks();
         info("▶️ Running background Grades", "BackgroundEvent");
         await fetchGrade();
-        /* Disabled for now
         info("▶️ Running background Lessons", "BackgroundEvent");
         await fetchLessons();
-        */
         info("▶️ Running background Attendance", "BackgroundEvent");
         await fetchAttendance();
         info("▶️ Running background Evaluation", "BackgroundEvent");

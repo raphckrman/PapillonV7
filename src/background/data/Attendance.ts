@@ -2,14 +2,7 @@ import { getCurrentAccount } from "../utils/accounts";
 import { papillonNotify } from "../Notifications";
 import { Attendance } from "@/services/shared/Attendance";
 import { getAttendance, updateAttendanceState } from "../utils/attendance";
-
-const formatHoursMinutes = (timestamp: number) => {
-  const LAdate = new Date(timestamp);
-  const heures = LAdate.getHours().toString().padStart(2, "0");
-  const minutes = LAdate.getMinutes().toString().padStart(2, "0");
-
-  return `${heures}:${minutes}`;
-};
+import { formatHoursMinutes } from "../utils/format";
 
 const getDifferences = (
   currentAttendance: Attendance,

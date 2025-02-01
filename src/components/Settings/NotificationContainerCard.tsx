@@ -145,8 +145,7 @@ const NotificationContainerCard = ({
                   numberOfLines={2}
                   style={[styles.message, textAnimatedStyle]}
                 >
-                  Le cours de géographie (16:00-17:00) a un changement de salle
-                  ! Tu dois aller en salle B106
+                  Géographie (16:00-17:00) : Changement de salle ➡️ B106
                 </Reanimated.Text>
               </View>
             </View>
