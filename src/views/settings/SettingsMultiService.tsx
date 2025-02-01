@@ -98,7 +98,10 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
       studentName: {
         first: currentAccount.account?.studentName.first || "",
         last: currentAccount.account?.studentName.last || ""
-      }
+      },
+
+      serviceData: {},
+      providers: []
     };
 
     const space: MultiServiceSpace = {
