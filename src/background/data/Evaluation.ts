@@ -31,7 +31,7 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
         android: {
           progress: {
             max: 100,
-            current: 100 / 6 * 6,
+            current: (100 / 6) * 6,
             indeterminate: false,
           },
         },
@@ -54,26 +54,37 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
         await papillonNotify(
           {
             id: `${account.name}-evaluation`,
-            title: `[${account.name}] Nouvelle compétence`,
+            title: `[${account.name}] Nouvelle compétence en ${differences[0].subjectName}`,
             subtitle: defaultPeriod,
-            body: `Une nouvelle compétence en ${differences[0].subjectName} a été publiée`,
+            body: `Titre : ${
+              differences[0].description || "Compétence sans titre"
+            }, Coefficient : ${differences[0].coefficient}`,
           },
           "Evaluation"
         );
         break;
       default:
+        const evaluationCounts: Record<string, number> = {};
+
+        differences.forEach((grade) => {
+          evaluationCounts[grade.subjectName] =
+            (evaluationCounts[grade.subjectName] || 0) + 1;
+        });
+
+        const evaluationPreview = Object.entries(evaluationCounts)
+          .map(([subject, count]) =>
+            count > 1 ? `${count}x ${subject}` : subject
+          )
+          .join(", ");
+
         await papillonNotify(
           {
             id: `${account.name}-evaluation`,
             subtitle: defaultPeriod,
             title: `[${account.name}] Nouvelles compétences`,
             body: `
-            ${differences.length} nouvelles compétences ont été publiées :<br />
-            ${differences
-              .flatMap((element) => {
-                return `- ${element.subjectName}`;
-              })
-              .join("<br />")}
+            ${differences.length} nouvelles compétences :<br />
+            ${evaluationPreview}
             `,
           },
           "Evaluation"
