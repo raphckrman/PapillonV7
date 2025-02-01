@@ -55,37 +55,37 @@ const fetchAttendance = async (): Promise<Attendance> => {
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 
-  await papillonNotify(
-    {
-      id: "statusBackground",
-      title: account.name,
-      body: "Récupération des dernières événement de la vie scolaire...",
-      android: {
-        progress: {
-          max: 100,
-          current: 100 / 6 * 5,
-          indeterminate: false,
+  const { defaultPeriod, attendances } = getAttendance();
+  if (notificationsTypesPermissions?.attendance) {
+    await papillonNotify(
+      {
+        id: "statusBackground",
+        title: account.name,
+        body: "Récupération des dernières événement de la vie scolaire...",
+        android: {
+          progress: {
+            max: 100,
+            current: 100 / 6 * 5,
+            indeterminate: false,
+          },
         },
       },
-    },
-    "Status"
-  );
+      "Status"
+    );
 
-  const { defaultPeriod, attendances } = getAttendance();
-  await updateAttendanceState(account, defaultPeriod);
-  const updatedAttendance = getAttendance().attendances[defaultPeriod];
+    await updateAttendanceState(account, defaultPeriod);
+    const updatedAttendance = getAttendance().attendances[defaultPeriod];
 
-  const differences = getDifferences(
-    attendances[defaultPeriod],
-    updatedAttendance
-  );
-  const LAdifference =
+    const differences = getDifferences(
+      attendances[defaultPeriod],
+      updatedAttendance
+    );
+    const LAdifference =
     differences.absences.length +
     differences.delays.length +
     differences.observations.length +
     differences.punishments.length;
 
-  if (notificationsTypesPermissions?.attendance) {
     switch (LAdifference) {
       case 0:
         break;
@@ -216,9 +216,11 @@ const fetchAttendance = async (): Promise<Attendance> => {
         );
         break;
     }
+
+    return updatedAttendance;
   }
 
-  return updatedAttendance;
+  return attendances[defaultPeriod];
 };
 
 export { fetchAttendance };

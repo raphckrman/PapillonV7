@@ -21,22 +21,6 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 
-  await papillonNotify(
-    {
-      id: "statusBackground",
-      title: account.name,
-      body: "Récupération des derniers devoirs...",
-      android: {
-        progress: {
-          max: 100,
-          current: 100 / 6 * 2,
-          indeterminate: false,
-        },
-      },
-    },
-    "Status"
-  );
-
   // @ts-expect-error
   let firstDate = account.instance?.instance?.firstDate || null;
   if (!firstDate) {
@@ -48,25 +32,41 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
 
   const SemaineAct = dateToEpochWeekNumber(new Date());
   const currentHwSemaineActuelle = getHomeworks()[SemaineAct] ?? [];
-  const currentHwSemaineProchaine = getHomeworks()[SemaineAct + 1] ?? [];
+  if (notificationsTypesPermissions?.homeworks) {
+    await papillonNotify(
+      {
+        id: "statusBackground",
+        title: account.name,
+        body: "Récupération des derniers devoirs...",
+        android: {
+          progress: {
+            max: 100,
+            current: 100 / 6 * 2,
+            indeterminate: false,
+          },
+        },
+      },
+      "Status"
+    );
 
-  await updateHomeworksState(account);
+    const currentHwSemaineProchaine = getHomeworks()[SemaineAct + 1] ?? [];
 
-  const updatedHwSemaineActuelle = getHomeworks()[SemaineAct] ?? [];
-  const updatedHwSemaineProchaine = getHomeworks()[SemaineAct + 1] ?? [];
+    await updateHomeworksState(account);
 
-  const differencesHwSemaineActuelle = getDifferences(
-    currentHwSemaineActuelle,
-    updatedHwSemaineActuelle
-  );
-  const differencesHwSemaineProchaine = getDifferences(
-    currentHwSemaineProchaine,
-    updatedHwSemaineProchaine
-  );
-  const differences =
+    const updatedHwSemaineActuelle = getHomeworks()[SemaineAct] ?? [];
+    const updatedHwSemaineProchaine = getHomeworks()[SemaineAct + 1] ?? [];
+
+    const differencesHwSemaineActuelle = getDifferences(
+      currentHwSemaineActuelle,
+      updatedHwSemaineActuelle
+    );
+    const differencesHwSemaineProchaine = getDifferences(
+      currentHwSemaineProchaine,
+      updatedHwSemaineProchaine
+    );
+    const differences =
     differencesHwSemaineActuelle.length + differencesHwSemaineProchaine.length;
 
-  if (notificationsTypesPermissions?.homeworks) {
     switch (differences) {
       case 0:
         break;
@@ -126,9 +126,10 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
         );
         break;
     }
+    return updatedHwSemaineActuelle ?? updatedHwSemaineProchaine;
   }
 
-  return updatedHwSemaineActuelle ?? updatedHwSemaineProchaine;
+  return currentHwSemaineActuelle;
 };
 
 export { fetchHomeworks };

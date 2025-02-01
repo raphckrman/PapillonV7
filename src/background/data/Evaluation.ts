@@ -21,32 +21,32 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 
-  await papillonNotify(
-    {
-      id: "statusBackground",
-      title: account.name,
-      body: "Récupération des dernières compétences...",
-      android: {
-        progress: {
-          max: 100,
-          current: 100 / 6 * 6,
-          indeterminate: false,
+  const { defaultPeriod, evaluation } = getEvaluation();
+  if (notificationsTypesPermissions?.evaluation) {
+    await papillonNotify(
+      {
+        id: "statusBackground",
+        title: account.name,
+        body: "Récupération des dernières compétences...",
+        android: {
+          progress: {
+            max: 100,
+            current: 100 / 6 * 6,
+            indeterminate: false,
+          },
         },
       },
-    },
-    "Status"
-  );
+      "Status"
+    );
 
-  const { defaultPeriod, evaluation } = getEvaluation();
-  await updateEvaluationState(account, defaultPeriod);
-  const updatedEvaluation = getEvaluation().evaluation[defaultPeriod];
+    await updateEvaluationState(account, defaultPeriod);
+    const updatedEvaluation = getEvaluation().evaluation[defaultPeriod];
 
-  const differences = getDifferences(
-    evaluation[defaultPeriod] ?? [],
-    updatedEvaluation ?? []
-  );
+    const differences = getDifferences(
+      evaluation[defaultPeriod] ?? [],
+      updatedEvaluation ?? []
+    );
 
-  if (notificationsTypesPermissions?.evaluation) {
     switch (differences.length) {
       case 0:
         break;
@@ -80,9 +80,10 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
         );
         break;
     }
+    return updatedEvaluation;
   }
 
-  return updatedEvaluation;
+  return evaluation[defaultPeriod];
 };
 
 export { fetchEvaluation };

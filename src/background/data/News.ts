@@ -22,29 +22,29 @@ const fetchNews = async (): Promise<Information[]> => {
   const account = getCurrentAccount();
   const notificationsTypesPermissions = account.personalization.notifications;
 
-  await papillonNotify(
-    {
-      id: "statusBackground",
-      title: account.name,
-      body: "Récupération des dernières actualités...",
-      android: {
-        progress: {
-          max: 100,
-          current: 100 / 6 * 1,
-          indeterminate: false,
+  const currentNews = getNews();
+  if (notificationsTypesPermissions?.news) {
+    await papillonNotify(
+      {
+        id: "statusBackground",
+        title: account.name,
+        body: "Récupération des dernières actualités...",
+        android: {
+          progress: {
+            max: 100,
+            current: 100 / 6 * 1,
+            indeterminate: false,
+          },
         },
       },
-    },
-    "Status"
-  );
+      "Status"
+    );
 
-  const currentNews = getNews();
-  await updateNewsState(account);
-  const updatedNews = getNews();
+    await updateNewsState(account);
+    const updatedNews = getNews();
 
-  const differences = getDifferences(currentNews, updatedNews);
+    const differences = getDifferences(currentNews, updatedNews);
 
-  if (notificationsTypesPermissions?.news) {
     switch (differences.length) {
       case 0:
         break;
@@ -85,9 +85,10 @@ const fetchNews = async (): Promise<Information[]> => {
         );
         break;
     }
+    return updatedNews;
   }
 
-  return updatedNews;
+  return currentNews;
 };
 
 export { fetchNews };
