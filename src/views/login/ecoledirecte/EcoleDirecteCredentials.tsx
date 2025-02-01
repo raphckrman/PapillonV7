@@ -91,6 +91,9 @@ const EcoleDirecteCredentials: Screen<"EcoleDirecteCredentials"> = ({ navigation
           account
         },
         personalization: await defaultPersonalization(account),
+
+        serviceData: {},
+        providers: []
       };
 
 

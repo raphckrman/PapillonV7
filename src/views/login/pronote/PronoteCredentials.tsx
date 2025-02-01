@@ -69,7 +69,9 @@ const PronoteCredentials: Screen<"PronoteCredentials"> = ({ route, navigation })
         authentication: { ...refresh, deviceUUID: accountID },
         personalization: await defaultPersonalization(session),
 
-        identity: {}
+        identity: {},
+        serviceData: {},
+        providers: []
       };
 
       pronote.startPresenceInterval(session);
