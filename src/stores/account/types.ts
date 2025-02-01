@@ -223,6 +223,8 @@ export interface PapillonMultiServiceSpace extends BaseAccount {
     rawData: undefined
   },
   associatedAccountsLocalIDs: string[]
+  providers: string[]
+  serviceData: Record<string, unknown>
 }
 
 
