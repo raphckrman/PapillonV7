@@ -1,6 +1,6 @@
 {
   "name": "papillonvex",
-  "version": "7.8.2",
+  "version": "7.9.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -80,7 +80,7 @@
     "react-native-barcode-svg": "^0.0.15",
     "react-native-draggable-flatlist": "^4.0.1",
     "react-native-draglist": "^3.6.1",
-    "react-native-gesture-handler": "~2.16.1",
+    "react-native-gesture-handler": "^2.22.1",
     "react-native-htmlview": "^0.17.0",
     "react-native-infinite-pager": "^0.3.16",
     "react-native-pager-view": "6.3.0",
