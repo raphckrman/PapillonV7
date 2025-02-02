@@ -9,7 +9,7 @@ import {
   Account,
   AccountService,
   ExternalAccount,
-  PrimaryAccount
+  PrimaryAccount, PapillonMultiServiceSpace
 } from "@/stores/account/types";
 import { reload } from "@/services/reload-account";
 import { useTimetableStore } from "../timetable";
@@ -216,7 +216,7 @@ export const useAccounts = create<AccountsStore>()(
         // 2. If a multi-service has no more associated accounts, it must be deleted (because a space is like a "group" of accounts, and without any associated accounts it does not work anymore⁾
 
         // Fetching the accounts corresponding to spaces
-        const spacesAccounts  = get().accounts.filter(account => account.service === AccountService.PapillonMultiService);
+        const spacesAccounts: PapillonMultiServiceSpace[]  = get().accounts.filter(account => account.service === AccountService.PapillonMultiService) as PapillonMultiServiceSpace[];
         for (const spaceAccount of spacesAccounts) {
 
           // The account deleted above is associated to this space
