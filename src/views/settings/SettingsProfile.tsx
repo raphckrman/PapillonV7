@@ -10,7 +10,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import * as Clipboard from "expo-clipboard";
 import { TouchableOpacity } from "react-native-gesture-handler";
-//import { getDefaultProfilePicture } from "@/utils/GetProfilePicture";
+import { getDefaultProfilePicture } from "@/utils/GetRessources/GetDefaultProfilePicture";
 
 const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
   const theme = useTheme();
@@ -27,17 +27,6 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
   const [firstName, setFirstName] = useState(account.studentName?.first ?? "");
   const [lastName, setLastName] = useState(account.studentName?.last ?? "");
 
-  console.warn(account)
-
-  async function resetProfilePic(account: Account) {
-    const initialPic = await getDefaultProfilePicture(account);
-  
-    setProfilePic(initialPic);
-    mutateProperty("personalization", {
-      ...account.personalization,
-      profilePictureB64: initialPic,
-    });
-  }
 
   // on name change, update the account name
   useEffect(() => {
@@ -60,6 +49,16 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
 
   const [profilePic, setProfilePic] = useState(account.personalization.profilePictureB64);
   const [loadingPic, setLoadingPic] = useState(false);
+
+  const resetProfilePic = async (setProfilePic: (pic: string | undefined) => void, setLoadingPic: (loading: boolean) => void) => {  
+    const defaultPic = await getDefaultProfilePicture(account);
+    setProfilePic(defaultPic);
+  
+    mutateProperty("personalization", {
+      ...account.personalization,
+      profilePictureB64: defaultPic,
+    });
+  };  
 
   const updateProfilePic = async () => {
     setLoadingPic(true);
