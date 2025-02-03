@@ -65,6 +65,13 @@ const fetchLessons = async (): Promise<Timetable> => {
   await updateLessonsState(account, weekNumber);
   const updatedLessons = getLessons();
 
+  if (
+    getAllLessonsForDay(currentLessons).length === 0 &&
+    getAllLessonsForDay(currentLessons).length !== 0
+  ) {
+    return getAllLessonsForDay(updatedLessons);
+  }
+
   const differencesStatus = getDifferences(
     getAllLessonsForDay(currentLessons) ?? [],
     getAllLessonsForDay(updatedLessons) ?? [],
