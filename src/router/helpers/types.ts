@@ -14,6 +14,7 @@ import {Client} from "pawrd";
 import { Host } from "turboself-api";
 import {Evaluation} from "@/services/shared/Evaluation";
 import { ThemesMeta } from "@/utils/chat/themes/Themes.types";
+import { TimetableClass } from "@/services/shared/Timetable";
 
 export type RouteParameters = {
   // welcome.index
@@ -86,7 +87,7 @@ export type RouteParameters = {
     title?: string;
     autoAdd?: boolean;
   };
-  LessonDocument: { lesson: Homework };
+  LessonDocument: { lesson: TimetableClass };
 
   Homeworks?: { outsideNav?: boolean };
   HomeworksDocument: { homework: Homework };
