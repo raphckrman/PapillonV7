@@ -50,15 +50,16 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
   const [profilePic, setProfilePic] = useState(account.personalization.profilePictureB64);
   const [loadingPic, setLoadingPic] = useState(false);
 
-  const resetProfilePic = async (setProfilePic: (pic: string | undefined) => void, setLoadingPic: (loading: boolean) => void) => {  
+  const resetProfilePic = async (setProfilePic: (pic: string | undefined) => void, setLoadingPic: (loading: boolean) => void) => {
+    console.warn("HERE")  
     const defaultPic = await getDefaultProfilePicture(account);
     setProfilePic(defaultPic);
-  
+    console.warn("HERE2")
     mutateProperty("personalization", {
       ...account.personalization,
       profilePictureB64: defaultPic,
     });
-  };  
+  };
 
   const updateProfilePic = async () => {
     setLoadingPic(true);
