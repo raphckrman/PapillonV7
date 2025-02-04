@@ -131,13 +131,6 @@ const papillonNotify = async (
       showChronometer: channelId === "Status" ? true : false,
       smallIcon: "@mipmap/ic_launcher_foreground",
       color: "#32AB8E",
-      pressAction:
-        channelId !== "Test" && channelId !== "Status"
-          ? {
-            id: "default",
-            launchActivity: "xyz.getpapillon.app.MainActivity",
-          }
-          : undefined,
       // à intégrer => `actions`
     },
     ios: {
