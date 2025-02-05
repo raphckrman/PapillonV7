@@ -1,194 +1,231 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { View } from "react-native";
-
-import CalendarKit, { CalendarBody, CalendarHeader, DeepPartial, ThemeConfigs } from "@howljs/calendar-kit";
+import { memo, useCallback, useMemo } from "react";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import CalendarKit from "@howljs/calendar-kit";
 import { useCurrentAccount } from "@/stores/account";
 import { useTimetableStore } from "@/stores/timetable";
-import { dateToEpochWeekNumber } from "@/utils/epochWeekNumber";
-import { updateTimetableForWeekInCache } from "@/services/timetable";
 import { useTheme } from "@react-navigation/native";
-import { NativeText } from "@/components/Global/NativeComponents";
+import { updateTimetableForWeekInCache } from "@/services/timetable";
+import { dateToEpochWeekNumber } from "@/utils/epochWeekNumber";
 
-const initialLocales: Record<string, Partial<LocaleConfigsProps>> = {
+const LOCALES = {
   en: {
-    weekDayShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"), // Text in day header (Sun, Mon, etc.)
-    meridiem: { ante: "am", post: "pm" }, // Hour format (hh:mm a)
-    more: "more", // Text for "more" button (All day events)
+    weekDayShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
+    meridiem: { ante: "am", post: "pm" },
+    more: "more",
   },
   fr: {
-    weekDayShort: "Dim_Lun_Mar_Mer_Jeu_Ven_Sam".split("_"), // Text in day header (Sun, Mon, etc.)
-    meridiem: { ante: "am", post: "pm" }, // Hour format (hh:mm a)
-    more: "plus", // Text for "more" button (All day events)
+    weekDayShort: "Dim_Lun_Mar_Mer_Jeu_Ven_Sam".split("_"),
+    meridiem: { ante: "am", post: "pm" },
+    more: "plus",
   },
-};
+} as const;
 
-const Lessons = () => {
+const EventItem = memo(({ event }) => {
+  return (
+    <TouchableOpacity
+      style={{
+        flex: 1,
+        borderRadius: 5,
+        overflow: "hidden",
+        borderCurve: "continuous",
+      }}
+    >
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "grey",
+          borderRadius: 0,
+          padding: 4,
+          flexDirection: "column",
+          gap: 3
+        }}
+      >
+        <Text
+          numberOfLines={3}
+          style={{
+            color: "white",
+            fontSize: 13,
+            letterSpacing: 0.2,
+            fontFamily: "semibold",
+          }}
+        >
+          {event.title}
+        </Text>
+        <Text
+          numberOfLines={2}
+          style={{
+            color: "white",
+            fontSize: 13,
+            letterSpacing: 0.2,
+            fontFamily: "medium",
+            opacity: 0.6,
+          }}
+        >
+          {event.event.room}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+});
+
+const HeaderItem = memo(({ header }) => {
   const theme = useTheme();
 
-  const [events, setEvents] = React.useState([]);
+  const cols = header.extra.columns;
+  const start = header.startUnix;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const todayStamp = today.getTime();
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        flexDirection: "row",
+        height: 50,
+        borderBottomWidth: 1,
+        borderColor: theme.colors.border,
+        backgroundColor: theme.colors.card,
+      }}
+    >
+      {Array.from({ length: cols }, (_, i) => (
+        <View
+          key={i}
+          style={[
+            {
+              flex: 1,
+              height: 50,
+              justifyContent: "center",
+              gap: 1,
+              paddingTop: 1,
+            }
+          ]}
+        >
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 14,
+              fontFamily: "medium",
+              opacity: 0.6,
+              letterSpacing: 0.5,
+            }}
+          >
+            {new Date(start
+              + i * 24 * 60 * 60 * 1000
+            ).toLocaleDateString("fr-FR", {weekday: "short"})}
+          </Text>
+          <Text
+            style={[
+              {
+                textAlign: "center",
+                fontSize: 17,
+                fontFamily: "semibold",
+                paddingVertical: 3,
+                paddingHorizontal: 10,
+                alignSelf: "center",
+                borderRadius: 12,
+                minWidth: 42,
+                borderCurve: "continuous",
+                overflow: "hidden",
+              },
+              start
+              + i * 24 * 60 * 60 * 1000 === todayStamp && {
+                backgroundColor: theme.colors.primary,
+                color: "white",
+              }
+            ]}
+          >
+            {new Date(start
+              + i * 24 * 60 * 60 * 1000
+            ).toLocaleDateString("fr-FR", {day: "numeric"})}
+          </Text>
+        </View>
+      ))}
+    </View>
+  );
+});
+
+const Lessons = ({ navigation }) => {
+  const theme = useTheme();
+  const [loadedWeeks, setLoadedWeeks] = React.useState(() => new Set());
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const account = useCurrentAccount((store) => store.account!);
-  const mutateProperty = useCurrentAccount((store) => store.mutateProperty);
-
+  const account = useCurrentAccount((store) => store.account);
   const timetables = useTimetableStore((store) => store.timetables);
 
-  const loadedWeeks = React.useRef<Set<number>>(new Set());
-  const currentlyLoadingWeeks = React.useRef<Set<number>>(new Set());
-
-
-  const customTheme: DeepPartial<ThemeConfigs> = {
+  const customTheme = useMemo(() => ({
     colors: {
       primary: theme.colors.primary,
       background: theme.colors.background,
-      border: theme.colors.border,
+      border: theme.colors.border + "88",
       text: theme.colors.text,
       surface: theme.colors.card,
       onPrimary: theme.colors.background,
       onBackground: theme.colors.text,
       onSurface: theme.colors.text,
     }
-  };
+  }), [theme.colors]);
 
-  useEffect(() => {
-    // add all week numbers in timetables to loadedWeeks
-    for (const week in timetables) {
-      loadedWeeks.current.add(parseInt(week));
-    }
-  }, [timetables]);
+  const events = useMemo(() =>
+    Object.values(timetables)
+      .flat()
+      .map(event => ({
+        id: event.id,
+        title: event.title,
+        start: { dateTime: new Date(event.startTimestamp) },
+        end: { dateTime: new Date(event.endTimestamp) },
+        event: event,
+      })),
+  [timetables]
+  );
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const loadTimetableWeek = useCallback(async (weekNumber, force = false) => {
+    if (!force && loadedWeeks.has(weekNumber)) return;
 
-  const [pickerDate, setPickerDate] = useState(new Date(today));
-
-  const getWeekFromDate = (date: Date) => {
-    const epochWeekNumber = dateToEpochWeekNumber(date);
-    return epochWeekNumber;
-  };
-
-  const [updatedWeeks, setUpdatedWeeks] = useState(new Set<number>());
-
-  useEffect(() => {
-    void (async () => {
-      const weekNumber = getWeekFromDate(pickerDate);
-      await loadTimetableWeek(weekNumber, false);
-      // setWeekFrequency((await getWeekFrequency(account, weekNumber)));
-    })();
-  }, [pickerDate, account.instance]);
-
-  useEffect(() => {
-    loadTimetableWeek(getWeekFromDate(new Date()), true);
-  }, [account.personalization.icalURLs]);
-
-  const [loadingWeeks, setLoadingWeeks] = useState<number[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
-  const loadTimetableWeek = async (weekNumber: number, force = false) => {
-    if (
-      (currentlyLoadingWeeks.current.has(weekNumber) ||
-          loadedWeeks.current.has(weekNumber)) &&
-        !force
-    ) {
-      return;
-    }
-
-    setLoading(true);
-
-    if (force) {
-      setLoadingWeeks([...loadingWeeks, weekNumber]);
-    }
-
+    setIsLoading(true);
     try {
       await updateTimetableForWeekInCache(account, weekNumber, force);
-      currentlyLoadingWeeks.current.add(weekNumber);
+      setLoadedWeeks(prev => new Set([...prev, weekNumber]));
     } finally {
-      currentlyLoadingWeeks.current.delete(weekNumber);
-      loadedWeeks.current.add(weekNumber);
-      setUpdatedWeeks(new Set(updatedWeeks).add(weekNumber));
-      setLoadingWeeks(loadingWeeks.filter((w) => w !== weekNumber));
-      setLoading(false);
+      setIsLoading(false);
     }
-  };
+  }, [account, loadedWeeks]);
 
-  useEffect(() => {
-    if(!events) {
-      const events = Object.values(timetables)
-        .map((timetable) => timetable)
-        .flat();
+  const handleDateChange = useCallback(async (date) => {
+    const weekNumber = dateToEpochWeekNumber(new Date(date));
+    await loadTimetableWeek(weekNumber);
+  }, [loadTimetableWeek]);
 
-      const finalEvents = events.map((event) => {
-        return {
-          id: event.id,
-          title: event.title,
-          start: {
-            dateTime: new Date(event.startTimestamp).toISOString().slice(0, 19) + "Z",
-          },
-          end: {
-            dateTime: new Date(event.endTimestamp).toISOString().slice(0, 19) + "Z",
-          },
-          color: "#ff0000",
-        };
-      });
-
-      setEvents(finalEvents);
-    }
-  }, []);
-
-  const _onDateChanged = async (date: string) => {
-    console.log(date);
-    // setIsLoading(true);
-  };
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <ActivityIndicator animating={isLoading} />,
+      headerShadowVisible: false,
+    });
+  }, [navigation, isLoading]);
 
   return (
-    <View
-      style={{
-        flex: 1,
-      }}
-    >
+    <View style={{ flex: 1 }}>
       <CalendarKit
         theme={customTheme}
-
-        numberOfDays={3}
+        numberOfDays={5}
+        hideWeekDays={[6, 7]}
+        pagesPerSide={2}
+        scrollByDay={false}
         events={events}
-        isLoading={isLoading}
-        onDateChanged={_onDateChanged}
-
-        initialLocales={initialLocales}
+        onDateChanged={handleDateChange}
+        initialLocales={LOCALES}
         locale="fr"
         hourFormat="HH:mm"
-
-        allowPinchToZoom={true}
-        /*hideWeekDays={[6, 7]}*/
-
-        renderEvent={(event) => {
-          return (
-            <View
-              style={{
-                backgroundColor: "blue",
-                borderRadius: 0,
-                padding: 10,
-              }}
-            >
-              <NativeText
-                style={{
-                  color: "white",
-                }}
-              >
-                {event.title}
-              </NativeText>
-            </View>
-          );
-        }}
-      >
-        <CalendarHeader/>
-        <CalendarBody/>
-      </CalendarKit>
+        allowPinchToZoom
+        renderEvent={(event) => <EventItem event={event} />}
+        renderHeaderItem={(header) => <HeaderItem header={header} />}
+        dayBarHeight={50}
+      />
     </View>
   );
 };
 
-export default Lessons;
+export default memo(Lessons);
