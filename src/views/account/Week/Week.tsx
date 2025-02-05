@@ -265,7 +265,7 @@ const Week = ({ route, navigation }) => {
 
   React.useEffect(() => {
     navigation.addListener("focus", async () => {
-      if(openedIcalModal) {
+      if(Object.values(timetables).flat().length === 0) {
         setIsLoading(true);
         requestAnimationFrame(async () => {
           const weekNumber = dateToEpochWeekNumber(new Date());
