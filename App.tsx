@@ -1,5 +1,5 @@
 import "@/background/BackgroundTasks";
-import notifee, { EventType, Notification } from "@notifee/react-native";
+import notifee, { Notification } from "@notifee/react-native";
 import Router from "@/router";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -55,37 +55,6 @@ export default function App () {
 
   useEffect(() => {
     checkInitialNotification();
-  }, []);
-
-  useEffect(() => {
-    // Gestion des notifs quand app en premier plan
-    const unsubscribe = notifee.onForegroundEvent(async ({ type, detail }) => {
-      const { notification, pressAction } = detail;
-
-      switch (type) {
-        case EventType.ACTION_PRESS:
-          console.log(`[Notifee] Action press: ${pressAction?.id}`);
-          /*
-          Ici on va gérer les redirections vers une page de l'app
-          par exemple quand on clique sur une notification
-
-          if (pressAction?.id === "open_lessons") {
-            console.log("Open lessons screen");
-          }
-          */
-          break;
-
-        case EventType.DISMISSED:
-          let badgeCount = await notifee.getBadgeCount();
-          badgeCount--;
-          await notifee.setBadgeCount(badgeCount);
-          break;
-      }
-    });
-
-    return () => {
-      unsubscribe();
-    };
   }, []);
 
   const [appState, setAppState] = useState<AppStateStatus>(AppState.currentState);

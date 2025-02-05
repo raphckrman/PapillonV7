@@ -14,22 +14,29 @@ import { fetchAttendance } from "./data/Attendance";
 import { fetchEvaluation } from "./data/Evaluation";
 import { papillonNotify } from "./Notifications";
 
-// Gestion des notifs quand app en arrière-plan
+// Gestion des badges quand app en arrière-plan
 notifee.onBackgroundEvent(async ({ type, detail }) => {
   const { notification, pressAction } = detail;
 
   switch (type) {
     case EventType.ACTION_PRESS:
       console.log(`[Notifee] Action press: ${pressAction?.id}`);
-      /*
-      Ici on va gérer les redirections vers une page de l'app
-      par exemple quand on clique sur une notification
 
-      if (pressAction?.id === "open_lessons") {
-        console.log("Open lessons screen");
-      }
-      */
+    case EventType.DISMISSED:
+      let badgeCount = await notifee.getBadgeCount();
+      badgeCount--;
+      await notifee.setBadgeCount(badgeCount);
       break;
+  }
+});
+
+// Gestion des badges quand app en premier plan
+notifee.onForegroundEvent(async ({ type, detail }) => {
+  const { notification, pressAction } = detail;
+
+  switch (type) {
+    case EventType.ACTION_PRESS:
+      console.log(`[Notifee] Action press: ${pressAction?.id}`);
 
     case EventType.DISMISSED:
       let badgeCount = await notifee.getBadgeCount();
