@@ -167,20 +167,22 @@ const HeaderItem = memo(({ header }) => {
             }
           ]}
         >
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 14,
-              fontFamily: "medium",
-              opacity: 0.6,
-              letterSpacing: 0.5,
-              color: theme.colors.text,
-            }}
-          >
-            {new Date(start
+          {cols > 1 && (
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 14,
+                fontFamily: "medium",
+                opacity: 0.6,
+                letterSpacing: 0.5,
+                color: theme.colors.text,
+              }}
+            >
+              {new Date(start
               + i * 24 * 60 * 60 * 1000
-            ).toLocaleDateString("fr-FR", {weekday: "short"})}
-          </Text>
+              ).toLocaleDateString("fr-FR", {weekday: "short"})}
+            </Text>
+          )}
           <Text
             style={[
               {
@@ -205,7 +207,12 @@ const HeaderItem = memo(({ header }) => {
           >
             {new Date(start
               + i * 24 * 60 * 60 * 1000
-            ).toLocaleDateString("fr-FR", {day: "numeric"})}
+            ).toLocaleDateString("fr-FR",
+              cols > 1 ? {day: "numeric"} : {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+              })}
           </Text>
         </View>
       ))}
@@ -221,7 +228,6 @@ const Week = ({ route, navigation }) => {
 
   const outsideNav = route.params?.outsideNav;
 
-  const [loadedWeeks, setLoadedWeeks] = React.useState(() => new Set());
   const [isLoading, setIsLoading] = React.useState(false);
 
   const account = useCurrentAccount((store) => store.account);
@@ -256,21 +262,43 @@ const Week = ({ route, navigation }) => {
   );
 
   const loadTimetableWeek = useCallback(async (weekNumber, force = false) => {
-    if (!force && loadedWeeks.has(weekNumber)) return;
+    if (!force) {
+      if (timetables[weekNumber]) return;
+    }
 
     setIsLoading(true);
-    try {
-      await updateTimetableForWeekInCache(account, weekNumber, force);
-      setLoadedWeeks(prev => new Set([...prev, weekNumber]));
-    } finally {
-      setIsLoading(false);
-    }
-  }, [account, loadedWeeks]);
+    requestAnimationFrame(async () => {
+      try {
+        await updateTimetableForWeekInCache(account, weekNumber, force);
+      } finally {
+        setIsLoading(false);
+      }
+    });
+  }, [account, timetables]);
 
   const handleDateChange = useCallback(async (date) => {
     const weekNumber = dateToEpochWeekNumber(new Date(date));
     await loadTimetableWeek(weekNumber);
   }, [loadTimetableWeek]);
+
+  const [openedIcalModal, setOpenedIcalModal] = React.useState(false);
+
+  React.useEffect(() => {
+    navigation.addListener("focus", async () => {
+      if(openedIcalModal) {
+        setIsLoading(true);
+        requestAnimationFrame(async () => {
+          const weekNumber = dateToEpochWeekNumber(new Date());
+          await loadTimetableWeek(weekNumber, true);
+          setOpenedIcalModal(false);
+        });
+      }
+    });
+
+    return () => {
+      navigation.removeListener("focus");
+    };
+  }, [openedIcalModal]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -282,7 +310,7 @@ const Week = ({ route, navigation }) => {
         />
       )}
 
-      {account.providers?.includes("ical") && (
+      {account.providers?.includes("ical") && Object.values(timetables).flat().length === 0 && (
         <View
           style={{
             zIndex: 100000,
@@ -299,40 +327,51 @@ const Week = ({ route, navigation }) => {
             padding: 24,
           }}
         >
-          <CalendarDays
-            size={36}
-            strokeWidth={2}
-            color={theme.colors.text}
-            style={{ marginBottom: 6 }}
-          />
-          <NativeText
-            variant="title"
-            style={{textAlign: "center"}}
-          >
-            Aucun agenda externe
-          </NativeText>
-          <NativeText
-            variant="subtitle"
-            style={{textAlign: "center"}}
-          >
-            Importez un calendrier depuis une URL de votre agenda externe tel que ADE ou Moodle.
-          </NativeText>
+          {isLoading ? (
+            <PapillonSpinner
+              color={theme.colors.primary}
+            />
+          ) : (
+            <>
+              <CalendarDays
+                size={36}
+                strokeWidth={2}
+                color={theme.colors.text}
+                style={{ marginBottom: 6 }}
+              />
+              <NativeText
+                variant="title"
+                style={{textAlign: "center"}}
+              >
+                Aucun agenda externe
+              </NativeText>
+              <NativeText
+                variant="subtitle"
+                style={{textAlign: "center"}}
+              >
+                Importez un calendrier depuis une URL de votre agenda externe tel que ADE ou Moodle.
+              </NativeText>
 
-          <View style={{ height: 24 }} />
+              <View style={{ height: 24 }} />
 
-          <ButtonCta
-            value="Importer mes cours"
-            primary
-            onPress={() => {
-              PapillonNavigation.current.navigate("LessonsImportIcal");
-            }}
-          />
-          <ButtonCta
-            value="Comment faire ?"
-            onPress={() => {
-              Linking.openURL("https://support.papillon.bzh/articles/351142-import-ical");
-            }}
-          />
+              <ButtonCta
+                value="Importer mes cours"
+                primary
+                onPress={() => {
+                  setOpenedIcalModal(true);
+                  setTimeout(() => {
+                    PapillonNavigation.current.navigate("LessonsImportIcal");
+                  }, 100);
+                }}
+              />
+              <ButtonCta
+                value="Comment faire ?"
+                onPress={() => {
+                  Linking.openURL("https://support.papillon.bzh/articles/351142-import-ical");
+                }}
+              />
+            </>
+          )}
         </View>
       )}
 
@@ -350,7 +389,14 @@ const Week = ({ route, navigation }) => {
           direction="left"
           delay={0}
           selected={displayMode}
-          onSelectionChange={(mode) => setDisplayMode(mode)}
+          onSelectionChange={(mode) => {
+            setIsLoading(true);
+            requestAnimationFrame(() => {
+
+              setDisplayMode(mode);
+              setIsLoading(false);
+            });
+          }}
           data={displayModes}
         >
           <PapillonHeaderAction
