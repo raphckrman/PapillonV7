@@ -5,9 +5,9 @@ import { useTheme } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import { Camera, ChevronDown, ChevronUp, TextCursorInput, User2, UserCircle2, WholeWord } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Alert, Image, KeyboardAvoidingView, ScrollView, Switch, TextInput } from "react-native";
+import { ActivityIndicator, Alert, Image, KeyboardAvoidingView, ScrollView, Switch, TextInput, Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
+import { useAlert } from "@/providers/AlertProvider";
 import * as Clipboard from "expo-clipboard";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { getDefaultProfilePicture } from "@/utils/GetRessources/GetDefaultProfilePicture";
@@ -27,6 +27,7 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
   const [firstName, setFirstName] = useState(account.studentName?.first ?? "");
   const [lastName, setLastName] = useState(account.studentName?.last ?? "");
 
+  const { showAlert } = useAlert();
 
   // on name change, update the account name
   useEffect(() => {
@@ -53,15 +54,41 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
   const resetProfilePic = async () => {
     setLoadingPic(true);
 
+    // Call up the function to obtain the profile picture
     const img = await getDefaultProfilePicture(account);
-    setProfilePic(img);
-    mutateProperty("personalization", {
-      ...account.personalization,
-      profilePictureB64: img,
-    });
-
+  
+    // If the image is undefined, an alert is displayed with an error message
+    if (!img) {
+      if (Platform.OS === "ios") {
+        Alert.alert("Erreur", "Impossible de récupérer de la photo de profil", [
+          {
+            text: "OK",
+          },
+        ]);
+      } else {
+        showAlert({
+          title: "Erreur",
+          message: "Impossible de récupérer de la photo de profil",
+          actions: [
+            {
+              title: "OK",
+              onPress: () => {},
+              backgroundColor: theme.colors.card,
+            },
+          ],
+        });
+      }
+    } else {
+      // If image available, update profile picture
+      setProfilePic(img);
+      mutateProperty("personalization", {
+        ...account.personalization,
+        profilePictureB64: img,
+      });
+    }
+  
     setLoadingPic(false);
-  };
+  };  
 
   const updateProfilePic = async () => {
     setLoadingPic(true);
