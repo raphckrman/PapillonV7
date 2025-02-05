@@ -105,6 +105,7 @@ const EventItem = memo(({ event }) => {
               letterSpacing: 0.2,
               fontFamily: "semibold",
               textTransform: "uppercase",
+              zIndex: 100,
             },
             layout.width > 100 && {
               fontSize: 15,
@@ -123,6 +124,7 @@ const EventItem = memo(({ event }) => {
             letterSpacing: 0.2,
             fontFamily: "medium",
             opacity: 0.6,
+            zIndex: 100,
           }}
         >
           {event.event.room}
