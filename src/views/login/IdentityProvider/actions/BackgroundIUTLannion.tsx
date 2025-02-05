@@ -117,7 +117,6 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
 
   const retreiveNextSemestre = async (cs: number, semestres: any[] = semestresToRetrieve) => {
     const sem = semestres[cs];
-    console.log(sem);
     setStep("Récupération du semestre " + sem.semestre_id);
     wbref.current?.injectJavaScript(`
       window.location.href = "https://notes9.iutlan.univ-rennes1.fr/services/data.php?q=relev%C3%A9Etudiant&semestre=" + ${sem.formsemestre_id};
@@ -133,7 +132,6 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
     }
 
     const semesterName = "Semestre " + semestresToRetrieve[currentSemestre].semestre_id;
-    console.log(semesterName);
 
     newServiceData["semestres"][semesterName] = data;
     mutateProperty("serviceData", newServiceData);
@@ -295,7 +293,6 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
 
         onLoad={(data) => {
           const url = data.nativeEvent.url;
-          console.log(url);
 
           if(url.startsWith("https://sso-cas.univ-rennes.fr//login?")) {
             injectPassword();
