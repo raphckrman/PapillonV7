@@ -1,6 +1,6 @@
 import * as React from "react";
 import { memo, useCallback, useMemo } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Linking, Text, TouchableOpacity, View } from "react-native";
 import CalendarKit from "@howljs/calendar-kit";
 import { useCurrentAccount } from "@/stores/account";
 import { useTimetableStore } from "@/stores/timetable";
@@ -15,6 +15,8 @@ import { getSubjectData } from "@/services/shared/Subject";
 import { PapillonNavigation } from "@/router/refs";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
 import { TimetableClassStatus } from "@/services/shared/Timetable";
+import { NativeText } from "@/components/Global/NativeComponents";
+import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 
 const LOCALES = {
   en: {
@@ -278,6 +280,60 @@ const Week = ({ route, navigation }) => {
             height: insets.top,
           }}
         />
+      )}
+
+      {account.providers?.includes("ical") && (
+        <View
+          style={{
+            zIndex: 100000,
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: theme.colors.background,
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 6,
+            padding: 24,
+          }}
+        >
+          <CalendarDays
+            size={36}
+            strokeWidth={2}
+            color={theme.colors.text}
+            style={{ marginBottom: 6 }}
+          />
+          <NativeText
+            variant="title"
+            style={{textAlign: "center"}}
+          >
+            Aucun agenda externe
+          </NativeText>
+          <NativeText
+            variant="subtitle"
+            style={{textAlign: "center"}}
+          >
+            Importez un calendrier depuis une URL de votre agenda externe tel que ADE ou Moodle.
+          </NativeText>
+
+          <View style={{ height: 24 }} />
+
+          <ButtonCta
+            value="Importer mes cours"
+            primary
+            onPress={() => {
+              PapillonNavigation.current.navigate("LessonsImportIcal");
+            }}
+          />
+          <ButtonCta
+            value="Comment faire ?"
+            onPress={() => {
+              Linking.openURL("https://support.papillon.bzh/articles/351142-import-ical");
+            }}
+          />
+        </View>
       )}
 
       <View
