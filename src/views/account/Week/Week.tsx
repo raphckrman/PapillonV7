@@ -1,6 +1,6 @@
 import * as React from "react";
 import { memo, useCallback, useMemo } from "react";
-import { Linking, Text, TouchableOpacity, View } from "react-native";
+import { Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import CalendarKit from "@howljs/calendar-kit";
 import { useCurrentAccount } from "@/stores/account";
 import { useTimetableStore } from "@/stores/timetable";
@@ -32,101 +32,58 @@ const LOCALES = {
 } as const;
 
 const EventItem = memo(({ event }) => {
-  const subjectData = useMemo(() => getSubjectData(event.event.title), [event.event]);
+  const subjectData = useMemo(
+    () => getSubjectData(event.event.title),
+    [event.event.title] // Optimized dependency array
+  );
+
   const [layout, setLayout] = React.useState({ width: 0, height: 0 });
+
+  const isCanceled = event.event.status === TimetableClassStatus.CANCELED;
+  const isWide = layout.width > 100;
+
+  const handlePress = () => {
+    PapillonNavigation.current.navigate("LessonDocument", { lesson: event.event });
+  };
+
+  const containerStyle = [
+    styles.container,
+    isCanceled && styles.canceledContainer
+  ];
+
+  const contentStyle = [
+    styles.contentContainer,
+    { backgroundColor: subjectData.color },
+    isCanceled && styles.canceledContent
+  ];
+
+  const titleStyle = [
+    styles.title,
+    isWide && styles.wideTitleVariant
+  ];
 
   return (
     <TouchableOpacity
       onLayout={(e) => setLayout(e.nativeEvent.layout)}
-      style={[
-        {
-          flex: 1,
-          borderRadius: 5,
-          overflow: "hidden",
-          borderCurve: "continuous",
-        },
-        event.event.status == TimetableClassStatus.CANCELED && {
-          borderColor: "red",
-          borderWidth: 2,
-        }
-      ]}
+      style={containerStyle}
       activeOpacity={0.7}
-      onPress={() => {
-        PapillonNavigation.current.navigate("LessonDocument", { lesson: event.event });
-      }}
+      onPress={handlePress}
     >
       {event.event.statusText && (
-        <View
-          style={{
-            position: "absolute",
-            top: -8,
-            right: -8,
-            backgroundColor: "#00000099",
-            zIndex: 1000,
-            borderRadius: 30,
-            borderColor: "#ffffff99",
-            borderWidth: 2,
-            padding: 4,
-            paddingBottom: 2,
-            paddingLeft: 2,
-          }}
-        >
+        <View style={styles.alertBadge}>
           <AlertTriangle
             size={18}
-            color={"#ffffff"}
+            color="#ffffff"
             strokeWidth={2}
-            style={{ margin: 4 }}
+            style={styles.alertIcon}
           />
         </View>
       )}
-
-      <View
-        style={[
-          {
-            flex: 1,
-            backgroundColor: subjectData.color,
-            borderRadius: 0,
-            padding: 4,
-            flexDirection: "column",
-            gap: 2
-          },
-          event.event.status == TimetableClassStatus.CANCELED && {
-            opacity: 0.3,
-            backgroundColor: "grey",
-          },
-        ]}
-      >
-        <Text
-          numberOfLines={3}
-          style={[
-            {
-              color: "white",
-              fontSize: 13,
-              letterSpacing: 0.2,
-              fontFamily: "semibold",
-              textTransform: "uppercase",
-              zIndex: 100,
-            },
-            layout.width > 100 && {
-              fontSize: 15,
-              letterSpacing: 0.1,
-              textTransform: "none",
-            },
-          ]}
-        >
+      <View style={contentStyle}>
+        <Text numberOfLines={3} style={titleStyle}>
           {subjectData.pretty}
         </Text>
-        <Text
-          numberOfLines={2}
-          style={{
-            color: "white",
-            fontSize: 13,
-            letterSpacing: 0.2,
-            fontFamily: "medium",
-            opacity: 0.6,
-            zIndex: 100,
-          }}
-        >
+        <Text numberOfLines={2} style={styles.room}>
           {event.event.room}
         </Text>
       </View>
@@ -435,5 +392,68 @@ const Week = ({ route, navigation }) => {
     </View>
   );
 };
+
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    borderRadius: 5,
+    overflow: "hidden",
+    borderCurve: "continuous",
+  },
+  canceledContainer: {
+    borderColor: "red",
+    borderWidth: 2,
+  },
+  alertBadge: {
+    position: "absolute",
+    top: -8,
+    right: -8,
+    backgroundColor: "#00000099",
+    zIndex: 1000,
+    borderRadius: 30,
+    borderColor: "#ffffff99",
+    borderWidth: 2,
+    padding: 4,
+    paddingBottom: 2,
+    paddingLeft: 2,
+  },
+  alertIcon: {
+    margin: 4,
+  },
+  contentContainer: {
+    flex: 1,
+    borderRadius: 0,
+    padding: 4,
+    flexDirection: "column",
+    gap: 2,
+  },
+  canceledContent: {
+    opacity: 0.3,
+    backgroundColor: "grey",
+  },
+  title: {
+    color: "white",
+    fontSize: 13,
+    letterSpacing: 0.2,
+    fontFamily: "semibold",
+    textTransform: "uppercase",
+    zIndex: 100,
+  },
+  wideTitleVariant: {
+    fontSize: 15,
+    letterSpacing: 0.1,
+    textTransform: "none",
+  },
+  room: {
+    color: "white",
+    fontSize: 13,
+    letterSpacing: 0.2,
+    fontFamily: "medium",
+    opacity: 0.6,
+    zIndex: 100,
+  },
+});
 
 export default memo(Week);
