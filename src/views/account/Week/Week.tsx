@@ -278,7 +278,18 @@ const Week = ({ route, navigation }) => {
     return () => {
       navigation.removeListener("focus");
     };
-  }, [openedIcalModal]);
+  }, [openedIcalModal, timetables]);
+
+  React.useEffect(() => {
+    if(Object.values(timetables).flat().length === 0) {
+      setIsLoading(true);
+      requestAnimationFrame(async () => {
+        const weekNumber = dateToEpochWeekNumber(new Date());
+        await loadTimetableWeek(weekNumber, true);
+        setOpenedIcalModal(false);
+      });
+    }
+  }, [account?.personalization?.icalURLs]);
 
   return (
     <View style={{ flex: 1 }}>
