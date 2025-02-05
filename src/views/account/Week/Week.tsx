@@ -50,7 +50,7 @@ const EventItem = memo(({ event }) => {
 
   const containerStyle = [
     styles.container,
-    { backgroundColor: theme.colors.card },
+    { backgroundColor: subjectData.color },
     isCanceled && styles.canceledContainer
   ];
 
@@ -63,12 +63,12 @@ const EventItem = memo(({ event }) => {
   const titleStyle = [
     styles.title,
     isWide && styles.wideTitleVariant,
-    { color: theme.colors.text }
+    { color: "#ffffff" }
   ];
 
   const roomStyle = [
     styles.room,
-    { color: theme.colors.text }
+    { color: "#ffffff" }
   ];
 
   return (
@@ -90,11 +90,11 @@ const EventItem = memo(({ event }) => {
       )}
       <View style={{
         height: 6,
-        backgroundColor: subjectData.color,
+        backgroundColor: "#00000042",
         overflow: "hidden",
       }}>
         <Image
-          source={require("../../../../assets/images/mask_stripes_long_white.png")}
+          source={require("../../../../assets/images/mask_stripes_long.png")}
           resizeMode="cover"
 
           style={{ width: 2000, height: 16, tintColor: "#000000", opacity: 0.3 }}
@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
     padding: 4,
     flexDirection: "column",
     gap: 2,
-    borderWidth: 1,
+    borderWidth: 0,
   },
   canceledContent: {
     opacity: 0.3,
