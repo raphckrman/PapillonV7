@@ -1,12 +1,19 @@
 import * as React from "react";
 import { memo, useCallback, useMemo } from "react";
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import CalendarKit from "@howljs/calendar-kit";
 import { useCurrentAccount } from "@/stores/account";
 import { useTimetableStore } from "@/stores/timetable";
 import { useTheme } from "@react-navigation/native";
 import { updateTimetableForWeekInCache } from "@/services/timetable";
 import { dateToEpochWeekNumber } from "@/utils/epochWeekNumber";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import PapillonPicker from "@/components/Global/PapillonPicker";
+import { CalendarDays } from "lucide-react-native";
+import { PapillonHeaderAction } from "@/components/Global/PapillonModernHeader";
+import { getSubjectData } from "@/services/shared/Subject";
+import { PapillonNavigation } from "@/router/refs";
+import PapillonSpinner from "@/components/Global/PapillonSpinner";
 
 const LOCALES = {
   en: {
@@ -22,6 +29,8 @@ const LOCALES = {
 } as const;
 
 const EventItem = memo(({ event }) => {
+  const subjectData = useMemo(() => getSubjectData(event.event.title), [event.event]);
+
   return (
     <TouchableOpacity
       style={{
@@ -30,11 +39,15 @@ const EventItem = memo(({ event }) => {
         overflow: "hidden",
         borderCurve: "continuous",
       }}
+      activeOpacity={0.7}
+      onPress={() => {
+        PapillonNavigation.current.navigate("LessonDocument", { lesson: event.event });
+      }}
     >
       <View
         style={{
           flex: 1,
-          backgroundColor: "grey",
+          backgroundColor: subjectData.color,
           borderRadius: 0,
           padding: 4,
           flexDirection: "column",
@@ -88,7 +101,7 @@ const HeaderItem = memo(({ header }) => {
         height: 50,
         borderBottomWidth: 1,
         borderColor: theme.colors.border,
-        backgroundColor: theme.colors.card,
+        backgroundColor: theme.colors.background,
       }}
     >
       {Array.from({ length: cols }, (_, i) => (
@@ -111,6 +124,7 @@ const HeaderItem = memo(({ header }) => {
               fontFamily: "medium",
               opacity: 0.6,
               letterSpacing: 0.5,
+              color: theme.colors.text,
             }}
           >
             {new Date(start
@@ -130,6 +144,7 @@ const HeaderItem = memo(({ header }) => {
                 minWidth: 42,
                 borderCurve: "continuous",
                 overflow: "hidden",
+                color: theme.colors.text,
               },
               start
               + i * 24 * 60 * 60 * 1000 === todayStamp && {
@@ -148,13 +163,21 @@ const HeaderItem = memo(({ header }) => {
   );
 });
 
-const Lessons = ({ navigation }) => {
+const displayModes = ["Semaine", "3 jours", "Journée"];
+
+const Lessons = ({ route, navigation }) => {
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
+
+  const outsideNav = route.params?.outsideNav;
+
   const [loadedWeeks, setLoadedWeeks] = React.useState(() => new Set());
   const [isLoading, setIsLoading] = React.useState(false);
 
   const account = useCurrentAccount((store) => store.account);
   const timetables = useTimetableStore((store) => store.timetables);
+
+  const [displayMode, setDisplayMode] = React.useState("Semaine");
 
   const customTheme = useMemo(() => ({
     colors: {
@@ -199,27 +222,60 @@ const Lessons = ({ navigation }) => {
     await loadTimetableWeek(weekNumber);
   }, [loadTimetableWeek]);
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => <ActivityIndicator animating={isLoading} />,
-      headerShadowVisible: false,
-    });
-  }, [navigation, isLoading]);
-
   return (
     <View style={{ flex: 1 }}>
+      {!outsideNav && (
+        <View
+          style={{
+            height: insets.top,
+          }}
+        />
+      )}
+
+      <View
+        style={{
+          zIndex: 1000,
+          overflow: "visible",
+          position: "absolute",
+          left: 12,
+          top: !outsideNav ? (insets.top + 3) : 6,
+        }}
+      >
+        <PapillonPicker
+          animated
+          direction="left"
+          delay={0}
+          selected={displayMode}
+          onSelectionChange={(mode) => setDisplayMode(mode)}
+          data={displayModes}
+        >
+          <PapillonHeaderAction
+            icon={
+              isLoading ? (
+                <PapillonSpinner
+                  size={20}
+                  strokeWidth={5}
+                  color={theme.colors.text}
+                />
+              ) : (
+                <CalendarDays />
+              )
+            }
+          />
+        </PapillonPicker>
+      </View>
+
       <CalendarKit
         theme={customTheme}
-        numberOfDays={5}
-        hideWeekDays={[6, 7]}
+        numberOfDays={displayMode === "Semaine" ? 5 : displayMode === "3 jours" ? 3 : 1}
+        hideWeekDays={displayMode === "Semaine" ? [6, 7] : []}
         pagesPerSide={2}
-        scrollByDay={false}
+        scrollByDay={displayMode === "Semaine" ? false : true}
         events={events}
         onDateChanged={handleDateChange}
         initialLocales={LOCALES}
         locale="fr"
         hourFormat="HH:mm"
-        allowPinchToZoom
         renderEvent={(event) => <EventItem event={event} />}
         renderHeaderItem={(header) => <HeaderItem header={header} />}
         dayBarHeight={50}
