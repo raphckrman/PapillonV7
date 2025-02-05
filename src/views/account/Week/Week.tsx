@@ -1,6 +1,6 @@
 import * as React from "react";
 import { memo, useCallback, useMemo } from "react";
-import { Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import CalendarKit from "@howljs/calendar-kit";
 import { useCurrentAccount } from "@/stores/account";
 import { useTimetableStore } from "@/stores/timetable";
@@ -32,6 +32,8 @@ const LOCALES = {
 } as const;
 
 const EventItem = memo(({ event }) => {
+  const theme = useTheme();
+
   const subjectData = useMemo(
     () => getSubjectData(event.event.title),
     [event.event.title] // Optimized dependency array
@@ -48,18 +50,25 @@ const EventItem = memo(({ event }) => {
 
   const containerStyle = [
     styles.container,
+    { backgroundColor: theme.colors.card },
     isCanceled && styles.canceledContainer
   ];
 
   const contentStyle = [
     styles.contentContainer,
-    { backgroundColor: subjectData.color },
+    { backgroundColor: subjectData.color + "22", borderColor: theme.colors.border },
     isCanceled && styles.canceledContent
   ];
 
   const titleStyle = [
     styles.title,
-    isWide && styles.wideTitleVariant
+    isWide && styles.wideTitleVariant,
+    { color: theme.colors.text }
+  ];
+
+  const roomStyle = [
+    styles.room,
+    { color: theme.colors.text }
   ];
 
   return (
@@ -79,11 +88,23 @@ const EventItem = memo(({ event }) => {
           />
         </View>
       )}
+      <View style={{
+        height: 6,
+        backgroundColor: subjectData.color,
+        overflow: "hidden",
+      }}>
+        <Image
+          source={require("../../../../assets/images/mask_stripes_long_white.png")}
+          resizeMode="cover"
+
+          style={{ width: 2000, height: 16, tintColor: "#000000", opacity: 0.3 }}
+        />
+      </View>
       <View style={contentStyle}>
         <Text numberOfLines={3} style={titleStyle}>
           {subjectData.pretty}
         </Text>
-        <Text numberOfLines={2} style={styles.room}>
+        <Text numberOfLines={2} style={roomStyle}>
           {event.event.room}
         </Text>
       </View>
@@ -428,13 +449,13 @@ const styles = StyleSheet.create({
     padding: 4,
     flexDirection: "column",
     gap: 2,
+    borderWidth: 1,
   },
   canceledContent: {
     opacity: 0.3,
     backgroundColor: "grey",
   },
   title: {
-    color: "white",
     fontSize: 13,
     letterSpacing: 0.2,
     fontFamily: "semibold",
@@ -447,7 +468,6 @@ const styles = StyleSheet.create({
     textTransform: "none",
   },
   room: {
-    color: "white",
     fontSize: 13,
     letterSpacing: 0.2,
     fontFamily: "medium",
