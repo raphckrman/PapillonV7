@@ -1,5 +1,5 @@
 import "@/background/BackgroundTasks";
-import notifee, { EventType } from "@notifee/react-native";
+import notifee, { EventType, Notification } from "@notifee/react-native";
 import Router from "@/router";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -12,6 +12,9 @@ import { log } from "@/utils/logger/logger";
 import { isExpoGo } from "@/utils/native/expoGoAlert";
 import { atobPolyfill, btoaPolyfill } from "js-base64";
 import { registerBackgroundTasks } from "@/background/BackgroundTasks";
+import { PapillonNavigation } from "@/router/refs";
+import { RouteParameters } from "@/router/helpers/types";
+import { findAccountByID, getSwitchToFunction } from "@/background/utils/accounts";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -24,6 +27,36 @@ const BACKGROUND_LIMITS: Partial<Record<AccountService, number>> = {
 };
 
 export default function App () {
+  const handleNotificationPress = async (notification: Notification) => {
+    if (notification?.data) {
+      const switchTo = getSwitchToFunction();
+      const accountID = notification.data.accountID as string;
+      const account = findAccountByID(accountID);
+      if (account) {
+        await switchTo(account);
+        PapillonNavigation.current?.reset({
+          index: 0,
+          routes: [{ name: "AccountStack" }],
+        });
+        setTimeout(() => {
+          // @ts-expect-error : on ne prend pas le state des routes en compte ici.
+          PapillonNavigation.current?.navigate(notification.data.page as keyof RouteParameters);
+        }, 500);
+      }
+    }
+  };
+
+  const checkInitialNotification = async () => {
+    const initialNotification = await notifee.getInitialNotification();
+    if (initialNotification) {
+      await handleNotificationPress(initialNotification.notification);
+    }
+  };
+
+  useEffect(() => {
+    checkInitialNotification();
+  }, []);
+
   useEffect(() => {
     // Gestion des notifs quand app en premier plan
     const unsubscribe = notifee.onForegroundEvent(async ({ type, detail }) => {

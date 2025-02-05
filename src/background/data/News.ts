@@ -64,6 +64,10 @@ const fetchNews = async (): Promise<Information[]> => {
                   100
                 )}...`
                 : "Aucun résumé disponible.",
+          data: {
+            accountID: account.localID,
+            page: "News",
+          }
         },
         "News"
       );
@@ -89,6 +93,10 @@ const fetchNews = async (): Promise<Information[]> => {
             ${differences.length} nouvelles actualités par :<br />
             ${newsPreview}
             `,
+          data: {
+            accountID: account.localID,
+            page: "News",
+          }
         },
         "News"
       );

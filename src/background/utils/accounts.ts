@@ -14,3 +14,8 @@ export const getSwitchToFunction = () => {
 export const getCurrentAccount = (): PrimaryAccount => {
   return useCurrentAccount.getState().account!;
 };
+
+export const findAccountByID = (accountID: string): PrimaryAccount | null => {
+  const account = getAccounts().find((acc) => acc.localID === accountID);
+  return account ?? null;
+};
