@@ -117,27 +117,22 @@ const SettingsTabs = () => {
     const loadTabs = async () => {
       if (account.personalization.tabs) {
         const storedTabs = account.personalization.tabs;
+        const updatedTabs = defaultTabs
+          .filter((defaultTab) =>
+            storedTabs.some((storedTab) => storedTab.name === defaultTab.tab)
+          )
+          .map((defaultTab) => {
+            const storedTab = storedTabs.find((t) => t.name === defaultTab.tab);
+            return {
+              ...defaultTab,
+              enabled: storedTab ? storedTab.enabled : false,
+              installed: true,
+            };
+          });
 
-        const updatedTabs: Tab[] = storedTabs.map((storedTab) => {
-          const defaultTab = defaultTabs.find((defaultTab) => defaultTab.tab === storedTab.name);
-          return {
-            tab: storedTab.name,
-            label: defaultTab?.label || "Default Label",
-            icon: defaultTab?.icon || null,
-            enabled: storedTab.enabled,
-            installed: true,
-          };
-        });
+        const newTabsFound: Tab[] = defaultTabs.filter((defaultTab) => !storedTabs.some((storedTab) => storedTab.name === defaultTab.tab)).map((tab) => ({ ...tab, installed: true }));
 
-        const newTabsFound: Tab[] = defaultTabs
-          .filter((defaultTab) => !storedTabs.some((storedTab) => storedTab.name === defaultTab.tab))
-          .map((tab) => ({
-            ...tab,
-            installed: true,
-            enabled: false,
-          }));
-
-        setTabs([...updatedTabs, ...newTabsFound]);
+        setTabs(updatedTabs);
         setNewTabs(newTabsFound);
         setShowNewTabsNotification(newTabsFound.length > 0);
       } else {
