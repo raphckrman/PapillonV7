@@ -197,8 +197,18 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
       className: data["relevé"].etudiant.dept_acronym,
       schoolName: "IUT de Lannion - Université de Rennes",
 
-      personalization: await defaultPersonalization()
+      personalization: await defaultPersonalization({
+        tabs: [
+          { name: "Home", enabled: true },
+          { name: "Week", enabled: true },
+          { name: "Grades", enabled: true },
+          { name: "Attendance", enabled: true },
+          { name: "Menu", enabled: true }
+        ]
+      })
     };
+
+    // https://planning.univ-rennes1.fr/jsp/custom/modules/plannings/pn8d0kn8.shu
 
     createStoredAccount(local_account);
     switchTo(local_account);
