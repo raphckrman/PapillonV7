@@ -44,7 +44,7 @@ import { getMenu } from "@/services/menu";
 import type { FoodAllergen, FoodLabel, Menu as PawnoteMenu } from "pawnote";
 import { PapillonHeaderSelector } from "@/components/Global/PapillonModernHeader";
 import AnimatedNumber from "@/components/Global/AnimatedNumber";
-import { LessonsDateModal } from "../Lessons.old/LessonsHeader";
+import { LessonsDateModal } from "../Lessons/LessonsHeader";
 import { BookingTerminal, BookingDay } from "@/services/shared/Booking";
 import { bookDayFromExternal, getBookingsAvailableFromExternal } from "@/services/booking";
 import AccountButton from "@/components/Restaurant/AccountButton";

@@ -9,7 +9,7 @@ import { PapillonNavigation } from "@/router/refs";
 import RedirectButton from "@/components/Home/RedirectButton";
 import { updateTimetableForWeekInCache } from "@/services/timetable";
 import MissingItem from "@/components/Global/MissingItem";
-import { TimetableItem } from "../../Lessons.old/Atoms/Item";
+import { TimetableItem } from "../../Lessons/Atoms/Item";
 import { getHolidayEmoji } from "@/utils/format/holidayEmoji";
 
 interface TimetableElementProps {
