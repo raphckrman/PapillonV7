@@ -28,6 +28,10 @@ export const fetchIcalData = async (
   const courses: Timetable = [];
   const icalURLs = account.personalization.icalURLs || [];
 
+  if(icalURLs.length === 0) {
+    return [];
+  }
+
   for (const ical of icalURLs) {
     await fetch(ical.url)
       .then((res) => res.text())
