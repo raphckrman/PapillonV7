@@ -62,6 +62,10 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
           body: `Titre : ${
             differences[0].description || "Compétence sans titre"
           }, Coefficient : ${differences[0].coefficient}`,
+          data: {
+            accountID: account.localID,
+            page: "Evaluation"
+          }
         },
         "Evaluation"
       );
@@ -89,6 +93,10 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
             ${differences.length} nouvelles compétences :<br />
             ${evaluationPreview}
             `,
+          data: {
+            accountID: account.localID,
+            page: "Evaluation"
+          }
         },
         "Evaluation"
       );

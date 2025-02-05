@@ -86,6 +86,10 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
                 1
             ).toString()}`,
             body: parse_homeworks(differencesHwSemaineActuelle[0].content),
+            data: {
+              accountID: account.localID,
+              page: "Homeworks"
+            }
           },
           "Homeworks"
         );
@@ -99,6 +103,10 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
                 2
             ).toString()}`,
             body: parse_homeworks(differencesHwSemaineProchaine[0].content),
+            data: {
+              accountID: account.localID,
+              page: "Homeworks"
+            }
           },
           "Homeworks"
         );
@@ -150,6 +158,10 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
             ${differences} nouveaux devoirs :<br />
             ${subjectPreview}
             `,
+          data: {
+            accountID: account.localID,
+            page: "Homeworks"
+          }
         },
         "Homeworks"
       );

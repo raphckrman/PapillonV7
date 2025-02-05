@@ -110,6 +110,10 @@ const fetchLessons = async (): Promise<Timetable> => {
               month: "long",
             }),
             body: `${differencesStatus[0].subject} (${dateLessonsDebut}-${dateLessonsFin}) : Horaire du cours modifié`,
+            data: {
+              accountID: account.localID,
+              page: "Lessons"
+            }
           },
           "Lessons"
         );
@@ -160,6 +164,10 @@ const fetchLessons = async (): Promise<Timetable> => {
               month: "long",
             }),
             body: `${differencesStatus[0].subject} (${dateLessonsDebut}-${dateLessonsFin}) : ${statut}`,
+            data: {
+              accountID: account.localID,
+              page: "Lessons"
+            }
           },
           "Lessons"
         );
@@ -191,6 +199,10 @@ const fetchLessons = async (): Promise<Timetable> => {
           }),
           body: `${totalDifference} cours modifiés :<br />
             ${lessonsPreview}`,
+          data: {
+            accountID: account.localID,
+            page: "Lessons"
+          }
         },
         "Lessons"
       );

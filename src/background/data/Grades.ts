@@ -62,6 +62,10 @@ const fetchGrade = async (): Promise<Grade[]> => {
           body: `Titre : ${
             differences[0].description || "Note sans titre"
           }, Coefficient : ${differences[0].coefficient}`,
+          data: {
+            accountID: account.localID,
+            page: "Grades"
+          }
         },
         "Grades"
       );
@@ -89,6 +93,10 @@ const fetchGrade = async (): Promise<Grade[]> => {
             ${differences.length} nouvelles notes :<br />
             ${gradePreview}
             `,
+          data: {
+            accountID: account.localID,
+            page: "Grades"
+          }
         },
         "Grades"
       );

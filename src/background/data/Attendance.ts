@@ -130,6 +130,10 @@ const fetchAttendance = async (): Promise<Attendance> => {
           title: `[${account.name}] ${thenewevent}`,
           subtitle: defaultPeriod,
           body: explication,
+          data: {
+            accountID: account.localID,
+            page: "Attendance"
+          }
         },
         "Attendance"
       );
@@ -185,6 +189,10 @@ const fetchAttendance = async (): Promise<Attendance> => {
           body: `De nouveaux événements ont été publiés, consulte la vie scolaire pour plus de détails : ${LesExplication.join(
             ", "
           )}.`,
+          data: {
+            accountID: account.localID,
+            page: "Attendance"
+          }
         },
         "Attendance"
       );
