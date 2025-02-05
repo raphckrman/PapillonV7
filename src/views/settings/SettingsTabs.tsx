@@ -117,18 +117,14 @@ const SettingsTabs = () => {
     const loadTabs = async () => {
       if (account.personalization.tabs) {
         const storedTabs = account.personalization.tabs;
-        const updatedTabs = defaultTabs
-          .filter((defaultTab) =>
-            storedTabs.some((storedTab) => storedTab.name === defaultTab.tab)
-          )
-          .map((defaultTab) => {
-            const storedTab = storedTabs.find((t) => t.name === defaultTab.tab);
-            return {
-              ...defaultTab,
-              enabled: storedTab ? storedTab.enabled : false,
-              installed: true,
-            };
-          });
+        const updatedTabs = storedTabs
+          .map((storedTab) => {
+            const defaultTab = defaultTabs.find((t) => t.tab === storedTab.name);
+            return defaultTab
+              ? { ...defaultTab, enabled: storedTab.enabled, installed: true }
+              : null;
+          })
+          .filter((tab) => tab !== null);
 
         const newTabsFound: Tab[] = defaultTabs.filter((defaultTab) => !storedTabs.some((storedTab) => storedTab.name === defaultTab.tab)).map((tab) => ({ ...tab, installed: true }));
 
