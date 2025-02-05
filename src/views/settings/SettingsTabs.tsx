@@ -81,19 +81,20 @@ const SettingsTabs = () => {
 
   const toggleTab = (tab: string) => {
     void (async () => {
-      if (tabs.filter((t) => t.enabled).length === 5 && !tabs.find((t) => t.tab === tab)?.enabled) {
+      const isTabEnabled = tabs.find((t) => t.tab === tab)?.enabled ?? false;
+      const enabledTabsCount = tabs.filter((t) => t.enabled).length;
+
+      if (!isTabEnabled && enabledTabsCount === 5) {
         playFailAnimation();
         return;
       }
 
-      const newTabs = [...tabs];
-      const index = newTabs.findIndex((t) => t.tab === tab);
+      const updatedTabs = tabs.map((t) =>
+        t.tab === tab ? { ...t, enabled: !t.enabled } : t
+      );
 
-      if (index !== -1 && !safeTabs.includes(tab)) {
-        newTabs[index].enabled = !newTabs[index].enabled;
-        setTabs(newTabs);
-        updatePersonalizationTabs(newTabs);
-      }
+      setTabs(updatedTabs);
+      updatePersonalizationTabs(updatedTabs);
     })();
   };
 
