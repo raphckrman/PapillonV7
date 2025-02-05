@@ -43,6 +43,10 @@ export const fetchIcalData = async (
       });
   }
 
+  if (courses.length === 0) {
+    return [];
+  }
+
   const coursesByEpochWeekNumber: CoursesByEpochWeekNumber[] = courses.reduce(
     (acc: CoursesByEpochWeekNumber[], course) => {
       const epochWeekNumber = dateToEpochWeekNumber(
