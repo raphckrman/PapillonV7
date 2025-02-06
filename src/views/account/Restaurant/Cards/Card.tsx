@@ -5,7 +5,6 @@ import { defaultProfilePicture } from "@/utils/ui/default-profile-picture";
 import { PressableScale } from "react-native-pressable-scale";
 
 const MenuCard = ({ card, onPress }: { card: ServiceCard, onPress?: () => void }) => {
-  console.log(card);
   const theme = useTheme();
 
   return (

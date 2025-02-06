@@ -385,6 +385,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
               }}
               horizontal
               showsHorizontalScrollIndicator={false}
+              scrollEnabled={allCards?.length > 1}
               decelerationRate={"fast"}
               snapToInterval={(Dimensions.get("window").width - 32) + 6}
             >
