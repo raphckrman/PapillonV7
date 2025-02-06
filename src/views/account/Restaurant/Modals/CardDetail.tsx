@@ -30,14 +30,14 @@ const RestaurantCardDetail = ({ route, navigation }) => {
   return (
     <>
       <LinearGradient
-        colors={[card.theme.colors.background, card.theme.colors.background + "00"]}
+        colors={[card.theme.colors.background + "00", card.theme.colors.background, card.theme.colors.background + "00"]}
         style={{
           position: "absolute",
           top: 0,
           left: 0,
           right: 0,
-          height: 200,
-          opacity: 0,
+          height: 600,
+          opacity: 0.1,
         }}
       />
 
