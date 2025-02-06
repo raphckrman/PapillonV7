@@ -357,7 +357,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
               </>
             )}
 
-            {allBalances?.length === 0 && (
+            {allBalances?.length === 0 && !currentMenu && allHistories?.length === 0 && allQRCodes?.length === 0 && allBookings?.length === 0 && (
               <MissingItem
                 style={{
                   flex: 1,
