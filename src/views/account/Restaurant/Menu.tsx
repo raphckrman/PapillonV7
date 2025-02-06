@@ -44,7 +44,6 @@ import { bookDayFromExternal, getBookingsAvailableFromExternal } from "@/service
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import PapillonHeader from "@/components/Global/PapillonHeader";
 import { PressableScale } from "react-native-pressable-scale";
-import { BlurView } from "expo-blur";
 import { ChevronLeft, ChevronRight} from "lucide-react-native";
 import DrawableImportRestaurant from "@/components/Drawables/DrawableImportRestaurant";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
@@ -389,20 +388,19 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                     }}
                     activeScale={0.8}
                   >
-                    <BlurView
+                    <View
                       style={[styles.weekPickerText, {
                         backgroundColor: theme.colors.border,
                         padding: 8,
                         borderRadius: 100,
                       }]}
-                      tint={theme.dark ? "dark" : "light"}
                     >
                       <ChevronLeft
                         size={24}
                         color={theme.colors.text}
                         strokeWidth={2.5}
                       />
-                    </BlurView>
+                    </View>
                   </PressableScale>
                 </Reanimated.View>
                 <PapillonHeaderSelector loading={isMenuLoading} onPress={() => setShowDatePicker(true)}>
@@ -434,7 +432,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                     }}
                     activeScale={0.8}
                   >
-                    <BlurView
+                    <View
                       style={[styles.weekPickerText, {
                         backgroundColor: theme.colors.border,
                         padding: 8,
@@ -446,7 +444,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                         color={theme.colors.text}
                         strokeWidth={2.5}
                       />
-                    </BlurView>
+                    </View>
                   </PressableScale>
                 </Reanimated.View>
               </View>
