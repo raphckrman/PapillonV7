@@ -14,6 +14,7 @@ import {Client} from "pawrd";
 import { Host } from "turboself-api";
 import {Evaluation} from "@/services/shared/Evaluation";
 import { ThemesMeta } from "@/utils/chat/themes/Themes.types";
+import { ServiceCard } from "@/views/account/Restaurant/Menu";
 
 export type RouteParameters = {
   // welcome.index
@@ -138,16 +139,27 @@ export type RouteParameters = {
 
   Menu?: undefined;
   RestaurantQrCode: {
-    QrCodes: Array<string | Blob>;
+    QrCodes: Array<string | Blob>;
   };
   RestaurantHistory: {
     histories: ReservationHistory[];
   };
+  RestaurantCardDetail: {
+    card: ServiceCard;
+  };
 
   Discussions: undefined;
   ChatCreate: undefined;
-  ChatDetails: { handle: Chat, recipients: ChatRecipient[], onThemeChange?: (selectedThemePath: ThemesMeta) => void };
-  ChatThemes: { handle: Chat; themes: ThemesMeta[]; onGoBack?: (selectedThemePath: ThemesMeta) => void };
+  ChatDetails: {
+    handle: Chat;
+    recipients: ChatRecipient[];
+    onThemeChange?: (selectedThemePath: ThemesMeta) => void;
+  };
+  ChatThemes: {
+    handle: Chat;
+    themes: ThemesMeta[];
+    onGoBack?: (selectedThemePath: ThemesMeta) => void;
+  };
   Chat: { handle: Chat };
 
   AccountStack: { onboard: boolean };
@@ -163,7 +175,11 @@ export type RouteParameters = {
   PriceDetectionOnboarding: { accountID: string };
   PriceBeforeScan: { accountID: string };
   PriceAfterScan: { accountID: string };
-  TurboselfAccountSelector: { accounts: Array<Host>, username: string, password: string};
+  TurboselfAccountSelector: {
+    accounts: Array<Host>;
+    username: string;
+    password: string;
+  };
 
   AddonSettingsPage: {
     addon: AddonPlacementManifest;

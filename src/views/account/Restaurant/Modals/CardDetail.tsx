@@ -1,0 +1,239 @@
+import { Image, ScrollView, Text, View } from "react-native";
+import MenuCard from "../Cards/Card";
+import Reanimated from "react-native-reanimated";
+import React from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import { NativeItem, NativeList, NativeText } from "@/components/Global/NativeComponents";
+
+import { formatDistance } from "date-fns";
+import { fr } from "date-fns/locale";
+import { defaultProfilePicture } from "@/utils/ui/default-profile-picture";
+import { useTheme } from "@react-navigation/native";
+import InsetsBottomView from "@/components/Global/InsetsBottomView";
+import { PressableScale } from "react-native-pressable-scale";
+import { useCurrentAccount } from "@/stores/account";
+import { AccountService } from "@/stores/account/types";
+import { QrCode } from "lucide-react-native";
+
+const formatCardIdentifier = (identifier) => {
+  const visiblePart = identifier.slice(-6);
+  const maskedPart = identifier.slice(0, -6).replace(/./g, "•");
+  return maskedPart + " " + visiblePart.match(/.{1,4}/g).join(" ");
+};
+
+const RestaurantCardDetail = ({ route, navigation }) => {
+  const { card } = route.params;
+  const theme = useTheme();
+
+  const account = useCurrentAccount((store) => store.account);
+
+  return (
+    <>
+      <LinearGradient
+        colors={[card.theme.colors.background, card.theme.colors.background + "00"]}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 200,
+          opacity: 0,
+        }}
+      />
+
+      <ScrollView
+        style={{
+          flex: 1,
+        }}
+        contentContainerStyle={{
+          padding: 16,
+        }}
+      >
+        <PressableScale
+          onPress={() => navigation.goBack()}
+          weight="light"
+          activeScale={0.95}
+        >
+          <Reanimated.View
+            sharedTransitionTag={"card-menu-" + card.identifier}
+            style={{
+              transform: [{ scale: 0.8 }],
+              marginVertical: 0,
+            }}
+            pointerEvents={"none"}
+          >
+            <MenuCard card={card} />
+          </Reanimated.View>
+        </PressableScale>
+
+        <View
+          style={{
+            gap: 3,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              fontFamily: "bold",
+              textAlign: "center",
+              color: theme.colors.text,
+            }}
+          >
+            Carte {AccountService[card.service]} {account?.identity?.firstName ? "de " + account.identity.firstName : ""}
+          </Text>
+          <Text
+            style={{
+              fontSize: 15,
+              fontFamily: "medium",
+              opacity: 0.5,
+              textAlign: "center",
+              color: theme.colors.text,
+              letterSpacing: 1.5,
+            }}
+          >
+            {formatCardIdentifier(card.identifier)}
+          </Text>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            gap: 10,
+          }}
+        >
+          {card.balance[0] && (
+            <NativeList inline style={{ flex: 1, height: 76 }}>
+              <View
+                style={{
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: 76,
+                }}
+              >
+                <NativeText
+                  variant="subtitle"
+                  style={{
+                    textAlign: "center",
+                  }}
+                >
+                  Solde de cantine
+                </NativeText>
+                <Text
+                  style={{
+                    fontFamily: "semibold",
+                    fontSize: 28,
+                    color: theme.colors.text,
+                    textAlign: "center",
+                    color: card.balance[0].amount > 0 ? "#00C853" : "#FF1744",
+                  }}
+                >
+                  {card.balance[0].amount > 0 && "+"}{card.balance[0].amount.toFixed(2)} €
+                </Text>
+              </View>
+            </NativeList>
+          )}
+
+          {card.cardnumber && (
+            <PressableScale
+              onPress={() => navigation.navigate("RestaurantQrCode", { card: card.cardnumber })}
+              weight="light"
+              activeScale={0.95}
+            >
+              <NativeList inline style={{ width: 100, height: 76 }}>
+                <View
+                  style={{
+                    height: 76,
+                    gap: 6,
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <QrCode
+                    size={24}
+                    strokeWidth={2.2}
+                    color={theme.colors.text}
+                  />
+                  <Text
+                    style={{
+                      fontFamily: "semibold",
+                      fontSize: 13,
+                      color: theme.colors.text,
+                      textAlign: "center",
+                    }}
+                  >
+                    QR-code
+                  </Text>
+                </View>
+              </NativeList>
+            </PressableScale>
+          )}
+        </View>
+
+        {card.history.length > 0 && (
+          <NativeList inline>
+            {card.history.sort((a, b) => b.timestamp - a.timestamp).map((history, i) => (
+              <NativeItem
+                key={"cardhistory-"+i}
+                leading={
+                  <Image
+                    source={defaultProfilePicture(card.service)}
+                    style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 6,
+                      overflow: "hidden",
+                      borderWidth: 1,
+                      borderColor: theme.colors.border,
+                    }}
+                  />
+                }
+                trailing={
+                  <View
+                    style={{
+                      paddingRight: 10,
+                    }}
+                  >
+                    {history.amount > 0 ? (
+                      <NativeText
+                        variant="title"
+                        style={{
+                          fontFamily: "medium",
+                          color: "#00C853",
+                        }}
+                      >
+                        +{history.amount.toFixed(2)} €
+                      </NativeText>
+                    ) : (
+                      <NativeText
+                        variant="title"
+                        style={{
+                          fontFamily: "medium",
+                          color: "#FF1744",
+                        }}
+                      >
+                        -{(-history.amount).toFixed(2)} €
+                      </NativeText>
+                    )}
+                  </View>
+                }
+              >
+                <NativeText variant="title">
+                  {history.label}
+                </NativeText>
+                <NativeText variant="subtitle">
+                  il y a {formatDistance(new Date(history.timestamp), new Date(), { locale: fr })}
+                </NativeText>
+              </NativeItem>
+            ))}
+          </NativeList>
+        )}
+
+        <InsetsBottomView />
+      </ScrollView>
+    </>
+  );
+};
+
+export default RestaurantCardDetail;

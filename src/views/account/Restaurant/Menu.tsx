@@ -7,7 +7,8 @@ import {
   Alert,
   ActivityIndicator,
   RefreshControl,
-  Text
+  Text,
+  Dimensions
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import {
@@ -175,7 +176,18 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
   useEffect(() => {
     (async () => {
       try {
-        const newCards: Array<ServiceCard> = [];
+        const newCards: Array<ServiceCard> = [
+          {
+            service: 5,
+            identifier: "123456789",
+            balance: [{
+              amount: 20.30
+            }],
+            history: [],
+            cardnumber: null,
+            theme: STORE_THEMES[1],
+          }
+        ];
         const newBookings: BookingTerminal[] = [];
 
         const dailyMenu = account ? await getMenu(account, pickerDate).catch(() => null) : null;
@@ -362,18 +374,39 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
 
             <View style={{height: 16}} />
 
-            <View
+            <ScrollView
               style={{
-                flexDirection: "row",
-                flexWrap: "wrap",
-                justifyContent: "space-between",
-                gap: 16,
+                width: (Dimensions.get("window").width - 32),
+                overflow: "visible",
+                maxHeight: (Dimensions.get("window").width - 32) / 1.72
               }}
+              contentContainerStyle={{
+                overflow: "visible",
+                gap: 6,
+              }}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              decelerationRate={"fast"}
+              snapToInterval={(Dimensions.get("window").width - 32) + 6}
             >
               {allCards?.map((card, index) => (
-                <MenuCard key={index} card={card} />
+                <Reanimated.View
+                  key={index}
+                  sharedTransitionTag={"card-menu-"+card.identifier}
+                  style={{
+                    width: Dimensions.get("window").width - 32,
+                  }}
+                >
+                  <MenuCard
+                    key={index}
+                    card={card}
+                    onPress={() => {
+                      navigation.navigate("RestaurantCardDetail", { card });
+                    }}
+                  />
+                </Reanimated.View>
               ))}
-            </View>
+            </ScrollView>
 
             {(currentMenu || (allBookings && allBookings?.some((terminal) => terminal.days.some((day) => day.date?.toDateString() === pickerDate.toDateString())))) &&
               <View style={styles.calendarContainer}>

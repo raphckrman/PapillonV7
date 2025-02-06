@@ -4,7 +4,7 @@ import { useTheme } from "@react-navigation/native";
 import { defaultProfilePicture } from "@/utils/ui/default-profile-picture";
 import { PressableScale } from "react-native-pressable-scale";
 
-const MenuCard = ({ card }: { card: ServiceCard }) => {
+const MenuCard = ({ card, onPress }: { card: ServiceCard, onPress?: () => void }) => {
   console.log(card);
   const theme = useTheme();
 
@@ -12,6 +12,7 @@ const MenuCard = ({ card }: { card: ServiceCard }) => {
     <PressableScale
       weight="light"
       activeScale={0.95}
+      onPress={onPress}
     >
       <View
         style={[
@@ -38,14 +39,16 @@ const MenuCard = ({ card }: { card: ServiceCard }) => {
             {card?.theme?.name}
           </Text>
 
-          <View style={[styles.cardBalance]}>
-            <Text style={[styles.cardBalanceTitle, { color: card?.theme?.colors?.accent }]}>
-              Solde de cantine
-            </Text>
-            <Text style={[styles.cardBalanceValue, { color: card?.theme?.colors?.text }]}>
-              {card.balance[0].amount.toFixed(2)} €
-            </Text>
-          </View>
+          {card.balance[0] && card.balance[0].amount && (
+            <View style={[styles.cardBalance]}>
+              <Text style={[styles.cardBalanceTitle, { color: card?.theme?.colors?.accent }]}>
+                Solde de cantine
+              </Text>
+              <Text style={[styles.cardBalanceValue, { color: card?.theme?.colors?.text }]}>
+                {card.balance[0] ? card.balance[0].amount.toFixed(2) + " €" : "---"}
+              </Text>
+            </View>
+          )}
         </View>
 
         {card.identifier && (

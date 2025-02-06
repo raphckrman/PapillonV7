@@ -25,6 +25,12 @@ export const defaultProfilePicture = (service: AccountService, accountProvider?:
       return require("../../../assets/images/service_unknown.png");
     case AccountService.Izly:
       return require("../../../assets/images/service_izly.png");
+    case AccountService.Turboself:
+      return require("../../../assets/images/service_turboself.png");
+    case AccountService.ARD:
+      return require("../../../assets/images/service_ard.png");
+    case AccountService.Alise:
+      return require("../../../assets/images/service_alise.jpg");
   }
 
   return require("../../../assets/images/service_unknown.png");

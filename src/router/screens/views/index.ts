@@ -20,6 +20,7 @@ import EvaluationDocument from "@/views/account/Evaluation/Document";
 import BackgroundIdentityProvider from "@/views/login/IdentityProvider/BackgroundIdentityProvider";
 import ChatDetails from "@/views/account/Chat/Modals/ChatDetails";
 import ChatThemes from "@/views/account/Chat/Modals/ChatThemes";
+import RestaurantCardDetail from "@/views/account/Restaurant/Modals/CardDetail";
 
 export default [
   createScreen("GradeReaction", GradeReaction, {
@@ -36,6 +37,17 @@ export default [
     headerTitle: "Historique des réservations",
     headerShown: true,
     presentation: "modal",
+  }),
+  createScreen("RestaurantCardDetail", RestaurantCardDetail, {
+    headerTitle: "Détail de la carte",
+    presentation: "formSheet",
+    stackPresentation: "formSheet",
+    headerShown: false,
+    sheetCornerRadius: 16,
+    sheetGrabberVisible: true,
+    sheetExpandsWhenScrolledToEdge: true,
+    sheetInitialDetent: 0,
+    sheetAllowedDetents: "all"
   }),
   createScreen("SettingsTabs", SettingsTabs, {
     headerTitle: "Onglets et navigation",
