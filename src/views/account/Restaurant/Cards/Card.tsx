@@ -21,6 +21,7 @@ const MenuCard = ({ card, onPress }: { card: ServiceCard, onPress?: () => void }
             borderColor: theme.colors.text + "33",
             borderWidth: 1,
             backgroundColor: card?.theme?.colors?.background,
+            shadowColor: card?.theme?.colors?.background
           }
         ]}
       >
@@ -42,7 +43,7 @@ const MenuCard = ({ card, onPress }: { card: ServiceCard, onPress?: () => void }
           {card.balance[0] && card.balance[0].amount && (
             <View style={[styles.cardBalance]}>
               <Text style={[styles.cardBalanceTitle, { color: card?.theme?.colors?.accent }]}>
-                Solde de cantine
+                Solde
               </Text>
               <Text style={[styles.cardBalanceValue, { color: card?.theme?.colors?.text }]}>
                 {card.balance[0] ? card.balance[0].amount.toFixed(2) + " €" : "---"}
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     borderCurve: "continuous",
 
     shadowColor: "#000",
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.4,
     shadowRadius: 6,
     shadowOffset: {
       width: 0,

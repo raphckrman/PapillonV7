@@ -50,7 +50,6 @@ const RestaurantCardDetail = ({ route, navigation }) => {
         }}
       >
         <PressableScale
-          onPress={() => navigation.goBack()}
           weight="light"
           activeScale={0.95}
         >
@@ -117,7 +116,7 @@ const RestaurantCardDetail = ({ route, navigation }) => {
                     textAlign: "center",
                   }}
                 >
-                  Solde de cantine
+                  Solde de la carte
                 </NativeText>
                 <Text
                   style={{
