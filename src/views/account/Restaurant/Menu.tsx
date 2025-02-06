@@ -386,7 +386,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
               />
             )}
 
-            {allHistories?.length > 0 || allQRCodes?.length > 0 && (
+            {((allHistories?.length !== 0) || (allQRCodes?.length !== 0)) && (
               <HorizontalList style={styles.horizontalList}>
                 <Item
                   title="Historique"
