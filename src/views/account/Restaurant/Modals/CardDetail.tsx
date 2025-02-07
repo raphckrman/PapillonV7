@@ -89,7 +89,9 @@ const RestaurantCardDetail = ({ route, navigation }) => {
             <Reanimated.View
               sharedTransitionTag={"card-menu-" + route.params.card.identifier}
               style={{
-                transform: [{ scale: 0.8 }],
+                transform: [
+                  { scale: 0.8 },
+                ],
                 marginVertical: 0,
               }}
               pointerEvents={"none"}

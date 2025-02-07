@@ -16,6 +16,7 @@ import {
   ChefHat,
   CookingPot,
   MapPin,
+  Plus,
   Sprout,
   Utensils,
 } from "lucide-react-native";
@@ -600,14 +601,36 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
               </>
               : <>
                 {allCards?.length > 0 && (
-                  <MissingItem
-                    emoji="🍽️"
-                    title="Aucun menu disponible"
-                    description={"Aucun service de cantine fournissant un menu n'est enregistré."}
-                    entering={animPapillon(FadeInDown)}
-                    exiting={animPapillon(FadeOut)}
-                    style={{ marginTop: 16 }}
-                  />
+                  <View
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: 6,
+                    }}
+                  >
+                    <PressableScale
+                      onPress={() => {
+                        navigation.navigate("SettingStack", { view: "SettingsExternalServices" });
+                      }}
+                      style={{
+                        paddingHorizontal: 16,
+                        paddingVertical: 10,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 8,
+                        borderRadius: 100,
+                        backgroundColor: theme.colors.text + "12",
+                        borderColor: theme.colors.text + "40",
+                        borderWidth: 0,
+                      }}
+                    >
+                      <Plus size={20} strokeWidth={2.5} color={theme.colors.text} />
+                      <NativeText>
+                        Ajouter une carte
+                      </NativeText>
+                    </PressableScale>
+                  </View>
                 )}
               </>}
             <LessonsDateModal
