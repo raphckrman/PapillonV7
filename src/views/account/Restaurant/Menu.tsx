@@ -48,7 +48,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import { ChevronLeft, ChevronRight} from "lucide-react-native";
 import DrawableImportRestaurant from "@/components/Drawables/DrawableImportRestaurant";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
-import { AccountService } from "@/stores/account/types";
+import { Account, AccountService } from "@/stores/account/types";
 import { Balance } from "@/services/shared/Balance";
 import { ReservationHistory } from "@/services/shared/ReservationHistory";
 import { STORE_THEMES, StoreTheme } from "./Cards/StoreThemes";
@@ -56,6 +56,7 @@ import MenuCard from "./Cards/Card";
 
 export interface ServiceCard {
   service: string | AccountService;
+  account: Account | null;
   identifier: string;
   balance: never[] | Balance[];
   history: never[] | ReservationHistory[];
@@ -172,12 +173,13 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
     });
   }, [navigation, route.params, theme.colors.text]);
 
-  useEffect(() => {
+  const fetchCardsData = async () => {
     (async () => {
       try {
         const newCards: Array<ServiceCard> = [
-          {
+          /* {
             service: 5,
+            account: null,
             identifier: "123456789",
             balance: [{
               amount: 20.30
@@ -185,7 +187,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
             history: [],
             cardnumber: null,
             theme: STORE_THEMES[1],
-          }
+          } */
         ];
         const newBookings: BookingTerminal[] = [];
 
@@ -216,6 +218,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
             const newCard: ServiceCard = {
               service: account.service,
               identifier: account.username,
+              account: account,
               balance: balance,
               history: history,
               cardnumber: cardnumber,
@@ -239,20 +242,11 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
         console.warn("An error occurred while fetching data:", error);
       }
     })();
-  }, [linkedAccounts, refreshCount]);
-
-  const fetchQRCode = async () => {
-    if (linkedAccounts) {
-      const qrCodes = await Promise.all(linkedAccounts.map(qrcodeFromExternal));
-      // setAllQRCodes(qrCodes.filter((code) => code !== null) as string[]);
-    }
   };
 
   useEffect(() => {
-    // force la regénération du QR code à chaque fois que l'écran est affiché
-    // const unsub = navigation.addListener("focus", fetchQRCode);
-    // return unsub;
-  }, []);
+    fetchCardsData();
+  }, [linkedAccounts, refreshCount]);
 
   const getLabelIcon = (label: string) => {
     switch (label) {

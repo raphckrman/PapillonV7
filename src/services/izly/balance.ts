@@ -8,8 +8,6 @@ export const balance = async (account: IzlyAccount): Promise<Balance[]> => {
   const balance = await ezly.balance(account.instance);
   const currency = account.authentication.configuration.currency;
 
-  console.log(account.authentication);
-
   return [{
     amount: balance.value,
     currency: currency,

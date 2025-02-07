@@ -147,6 +147,9 @@ export type RouteParameters = {
   RestaurantCardDetail: {
     card: ServiceCard;
   };
+  RestaurantPaymentSuccess;: {
+    card: ServiceCard;
+  };
 
   Discussions: undefined;
   ChatCreate: undefined;
