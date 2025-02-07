@@ -208,7 +208,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
         },
         {
           icon: <Blocks />,
-          color: "#cb7712",
+          color: "#1f76ce",
           label: "Multiservice (Bêta)",
           description: "Connecte plusieurs services en un seul espace de travail",
           onPress: () => navigation.navigate("SettingsMultiService"),

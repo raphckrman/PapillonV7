@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import LottieView from "lottie-react-native";
 import { NativeItem, NativeList, NativeText } from "../Global/NativeComponents";
 import { LinearGradient } from "expo-linear-gradient";
@@ -25,16 +25,14 @@ const MultiServiceContainerCard = ({ theme }: { theme: any }) => {
           alignItems: "center",
           overflow: "hidden",
         }}>
-          <NativeText>Maybe une image ici, là j'attend l'avis des #designers</NativeText>
-          {/*<Image*/}
-          {/*  source={require("@/../assets/images/settings/magic_header.png")}*/}
-          {/*  style={{*/}
-          {/*    width: "90%",*/}
-          {/*    height: 230,*/}
-          {/*    resizeMode: "contain",*/}
-          {/*    marginTop: 75,*/}
-          {/*  }}*/}
-          {/*/>*/}
+          <Image
+            source={require("@/../assets/images/settings/multiservice.png")}
+            style={{
+              width: "100%",
+              height: "100%",
+              resizeMode: "cover",
+            }}
+          />
         </View>
       </LinearGradient>
       <NativeItem>
@@ -48,7 +46,7 @@ const MultiServiceContainerCard = ({ theme }: { theme: any }) => {
           <NativeText variant="title">
             Activer le multi service
           </NativeText>
-          <BetaIndicator colors={["#cb7712", "#dec46d"]} />
+          <BetaIndicator colors={["#1f76ce", "#56cbfe"]} />
         </View>
         <NativeText variant="subtitle">
           Rassemble tes services scolaires en un espace virtuel unique, géré par Papillon.

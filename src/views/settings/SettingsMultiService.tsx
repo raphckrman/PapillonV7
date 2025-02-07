@@ -172,7 +172,7 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
           leading={
             <NativeIcon
               icon={<PlugZap />}
-              color="#cb7712"
+              color="#1f76ce"
             />
           }
         >
