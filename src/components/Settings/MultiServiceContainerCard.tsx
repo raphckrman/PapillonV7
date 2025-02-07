@@ -20,7 +20,7 @@ const MultiServiceContainerCard = ({ theme }: { theme: any }) => {
         colors={["#cb7712", "#dec46d"]}
       >
         <View style={{
-          height: 200,
+          height: 150,
           justifyContent: "center",
           alignItems: "center",
           overflow: "hidden",
