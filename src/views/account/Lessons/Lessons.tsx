@@ -32,10 +32,14 @@ import {
 import PapillonPicker from "@/components/Global/PapillonPicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { WeekFrequency } from "@/services/shared/Timetable";
+import {AccountService} from "@/stores/account/types";
+import {hasFeatureAccountSetup} from "@/utils/multiservice";
+import {MultiServiceFeature} from "@/stores/multiService/types";
 import useScreenDimensions from "@/hooks/useScreenDimensions";
 
 const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const account = useCurrentAccount((store) => store.account!);
+  const hasServiceSetup = account.service === AccountService.PapillonMultiService ? hasFeatureAccountSetup(MultiServiceFeature.Timetable, account.localID) : true;
   const mutateProperty = useCurrentAccount((store) => store.mutateProperty);
 
   const timetables = useTimetableStore((store) => store.timetables);
@@ -183,6 +187,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
       return (
         <View style={{ width: finalWidth, height: "100%" }}>
           <Page
+            hasServiceSetup={hasServiceSetup}
             paddingTop={outsideNav ? 80 : insets.top + 56}
             current={date.getTime() === pickerDate.getTime()}
             date={date}
