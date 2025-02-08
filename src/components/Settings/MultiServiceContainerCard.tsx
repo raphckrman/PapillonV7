@@ -17,7 +17,7 @@ const MultiServiceContainerCard = ({ theme }: { theme: any }) => {
   return (
     <NativeList>
       <LinearGradient
-        colors={["#cb7712", "#dec46d"]}
+        colors={["#1f76ce", "#56cbfe"]}
       >
         <View style={{
           height: 150,
