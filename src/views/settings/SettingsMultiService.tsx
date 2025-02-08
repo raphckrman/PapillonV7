@@ -237,7 +237,7 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
             variant="subtitle"
           >
             Cette fonctionnalité est instable et peut engendrer des dysfonctionnements sur les comptes associés.
-            Si vous rencontrez un problème, déconnectez et reconnectez vos comptes pour retrouver leur fonctionnement normal.
+            Si tu rencontres un problème, déconnecte et reconnecte tes comptes pour retrouver leur fonctionnement normal.
           </NativeText>
           <BottomSheet
             setOpened={(opened) => setSpaceCreationSheetOpened(opened)}
