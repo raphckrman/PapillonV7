@@ -225,6 +225,20 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
               </NativeText>
             </NativeItem>
           </NativeList>
+          <NativeText
+            style={{
+              paddingTop: 25,
+              padding: 10,
+              fontFamily: "medium",
+              fontSize: 12.5,
+              lineHeight: 12,
+              color: theme.colors.text + "60"
+            }}
+            variant="subtitle"
+          >
+            Cette fonctionnalité est instable et peut engendrer des dysfonctionnements sur les comptes associés.
+            Si vous rencontrez un problème, déconnectez et reconnectez vos comptes pour retrouver leur fonctionnement normal.
+          </NativeText>
           <BottomSheet
             setOpened={(opened) => setSpaceCreationSheetOpened(opened)}
             opened={spaceCreationSheetOpened}
