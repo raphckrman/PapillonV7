@@ -137,6 +137,12 @@ export async function updateAttendanceInCache <T extends Account> (account: T, p
       const service = getFeatureAccount(MultiServiceFeature.Attendance, account.localID);
       if (!service) {
         log("No service set in multi-service space for feature \"Attendance\"", "multiservice");
+        attendance = {
+          delays: [],
+          absences: [],
+          punishments: [],
+          observations: []
+        };
         break;
       }
       return updateAttendanceInCache(service, periodName);
