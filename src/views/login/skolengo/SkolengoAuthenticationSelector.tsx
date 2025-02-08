@@ -20,6 +20,7 @@ const SkolengoAuthenticationSelector: Screen<"SkolengoAuthenticationSelector"> =
   const [method, setMethod] = useState<Methods | null>(null);
 
   const { playSound } = useSoundHapticsWrapper();
+  const LEson = require("@/../assets/sound/2.wav");
 
   const handleConfirmation = () => {
     switch (method) {
@@ -31,7 +32,7 @@ const SkolengoAuthenticationSelector: Screen<"SkolengoAuthenticationSelector"> =
         break;
     }
 
-    playSound(require("@/../assets/sound/2.wav"));
+    playSound(LEson);
   };
 
   return (

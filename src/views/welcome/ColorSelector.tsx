@@ -27,6 +27,8 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
   const mutateProperty = useCurrentAccount(store => store.mutateProperty);
   const settings = route.params?.settings || false;
   const { playHaptics, playSound } = useSoundHapticsWrapper();
+  const LEson003 = require("@/../assets/sound/click_003.wav");
+  const LEson6 = require("@/../assets/sound/6.wav");
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -45,7 +47,7 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
     playHaptics("notification", {
       notification: Haptics.NotificationFeedbackType.Success,
     });
-    playSound(require("@/../assets/sound/click_003.wav"));
+    playSound(LEson003);
 
     if (!isExpoGo()) {
       getIconName().then((currentIcon) => {
@@ -179,7 +181,7 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
           value="Finaliser"
           onPress={async () => {
             if (!settings) {
-              playSound(require("@/../assets/sound/6.wav"));
+              playSound(LEson6);
             }
             navigation.navigate("AccountStack", {onboard: true});
           }}

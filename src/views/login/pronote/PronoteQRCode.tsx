@@ -55,6 +55,7 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
   const [QRData, setQRData] = useState<string | null>(null);
 
   const { playHaptics, playSound } = useSoundHapticsWrapper();
+  const LEson = require("@/../assets/sound/4.wav");
 
   async function loginQR () {
     setScanned(false);
@@ -133,7 +134,7 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
         queueMicrotask(() => {
           // Reset the navigation stack to the "Home" screen.
           // Prevents the user from going back to the login screen.
-          playSound(require("@/../assets/sound/4.wav"));
+          playSound(LEson);
           navigation.reset({
             index: 0,
             routes: [{ name: "AccountCreated" }],

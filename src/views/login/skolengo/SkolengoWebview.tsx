@@ -42,6 +42,7 @@ const SkolengoWebview: Screen<"SkolengoWebview"> = ({ route, navigation }) => {
   const [pageUrl, setPageUrl] = useState<string|null>(null);
   const [discovery, setDiscovery] = useState<AuthSession.DiscoveryDocument | null>(null);
   const { playSound } = useSoundHapticsWrapper();
+  const LEson = require("@/../assets/sound/3.wav");
 
   const createStoredAccount = useAccounts((store) => store.create);
   const switchTo = useCurrentAccount((store) => store.switchTo);
@@ -59,7 +60,7 @@ const SkolengoWebview: Screen<"SkolengoWebview"> = ({ route, navigation }) => {
   let webViewRef = createRef<WebView>();
 
   useEffect(() => {
-    playSound(require("@/../assets/sound/3.wav"));
+    playSound(LEson);
   }, []);
 
   return (

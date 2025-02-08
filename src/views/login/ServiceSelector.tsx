@@ -28,6 +28,7 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
   const [v6Data, setV6Data] = useState<any | null>(null);
 
   const { playSound } = useSoundHapticsWrapper();
+  const LEson = require("@/../assets/sound/1.wav");
 
   useEffect(() => {
     setTimeout(async () => {
@@ -52,7 +53,7 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
       image: require("../../../assets/images/service_pronote.png"),
       login: () => {
         navigation.navigate("PronoteAuthenticationSelector");
-        playSound(require("@/../assets/sound/1.wav"));
+        playSound(LEson);
       },
     },
     {
@@ -61,7 +62,7 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
       image: require("../../../assets/images/service_ed.png"),
       login: () => {
         navigation.navigate("EcoleDirecteCredentials");
-        playSound(require("@/../assets/sound/1.wav"));
+        playSound(LEson);
       }
     },
     {
@@ -70,7 +71,7 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
       image: require("../../../assets/images/service_skolengo.png"),
       login: () => {
         navigation.navigate("SkolengoAuthenticationSelector");
-        playSound(require("@/../assets/sound/1.wav"));
+        playSound(LEson);
       }
     },
     {
@@ -81,7 +82,7 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
       icon: <School />,
       login: () => {
         navigation.navigate("IdentityProviderSelector");
-        playSound(require("@/../assets/sound/1.wav"));
+        playSound(LEson);
       }
     },
   ];

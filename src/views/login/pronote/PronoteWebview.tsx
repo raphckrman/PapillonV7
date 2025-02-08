@@ -50,6 +50,8 @@ const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
   const [loginStep, setLoginStep] = useState("Préparation de la connexion");
 
   const { playSound } = useSoundHapticsWrapper();
+  const LEson3 = require("@/../assets/sound/3.wav");
+  const LEson4 = require("@/../assets/sound/4.wav");
 
   const instanceURL = route.params.instanceURL.toLowerCase();
 
@@ -73,7 +75,7 @@ const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
   ).toUTCString();
 
   useEffect(() => {
-    playSound(require("@/../assets/sound/3.wav"));
+    playSound(LEson3);
   }, []);
 
   const INJECT_PRONOTE_JSON = `
@@ -327,7 +329,7 @@ const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
                 queueMicrotask(() => {
                   // Reset the navigation stack to the "Home" screen.
                   // Prevents the user from going back to the login screen.
-                  playSound(require("@/../assets/sound/4.wav"));
+                  playSound(LEson4);
                   navigation.reset({
                     index: 0,
                     routes: [{ name: "AccountCreated" }],

@@ -32,6 +32,7 @@ const DuoListPressable: React.FC<{
   const opacity = useSharedValue(1);
 
   const { playHaptics, playSound } = useSoundHapticsWrapper();
+  const LEson = require("@/../assets/sound/click_003.wav");
 
   useEffect(() => {
     if (pressed) {
@@ -41,7 +42,7 @@ const DuoListPressable: React.FC<{
       playHaptics("impact", {
         impact: Haptics.ImpactFeedbackStyle.Light,
       });
-      playSound(require("@/../assets/sound/click_003.wav"));
+      playSound(LEson);
     }
     else {
       scale.value = withTiming(1, { duration: 100, easing: Easing.linear });

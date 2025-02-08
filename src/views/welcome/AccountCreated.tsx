@@ -18,6 +18,8 @@ import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 const AccountCreated: Screen<"AccountCreated"> = ({ navigation }) => {
   const account = useCurrentAccount((state) => state.account!);
   const { playHaptics, playSound } = useSoundHapticsWrapper();
+  const LEson5 = require("@/../assets/sound/5.wav");
+  const LEson6 = require("@/../assets/sound/6.wav");
 
   let name = !account.studentName?.first ? null
     : account.studentName?.first;
@@ -95,14 +97,14 @@ const AccountCreated: Screen<"AccountCreated"> = ({ navigation }) => {
           primary
           onPress={() => {
             navigation.navigate("ColorSelector");
-            playSound(require("@/../assets/sound/5.wav"));
+            playSound(LEson5);
           }}
         />
         <ButtonCta
           value="Ignorer cette étape"
           onPress={() => {
             navigation.navigate("AccountStack", { onboard: true });
-            playSound(require("@/../assets/sound/6.wav"));
+            playSound(LEson6);
           }}
         />
       </View>
