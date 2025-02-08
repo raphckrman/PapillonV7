@@ -34,7 +34,7 @@ const Attendance: Screen<"Attendance"> = ({ route, navigation }) => {
   const attendances = useAttendanceStore(store => store.attendances);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(hasServiceSetup);
 
   const [userSelectedPeriod, setUserSelectedPeriod] = useState<string | null>(null);
   const selectedPeriod = useMemo(() => userSelectedPeriod ?? defaultPeriod, [userSelectedPeriod, defaultPeriod]);
