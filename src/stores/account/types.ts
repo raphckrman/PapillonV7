@@ -154,6 +154,7 @@ export interface PronoteAccount extends BaseAccount {
 }
 
 export interface EcoleDirecteAccount extends BaseAccount {
+  profilePictureURL: string;
   service: AccountService.EcoleDirecte;
   instance: {};
   authentication: {
