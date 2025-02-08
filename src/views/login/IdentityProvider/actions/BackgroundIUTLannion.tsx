@@ -117,7 +117,6 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
 
   const retreiveNextSemestre = async (cs: number, semestres: any[] = semestresToRetrieve) => {
     const sem = semestres[cs];
-    console.log(sem);
     setStep("Récupération du semestre " + sem.semestre_id);
     wbref.current?.injectJavaScript(`
       window.location.href = "https://notes9.iutlan.univ-rennes1.fr/services/data.php?q=relev%C3%A9Etudiant&semestre=" + ${sem.formsemestre_id};
@@ -126,14 +125,13 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
 
   const processSemestre = async (data: any) => {
     // ajouter le semestre ici
-    const newServiceData = account?.serviceData || {};
+    const newServiceData = account?.serviceData || {} as any;
 
     if (!newServiceData["semestres"]) {
       newServiceData["semestres"] = {};
     }
 
     const semesterName = "Semestre " + semestresToRetrieve[currentSemestre].semestre_id;
-    console.log(semesterName);
 
     newServiceData["semestres"][semesterName] = data;
     mutateProperty("serviceData", newServiceData);
@@ -197,8 +195,19 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
       className: data["relevé"].etudiant.dept_acronym,
       schoolName: "IUT de Lannion - Université de Rennes",
 
-      personalization: await defaultPersonalization()
+      personalization: await defaultPersonalization({
+        tabs: [
+          { name: "Home", enabled: true },
+          { name: "Week", enabled: true },
+          { name: "Grades", enabled: true },
+          { name: "Attendance", enabled: true },
+          { name: "Menu", enabled: true }
+        ]
+      }),
+      serviceData: {}
     };
+
+    // https://planning.univ-rennes1.fr/jsp/custom/modules/plannings/pn8d0kn8.shu
 
     createStoredAccount(local_account);
     switchTo(local_account);
@@ -285,7 +294,6 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
 
         onLoad={(data) => {
           const url = data.nativeEvent.url;
-          console.log(url);
 
           if(url.startsWith("https://sso-cas.univ-rennes.fr//login?")) {
             injectPassword();
