@@ -7,3 +7,7 @@ export function getFeatureAccount (feature: MultiServiceFeature, spaceLocalID: s
   const accountId = useMultiService.getState().getFeatureAccountId(feature, spaceLocalID);
   return useCurrentAccount.getState().associatedAccounts.find(account => account.localID === accountId) as PrimaryAccount | undefined;
 }
+
+export function hasFeatureAccountSetup (feature: MultiServiceFeature, spaceLocalID: string) {
+  return useMultiService.getState().getFeatureAccountId(feature, spaceLocalID) != undefined;
+}
