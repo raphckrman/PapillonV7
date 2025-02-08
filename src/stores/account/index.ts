@@ -140,7 +140,7 @@ export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
 
     // Setting instance to a non-null value after associated accounts reload, to keep the loading icon while instances are reloading...
     if (account.service === AccountService.PapillonMultiService)
-      account.instance = "PapillonPrime"; // A random string, so the instance is not "undefined" or "null", to prevent creating infinite loading (an undefined instance is interpreted as a loading or disconnected account...)
+      get().mutateProperty("instance", "PapillonPrime"); // A random string, so the instance is not "undefined" or "null", to prevent creating infinite loading (an undefined instance is interpreted as a loading or disconnected account...)
 
     log("reloaded all external and associated accounts", "[switchTo]");
 
