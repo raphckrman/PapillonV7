@@ -38,7 +38,6 @@ const AccountCreated: Screen<"AccountCreated"> = ({ navigation }) => {
       // loop 20 times
       for (let i = 0; i < 15; i++) {
         setTimeout(() => {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
           playHaptics("impact", {
             impact: Haptics.ImpactFeedbackStyle.Medium,
           });
