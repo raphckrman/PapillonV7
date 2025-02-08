@@ -1,5 +1,6 @@
 import { alertExpoGo, isExpoGo } from "@/utils/native/expoGoAlert";
 import notifee, {
+  AndroidColor,
   AndroidImportance,
   AuthorizationStatus,
   Notification,
@@ -130,7 +131,7 @@ const papillonNotify = async (
       showTimestamp: channelId !== "Status" ? true : false,
       showChronometer: channelId === "Status" ? true : false,
       smallIcon: "@mipmap/ic_launcher_foreground",
-      color: "#32AB8E",
+      color: AndroidColor.GREEN,
       pressAction: {
         id: "default",
         launchActivity: "default",
@@ -139,8 +140,7 @@ const papillonNotify = async (
     ios: {
       threadId: channelId,
       badgeCount,
-      sound: channelId !== "Status" ? "default" : undefined,
-      // à intégrer => `categoryId`
+      sound: channelId !== "Status" ? "default" : "",
     }
   });
 };
