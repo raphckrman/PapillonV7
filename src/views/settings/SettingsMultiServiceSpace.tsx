@@ -25,6 +25,7 @@ import Reanimated, {FadeOut, ZoomIn} from "react-native-reanimated";
 import PapillonBottomSheet from "@/components/Modals/PapillonBottomSheet";
 import * as Haptics from "expo-haptics";
 import AccountItem from "@/components/Global/AccountItem";
+import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 
 const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ navigation, route }) => {
   const theme = useTheme();
@@ -104,11 +105,23 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
     setAccountSelectorOpened(true);
   };
 
-  const setAccountFeature = (account: PrimaryAccount, feature: MultiServiceFeature) => {
+  const setAccountFeature = (account: PrimaryAccount | undefined, feature: MultiServiceFeature) => {
+    const currentSelectedAccountID = space.featuresServices[feature];
     setMultiServiceSpaceAccountFeature(space.accountLocalID, feature, account);
-    let linkedAccountsIds = [...(linkedAccount?.associatedAccountsLocalIDs || []), account.localID];
-    linkedAccountsIds = linkedAccountsIds.filter((value, index) => linkedAccountsIds.indexOf(value) === index); // Remove duplicates
-    // Putting the space's associated accounts ids in linkedExternalLocalIDs permits the reload of their instance / authentication fields (like externals accounts)
+    let linkedAccountsIds = [...(linkedAccount?.associatedAccountsLocalIDs || [])];
+    if (account) {
+      // Putting the space's associated accounts ids in linkedExternalLocalIDs permits the reload of their instance / authentication fields (like externals accounts)
+      linkedAccountsIds.push(account.localID);
+      linkedAccountsIds = linkedAccountsIds.filter((value, index) => linkedAccountsIds.indexOf(value) === index); // Remove duplicates
+    } else {
+      // If feature's service has been removed and service is not assigned to other feature, we remove it from "associatedAccountsLocalIDs"
+      const accountNoMoreUsed = !Object.keys(space.featuresServices).some(key =>
+        (space.featuresServices[key as MultiServiceFeature] == currentSelectedAccountID && !((key as MultiServiceFeature) === feature))
+      );
+      if (accountNoMoreUsed) {
+        linkedAccountsIds = linkedAccountsIds.filter(localID => localID != currentSelectedAccountID);
+      }
+    }
     // @ts-expect-error
     accounts.update(space.accountLocalID, "associatedAccountsLocalIDs", linkedAccountsIds);
     setAccountSelectorOpened(false);
@@ -423,7 +436,16 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
                   />
                 </Pressable>
               ))}
+              {/*setAccountFeature*/}
             </NativeList>
+            <ButtonCta
+              style={{
+                marginTop: 25
+              }}
+              primary={false}
+              value="Réinitialiser"
+              onPress={() => setAccountFeature(undefined, featureSelection)}
+            />
           </View>
         </PapillonBottomSheet>
 
