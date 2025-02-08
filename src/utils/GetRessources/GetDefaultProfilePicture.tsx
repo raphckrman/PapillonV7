@@ -1,8 +1,8 @@
 import downloadAsBase64 from "@/utils/external/download-as-base64";
-import { AccountService, PronoteAccount, SkolengoAccount, EcoleDirecteAccount } from "@/stores/account/types"; 
+import { AccountService, PronoteAccount, SkolengoAccount, EcoleDirecteAccount } from "@/stores/account/types";
 
 // Depending on your account type, download the default profile photo
-export async function getDefaultProfilePicture(
+export async function getDefaultProfilePicture (
   account: PronoteAccount | SkolengoAccount | EcoleDirecteAccount): Promise<string | undefined> {
   try {
     switch (account.service) {
@@ -19,9 +19,9 @@ export async function getDefaultProfilePicture(
       case AccountService.EcoleDirecte:
         return account.profilePictureURL
           ? await downloadAsBase64(account.profilePictureURL, {
-              Referer: ".ecoledirecte.com/",
-              Pragma: "no-cache",
-            })
+            Referer: ".ecoledirecte.com/",
+            Pragma: "no-cache",
+          })
           : undefined;
 
       default:

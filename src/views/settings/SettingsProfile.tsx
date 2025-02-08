@@ -56,7 +56,7 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
 
     // Call up the function to obtain the profile picture
     const img = await getDefaultProfilePicture(account);
-  
+
     // If the image is undefined, an alert is displayed with an error message
     if (!img) {
       if (Platform.OS === "ios") {
@@ -86,9 +86,9 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
         profilePictureB64: img,
       });
     }
-  
+
     setLoadingPic(false);
-  };  
+  };
 
   const updateProfilePic = async () => {
     setLoadingPic(true);
@@ -218,7 +218,7 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
               </NativeText>
             )}
           </NativeItem>
-          
+
           {profilePic && (
             <NativeItem
               chevron={false}
