@@ -96,12 +96,12 @@ export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
     if (account.service === AccountService.PapillonMultiService) {
       log("switching to virtual space, skipping main account reload and reloading associated accounts...", "[switchTo]");
     } else if (typeof account.instance === "undefined") { // Account is currently not authenticated,
-      log("instance undefined, reloading...", "[switchTo]");
+      log("instance undefined, reloading...", "switchTo");
       // Automatically reconnect the main instance.
       const { instance, authentication } = await reload(account);
       get().mutateProperty("authentication", authentication);
       get().mutateProperty("instance", instance);
-      log("instance reload done !", "[switchTo]");
+      log("instance reload done !", "switchTo");
     }
 
     const linkedAccounts = account.linkedExternalLocalIDs.map((linkedID) => {
@@ -118,7 +118,7 @@ export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
       const { instance, authentication } = await reload(linkedAccount);
       linkedAccount.instance = instance;
       linkedAccount.authentication = authentication;
-      log("reloaded external", "[switchTo]");
+      log("reloaded external", "switchTo");
     }
 
     for (const associatedAccount of associatedAccounts) {
@@ -145,7 +145,7 @@ export const useCurrentAccount = create<CurrentAccountStore>()((set, get) => ({
     log("reloaded all external and associated accounts", "[switchTo]");
 
     set({ linkedAccounts, associatedAccounts });
-    log(`done reading ${account.name} and rehydrating stores.`, "[switchTo]");
+    log(`done reading ${account.name} and rehydrating stores.`, "switchTo");
   },
 
   linkExistingExternalAccount: (account) => {
