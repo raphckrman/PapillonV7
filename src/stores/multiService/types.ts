@@ -29,6 +29,6 @@ export interface MultiServiceStore {
   remove: (localID: string) => void
   update: <A extends MultiServiceSpace, T extends keyof A = keyof A>(localID: string, key: T, value: A[T]) => void
   toggleEnabledState: () => void
-  setFeatureAccount: (spaceLocalID: string, feature: MultiServiceFeature, account: PrimaryAccount) => void
+  setFeatureAccount: (spaceLocalID: string, feature: MultiServiceFeature, account: PrimaryAccount | undefined) => void
   getFeatureAccountId: (feature: MultiServiceFeature, spaceLocalID: string) => string | undefined
 }

@@ -79,7 +79,7 @@ export const useMultiService = create<MultiServiceStore>()(
         if (!space) return;
 
         let mutatedFeatureServices = space.featuresServices;
-        mutatedFeatureServices[feature] = account.localID;
+        mutatedFeatureServices[feature] = account?.localID;
 
         const spaceMutated: MultiServiceSpace = {
           ...space,
