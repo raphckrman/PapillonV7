@@ -44,7 +44,7 @@ export default (): ExpoConfig => ({
     },
   },
   android: {
-    versionCode: parseInt(PackageJSON.version.replaceAll(".", "")),
+    versionCode: parseInt(PackageJSON.version.replaceAll(".", "") + "0"),
     playStoreUrl:
       "https://play.google.com/store/apps/details?id=xyz.getpapillon.app",
     adaptiveIcon: {
@@ -77,6 +77,7 @@ export default (): ExpoConfig => ({
     ],
   },
   plugins: [
+    "./plugins/notifee-mod.js",
     [
       "expo-font",
       {
@@ -123,5 +124,22 @@ export default (): ExpoConfig => ({
           "Papillon utilise tes photos et vidéos pour personnaliser ton profil, ta gestion des cours et bien plus.",
       },
     ],
+    [
+      "react-native-share",
+      {
+        ios: [
+          "fb",
+          "instagram",
+          "twitter",
+          "tiktoksharesdk",
+        ],
+        android: [
+          "com.facebook.katana",
+          "com.instagram.android",
+          "com.twitter.android",
+          "com.zhiliaoapp.musically",
+        ]
+      }
+    ]
   ],
 });
