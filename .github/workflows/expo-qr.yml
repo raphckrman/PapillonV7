@@ -17,11 +17,11 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Export Expo Bundle
         run: |
-          npx expo export --public-url https://kgeek33.github.io/Papillon-Bundles/pr-${{ github.event.pull_request.number }}
+          npx expo export --output-dir dist
       
       - name: Clone Papillon-Bundles repo
         env:
@@ -44,11 +44,11 @@ jobs:
       - name: Generate QR Code
         run: |
           sudo apt-get install -y qrencode
-          BUNDLE_URL="https://kgeek33.github.io/Papillon-Bundles/pr-${{ github.event.pull_request.number }}"
+          BUNDLE_URL="https://kgeek33.github.io/Papillon-Bundles/pr-${{ github.event.pull_request.number }}/index.json"
           qrencode -o qr.png "$BUNDLE_URL"
 
       - name: Upload QR Code
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: qr-code
           path: qr.png
