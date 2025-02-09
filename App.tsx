@@ -1,5 +1,4 @@
 import "@/background/BackgroundTasks";
-import notifee, { Notification } from "@notifee/react-native";
 import Router from "@/router";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -47,6 +46,8 @@ export default function App () {
   };
 
   const checkInitialNotification = async () => {
+    const notifee = (await import("@notifee/react-native")).default;
+
     const initialNotification = await notifee.getInitialNotification();
     if (initialNotification) {
       await handleNotificationPress(initialNotification.notification);
@@ -54,7 +55,7 @@ export default function App () {
   };
 
   useEffect(() => {
-    checkInitialNotification();
+    if (!isExpoGo()) checkInitialNotification();
   }, []);
 
   const [appState, setAppState] = useState<AppStateStatus>(AppState.currentState);
@@ -118,8 +119,12 @@ export default function App () {
 
       if (nextAppState === "active") {
         log("🔄 App is active", "AppState");
-        await notifee.setBadgeCount(0);
-        await notifee.cancelAllNotifications();
+        if (!isExpoGo()) {
+          const notifee = (await import("@notifee/react-native")).default;
+
+          await notifee.setBadgeCount(0);
+          await notifee.cancelAllNotifications();
+        }
 
         await handleBackgroundState();
         backgroundStartTime.current = null;

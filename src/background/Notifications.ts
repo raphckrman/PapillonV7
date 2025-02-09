@@ -1,14 +1,11 @@
 import { alertExpoGo, isExpoGo } from "@/utils/native/expoGoAlert";
-import notifee, {
-  AndroidColor,
-  AndroidImportance,
-  AuthorizationStatus,
-  Notification,
-} from "@notifee/react-native";
 import { Platform } from "react-native";
 
 const requestNotificationPermission = async () => {
   if (!isExpoGo()) {
+    const notifee = (await import("@notifee/react-native")).default;
+    const AuthorizationStatus = (await import("@notifee/react-native")).AuthorizationStatus;
+
     const settings = await notifee.requestPermission();
     if (Platform.OS === "ios") {
       if (settings.authorizationStatus >= AuthorizationStatus.AUTHORIZED) {
@@ -28,6 +25,9 @@ const requestNotificationPermission = async () => {
 };
 
 const createChannelNotification = async () => {
+  const notifee = (await import("@notifee/react-native")).default;
+  const AndroidImportance = (await import("@notifee/react-native")).AndroidImportance;
+
   await notifee.createChannel({
     id: "Test",
     name: "Test",
@@ -112,6 +112,9 @@ const papillonNotify = async (
     | "Attendance"
     | "Evaluation"
 ) => {
+  const notifee = (await import("@notifee/react-native")).default;
+  const AndroidColor = (await import("@notifee/react-native")).AndroidColor;
+
   // Add timestamp for Android
   const timestamp = new Date().getTime();
 

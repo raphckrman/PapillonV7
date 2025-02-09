@@ -1,4 +1,3 @@
-import notifee, { EventType } from "@notifee/react-native";
 import * as BackgroundFetch from "expo-background-fetch";
 import * as TaskManager from "expo-task-manager";
 import { BackgroundFetchResult } from "expo-background-fetch";
@@ -14,41 +13,50 @@ import { fetchAttendance } from "./data/Attendance";
 import { fetchEvaluation } from "./data/Evaluation";
 import { papillonNotify } from "./Notifications";
 
-// Gestion des badges quand app en arrière-plan
-notifee.onBackgroundEvent(async ({ type, detail }) => {
-  const { notification, pressAction } = detail;
+const notifeeEvent = async () => {
+  const notifee = (await import("@notifee/react-native")).default;
+  const EventType = (await import("@notifee/react-native")).EventType;
 
-  switch (type) {
-    case EventType.ACTION_PRESS:
-      console.log(`[Notifee] Action press: ${pressAction?.id}`);
+  // Gestion des badges quand app en arrière-plan
+  notifee.onBackgroundEvent(async ({ type, detail }) => {
+    const { notification, pressAction } = detail;
 
-    case EventType.DISMISSED:
-      let badgeCount = await notifee.getBadgeCount();
-      badgeCount--;
-      await notifee.setBadgeCount(badgeCount);
-      break;
-  }
-});
+    switch (type) {
+      case EventType.ACTION_PRESS:
+        console.log(`[Notifee] Action press: ${pressAction?.id}`);
 
-// Gestion des badges quand app en premier plan
-notifee.onForegroundEvent(async ({ type, detail }) => {
-  const { notification, pressAction } = detail;
+      case EventType.DISMISSED:
+        let badgeCount = await notifee.getBadgeCount();
+        badgeCount--;
+        await notifee.setBadgeCount(badgeCount);
+        break;
+    }
+  });
 
-  switch (type) {
-    case EventType.ACTION_PRESS:
-      console.log(`[Notifee] Action press: ${pressAction?.id}`);
+  // Gestion des badges quand app en premier plan
+  notifee.onForegroundEvent(async ({ type, detail }) => {
+    const { notification, pressAction } = detail;
 
-    case EventType.DISMISSED:
-      let badgeCount = await notifee.getBadgeCount();
-      badgeCount--;
-      await notifee.setBadgeCount(badgeCount);
-      break;
-  }
-});
+    switch (type) {
+      case EventType.ACTION_PRESS:
+        console.log(`[Notifee] Action press: ${pressAction?.id}`);
+
+      case EventType.DISMISSED:
+        let badgeCount = await notifee.getBadgeCount();
+        badgeCount--;
+        await notifee.setBadgeCount(badgeCount);
+        break;
+    }
+  });
+};
+
+if (!isExpoGo()) notifeeEvent();
 
 let isBackgroundFetchRunning = false;
 
 const backgroundFetch = async () => {
+  const notifee = (await import("@notifee/react-native")).default;
+
   if (isBackgroundFetchRunning) {
     warn("⚠️ Background fetch already running. Skipping...", "BackgroundEvent");
     return BackgroundFetchResult.NoData;
