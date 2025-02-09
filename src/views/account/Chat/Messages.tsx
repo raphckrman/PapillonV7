@@ -37,6 +37,7 @@ import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import { TabLocation } from "pawnote";
 import {hasFeatureAccountSetup} from "@/utils/multiservice";
 import {MultiServiceFeature} from "@/stores/multiService/types";
+import { OfflineWarning, useOnlineStatus } from "@/hooks/useOnlineStatus";
 
 // Voir la documentation de `react-navigation`.
 //
@@ -49,6 +50,7 @@ LogBox.ignoreLogs([
 
 const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
   const theme = useTheme();
+  const { isOnline } = useOnlineStatus();
 
   const { colors } = theme;
 
@@ -101,7 +103,7 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
   return (
     <>
       <PapillonHeader route={route} navigation={navigation}>
-        {supported && enabled && (
+        {isOnline && supported && enabled && (
           <TouchableOpacity
             style={{
               flex: 1,
@@ -161,7 +163,9 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
           }}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         >
-          {!chats ? (
+          {!isOnline ? (
+            <OfflineWarning cache={false} />
+          ) : !chats ? (
             <Reanimated.View
               entering={FadeIn.springify().mass(1).damping(20).stiffness(300)}
               exiting={

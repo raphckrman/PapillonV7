@@ -54,10 +54,12 @@ import { PressableScale } from "react-native-pressable-scale";
 import { ChevronLeft, ChevronRight} from "lucide-react-native";
 import DrawableImportRestaurant from "@/components/Drawables/DrawableImportRestaurant";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
+import { OfflineWarning, useOnlineStatus } from "@/hooks/useOnlineStatus";
 
 const Menu: Screen<"Menu"> = ({ route, navigation }) => {
   const theme = useTheme();
   const { colors } = theme;
+  const { isOnline } = useOnlineStatus();
 
   const account = useCurrentAccount((store) => store.account);
   const linkedAccounts = useCurrentAccount((store) => store.linkedAccounts);
@@ -317,7 +319,9 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
           />
         }
       >
-        {!isInitialised ? (
+        {!isOnline ? (
+          <OfflineWarning cache={false} />
+        ) : !isInitialised ? (
           <ActivityIndicator size="large" style={{ padding: 50 }} />
         ) : (
           <>

@@ -9,6 +9,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import { useTheme } from "@react-navigation/native";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
+import { useOnlineStatus } from "@/hooks/useOnlineStatus";
 
 interface ModernHeaderProps {
   children: React.ReactNode,
@@ -230,6 +231,7 @@ export const PapillonHeaderSelector: React.FC<{
   loading = false,
 }) => {
   const theme = useTheme();
+  const isOnline = useOnlineStatus();
 
   return (
     <Reanimated.View
@@ -255,7 +257,7 @@ export const PapillonHeaderSelector: React.FC<{
           >
             {children}
 
-            {loading &&
+            {isOnline && loading &&
               <PapillonSpinner
                 size={18}
                 color={theme.colors.text}
