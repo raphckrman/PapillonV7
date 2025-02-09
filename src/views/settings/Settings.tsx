@@ -29,14 +29,13 @@ import {
   Scroll,
   Settings as SettingsLucide,
   Sparkles,
-  SunMoon,
   Smile,
   SwatchBook,
-  Volume2,
   WandSparkles,
   X,
   Blocks,
-  HelpCircle
+  HelpCircle,
+  PersonStanding
 } from "lucide-react-native";
 
 import { NativeIcon, NativeItem, NativeList, NativeListHeader, NativeText } from "@/components/Global/NativeComponents";
@@ -158,24 +157,18 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
             }, 10);
           }
         },
-        {
-          icon: <Volume2 />,
-          color: "#800077",
-          label: "Son et vibrations",
-          onPress: () => navigation.navigate("SettingsSoundHaptics"),
-        },
-        {
-          icon: <SunMoon />,
-          color: "#1e316a",
-          label: "Mode d'affichage",
-          onPress: () => navigation.navigate("SettingsApparence"),
-        },
       ],
     },
     {
       icon: <Laptop />,
       label: "Avancé",
       tabs: [
+        {
+          icon: <PersonStanding />,
+          color: "#27CC58",
+          label: "Accessibilité",
+          onPress: () => navigation.navigate("SettingsAccessibility"),
+        },
         {
           icon: click ? (
             <PapillonSpinner

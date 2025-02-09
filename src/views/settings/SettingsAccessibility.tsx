@@ -2,19 +2,32 @@ import React from "react";
 import { ScrollView } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { useTheme } from "@react-navigation/native";
-import {Moon, Sun, SunMoon} from "lucide-react-native";
+import { Moon, Sun, SunMoon, Vibrate, Volume2 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { NativeList, NativeItem, NativeListHeader } from "@/components/Global/NativeComponents";
+import {
+  NativeList,
+  NativeItem,
+  NativeListHeader,
+  NativeIconGradient,
+} from "@/components/Global/NativeComponents";
 import { NativeText } from "@/components/Global/NativeComponents";
 import PapillonCheckbox from "@/components/Global/PapillonCheckbox";
-import ApparenceContainerCard from "@/components/Settings/ApparenceContainerCard";
 import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
+import { Switch } from "react-native-gesture-handler";
+import AccessibilityContainerCard from "@/components/Settings/AccesilityContainerCard";
 
-const SettingsApparence: Screen<"SettingsApparence"> = () => {
+const SettingsAccessibility: Screen<"SettingsAccessibility"> = () => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
 
-  const { whatTheme, setWhatTheme } = useThemeSoundHaptics();
+  const {
+    enableSon,
+    setEnableSon,
+    enableHaptics,
+    setEnableHaptics,
+    whatTheme,
+    setWhatTheme,
+  } = useThemeSoundHaptics();
 
   return (
     <ScrollView
@@ -24,11 +37,9 @@ const SettingsApparence: Screen<"SettingsApparence"> = () => {
         paddingBottom: insets.bottom + 16,
       }}
     >
-      <ApparenceContainerCard />
+      <AccessibilityContainerCard />
 
-      <NativeListHeader
-        label="Mode d'affichage"
-      />
+      <NativeListHeader label="Mode d'affichage" />
 
       <NativeList>
         <NativeItem
@@ -80,8 +91,55 @@ const SettingsApparence: Screen<"SettingsApparence"> = () => {
           <NativeText variant="title">Mode sombre</NativeText>
         </NativeItem>
       </NativeList>
+
+      <NativeListHeader label="Son" />
+      <NativeList>
+        <NativeItem
+          trailing={
+            <Switch
+              value={enableSon}
+              onValueChange={(value) => setEnableSon(value)}
+            />
+          }
+          leading={
+            <NativeIconGradient
+              icon={<Volume2 />}
+              colors={["#04ACDC", "#6FE3CD"]}
+            />
+          }
+        >
+          <NativeText variant="title">Jouer du son</NativeText>
+          <NativeText variant="subtitle">
+            Un son est joué lors de l'ouverture de différentes pages
+          </NativeText>
+        </NativeItem>
+      </NativeList>
+
+      <NativeListHeader label="Vibration" />
+      <NativeList>
+        <NativeItem
+          trailing={
+            <Switch
+              value={enableHaptics}
+              onValueChange={(value) => setEnableHaptics(value)}
+            />
+          }
+          leading={
+            <NativeIconGradient
+              icon={<Vibrate />}
+              colors={["#FFD700", "#FF8C00"]}
+            />
+          }
+        >
+          <NativeText variant="title">Jouer des vibrations</NativeText>
+          <NativeText variant="subtitle">
+            Des vibrations ont lieu lors de la navigation, lorsqu'on coche des
+            devoirs...
+          </NativeText>
+        </NativeItem>
+      </NativeList>
     </ScrollView>
   );
 };
 
-export default SettingsApparence;
+export default SettingsAccessibility;

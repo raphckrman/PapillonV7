@@ -3,7 +3,7 @@ import React from "react";
 import { View } from "react-native";
 import { NativeItem, NativeList, NativeText } from "../Global/NativeComponents";
 
-const ApparenceContainerCard = () => {
+const AccessibilityContainerCard = () => {
   return (
     <NativeList>
       <View
@@ -16,16 +16,16 @@ const ApparenceContainerCard = () => {
           flexDirection: "row",
         }}
       >
-        <NativeText style={{ fontSize: 75, lineHeight: 125 }}>🔊</NativeText>
+        <NativeText style={{ fontSize: 75, lineHeight: 125 }}>🖌️</NativeText>
       </View>
       <NativeItem>
-        <NativeText variant="title">Son et vibrations</NativeText>
+        <NativeText variant="title">Personnalise à ta manière</NativeText>
         <NativeText variant="subtitle">
-          Par défaut, Papillon joue des sons et des vibrations mais cela peut être changé.
+          Adapte l'affichage et la navigation entre les pages
         </NativeText>
       </NativeItem>
     </NativeList>
   );
 };
 
-export default ApparenceContainerCard;
+export default AccessibilityContainerCard;
