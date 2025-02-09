@@ -13,8 +13,13 @@ import Reanimated, {
 } from "react-native-reanimated";
 import { WifiOff } from "lucide-react-native";
 import { animPapillon } from "@/utils/ui/animations";
+import { useCurrentAccount } from "@/stores/account";
 
 const useOnlineStatus = () => {
+  const account = useCurrentAccount((store) => store.account!);
+  const switchTo = useCurrentAccount((store) => store.switchTo);
+
+  const [isAlreadyOffline, setIsAlreadyOffline] = useState(false);
   const [isOnline, setIsOnline] = useState(true);
   const errorTitle = useMemo(() => getErrorTitle(), []);
 
@@ -25,6 +30,17 @@ const useOnlineStatus = () => {
 
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    const reloadAccount = async () => await switchTo(account);
+
+    if (isOnline && isAlreadyOffline) {
+      reloadAccount();
+      setIsAlreadyOffline(false);
+    } else if (!isOnline) {
+      setIsAlreadyOffline(true);
+    }
+  }, [isOnline]);
 
   return { isOnline, errorTitle };
 };
