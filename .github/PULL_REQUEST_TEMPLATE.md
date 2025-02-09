@@ -6,17 +6,14 @@ Tu te poses des questions sur les pull requests (PR) ? Une documentation a spéc
 
 ## Avant toute chose...
 
-Pour nous aider à tester ta PR, merci de cocher une des cases suivantes (_en rajoutant un `x` dans les crochets_) :
+Tu t'assures avoir respecté les points suivants (_en rajoutant un `x` dans les crochets_) :
 
-Type de pull request :
+- [ ] 📲 J'ai testé l'application via Expo Go et/ou Build et **elle fonctionne correctement**
+- [ ] 🗣️ J'utilise le **langage informel** (tutoiement)
+- [ ] 📃 Cette PR [**n'est pas un duplicata**](https://github.com/PapillonApp/Papillon/pulls) et **est prête à être review et merge**
+- [ ] ❌ Je n'ai pas fait **d'erreurs TypeScript et ESLint** dans le code
+- [ ] 📝 J'ai fait **une description des changement effectués** ci-dessous
 
-- [ ] **Breaking change** (_des modifications avec un impact sur les fonctionnalités actuelles_)
-  - [ ] J'ai fait une build de Papillon pour m'assurer que je n'ai rien cassé
-- [ ] **Feat** (_ajoute une amélioration/nouveauté_)
-  - [ ] Je m'assure que j'utilise le langage informel (tutoiement)
-- [ ] **Fix** (_permet de corriger un bug_)
-- [ ] **Chore** (_des modifications en dehors du dossier `src`_)
-- [ ] **Styles** (_change/ajoute du style_)
 
 ## Résumé des changements effectués
 
