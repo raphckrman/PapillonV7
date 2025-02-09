@@ -193,16 +193,38 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
                     checked={message.acknowledged}
                     onPress={async () => {
                       if (!message.acknowledged && account.instance) {
-                        await newsInformationAcknowledge(
-                          account.instance,
-                          message.ref
-                        );
+                        if (isOnline) {
+                          await newsInformationAcknowledge(
+                            account.instance,
+                            message.ref
+                          );
 
-                        setMessage((prev) => ({
-                          ...prev,
-                          read: true,
-                          acknowledged: true,
-                        }));
+                          setMessage((prev) => ({
+                            ...prev,
+                            read: true,
+                            acknowledged: true,
+                          }));
+                        } else {
+                          if (Platform.OS === "ios") {
+                            Alert.alert("Information", "Tu es hors ligne. Vérifie ta connexion Internet et réessaye", [
+                              {
+                                text: "OK",
+                              },
+                            ]);
+                          } else {
+                            showAlert({
+                              title: "Information",
+                              message: "Tu es hors ligne. Vérifie ta connexion Internet et réessaye",
+                              actions: [
+                                {
+                                  title: "OK",
+                                  onPress: () => {},
+                                  backgroundColor: theme.colors.card,
+                                },
+                              ],
+                            });
+                          }
+                        }
                       }
                     }}
                     color={theme.colors.primary}
