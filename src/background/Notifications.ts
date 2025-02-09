@@ -1,4 +1,5 @@
 import { alertExpoGo, isExpoGo } from "@/utils/native/expoGoAlert";
+import { Notification } from "@notifee/react-native";
 import { Platform } from "react-native";
 
 const requestNotificationPermission = async () => {

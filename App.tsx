@@ -1,4 +1,5 @@
 import "@/background/BackgroundTasks";
+import { Notification } from "@notifee/react-native";
 import Router from "@/router";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
