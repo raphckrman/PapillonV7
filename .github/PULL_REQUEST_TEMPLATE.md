@@ -30,7 +30,7 @@ _Le(s) capture(s) d'écran_
 
 > [!NOTE]
 >
-> Cette section permet de "linker" des issues à ta PR. Cela signifie qu'une fois ta PR mergée, les issues listées ci-dessous seront automatiquement fermées
+> Cette section te permet de référencer des issues en lien avec ta PR. Pour que les issues soient fermées automatiquement au merge, utilise les "[closing keywords](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/using-keywords-in-issues-and-pull-requests)" de Github (exemples ci-dessous).
 
 - Closed #(_le numéro de l'issue_)
 
