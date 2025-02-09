@@ -58,7 +58,7 @@ const backgroundFetch = async () => {
   const notifee = (await import("@notifee/react-native")).default;
 
   if (isBackgroundFetchRunning) {
-    warn("⚠️ Background fetch already running. Skipping...", "BackgroundEvent");
+    warn("⚠️ Background fetch already running. Skipping...", "BACKGROUND");
     return BackgroundFetchResult.NoData;
   }
 
@@ -86,25 +86,25 @@ const backgroundFetch = async () => {
         account.personalization.notifications;
 
       if (notificationsTypesPermissions?.enabled) {
-        info("▶️ Running background News", "BackgroundEvent");
+        info("▶️ Running background News", "BACKGROUND");
         await fetchNews();
-        info("▶️ Running background Homeworks", "BackgroundEvent");
+        info("▶️ Running background Homeworks", "BACKGROUND");
         await fetchHomeworks();
-        info("▶️ Running background Grades", "BackgroundEvent");
+        info("▶️ Running background Grades", "BACKGROUND");
         await fetchGrade();
-        info("▶️ Running background Lessons", "BackgroundEvent");
+        info("▶️ Running background Lessons", "BACKGROUND");
         await fetchLessons();
-        info("▶️ Running background Attendance", "BackgroundEvent");
+        info("▶️ Running background Attendance", "BACKGROUND");
         await fetchAttendance();
-        info("▶️ Running background Evaluation", "BackgroundEvent");
+        info("▶️ Running background Evaluation", "BACKGROUND");
         await fetchEvaluation();
       }
     }
 
-    log("✅ Finish background fetch", "BackgroundEvent");
+    log("✅ Finish background fetch", "BACKGROUND");
     return BackgroundFetchResult.NewData;
   } catch (ERRfatal) {
-    error(`❌ Task failed: ${ERRfatal}`, "BackgroundEvent");
+    error(`❌ Task failed: ${ERRfatal}`, "BACKGROUND");
     return BackgroundFetchResult.Failed;
   } finally {
     isBackgroundFetchRunning = false;
@@ -132,24 +132,24 @@ const registerBackgroundTasks = async () => {
   if (isRegistered) {
     warn(
       "⚠️ Background task already registered. Unregister background task...",
-      "BackgroundEvent"
+      "BACKGROUND"
     );
     await unsetBackgroundFetch()
-      .then(() => log("✅ Background task unregistered", "BackgroundEvent"))
+      .then(() => log("✅ Background task unregistered", "BACKGROUND"))
       .catch((ERRfatal) =>
         error(
           `❌ Failed to unregister background task: ${ERRfatal}`,
-          "BackgroundEvent"
+          "BACKGROUND"
         )
       );
   }
 
   await setBackgroundFetch()
-    .then(() => log("✅ Background task registered", "BackgroundEvent"))
+    .then(() => log("✅ Background task registered", "BACKGROUND"))
     .catch((ERRfatal) =>
       error(
         `❌ Failed to register background task: ${ERRfatal}`,
-        "BackgroundEvent"
+        "BACKGROUND"
       )
     );
 };

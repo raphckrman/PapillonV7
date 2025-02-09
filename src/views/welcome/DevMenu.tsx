@@ -32,7 +32,7 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
           setIsBackgroundActive(isRegistered);
         }, 500);
       } catch (err) {
-        error(`❌ Failed to register background task: ${err}`, "BackgroundEvent");
+        error(`❌ Failed to register background task: ${err}`, "BACKGROUND");
         setIsBackgroundActive(false);
       }
     };
