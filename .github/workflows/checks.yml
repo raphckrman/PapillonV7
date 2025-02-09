@@ -24,21 +24,11 @@ jobs:
       - name: 💾 Install dependencies
         run: npm ci
 
-      - name: 🔍 Run TypeScript and ESLint checks
+      - name: 🛠️ Commit and Push Fixes ESLint (Main)
         run: |
-          tsc > tsc.log 2>&1 || true
-          eslint . > eslint.log 2>&1 || true
-          cat tsc.log eslint.log > lint.log
-        continue-on-error: true
-
-      - name: 📄 Output Logs
-        run: cat lint.log
-
-      - name: 🛠️ Commit and Push Fixes (Main)
-        if: success() || failure()
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions@github.com"
+          npx eslint . --fix
           if git diff --quiet; then
             echo "No changes to commit."
           else
@@ -46,10 +36,9 @@ jobs:
             git commit -m "🔧 Auto-fix ESLint issues"
             git push
           fi
-      
-      - name: 🧹 Clean up
-        if: always()
-        run: rm -f lint.log tsc.log eslint.log
+
+      - name: 🔍 Run TypeScript and ESLint checks
+        run: npm run lint
 
   lint-development:
     name: 🛠️ TypeScript and ESLint on Pull Request
@@ -62,12 +51,11 @@ jobs:
       - name: ⚙️ Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: 'npm'
 
       - name: 💾 Install dependencies
         run: npm ci
 
       - name: 🔍 Run TypeScript and ESLint checks
-        run: |
-          npm run lint
+        run: npm run lint
