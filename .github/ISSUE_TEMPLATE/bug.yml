@@ -6,7 +6,7 @@ body:
   - type: textarea
     attributes:
       label: Description du bug
-      description: Plus il y a de détail, plus nous pourrons vite trouver le bug !
+      description: Plus il y a de détails, plus vite nous pourrons trouver le bug !
       placeholder: La connexion à mon établissement ne fonctionne pas, j'ai un chargement infini lors de la connexion
     validations:
       required: true
