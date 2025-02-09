@@ -19,6 +19,7 @@ import { NativeText } from "@/components/Global/NativeComponents";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import type { Screen } from "@/router/helpers/types";
 import {Account} from "@/stores/account/types";
+import { OfflineWarning, useOnlineStatus } from "@/hooks/useOnlineStatus";
 
 const LOCALES = {
   en: {
@@ -215,6 +216,7 @@ const displayModes = ["Semaine", "3 jours", "Journée"];
 const Week: Screen<"Week"> = ({ route, navigation }) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
+  const { isOnline } = useOnlineStatus();
 
   const outsideNav = route.params?.outsideNav;
 
@@ -295,6 +297,12 @@ const Week: Screen<"Week"> = ({ route, navigation }) => {
             height: insets.top,
           }}
         />
+      )}
+
+      {!isOnline && (
+        <View style={{ padding: 16 }}>
+          <OfflineWarning cache={true} />
+        </View>
       )}
 
       {account?.providers?.includes("ical") && Object.values(timetables).flat().length === 0 && (
