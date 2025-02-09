@@ -112,23 +112,17 @@ const backgroundFetch = async () => {
   }
 };
 
-if (!isExpoGo()) {
-  TaskManager.defineTask("background-fetch", backgroundFetch);
-}
+if (!isExpoGo()) TaskManager.defineTask("background-fetch", backgroundFetch);
 
-const unsetBackgroundFetch = async () => {
+const unsetBackgroundFetch = async () =>
   await BackgroundFetch.unregisterTaskAsync("background-fetch");
-  log("✅ Background task unregistered", "BackgroundEvent");
-};
 
-const setBackgroundFetch = async () => {
+const setBackgroundFetch = async () =>
   await BackgroundFetch.registerTaskAsync("background-fetch", {
     minimumInterval: 60 * 15,
     stopOnTerminate: false,
     startOnBoot: true,
   });
-  log("✅ Background task registered", "BackgroundEvent");
-};
 
 const registerBackgroundTasks = async () => {
   const isRegistered = await TaskManager.isTaskRegisteredAsync(
@@ -140,20 +134,24 @@ const registerBackgroundTasks = async () => {
       "⚠️ Background task already registered. Unregister background task...",
       "BackgroundEvent"
     );
-    await unsetBackgroundFetch().catch((ERRfatal) => {
-      error(
-        `❌ Failed to unregister background task: ${ERRfatal}`,
-        "BackgroundEvent"
+    await unsetBackgroundFetch()
+      .then(() => log("✅ Background task unregistered", "BackgroundEvent"))
+      .catch((ERRfatal) =>
+        error(
+          `❌ Failed to unregister background task: ${ERRfatal}`,
+          "BackgroundEvent"
+        )
       );
-    });
   }
 
-  await setBackgroundFetch().catch((ERRfatal) => {
-    error(
-      `❌ Failed to register background task: ${ERRfatal}`,
-      "BackgroundEvent"
+  await setBackgroundFetch()
+    .then(() => log("✅ Background task registered", "BackgroundEvent"))
+    .catch((ERRfatal) =>
+      error(
+        `❌ Failed to register background task: ${ERRfatal}`,
+        "BackgroundEvent"
+      )
     );
-  });
 };
 
 export { registerBackgroundTasks, unsetBackgroundFetch };
