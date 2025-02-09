@@ -6,7 +6,7 @@ body:
   - type: textarea
     attributes:
       label: Description de la fonctionnalité
-      description: Fait place à ta créativité en détaillant ce que tu veux
+      description: Fais place à ta créativité en détaillant ce que tu veux
       placeholder: Ça serait cool une intégration d'un simulateur permettant de savoir si on aura le bac/brevet 
     validations:
       required: true
