@@ -12,7 +12,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
 import * as TaskManager from "expo-task-manager";
-import { error } from "@/utils/logger/logger";
+import { error, log } from "@/utils/logger/logger";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import { registerBackgroundTasks, unsetBackgroundFetch } from "@/background/BackgroundTasks";
 import { isExpoGo } from "@/utils/native/expoGoAlert";
@@ -236,10 +236,24 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
                       setLoading(true);
                       setIsBackgroundActive(null);
                       if (isBackgroundActive) {
-                        await unsetBackgroundFetch();
+                        await unsetBackgroundFetch()
+                          .then(() => log("✅ Background task unregistered", "BACKGROUND"))
+                          .catch((ERRfatal) =>
+                            error(
+                              `❌ Failed to unregister background task: ${ERRfatal}`,
+                              "BACKGROUND"
+                            )
+                          );;
                       }
 
-                      await registerBackgroundTasks();
+                      await registerBackgroundTasks()
+                        .then(() => log("✅ Background task registered", "BACKGROUND"))
+                        .catch((ERRfatal) =>
+                          error(
+                            `❌ Failed to register background task: ${ERRfatal}`,
+                            "BACKGROUND"
+                          )
+                        );
                       setTimeout(() => {
                         setLoading(false);
                       }, 500);
