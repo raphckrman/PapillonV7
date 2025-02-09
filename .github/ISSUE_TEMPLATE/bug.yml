@@ -1,12 +1,12 @@
 name: 🐛 Signaler un bug
-description: Signaler des bugs nous permet à améliorer Papillon !
+description: Signaler des bugs nous permet d'améliorer Papillon !
 title: "[Bug]: "
 
 body:
   - type: textarea
     attributes:
       label: Description du bug
-      description: Plus de détails nous permettent de trouver plus vite le bug !
+      description: Plus il y a de détail, plus nous pourrons vite trouver le bug !
       placeholder: La connexion à mon établissement ne fonctionne pas, j'ai un chargement infini lors de la connexion
     validations:
       required: true
@@ -25,7 +25,7 @@ body:
   - type: textarea
     attributes:
       label: Comportement attendu
-      description: Ce que Papillon doit faire
+      description: Ce que Papillon devrait faire
       placeholder: Que la connexion à mon établissement fonctionne et qu'il n'y ait pas de chargement infini
     validations:
       required: true
@@ -84,7 +84,7 @@ body:
   - type: textarea
     attributes:
       label: "Capture(s) d'écran / vidéo"
-      description: Cela permettra que le bug soit trouvé et résolu encore plus vite
+      description: Cela permettra une résolution encore plus rapide du bug
       placeholder: Il faut cliquer sur l'icône 📎 pour pouvoir importer une/des photo(s)/vidéo(s)
     validations:
       required: false
