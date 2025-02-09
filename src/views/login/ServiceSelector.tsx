@@ -215,7 +215,7 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
                 if (Platform.OS === "ios") {
                   Alert.alert(
                     "Information",
-                    "Pour poursuivre la connexion, tu dois être connecté à Internet. Vérifie ta connexion Internet et réessaye",
+                    "Pour poursuivre la connexion, tu dois être connecté à Internet. Vérifie ta connexion Internet et réessaie",
                     [
                       {
                         text: "OK",
@@ -226,7 +226,7 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
                   showAlert({
                     title: "Information",
                     message:
-                        "Pour poursuivre la connexion, tu dois être connecté à Internet. Vérifie ta connexion Internet et réessaye",
+                        "Pour poursuivre la connexion, tu dois être connecté à Internet. Vérifie ta connexion Internet et réessaie",
                     actions: [
                       {
                         title: "OK",

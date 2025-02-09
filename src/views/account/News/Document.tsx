@@ -117,7 +117,7 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
                       }));
                     } else {
                       if (Platform.OS === "ios") {
-                        Alert.alert("Information", "Tu es hors ligne. Vérifie ta connexion Internet et réessaye", [
+                        Alert.alert("Information", "Tu es hors ligne. Vérifie ta connexion Internet et réessaie", [
                           {
                             text: "OK",
                           },
@@ -125,7 +125,7 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
                       } else {
                         showAlert({
                           title: "Information",
-                          message: "Tu es hors ligne. Vérifie ta connexion Internet et réessaye",
+                          message: "Tu es hors ligne. Vérifie ta connexion Internet et réessaie",
                           actions: [
                             {
                               title: "OK",
@@ -206,7 +206,7 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
                           }));
                         } else {
                           if (Platform.OS === "ios") {
-                            Alert.alert("Information", "Tu es hors ligne. Vérifie ta connexion Internet et réessaye", [
+                            Alert.alert("Information", "Tu es hors ligne. Vérifie ta connexion Internet et réessaie", [
                               {
                                 text: "OK",
                               },
@@ -214,7 +214,7 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
                           } else {
                             showAlert({
                               title: "Information",
-                              message: "Tu es hors ligne. Vérifie ta connexion Internet et réessaye",
+                              message: "Tu es hors ligne. Vérifie ta connexion Internet et réessaie",
                               actions: [
                                 {
                                   title: "OK",

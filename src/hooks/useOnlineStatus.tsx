@@ -66,7 +66,7 @@ const OfflineWarning = ({ cache = false }) => {
             Tu es hors ligne.{" "}
             {cache
               ? "Les données affichées peuvent être obsolètes."
-              : "Vérifie ta connexion Internet et réessaye"}
+              : "Vérifie ta connexion Internet et réessaie"}
           </NativeText>
         </NativeItem>
       </NativeList>

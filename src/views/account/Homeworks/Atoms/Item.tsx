@@ -74,7 +74,7 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
       onDonePressHandler();
     } else {
       if (Platform.OS === "ios") {
-        Alert.alert("Information", "Tu es hors ligne. Vérifie ta connexion Internet et réessaye", [
+        Alert.alert("Information", "Tu es hors ligne. Vérifie ta connexion Internet et réessaie", [
           {
             text: "OK",
           },
@@ -82,7 +82,7 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
       } else {
         showAlert({
           title: "Information",
-          message: "Tu es hors ligne. Vérifie ta connexion Internet et réessaye",
+          message: "Tu es hors ligne. Vérifie ta connexion Internet et réessaie",
           actions: [
             {
               title: "OK",
