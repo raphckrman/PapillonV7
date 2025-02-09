@@ -111,7 +111,9 @@ const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
       ]}
       contentInsetAdjustmentBehavior="automatic"
     >
-      {loading && (
+      {!isOnline ? (
+        <OfflineWarning cache={false} />
+      ) : loading ? (
         <NativeList
           inline
           animated
@@ -119,7 +121,13 @@ const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
           exiting={animPapillon(FadeOutUp)}
         >
           <NativeItem
-            leading={<PapillonSpinner color={theme.colors.primary} size={24} strokeWidth={3.5} />}
+            leading={
+              <PapillonSpinner
+                color={theme.colors.primary}
+                size={24}
+                strokeWidth={3.5}
+              />
+            }
           >
             <NativeText variant="title">
               Chargement des nouveautés...
@@ -129,20 +137,14 @@ const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
             </NativeText>
           </NativeItem>
         </NativeList>
-      )}
-
-      {!isOnline && <OfflineWarning cache={false} />}
-
-      {notFound && (
+      ) : notFound ? (
         <NativeList
           inline
           animated
           entering={animPapillon(FadeInUp)}
           exiting={animPapillon(FadeOutUp)}
         >
-          <NativeItem
-            icon={<AlertTriangle />}
-          >
+          <NativeItem icon={<AlertTriangle />}>
             <NativeText variant="title">
               Impossible de trouver les notes de mise à jour
             </NativeText>
@@ -152,116 +154,108 @@ const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
             </NativeText>
           </NativeItem>
         </NativeList>
-      )}
+      ) : (
+        changelog && (
+          <Reanimated.View
+            entering={animPapillon(FadeInUp)}
+            exiting={animPapillon(FadeOutUp)}
+            layout={animPapillon(LinearTransition)}
+          >
+            <PressableScale>
+              <NativeList animated inline>
+                <Image
+                  source={{ uri: changelog.illustration }}
+                  style={{
+                    width: "100%",
+                    aspectRatio: 2 / 1,
+                  }}
+                />
+                <NativeItem pointerEvents="none">
+                  <NativeText
+                    variant="default"
+                    style={{
+                      color: theme.colors.primary,
+                      fontFamily: "semibold",
+                    }}
+                  >
+                    Papillon - version {changelog.version}
+                  </NativeText>
+                  <NativeText variant="titleLarge">
+                    {changelog.title}
+                  </NativeText>
+                  <NativeText variant="subtitle">
+                    {changelog.subtitle}
+                  </NativeText>
+                </NativeItem>
+                <NativeItem pointerEvents="none">
+                  <NativeText variant="default">
+                    {changelog.description}
+                  </NativeText>
+                </NativeItem>
+              </NativeList>
+            </PressableScale>
 
-      {changelog && (
-        <Reanimated.View
-          entering={animPapillon(FadeInUp)}
-          exiting={animPapillon(FadeOutUp)}
-          layout={animPapillon(LinearTransition)}
-        >
-          <PressableScale>
-            <NativeList
-              animated inline
-            >
-              <Image
-                source={{uri: changelog.illustration}}
+            <Reanimated.View>
+              <NativeListHeader
+                animated
+                label="Nouveautés"
+                icon={<Sparkles />}
+              />
+
+              <Reanimated.ScrollView
+                horizontal
                 style={{
                   width: "100%",
-                  aspectRatio: 2 / 1
+                  overflow: "visible",
+                  marginTop: 9,
                 }}
-              />
-              <NativeItem pointerEvents="none">
-                <NativeText
-                  variant="default"
-                  style={{
-                    color: theme.colors.primary,
-                    fontFamily: "semibold"
-                  }}
-                >
-                  Papillon - version {changelog.version}
-                </NativeText>
-                <NativeText
-                  variant="titleLarge"
-                >
-                  {changelog.title}
-                </NativeText>
-                <NativeText variant="subtitle">
-                  {changelog.subtitle}
-                </NativeText>
-              </NativeItem>
-              <NativeItem pointerEvents="none">
-                <NativeText variant="default">
-                  {changelog.description}
-                </NativeText>
-              </NativeItem>
-            </NativeList>
-          </PressableScale>
+                contentContainerStyle={{
+                  gap: 10,
+                }}
+                showsHorizontalScrollIndicator={false}
+              >
+                {changelog.features.map((feature: Feature, index) => {
+                  return (
+                    <ChangelogFeature
+                      key={index}
+                      feature={feature}
+                      navigation={navigation}
+                      theme={theme}
+                    />
+                  );
+                })}
+              </Reanimated.ScrollView>
+            </Reanimated.View>
 
-          <Reanimated.View>
-            <NativeListHeader
-              animated
-              label="Nouveautés"
-              icon={<Sparkles />}
-            />
+            <Reanimated.View>
+              <NativeListHeader animated label="Correctifs" icon={<Bug />} />
 
-            <Reanimated.ScrollView
-              horizontal
-              style={{
-                width: "100%",
-                overflow: "visible",
-                marginTop: 9
-              }}
-              contentContainerStyle={{
-                gap: 10
-              }}
-              showsHorizontalScrollIndicator={false}
-            >
-              {changelog.features.map((feature: Feature, index) => {
-                return (
-                  <ChangelogFeature
-                    key={index}
-                    feature={feature}
-                    navigation={navigation}
-                    theme={theme}
-                  />
-                );
-              })}
-            </Reanimated.ScrollView>
+              <Reanimated.ScrollView
+                horizontal
+                style={{
+                  width: "100%",
+                  overflow: "visible",
+                  marginTop: 9,
+                }}
+                contentContainerStyle={{
+                  gap: 10,
+                }}
+                showsHorizontalScrollIndicator={false}
+              >
+                {changelog.bugfixes.map((feature: Feature, index) => {
+                  return (
+                    <ChangelogFeature
+                      key={index}
+                      feature={feature}
+                      navigation={navigation}
+                      theme={theme}
+                    />
+                  );
+                })}
+              </Reanimated.ScrollView>
+            </Reanimated.View>
           </Reanimated.View>
-
-          <Reanimated.View>
-            <NativeListHeader
-              animated
-              label="Correctifs"
-              icon={<Bug />}
-            />
-
-            <Reanimated.ScrollView
-              horizontal
-              style={{
-                width: "100%",
-                overflow: "visible",
-                marginTop: 9
-              }}
-              contentContainerStyle={{
-                gap: 10
-              }}
-              showsHorizontalScrollIndicator={false}
-            >
-              {changelog.bugfixes.map((feature: Feature, index) => {
-                return (
-                  <ChangelogFeature
-                    key={index}
-                    feature={feature}
-                    navigation={navigation}
-                    theme={theme}
-                  />
-                );
-              })}
-            </Reanimated.ScrollView>
-          </Reanimated.View>
-        </Reanimated.View>
+        )
       )}
 
       <InsetsBottomView />
