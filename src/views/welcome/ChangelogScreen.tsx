@@ -18,6 +18,7 @@ import { PressableScale } from "react-native-pressable-scale";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Screen} from "@/router/helpers/types";
+import { OfflineWarning, useOnlineStatus } from "@/hooks/useOnlineStatus";
 
 interface Feature {
   title: string;
@@ -44,6 +45,7 @@ const changelogURL = datasets.changelog.replace("[version]", currentVersion);
 const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
+  const  { isOnline } = useOnlineStatus();
 
   const [changelog, setChangelog] = useState<Version|null>(null);
   const [loading, setLoading] = useState(true);
@@ -129,6 +131,8 @@ const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
         </NativeList>
       )}
 
+      {!isOnline && <OfflineWarning cache={false} />}
+
       {notFound && (
         <NativeList
           inline
@@ -143,7 +147,8 @@ const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
               Impossible de trouver les notes de mise à jour
             </NativeText>
             <NativeText variant="subtitle">
-              Tu es peut-être hors-ligne ou alors une erreur est survenue...
+              Les nouveautés de la version n'ont pas du être renseignées ou
+              alors une erreur est survenue...
             </NativeText>
           </NativeItem>
         </NativeList>
