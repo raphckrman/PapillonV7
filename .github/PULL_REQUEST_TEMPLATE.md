@@ -2,7 +2,7 @@
 
 Merci de contribuer à l'amélioration de Papillon !
 
-Tu te poses des questions sur les pull requests (PR) ? Une documentation a spécialement été crée ici => https://gitbook.getpapillon.xyz/organisation/outils-internes/github
+Tu te poses des questions sur les pull requests (PR) ? Une documentation a spécialement été créée ici => https://gitbook.getpapillon.xyz/organisation/outils-internes/github
 
 ## Avant toute chose...
 
