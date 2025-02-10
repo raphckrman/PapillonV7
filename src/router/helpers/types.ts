@@ -15,6 +15,7 @@ import { Host } from "turboself-api";
 import {Evaluation} from "@/services/shared/Evaluation";
 import { ThemesMeta } from "@/utils/chat/themes/Themes.types";
 import { ServiceCard } from "@/views/account/Restaurant/Menu";
+import {MultiServiceSpace} from "@/stores/multiService/types";
 
 export type RouteParameters = {
   // welcome.index
@@ -129,6 +130,8 @@ export type RouteParameters = {
   SettingsSubjects: undefined;
   SettingsExternalServices: undefined;
   SettingsMagic: undefined;
+  SettingsMultiService: undefined;
+  SettingsMultiServiceSpace: { space: MultiServiceSpace };
   SettingsFlags: undefined;
   SettingsFlagsInfos: { title: string; value: any };
   SettingsAddons: undefined;

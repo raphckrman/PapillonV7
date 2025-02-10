@@ -31,6 +31,8 @@ export const defaultProfilePicture = (service: AccountService, accountProvider?:
       return require("../../../assets/images/service_ard.png");
     case AccountService.Alise:
       return require("../../../assets/images/service_alise.jpg");
+    case AccountService.PapillonMultiService:
+      return require("../../../assets/images/multiservice.png");
   }
 
   return require("../../../assets/images/service_unknown.png");
