@@ -87,7 +87,6 @@ const RestaurantCardDetail = ({ route, navigation }) => {
             activeScale={0.95}
           >
             <Reanimated.View
-              sharedTransitionTag={"card-menu-" + route.params.card.identifier}
               style={{
                 transform: [
                   { scale: 0.8 },

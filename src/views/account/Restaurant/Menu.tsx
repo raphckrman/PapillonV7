@@ -387,7 +387,6 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
               {allCards?.map((card, index) => (
                 <Reanimated.View
                   key={index}
-                  sharedTransitionTag={"card-menu-"+card.identifier}
                   style={{
                     width: Dimensions.get("window").width - 32,
                   }}
