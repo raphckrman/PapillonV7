@@ -17,10 +17,10 @@ import { QrCode } from "lucide-react-native";
 import { balanceFromExternal } from "@/services/balance";
 import { reservationHistoryFromExternal } from "@/services/reservation-history";
 
-const formatCardIdentifier = (identifier) => {
+const formatCardIdentifier = (identifier: string) => {
   const visiblePart = identifier.slice(-6);
   const maskedPart = identifier.slice(0, -6).replace(/./g, "•");
-  return maskedPart + " " + visiblePart.match(/.{1,4}/g).join(" ");
+  return maskedPart + " " + (visiblePart.match(/.{1,4}/g) ?? []).join(" ");
 };
 
 const RestaurantCardDetail = ({ route, navigation }) => {
