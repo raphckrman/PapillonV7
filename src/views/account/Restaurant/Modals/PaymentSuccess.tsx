@@ -2,6 +2,7 @@ import { NativeItem, NativeList, NativeText } from "@/components/Global/NativeCo
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
 import { Screen } from "@/router/helpers/types";
 import { reservationHistoryFromExternal } from "@/services/reservation-history";
+import { ExternalAccount } from "@/stores/account/types";
 import { anim2Papillon } from "@/utils/ui/animations";
 import { useTheme } from "@react-navigation/native";
 import { AlertCircle, Check } from "lucide-react-native";
@@ -17,7 +18,8 @@ const RestaurantPaymentSuccess: Screen<"RestaurantPaymentSuccess"> = ({ route, n
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    reservationHistoryFromExternal(card.account).then((history) => {
+    reservationHistoryFromExternal(card.account as ExternalAccount).then((history) => {
+      // @ts-expect-error
       setLastPayment(history[0]);
       setLoading(false);
     });
@@ -88,85 +90,87 @@ const RestaurantPaymentSuccess: Screen<"RestaurantPaymentSuccess"> = ({ route, n
                   textAlign: "center",
                 }}
               >
-                {new Date(lastPayment.timestamp).toLocaleString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "numeric" })}
+                {// @ts-expect-error
+                  new Date(lastPayment.timestamp).toLocaleString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "numeric" })}
               </Text>
             </View>
           </NativeList>
 
-          {diff == lastPayment.amount ? (
-            <NativeList
-              inline
-              animated
-              entering={anim2Papillon(FadeInDown).delay(50)}
-              exiting={anim2Papillon(FadeOutUp)}
-            >
-              <NativeItem
-                style={{
-                  backgroundColor: "#00943620",
-                }}
-                androidStyle={{
-                  backgroundColor: "#00943620",
-                }}
-                leading={
-                  <View
-                    style={{
-                      width: 28,
-                      height: 28,
-                      borderRadius: 20,
-                      backgroundColor: "#009436",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Check size={18} strokeWidth={3} color={"#fff"} />
-                  </View>
-                }
+          { // @ts-expect-error
+            diff == lastPayment.amount ? (
+              <NativeList
+                inline
+                animated
+                entering={anim2Papillon(FadeInDown).delay(50)}
+                exiting={anim2Papillon(FadeOutUp)}
               >
-                <NativeText variant="title">
-                  Transaction valide
-                </NativeText>
-                <NativeText variant="subtitle">
-                  Comparaison de solde effectuée et validée par Papillon
-                </NativeText>
-              </NativeItem>
-            </NativeList>
-          ) : (
-            <NativeList inline
-              animated
-              entering={anim2Papillon(FadeInDown).delay(50)}
-              exiting={anim2Papillon(FadeOutUp)}
-            >
-              <NativeItem
-                style={{
-                  backgroundColor: "#9e570020",
-                }}
-                androidStyle={{
-                  backgroundColor: "#9e570020",
-                }}
-                leading={
-                  <View
-                    style={{
-                      width: 28,
-                      height: 28,
-                      borderRadius: 20,
-                      backgroundColor: "#9e5700",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <AlertCircle size={20} strokeWidth={2.5} color={"#fff"} />
-                  </View>
-                }
+                <NativeItem
+                  style={{
+                    backgroundColor: "#00943620",
+                  }}
+                  androidStyle={{
+                    backgroundColor: "#00943620",
+                  }}
+                  leading={
+                    <View
+                      style={{
+                        width: 28,
+                        height: 28,
+                        borderRadius: 20,
+                        backgroundColor: "#009436",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Check size={18} strokeWidth={3} color={"#fff"} />
+                    </View>
+                  }
+                >
+                  <NativeText variant="title">
+                    Transaction valide
+                  </NativeText>
+                  <NativeText variant="subtitle">
+                    Comparaison de solde effectuée et validée par Papillon
+                  </NativeText>
+                </NativeItem>
+              </NativeList>
+            ) : (
+              <NativeList inline
+                animated
+                entering={anim2Papillon(FadeInDown).delay(50)}
+                exiting={anim2Papillon(FadeOutUp)}
               >
-                <NativeText variant="title">
-                  Impossible de vérifier la transaction
-                </NativeText>
-                <NativeText variant="subtitle">
-                  Le paiement et le solde de votre compte ne correspondent pas
-                </NativeText>
-              </NativeItem>
-            </NativeList>
-          )}
+                <NativeItem
+                  style={{
+                    backgroundColor: "#9e570020",
+                  }}
+                  androidStyle={{
+                    backgroundColor: "#9e570020",
+                  }}
+                  leading={
+                    <View
+                      style={{
+                        width: 28,
+                        height: 28,
+                        borderRadius: 20,
+                        backgroundColor: "#9e5700",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <AlertCircle size={20} strokeWidth={2.5} color={"#fff"} />
+                    </View>
+                  }
+                >
+                  <NativeText variant="title">
+                    Impossible de vérifier la transaction
+                  </NativeText>
+                  <NativeText variant="subtitle">
+                    Le paiement et le solde de votre compte ne correspondent pas
+                  </NativeText>
+                </NativeItem>
+              </NativeList>
+            )}
         </>
       )}
     </View>

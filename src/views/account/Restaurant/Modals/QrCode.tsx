@@ -10,6 +10,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import QRCode from "react-native-qrcode-svg";
 import * as Haptics from "expo-haptics";
 import { Screen } from "@/router/helpers/types";
+import { ExternalAccount } from "@/stores/account/types";
 
 
 const RestaurantQrCode: Screen<"RestaurantQrCode">  = ({ route, navigation }) => {
@@ -17,7 +18,7 @@ const RestaurantQrCode: Screen<"RestaurantQrCode">  = ({ route, navigation }) =>
   const [qrCode, setQrCode] = useState<string | null>(null);
 
   const PollingBalance = async () => {
-    balanceFromExternal(card.account).then((newBalance) => {
+    balanceFromExternal(card.account as ExternalAccount).then((newBalance) => {
       if(card.balance[0].amount !== newBalance[0].amount) {
         const diff = newBalance[0].amount - card.balance[0].amount;
         openFeedback();
@@ -51,7 +52,8 @@ const RestaurantQrCode: Screen<"RestaurantQrCode">  = ({ route, navigation }) =>
   const theme = useTheme();
 
   const GenerateQRCode = async () => {
-    qrcodeFromExternal(card.account).then((qrCode) => {
+    qrcodeFromExternal(card.account as ExternalAccount).then((qrCode) => {
+      // @ts-expect-error
       setQrCode(qrCode);
     });
   };

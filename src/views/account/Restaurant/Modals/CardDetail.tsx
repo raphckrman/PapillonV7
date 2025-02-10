@@ -47,6 +47,7 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
 
       setCardData({
         ...card,
+        // @ts-expect-error
         balance: balance,
         history: history,
       });
