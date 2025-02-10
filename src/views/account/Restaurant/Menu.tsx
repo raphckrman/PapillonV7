@@ -368,7 +368,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
 
             <View style={{height: 16}} />
 
-            {(allCards ?? [])?.length > O && (
+            {(allCards ?? [])?.length > 0 && (
               <ScrollView
                 style={{
                   width: (Dimensions.get("window").width - 32),

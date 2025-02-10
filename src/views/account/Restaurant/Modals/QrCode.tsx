@@ -9,9 +9,10 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { PressableScale } from "react-native-pressable-scale";
 import QRCode from "react-native-qrcode-svg";
 import * as Haptics from "expo-haptics";
+import { Screen } from "@/router/helpers/types";
 
 
-const RestaurantQrCode = ({ route, navigation }) => {
+const RestaurantQrCode: Screen<"RestaurantQrCode">  = ({ route, navigation }) => {
   const { card } = route.params;
   const [qrCode, setQrCode] = useState(null);
 

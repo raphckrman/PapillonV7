@@ -1,5 +1,6 @@
 import { NativeItem, NativeList, NativeText } from "@/components/Global/NativeComponents";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
+import { Screen } from "@/router/helpers/types";
 import { reservationHistoryFromExternal } from "@/services/reservation-history";
 import { anim2Papillon } from "@/utils/ui/animations";
 import { useTheme } from "@react-navigation/native";
@@ -8,7 +9,7 @@ import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { FadeInDown, FadeOutUp } from "react-native-reanimated";
 
-const RestaurantPaymentSuccess = ({ route, navigation }) => {
+const RestaurantPaymentSuccess: Screen<"RestaurantPaymentSuccess"> = ({ route, navigation }) => {
   const { card, diff } = route.params;
   const theme = useTheme();
 

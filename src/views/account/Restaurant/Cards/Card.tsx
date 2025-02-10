@@ -3,6 +3,7 @@ import { ServiceCard } from "../Menu";
 import { useTheme } from "@react-navigation/native";
 import { defaultProfilePicture } from "@/utils/ui/default-profile-picture";
 import { PressableScale } from "react-native-pressable-scale";
+import { AccountService } from "@/stores/account/types";
 
 const MenuCard = ({ card, onPress }: { card: ServiceCard, onPress?: () => void }) => {
   const theme = useTheme();
@@ -30,7 +31,7 @@ const MenuCard = ({ card, onPress }: { card: ServiceCard, onPress?: () => void }
           ]}
         >
           <Image
-            source={defaultProfilePicture(card.service)}
+            source={defaultProfilePicture(card.service as AccountService)}
             style={[styles.cardHeaderIcon]}
           />
           <Text

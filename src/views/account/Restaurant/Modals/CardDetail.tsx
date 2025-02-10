@@ -16,6 +16,7 @@ import { AccountService, ExternalAccount } from "@/stores/account/types";
 import { QrCode } from "lucide-react-native";
 import { balanceFromExternal } from "@/services/balance";
 import { reservationHistoryFromExternal } from "@/services/reservation-history";
+import { Screen } from "@/router/helpers/types";
 
 const formatCardIdentifier = (identifier: string) => {
   const visiblePart = identifier.slice(-6);
@@ -23,7 +24,7 @@ const formatCardIdentifier = (identifier: string) => {
   return maskedPart + " " + (visiblePart.match(/.{1,4}/g) ?? []).join(" ");
 };
 
-const RestaurantCardDetail = ({ route, navigation }) => {
+const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigation }) => {
   try {
     const { card } = route.params;
     const [cardData, setCardData] = useState(null);
@@ -214,7 +215,7 @@ const RestaurantCardDetail = ({ route, navigation }) => {
 
           {card?.history.length > 0 && (
             <NativeList inline>
-              {card.history.sort((a, b) => b.timestamp - a.timestamp).map((history, i) => (
+              {card.history.sort((a: any, b: any) => b.timestamp - a.timestamp).map((history, i) => (
                 <NativeItem
                   key={"cardhistory-"+i}
                   leading={
