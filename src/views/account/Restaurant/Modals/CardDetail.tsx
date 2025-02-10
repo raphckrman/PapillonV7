@@ -12,7 +12,7 @@ import { useTheme } from "@react-navigation/native";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import { PressableScale } from "react-native-pressable-scale";
 import { useCurrentAccount } from "@/stores/account";
-import { AccountService } from "@/stores/account/types";
+import { AccountService, ExternalAccount } from "@/stores/account/types";
 import { QrCode } from "lucide-react-native";
 import { balanceFromExternal } from "@/services/balance";
 import { reservationHistoryFromExternal } from "@/services/reservation-history";
@@ -34,11 +34,11 @@ const RestaurantCardDetail = ({ route, navigation }) => {
 
     const updateCardData = async () => {
       const [balance, history] = await Promise.all([
-        balanceFromExternal(route.params.card.account).catch(err => {
+        balanceFromExternal(route.params.card.account as ExternalAccount).catch(err => {
           console.warn(`Error fetching balance for account ${account}:`, err);
           return [];
         }),
-        reservationHistoryFromExternal(route.params.card.account).catch(err => {
+        reservationHistoryFromExternal(route.params.card.account as ExternalAccount).catch(err => {
           console.warn(`Error fetching history for account ${account}:`, err);
           return [];
         })
@@ -120,7 +120,7 @@ const RestaurantCardDetail = ({ route, navigation }) => {
                   color: theme.colors.text,
                 }}
               >
-                Carte {AccountService[route.params.card.service]} {account?.identity?.firstName ? "de " + account.identity.firstName : ""}
+                Carte {AccountService[route.params.card.service as AccountService]} {account?.identity?.firstName ? "de " + account.identity.firstName : ""}
               </Text>
             </View>
             <Text
@@ -165,7 +165,6 @@ const RestaurantCardDetail = ({ route, navigation }) => {
                     style={{
                       fontFamily: "semibold",
                       fontSize: 28,
-                      color: theme.colors.text,
                       textAlign: "center",
                       color: card.balance[0].amount > 0 ? "#00C853" : "#FF1744",
                     }}
@@ -220,7 +219,7 @@ const RestaurantCardDetail = ({ route, navigation }) => {
                   key={"cardhistory-"+i}
                   leading={
                     <Image
-                      source={defaultProfilePicture(card.service)}
+                      source={defaultProfilePicture(card.service as AccountService)}
                       style={{
                         width: 36,
                         height: 36,

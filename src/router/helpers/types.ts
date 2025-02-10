@@ -150,7 +150,7 @@ export type RouteParameters = {
   RestaurantCardDetail: {
     card: ServiceCard;
   };
-  RestaurantPaymentSuccess;: {
+  RestaurantPaymentSuccess: {
     card: ServiceCard;
   };
 

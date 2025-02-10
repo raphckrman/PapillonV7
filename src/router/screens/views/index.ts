@@ -43,11 +43,11 @@ export default [
   createScreen("RestaurantCardDetail", RestaurantCardDetail, {
     headerTitle: "Détail de la carte",
     presentation: "formSheet",
-    stackPresentation: "formSheet",
     headerShown: false,
     sheetCornerRadius: 16,
     sheetGrabberVisible: true,
     sheetExpandsWhenScrolledToEdge: true,
+    // @ts-expect-error
     sheetInitialDetent: 0,
     sheetAllowedDetents: "all",
   }),
