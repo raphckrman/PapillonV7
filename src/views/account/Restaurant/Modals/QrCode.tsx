@@ -14,7 +14,7 @@ import { Screen } from "@/router/helpers/types";
 
 const RestaurantQrCode: Screen<"RestaurantQrCode">  = ({ route, navigation }) => {
   const { card } = route.params;
-  const [qrCode, setQrCode] = useState(null);
+  const [qrCode, setQrCode] = useState<string | null>(null);
 
   const PollingBalance = async () => {
     balanceFromExternal(card.account).then((newBalance) => {

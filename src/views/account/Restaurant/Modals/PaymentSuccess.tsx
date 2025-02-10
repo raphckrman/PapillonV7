@@ -13,7 +13,7 @@ const RestaurantPaymentSuccess: Screen<"RestaurantPaymentSuccess"> = ({ route, n
   const { card, diff } = route.params;
   const theme = useTheme();
 
-  const [lastPayment, setLastPayment] = useState(null);
+  const [lastPayment, setLastPayment] = useState<PaymentItem | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

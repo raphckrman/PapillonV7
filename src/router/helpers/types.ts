@@ -142,7 +142,7 @@ export type RouteParameters = {
 
   Menu?: undefined;
   RestaurantQrCode: {
-    QrCodes: Array<string | Blob>;
+    card: ServiceCard;
   };
   RestaurantHistory: {
     histories: ReservationHistory[];
@@ -152,6 +152,7 @@ export type RouteParameters = {
   };
   RestaurantPaymentSuccess: {
     card: ServiceCard;
+    diff: number;
   };
 
   Discussions: undefined;
