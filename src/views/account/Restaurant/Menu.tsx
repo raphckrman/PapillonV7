@@ -368,39 +368,41 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
 
             <View style={{height: 16}} />
 
-            <ScrollView
-              style={{
-                width: (Dimensions.get("window").width - 32),
-                overflow: "visible",
-                maxHeight: (Dimensions.get("window").width - 32) / 1.72
-              }}
-              contentContainerStyle={{
-                overflow: "visible",
-                gap: 6,
-              }}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              scrollEnabled={allCards?.length > 1}
-              decelerationRate={"fast"}
-              snapToInterval={(Dimensions.get("window").width - 32) + 6}
-            >
-              {allCards?.map((card, index) => (
-                <Reanimated.View
-                  key={index}
-                  style={{
-                    width: Dimensions.get("window").width - 32,
-                  }}
-                >
-                  <MenuCard
+            {(allCards ?? [])?.length > O && (
+              <ScrollView
+                style={{
+                  width: (Dimensions.get("window").width - 32),
+                  overflow: "visible",
+                  maxHeight: (Dimensions.get("window").width - 32) / 1.72
+                }}
+                contentContainerStyle={{
+                  overflow: "visible",
+                  gap: 6,
+                }}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                scrollEnabled={(allCards ?? [])?.length > 1}
+                decelerationRate={"fast"}
+                snapToInterval={(Dimensions.get("window").width - 32) + 6}
+              >
+                {allCards?.map((card, index) => (
+                  <Reanimated.View
                     key={index}
-                    card={card}
-                    onPress={() => {
-                      navigation.navigate("RestaurantCardDetail", { card });
+                    style={{
+                      width: Dimensions.get("window").width - 32,
                     }}
-                  />
-                </Reanimated.View>
-              ))}
-            </ScrollView>
+                  >
+                    <MenuCard
+                      key={index}
+                      card={card}
+                      onPress={() => {
+                        navigation.navigate("RestaurantCardDetail", { card });
+                      }}
+                    />
+                  </Reanimated.View>
+                ))}
+              </ScrollView>
+            )}
 
             {(currentMenu || (allBookings && allBookings?.some((terminal) => terminal.days.some((day) => day.date?.toDateString() === pickerDate.toDateString())))) &&
               <View style={styles.calendarContainer}>
