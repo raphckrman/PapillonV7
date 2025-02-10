@@ -11,6 +11,16 @@ export interface StoreTheme {
 
 export const STORE_THEMES = [
   {
+    id: "unknown",
+    name: "Service de cantine",
+    colors: {
+      text: "#FFFFFF",
+      background: "#29947A",
+      accent: "#134438",
+    },
+    background: require("../../../../../assets/images/cards/Carte_Cover_Unknown.png"),
+  },
+  {
     id: "izly",
     name: "Izly by Crous",
     colors: {
