@@ -40,4 +40,15 @@ export const STORE_THEMES = [
     },
     background: require("../../../../../assets/images/cards/Carte_Cover_ARD.png"),
   },
+  {
+    id: "Alise",
+    name: "Alise",
+    colors: {
+      text: "#FFFFFF",
+      background: "#339DD7",
+      accent: "#AFDEF8",
+    },
+    background: require("../../../../../assets/images/cards/Carte_Cover_Alise.png"),
+  },
+
 ];
