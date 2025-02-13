@@ -71,7 +71,7 @@ const GradesScodocUE = ({ account, navigation, selectedPeriod }: { account: Prim
         />
 
         <NativeList animated layout={anim2Papillon(LinearTransition)}>
-          {finalUes.map((ue) => {
+          {finalUes.map((ue, i) => {
             interface ueGrade {
               key: string,
               type: "ressources" | "saes"
@@ -122,7 +122,7 @@ const GradesScodocUE = ({ account, navigation, selectedPeriod }: { account: Prim
             }
 
             return (
-              <View key={(ue.name ?? ue.moyenne.value) + "-ue"}>
+              <View key={(ue.name ?? ue.moyenne.value) + "-ue:" + i}>
                 <NativeItem
                   chevron={false}
                   style={{
@@ -218,6 +218,7 @@ const GradesScodocUE = ({ account, navigation, selectedPeriod }: { account: Prim
 
                 {opened && grades.map((gra,i) => (
                   <NativeItem
+                    key={gra.key + "-grade:" + i + "-ue:" + (ue.name ?? ue.moyenne.value)}
                     separator={i !== Object.keys(grades).length - 1}
                     leading={
                       <NativeText
