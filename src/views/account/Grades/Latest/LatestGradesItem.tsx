@@ -6,6 +6,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import type { Grade } from "@/services/shared/Grade";
 import { FadeInRight, FadeOutLeft } from "react-native-reanimated";
 import { anim2Papillon } from "@/utils/ui/animations";
+import { adjustColor } from "@/utils/ui/colors";
 
 type GradeLatestItemProps = {
   grade: Grade;
@@ -73,6 +74,7 @@ const GradesLatestItem: React.FC<GradeLatestItemProps> = ({
           <NativeText
             style={{
               flex: 1,
+              color: adjustColor(subjectData.color, -100),
             }}
             numberOfLines={1}
             variant="overtitle"

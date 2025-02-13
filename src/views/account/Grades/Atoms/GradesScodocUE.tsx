@@ -3,6 +3,7 @@ import { NativeItem, NativeList, NativeListHeader, NativeText } from "@/componen
 import { useAlert } from "@/providers/AlertProvider";
 import { PrimaryAccount } from "@/stores/account/types";
 import { anim2Papillon } from "@/utils/ui/animations";
+import { adjustColor } from "@/utils/ui/colors";
 
 import { defaultProfilePicture } from "@/utils/ui/default-profile-picture";
 import { useTheme } from "@react-navigation/native";
@@ -143,12 +144,17 @@ const GradesScodocUE = ({ account, navigation, selectedPeriod }: { account: Prim
                         alignItems: "center",
                         justifyContent: "center",
                         borderRadius: 8,
-                        borderColor: colors.text + "32",
+                        borderColor: adjustColor(ue.color, -100) + "32",
                         borderWidth: 1,
                       }}
                       onPress={navigateToSubject}
                     >
-                      <NativeText variant="subtitle">
+                      <NativeText
+                        variant="subtitle"
+                        style={{
+                          color: adjustColor(ue.color, -100),
+                        }}
+                      >
                         {ue.name}
                       </NativeText>
                     </TouchableOpacity>
@@ -217,6 +223,9 @@ const GradesScodocUE = ({ account, navigation, selectedPeriod }: { account: Prim
                     <NativeText
                       variant="body"
                       numberOfLines={2}
+                      style={{
+                        color: adjustColor(ue.color, -100)
+                      }}
                     >
                       {ue.titre}
                     </NativeText>
