@@ -14,6 +14,7 @@ import Reanimated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
+  Easing,
 } from "react-native-reanimated";
 import { NativeItem, NativeList, NativeText } from "../Global/NativeComponents";
 import { Settings, X } from "lucide-react-native";
@@ -56,7 +57,7 @@ const NotificationContainerCard = ({
   const animationref = React.useRef<LottieView>(null);
 
   useEffect(() => {
-    const timingConfig = { duration: 250 };
+    const timingConfig = { duration: 250, easing: Easing.bezier(0.3, 0.3, 0, 1) };
     opacity.value = withTiming(isEnable ? 1 : 0, timingConfig);
     invertedOpacity.value = withTiming(isEnable ? 0 : 1, { duration: 150 });
     borderRadius.value = withTiming(isEnable ? 20 : 13, timingConfig);

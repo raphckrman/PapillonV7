@@ -10,7 +10,7 @@ import {
   NotepadText,
   BookPlus
 } from "lucide-react-native";
-import { useSharedValue, withTiming } from "react-native-reanimated";
+import { FadeInDown, FadeOutUp, useSharedValue, withTiming } from "react-native-reanimated";
 import {
   NativeIcon,
   NativeItem,
@@ -23,6 +23,7 @@ import { createChannelNotification, requestNotificationPermission } from "@/back
 import { useCurrentAccount } from "@/stores/account";
 import { useAlert } from "@/providers/AlertProvider";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
+import { anim2Papillon } from "@/utils/ui/animations";
 
 const SettingsNotifications: Screen<"SettingsNotifications"> = ({
   navigation
@@ -142,12 +143,23 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
 
       {enabled && (
         <>
-          <NativeListHeader label="Notifications scolaires" />
-          <NativeList>
+          <NativeListHeader
+            label="Notifications scolaires"
+            animated
+            entering={anim2Papillon(FadeInDown).delay(50)}
+            exiting={anim2Papillon(FadeOutUp)}
+          />
+          <NativeList
+            animated
+            entering={anim2Papillon(FadeInDown)}
+            exiting={anim2Papillon(FadeOutUp).delay(50)}
+          >
             {notificationSchoolary.map((notification, index) => (
               <NativeItem
                 key={index}
                 leading={notification.icon}
+                animated
+                entering={anim2Papillon(FadeInDown).delay(70 * index)}
                 trailing={
                   <Switch
                     trackColor={{
