@@ -55,6 +55,9 @@ const GradesLatestItem: React.FC<GradeLatestItemProps> = ({
             gap: 8,
             paddingHorizontal: 14,
             paddingVertical: 10,
+            borderTopLeftRadius: 12,
+            borderTopRightRadius: 12,
+            borderCurve: "continuous",
             backgroundColor: subjectData.color + "11",
           }}
         >
