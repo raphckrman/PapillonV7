@@ -122,7 +122,7 @@ const GradesScodocUE = ({ account, navigation, selectedPeriod }: { account: Prim
             }
 
             return (
-              <View key={ue.name = "-ue"}>
+              <View key={(ue.name ?? ue.moyenne.value) + "-ue"}>
                 <NativeItem
                   chevron={false}
                   style={{
