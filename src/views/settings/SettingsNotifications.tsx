@@ -22,6 +22,7 @@ import NotificationContainerCard from "@/components/Settings/NotificationContain
 import { createChannelNotification, requestNotificationPermission } from "@/background/Notifications";
 import { useCurrentAccount } from "@/stores/account";
 import { useAlert } from "@/providers/AlertProvider";
+import InsetsBottomView from "@/components/Global/InsetsBottomView";
 
 const SettingsNotifications: Screen<"SettingsNotifications"> = ({
   navigation
@@ -87,7 +88,7 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
   const notificationSchoolary = [
     {
       icon: <NativeIcon icon={<CalendarCheck />} color={colors.primary} />,
-      title: "EdT modifié",
+      title: "Changement de cours",
       message: "Musique (10:00-11:00) : Prof. absent",
       personalizationValue: "timetable",
     },
@@ -187,6 +188,8 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
           </NativeList>
         </>
       )}
+
+      <InsetsBottomView />
     </ScrollView>
   );
 };

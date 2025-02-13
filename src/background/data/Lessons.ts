@@ -101,7 +101,7 @@ const fetchLessons = async (): Promise<Timetable> => {
         await papillonNotify(
           {
             id: `${account.name}-lessons`,
-            title: `[${account.name}] EdT modifié`,
+            title: `[${account.name}] Changement de cours`,
             subtitle: new Date(
               differencesTimestamp[0].startTimestamp
             ).toLocaleDateString("fr-FR", {
@@ -155,7 +155,7 @@ const fetchLessons = async (): Promise<Timetable> => {
         await papillonNotify(
           {
             id: `${account.name}-lessons`,
-            title: `[${account.name}] EdT modifié`,
+            title: `[${account.name}] Changement de cours`,
             subtitle: new Date(
               differencesStatus[0].startTimestamp
             ).toLocaleDateString("fr-FR", {
@@ -189,7 +189,7 @@ const fetchLessons = async (): Promise<Timetable> => {
       await papillonNotify(
         {
           id: `${account.name}-lessons`,
-          title: `[${account.name}] EdT modifié`,
+          title: `[${account.name}] Changement de cours`,
           subtitle: new Date(
             differencesStatus[0].startTimestamp
           ).toLocaleDateString("fr-FR", {

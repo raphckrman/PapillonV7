@@ -285,11 +285,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "95%",
-    marginBottom: 1,
+    marginBottom: -1,
   },
   title: {
     color: "#222222",
-    fontSize: 15,
+    fontSize: 16,
     fontFamily: "semibold",
   },
   time: {
@@ -302,11 +302,11 @@ const styles = StyleSheet.create({
   },
   message: {
     color: "#3F3F3F",
-    fontSize: 15,
+    fontSize: 14.5,
     maxWidth: "85%",
     minWidth: "85%",
-    lineHeight: 15,
-    letterSpacing: -0.4,
+    lineHeight: 20,
+    letterSpacing: -0.1,
     fontFamily: "medium",
   },
   overlay: {
