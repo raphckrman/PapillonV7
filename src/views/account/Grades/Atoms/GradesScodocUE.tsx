@@ -220,6 +220,8 @@ const GradesScodocUE = ({ account, navigation, selectedPeriod }: { account: Prim
                   <NativeItem
                     key={gra.key + "-grade:" + i + "-ue:" + (ue.name ?? ue.moyenne.value)}
                     separator={i !== Object.keys(grades).length - 1}
+                    entering={i < 16 ? anim2Papillon(FadeInDown).delay(40 * i) : FadeIn.duration(100)}
+                    exiting={FadeOut.duration(100)}
                     leading={
                       <NativeText
                         variant="subtitle"
