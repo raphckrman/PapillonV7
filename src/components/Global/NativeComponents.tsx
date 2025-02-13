@@ -142,7 +142,15 @@ export const NativeListHeader: React.FC<NativeListHeaderProps> = ({ icon, label,
         {label}
       </Text>
 
-      {trailing}
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "flex-end",
+        }}
+      >
+        {trailing}
+      </View>
     </Reanimated.View>
   );
 };

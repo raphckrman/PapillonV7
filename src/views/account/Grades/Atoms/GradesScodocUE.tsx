@@ -47,8 +47,16 @@ const GradesScodocUE = ({ account, navigation, selectedPeriod }: { account: Prim
         <NativeListHeader
           animated
           label="Unités d'enseignement"
+          style={{
+            marginTop: 16,
+            marginBottom: -14,
+          }}
           trailing={
             <TouchableOpacity
+              style={{
+                width: 24,
+                height: 24,
+              }}
               onPress={() => showAlert({
                 icon: <Info />,
                 title: "Unités d'enseignement",
@@ -60,7 +68,6 @@ const GradesScodocUE = ({ account, navigation, selectedPeriod }: { account: Prim
                   width: 24,
                   height: 24,
                   borderRadius: 8,
-                  marginVertical: -8,
                   borderColor: colors.text + "32",
                   borderWidth: 1,
                 }}
