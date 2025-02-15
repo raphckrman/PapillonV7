@@ -7,7 +7,6 @@ import AddonLogs from "@/views/addon/AddonLogs";
 import AddonPage from "@/views/addon/AddonPage";
 import GradeSubjectScreen from "@/views/account/Grades/Modals/Subject";
 import GradeDocument from "@/views/account/Grades/Document";
-import RestaurantHistory from "@/views/account/Restaurant/Modals/History";
 import ChatCreate from "@/views/account/Chat/Modals/ChatCreate";
 import Chat from "@/views/account/Chat/Modals/Chat";
 import HomeworksDocument from "@/views/account/Homeworks/Document";
@@ -20,6 +19,8 @@ import EvaluationDocument from "@/views/account/Evaluation/Document";
 import BackgroundIdentityProvider from "@/views/login/IdentityProvider/BackgroundIdentityProvider";
 import ChatDetails from "@/views/account/Chat/Modals/ChatDetails";
 import ChatThemes from "@/views/account/Chat/Modals/ChatThemes";
+import RestaurantCardDetail from "@/views/account/Restaurant/Modals/CardDetail";
+import RestaurantPaymentSuccess from "@/views/account/Restaurant/Modals/PaymentSuccess";
 
 export default [
   createScreen("GradeReaction", GradeReaction, {
@@ -30,12 +31,25 @@ export default [
   createScreen("RestaurantQrCode", RestaurantQrCode, {
     headerTitle: "",
     headerTransparent: true,
-    presentation: "fullScreenModal",
+    presentation: "transparentModal",
+    animation: "fade",
+    animationDuration: 100,
   }),
-  createScreen("RestaurantHistory", RestaurantHistory, {
-    headerTitle: "Historique des réservations",
+  createScreen("RestaurantPaymentSuccess", RestaurantPaymentSuccess, {
+    headerTitle: "Paiement effectué",
     headerShown: true,
     presentation: "modal",
+  }),
+  createScreen("RestaurantCardDetail", RestaurantCardDetail, {
+    headerTitle: "Détail de la carte",
+    presentation: "formSheet",
+    headerShown: false,
+    sheetCornerRadius: 16,
+    sheetGrabberVisible: true,
+    sheetExpandsWhenScrolledToEdge: true,
+    // @ts-expect-error
+    sheetInitialDetent: 0,
+    sheetAllowedDetents: "all",
   }),
   createScreen("SettingsTabs", SettingsTabs, {
     headerTitle: "Onglets et navigation",
