@@ -14,9 +14,10 @@ export default [
 
   createScreen("SettingStack", SettingsScreen, {
     headerShown: false,
-    presentation: "modal",
+    presentation: "formSheet",
     animation: Platform.OS === "android" ? "slide_from_right" : "default",
-    animationDuration: 100
+    animationDuration: 100,
+    sheetCornerRadius: 24,
   }),
 
   createScreen("AccountStack", AccountScreen, {
