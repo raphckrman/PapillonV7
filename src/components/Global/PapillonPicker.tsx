@@ -69,7 +69,7 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
             if (typeof item === "string") {
               handleSelectionChange(item);
             } else {
-              item.onPress();
+              item.onPress?.();
             }
           }
         }}
