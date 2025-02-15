@@ -55,7 +55,7 @@ const LinearGradientModernHeader: React.FC<ModernHeaderProps> = ({ children, out
               left: 0,
               right: 0,
               width: Dimensions.get("window").width,
-              height: outsideNav ? height : insets.top + height,
+              height: (outsideNav ? height : insets.top + height) - 10,
               zIndex: 80,
             }
           ]}
@@ -83,7 +83,7 @@ const LinearGradientModernHeader: React.FC<ModernHeaderProps> = ({ children, out
                   startPointPreset: "topCenter",
                   endPointPreset: "bottomCenter",
                   size: {
-                    height: (outsideNav ? height : insets.top + height) - 16,
+                    height: (outsideNav ? height : insets.top + height) - 10,
                     width: Dimensions.get("window").width,
                   },
                 }
