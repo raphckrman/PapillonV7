@@ -77,7 +77,7 @@ const GradesLatestItem: React.FC<GradeLatestItemProps> = ({
           <NativeText
             style={{
               flex: 1,
-              color: adjustColor(subjectData.color, theme.dark ? 100 : -100),
+              color: adjustColor(subjectData.color, theme.dark ? 180 : -100),
             }}
             numberOfLines={1}
             variant="overtitle"
