@@ -380,6 +380,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
             {
               icon: <CalendarPlus />,
               label: "Importer un iCal",
+              sfSymbol: "calendar.badge.plus",
               onPress: () => {
                 navigation.navigate("LessonsImportIcal", {});
               }
