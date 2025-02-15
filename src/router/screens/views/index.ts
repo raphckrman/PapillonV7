@@ -98,6 +98,7 @@ export default [
     gestureDirection: "vertical",
     animation: "slide_from_bottom",
     headerShown: Platform.OS !== "ios",
+    sheetCornerRadius: 24,
   }),
   createScreen("ChatCreate", ChatCreate, {
     headerTitle: "Créer une discussion",
