@@ -35,15 +35,18 @@ export const PapillonModernHeader: React.FC<ModernHeaderProps> = (props) => {
 
 import { CustomFilterView } from "react-native-ios-visual-effect-view";
 import { isExpoGo } from "@/utils/native/expoGoAlert";
+import { LinearGradient } from "expo-linear-gradient";
 
 const LinearGradientModernHeader: React.FC<ModernHeaderProps> = ({ children, outsideNav = false, height = 70, startLocation = 0.5, tint = null }) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
 
+  console.log(Platform);
+
   return (
     <>
 
-      {Platform.OS === "ios" && !isExpoGo() ? (
+      {Platform.OS === "ios" && !isExpoGo() && parseInt(Platform.Version) >= 18 ? (
         <CustomFilterView
           style={[
             {
