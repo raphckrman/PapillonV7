@@ -158,7 +158,7 @@ const NativeModernHeader: React.FC<ModernHeaderProps> = ({ children, outsideNav 
           justifyContent: "space-between",
           alignItems: "center",
           gap: 8,
-          backgroundColor: tint ? tint : theme.colors.text + "10",
+          backgroundColor: tint ? tint : theme.colors.card + "10",
           borderBottomColor: theme.colors.border,
           borderBottomWidth: 0.5,
         }]}
