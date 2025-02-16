@@ -41,9 +41,11 @@ const LinearGradientModernHeader: React.FC<ModernHeaderProps> = ({ children, out
   const theme = useTheme();
   const insets = useSafeAreaInsets();
 
+  const enableBlur = Platform.OS === "ios" && !isExpoGo() && parseInt(Platform.Version) >= 18;
+
   return (
     <>
-      {Platform.OS === "ios" && !isExpoGo() && parseInt(Platform.Version) >= 18 ? (
+      {enableBlur ? (
         <CustomFilterView
           style={[
             {
@@ -89,20 +91,21 @@ const LinearGradientModernHeader: React.FC<ModernHeaderProps> = ({ children, out
             ]
           }}
         />
-      ) : (
-        <LinearGradient
-          colors={tint && tint !== "" ? [tint + "EE", tint + "00"] : [theme.colors.background + "EE", theme.colors.background + "00"]}
-          locations={[startLocation, 1]}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: outsideNav ? height : insets.top + height,
-            zIndex: 90,
-          }}
-        />
-      )}
+      ) : null}
+
+      <LinearGradient
+        colors={tint && tint !== "" ? [tint + "EE", tint + "00"] : [theme.colors.background + "EE", theme.colors.background + "00"]}
+        locations={[startLocation, 1]}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: outsideNav ? height : insets.top + height,
+          zIndex: 90,
+          opacity: enableBlur ? 0.5 : 1,
+        }}
+      />
 
       <Reanimated.View
         style={[{

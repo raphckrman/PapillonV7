@@ -159,6 +159,7 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
             padding: 20,
             paddingTop: 0,
           }}
+          scrollIndicatorInsets={{ top: 42 }}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         >
           <PapillonHeaderInsetHeight route={route} />

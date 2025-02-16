@@ -123,6 +123,7 @@ const NewsScreen: Screen<"News"> = ({ route, navigation }) => {
         refreshControl={
           <RefreshControl refreshing={isLoading} onRefresh={fetchData} />
         }
+        scrollIndicatorInsets={{ top: 42 }}
       >
         <PapillonHeaderInsetHeight route={route} />
 

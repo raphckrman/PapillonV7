@@ -333,6 +333,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
       <ScrollView
         contentContainerStyle={styles.scrollViewContent}
         showsHorizontalScrollIndicator={false}
+        scrollIndicatorInsets={{ top: 42 }}
         refreshControl={
           <RefreshControl
             refreshing={isRefreshing}
@@ -661,7 +662,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  scrollViewContent: { padding: 16, paddingTop: 0, flexGrow: 1 },
+  scrollViewContent: { padding: 16, flexGrow: 1 },
   accountButtonContainer: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 16, marginBottom: 16 },
   horizontalList: { marginTop: 10 },
   calendarContainer: { flexDirection: "row", justifyContent: "center", alignItems: "center", marginTop: 16, marginBottom: -10, gap: 10 },
