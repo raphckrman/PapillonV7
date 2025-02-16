@@ -43,11 +43,11 @@ const LinearGradientModernHeader: React.FC<ModernHeaderProps> = ({ children, out
 
   return (
     <>
-
       {Platform.OS === "ios" && !isExpoGo() && parseInt(Platform.Version) >= 18 ? (
         <CustomFilterView
           style={[
             {
+              backgroundColor: theme.colors.background + "00",
               position: "absolute",
               top: 0,
               left: 0,

@@ -10,7 +10,7 @@ import {NativeText} from "@/components/Global/NativeComponents";
 import Reanimated, {FadeIn, FadeOut, LinearTransition} from "react-native-reanimated";
 import PapillonPicker from "@/components/Global/PapillonPicker";
 import {ChevronDown, Eye, Scale, Timer, UserX} from "lucide-react-native";
-import PapillonHeader from "@/components/Global/PapillonHeader";
+import PapillonHeader, { PapillonHeaderInsetHeight } from "@/components/Global/PapillonHeader";
 import {animPapillon} from "@/utils/ui/animations";
 import AttendanceItem from "./Atoms/AttendanceItem";
 import {getAbsenceTime} from "@/utils/format/attendance_time";
@@ -244,6 +244,8 @@ const Attendance: Screen<"Attendance"> = ({ route, navigation }) => {
           />
         }
       >
+        <PapillonHeaderInsetHeight route={route} />
+
         {hasServiceSetup && attendances[selectedPeriod] && attendances[selectedPeriod].absences.length === 0 && attendances[selectedPeriod].delays.length === 0 && attendances[selectedPeriod].punishments.length === 0 && Object.keys(attendances_observations_details).length === 0 &&(
           <MissingItem
             title="Aucune absence"

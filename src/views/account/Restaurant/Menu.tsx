@@ -44,7 +44,7 @@ import { LessonsDateModal } from "../Lessons/LessonsHeader";
 import { BookingTerminal, BookingDay } from "@/services/shared/Booking";
 import { bookDayFromExternal, getBookingsAvailableFromExternal } from "@/services/booking";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
-import PapillonHeader from "@/components/Global/PapillonHeader";
+import PapillonHeader, { PapillonHeaderInsetHeight } from "@/components/Global/PapillonHeader";
 import { PressableScale } from "react-native-pressable-scale";
 import { ChevronLeft, ChevronRight} from "lucide-react-native";
 import DrawableImportRestaurant from "@/components/Drawables/DrawableImportRestaurant";
@@ -342,6 +342,8 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
           />
         }
       >
+        <PapillonHeaderInsetHeight route={route} />
+
         {!isInitialised ? (
           <ActivityIndicator size="large" style={{ padding: 50 }} />
         ) : (

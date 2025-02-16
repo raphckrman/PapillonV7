@@ -30,7 +30,7 @@ import Reanimated, {
   FadeInDown,
   FadeOut,
 } from "react-native-reanimated";
-import PapillonHeader from "@/components/Global/PapillonHeader";
+import PapillonHeader, { PapillonHeaderInsetHeight } from "@/components/Global/PapillonHeader";
 import { SquarePen } from "lucide-react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
@@ -161,6 +161,8 @@ const Discussions: Screen<"Discussions"> = ({ navigation, route }) => {
           }}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         >
+          <PapillonHeaderInsetHeight route={route} />
+
           {!chats ? (
             <Reanimated.View
               entering={FadeIn.springify().mass(1).damping(20).stiffness(300)}
