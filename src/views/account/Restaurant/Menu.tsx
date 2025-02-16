@@ -337,6 +337,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
         refreshControl={
           <RefreshControl
             refreshing={isRefreshing}
+            progressViewOffset={120}
             onRefresh={() => {
               refreshData();
             }}

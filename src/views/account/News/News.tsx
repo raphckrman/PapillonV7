@@ -121,7 +121,8 @@ const NewsScreen: Screen<"News"> = ({ route, navigation }) => {
       <Reanimated.ScrollView
         contentContainerStyle={styles.scrollViewContent}
         refreshControl={
-          <RefreshControl refreshing={isLoading} onRefresh={fetchData} />
+          <RefreshControl refreshing={isLoading} onRefresh={fetchData}
+            progressViewOffset={100} />
         }
         scrollIndicatorInsets={{ top: 42 }}
       >
