@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "semibold",
     flex: 1,
+    marginTop: 9,
   },
 
   cardHeaderIcon: {
