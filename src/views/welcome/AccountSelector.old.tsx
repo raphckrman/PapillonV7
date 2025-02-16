@@ -58,6 +58,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
   const switchTo = useCurrentAccount((store) => store.switchTo);
   const removeAccount = useAccounts((store) => store.remove);
 
+  const lastOpenedAccountID = useAccounts((store) => store.lastOpenedAccountID);
   const accounts = useAccounts((store) => store.accounts);
 
   const [loading, setLoading] = useState<string | null>(null);
@@ -109,26 +110,25 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
           routes: [{ name: "FirstInstallation" }],
         });
       }
-
-      if (accounts.filter((account) => !account.isExternal).length === 1) {
-        const selectedAccount = accounts.find((account) => !account.isExternal) as PrimaryAccount | undefined;
-        if (selectedAccount && currentAccount?.localID !== selectedAccount.localID) {
-          switchTo(selectedAccount);
-
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "AccountStack" }],
-          });
-        }
-        else {
-          SplashScreen.hideAsync();
-        }
-      }
       else {
-        SplashScreen.hideAsync();
+        const selectedAccount =
+          accounts.find((account) => account.localID === lastOpenedAccountID) as PrimaryAccount
+          ?? accounts.find((account) => !account.isExternal) as PrimaryAccount;
+        switchTo(selectedAccount);
       }
     }();
   }, [accounts]);
+
+  useEffect(() => {
+    if (currentAccount && currentAccount?.localID) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "AccountStack" }],
+      });
+
+      SplashScreen.hideAsync();
+    }
+  }, [currentAccount]);
 
   if (!accounts) return null;
 

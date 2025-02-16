@@ -10,6 +10,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
   const accounts = useAccounts((store) => store.accounts);
   const currentAccount = useCurrentAccount((store) => store.account);
   const switchTo = useCurrentAccount((store) => store.switchTo);
+  const lastOpenedAccountID = useAccounts((store) => store.lastOpenedAccountID);
 
   useEffect(() => {
     void async function () {
@@ -26,24 +27,27 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
         SplashScreen.hideAsync();
       }
 
-      const selectedAccount = accounts.find((account) => !account.isExternal) as PrimaryAccount | undefined;
-      if (selectedAccount && currentAccount?.localID !== selectedAccount.localID) {
-        switchTo(selectedAccount);
-
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "AccountStack" }],
-        });
-
-        SplashScreen.hideAsync();
-      }
+      const selectedAccount =
+                accounts.find((account) => account.localID === lastOpenedAccountID) as PrimaryAccount
+                ?? accounts.find((account) => !account.isExternal) as PrimaryAccount;
+      switchTo(selectedAccount);
     }();
   }, [accounts]);
+
+  useEffect(() => {
+    if (currentAccount && currentAccount?.localID) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "AccountStack" }],
+      });
+    }
+  }, [currentAccount]);
 
   return (
     <Image
       source={colorScheme === "dark" ? require("../../../assets/launch/splash-dark.png") : require("../../../assets/launch/splash.png")}
-      style={{ flex: 1, resizeMode: "cover" }}
+      resizeMode="cover"
+      style={{ flex: 1 }}
     />
   );
 };
