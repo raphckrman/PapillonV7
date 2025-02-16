@@ -41,8 +41,6 @@ const LinearGradientModernHeader: React.FC<ModernHeaderProps> = ({ children, out
   const theme = useTheme();
   const insets = useSafeAreaInsets();
 
-  console.log(Platform);
-
   return (
     <>
 
