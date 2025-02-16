@@ -380,6 +380,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
             {
               icon: <CalendarPlus />,
               label: "Importer un iCal",
+              subtitle: "Ajouter un calendrier depuis une URL",
               sfSymbol: "calendar.badge.plus",
               onPress: () => {
                 navigation.navigate("LessonsImportIcal", {});
@@ -388,6 +389,8 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
             ...(weekFrequency != null) ? [{
               icon: <Eye />,
               label: "Afficher type sem.",
+              subtitle: "Afficher semaine paire / impaire",
+              sfSymbol: "eye",
               onPress: () => {
                 setShouldShowWeekFrequency(!shouldShowWeekFrequency);
               },

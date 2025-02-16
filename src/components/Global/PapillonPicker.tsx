@@ -15,6 +15,7 @@ import { isExpoGo } from "@/utils/native/expoGoAlert";
 
 export type PickerDataItem = string | {
   label: string,
+  subtitle?: string,
   icon?: JSX.Element,
   sfSymbol?: string,
   onPress?: () => unknown,
@@ -66,7 +67,7 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
 
           const item = data[index];
           if (item !== null) {
-            if (typeof item === "string") {
+            if (!item.onPress) {
               handleSelectionChange(item);
             } else {
               item.onPress();
@@ -79,7 +80,8 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
             return {
               actionKey: "action-"+index.toString(),
               actionTitle: typeof item === "string" ? item : item.label,
-              menuState: (typeof item !== "string" ? item.checked : item === selected) ? "on" : "off",
+              actionSubtitle: item.subtitle,
+              menuState: (item.checked || item === selected) ? "on" : "off",
               icon: {
                 type: typeof item !== "string" ? "IMAGE_SYSTEM" : "IMAGE_SYSTEM",
                 imageValue: {
@@ -90,7 +92,11 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
           }),
         }}
       >
-        {children}
+        <TouchableOpacity
+          onPress={() => {}}
+        >
+          {children}
+        </TouchableOpacity>
       </ContextMenuButton>
     );
   }
