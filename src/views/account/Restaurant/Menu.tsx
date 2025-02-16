@@ -55,6 +55,16 @@ import { ReservationHistory } from "@/services/shared/ReservationHistory";
 import { STORE_THEMES, StoreTheme } from "./Cards/StoreThemes";
 import MenuCard from "./Cards/Card";
 
+export const formatCardIdentifier = (identifier: string, dots: number = 4, separator: string = " ") => {
+  if(!identifier) {
+    return "";
+  }
+
+  const visiblePart = identifier.slice(-4);
+  const maskedPart = identifier.slice(-(4 + dots), -4).replace(/./g, "•");
+  return maskedPart + separator + (visiblePart.match(/.{1,4}/g) ?? []).join(" ");
+};
+
 export interface ServiceCard {
   service: string | AccountService;
   account: Account | null;
@@ -223,7 +233,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
               balance: balance,
               history: history,
               cardnumber: cardnumber,
-              theme: STORE_THEMES.find((theme) => theme.id === AccountService[account.service]) ?? STORE_THEMES[0],
+              theme: STORE_THEMES.find((theme) => theme.id === AccountService[account.service].toLowerCase()) ?? STORE_THEMES[0],
             };
 
             newCards.push(newCard);

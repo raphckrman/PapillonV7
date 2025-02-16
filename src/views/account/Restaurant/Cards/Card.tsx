@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image } from "react-native";
-import { ServiceCard } from "../Menu";
+import { formatCardIdentifier, ServiceCard } from "../Menu";
 import { useTheme } from "@react-navigation/native";
 import { defaultProfilePicture } from "@/utils/ui/default-profile-picture";
 import { PressableScale } from "react-native-pressable-scale";
@@ -59,7 +59,7 @@ const MenuCard = ({ card, onPress }: { card: ServiceCard, onPress?: () => void }
               { color: card?.theme?.colors?.text }
             ]}
           >
-            •••• {card.identifier.slice(-4)}
+            {formatCardIdentifier(card.account?.localID)}
           </Text>
         )}
 
