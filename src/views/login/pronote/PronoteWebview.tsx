@@ -34,6 +34,7 @@ import extract_pronote_name from "@/utils/format/extract_pronote_name";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
 import { animPapillon } from "@/utils/ui/animations";
 import { useAlert } from "@/providers/AlertProvider";
+import { Undo2 } from "lucide-react-native";
 
 const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
   const theme = useTheme();
@@ -403,8 +404,9 @@ const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
                         actions: [
                           {
                             title: "OK",
+                            primary: true,
+                            icon: <Undo2 />,
                             onPress: () => navigation.goBack(),
-                            backgroundColor: theme.colors.card,
                           },
                         ],
                       });

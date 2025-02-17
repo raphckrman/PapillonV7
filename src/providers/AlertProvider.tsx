@@ -17,7 +17,7 @@ import { BlurView } from "expo-blur";
 type AlertAction = {
   title: string;
   onPress?: () => void;
-  icon?: React.ReactElement;
+  icon: React.ReactElement;
   primary?: boolean;
   danger?: boolean;
   backgroundColor?: string;

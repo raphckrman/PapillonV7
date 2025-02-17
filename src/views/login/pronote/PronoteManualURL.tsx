@@ -12,7 +12,7 @@ import MaskStars from "@/components/FirstInstallation/MaskStars";
 import PapillonShineBubble from "@/components/FirstInstallation/PapillonShineBubble";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Check, Link2, TriangleAlert, X } from "lucide-react-native";
+import { Link2, TriangleAlert, Undo2, X } from "lucide-react-native";
 import { useAlert } from "@/providers/AlertProvider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -68,7 +68,7 @@ const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => 
         },
         {
           title: "Annuler",
-          icon: <Check />,
+          icon: <Undo2 />,
           primary: true,
           backgroundColor: "#29947A",
         }

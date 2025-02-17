@@ -12,6 +12,7 @@ import PapillonSpinner from "@/components/Global/PapillonSpinner";
 import { NativeText } from "@/components/Global/NativeComponents";
 import { log } from "@/utils/logger/logger";
 import { useAlert } from "@/providers/AlertProvider";
+import { Check } from "lucide-react-native";
 
 const UnivLimoges_Login: Screen<"UnivLimoges_Login"> = ({ navigation }) => {
   const createStoredAccount = useAccounts(store => store.create);
@@ -89,6 +90,8 @@ const UnivLimoges_Login: Screen<"UnivLimoges_Login"> = ({ navigation }) => {
         actions: [
           {
             title: "OK",
+            icon: <Check />,
+            primary: true,
             onPress: () => navigation.goBack()
           },
         ],

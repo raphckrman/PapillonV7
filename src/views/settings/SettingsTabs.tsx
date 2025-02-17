@@ -16,6 +16,7 @@ import {
   Equal,
   SendToBack,
   Gift,
+  Undo2,
 } from "lucide-react-native";
 import {
   NestableDraggableFlatList,
@@ -453,6 +454,8 @@ const SettingsTabs = () => {
                                             title: "OK",
                                             onPress: () => {},
                                             backgroundColor: theme.colors.card,
+                                            primary: true,
+                                            icon: <Undo2 />,
                                           },
                                         ],
                                       });

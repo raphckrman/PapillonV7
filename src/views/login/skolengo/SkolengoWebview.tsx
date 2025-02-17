@@ -27,6 +27,7 @@ import { Audio } from "expo-av";
 import { authTokenToSkolengoTokenSet } from "@/services/skolengo/skolengo-types";
 import { getSkolengoAccount } from "@/services/skolengo/skolengo-account";
 import { wait } from "@/services/skolengo/data/utils";
+import { Undo2 } from "lucide-react-native";
 
 // TODO : When the app is not started with Expo Go (so with a prebuild or a release build), use the expo auth-session module completely with the deeplink and without the webview.
 
@@ -206,6 +207,8 @@ const SkolengoWebview: Screen<"SkolengoWebview"> = ({ route, navigation }) => {
                     actions: [
                       {
                         title: "OK",
+                        primary: true,
+                        icon: <Undo2 />,
                         onPress: () => navigation.goBack(),
                       }
                     ]
