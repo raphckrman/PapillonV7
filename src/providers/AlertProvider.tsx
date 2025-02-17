@@ -141,10 +141,18 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                       }}
                       style={({ pressed }) => [
                         styles.button,
-                        primary && styles.primaryButton,
-                        primary && {
-                          backgroundColor: backgroundColor || colors.primary,
-                        },
+                        primary
+                          ? styles.primaryButton
+                          : styles.notPrimaryButton,
+                        primary
+                          ? {
+                            backgroundColor:
+                                backgroundColor || colors.primary,
+                          }
+                          : {
+                            borderColor: "#CCC",
+                            borderWidth: 1,
+                          },
                         danger && { backgroundColor: "#b62000" },
                         { opacity: pressed ? 0.6 : 1 },
                       ]}
@@ -223,7 +231,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     paddingVertical: 12,
-    paddingHorizontal: 14,
+    paddingHorizontal: 5,
     marginTop: 16,
     paddingTop: 10,
     gap: 10,
@@ -242,6 +250,9 @@ const styles = StyleSheet.create({
   },
   primaryButton: {
     paddingHorizontal: 14,
+  },
+  notPrimaryButton: {
+    paddingHorizontal: 5,
   },
   primaryButtonText: {
     color: "#ffffff",
