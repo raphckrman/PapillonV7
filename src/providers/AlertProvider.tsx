@@ -3,8 +3,15 @@ import { Check } from "lucide-react-native";
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import { Modal, View, Text, StyleSheet, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Reanimated, { FadeIn, FadeOut, LinearTransition } from "react-native-reanimated";
-import { PapillonContextEnter, PapillonContextExit } from "@/utils/ui/animations";
+import Reanimated, {
+  FadeIn,
+  FadeOut,
+  LinearTransition,
+} from "react-native-reanimated";
+import {
+  PapillonContextEnter,
+  PapillonContextExit,
+} from "@/utils/ui/animations";
 import { BlurView } from "expo-blur";
 
 type AlertAction = {
@@ -52,7 +59,14 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
     title,
     message,
     icon = null,
-    actions = [{ title: "Compris !", onPress: hideAlert, icon: <Check />, primary: true }],
+    actions = [
+      {
+        title: "Compris !",
+        onPress: hideAlert,
+        icon: <Check />,
+        primary: true,
+      },
+    ],
   }: Alert) => {
     setAlert({ title, message, icon, actions });
     setVisible(true);
@@ -77,41 +91,81 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
             <BlurView intensity={10} style={styles.blur} />
           </Reanimated.View>
 
-          <Reanimated.View style={styles.modalContainer} layout={LinearTransition}>
+          <Reanimated.View
+            style={styles.modalContainer}
+            layout={LinearTransition}
+          >
             <Pressable style={styles.pressable} onPress={hideAlert} />
             <Reanimated.View
-              style={[styles.alertBox, { backgroundColor: colors.card, marginBottom: 10 + insets.bottom }]}
+              style={[
+                styles.alertBox,
+                {
+                  backgroundColor: colors.card,
+                  marginBottom: 10 + insets.bottom,
+                },
+              ]}
               entering={PapillonContextEnter}
               exiting={PapillonContextExit}
             >
               <View style={styles.contentContainer}>
                 <View style={styles.titleContainer}>
-                  {alert.icon && React.cloneElement(alert.icon, { color: colors.text, size: 24 })}
-                  <Text style={[styles.title, { color: colors.text }]}>{alert.title}</Text>
+                  {alert.icon &&
+                    React.cloneElement(alert.icon, {
+                      color: colors.text,
+                      size: 24,
+                    })}
+                  <Text style={[styles.title, { color: colors.text }]}>
+                    {alert.title}
+                  </Text>
                 </View>
-                <Text style={[styles.message, { color: colors.text }]}>{alert.message}</Text>
+                <Text style={[styles.message, { color: colors.text }]}>
+                  {alert.message}
+                </Text>
               </View>
 
               <View style={[styles.buttons, { borderColor: colors.border }]}>
-                {alert.actions?.map(({ title, onPress, icon, primary, danger, backgroundColor }) => (
-                  <Pressable
-                    key={title}
-                    onPress={() => {
-                      onPress?.();
-                      hideAlert();
-                    }}
-                    style={({ pressed }) => [
-                      styles.button,
-                      primary && styles.primaryButton,
-                      primary && { backgroundColor: backgroundColor || colors.primary },
-                      danger && { backgroundColor: "#b62000" },
-                      { opacity: pressed ? 0.6 : 1 },
-                    ]}
-                  >
-                    {icon && React.cloneElement(icon, { color: primary ? "#ffffff" : colors.text, size: 24 })}
-                    <Text style={[styles.buttonText, { color: colors.text }, primary && styles.primaryButtonText]}>{title}</Text>
-                  </Pressable>
-                ))}
+                {alert.actions?.map(
+                  ({
+                    title,
+                    onPress,
+                    icon,
+                    primary,
+                    danger,
+                    backgroundColor,
+                  }) => (
+                    <Pressable
+                      key={title}
+                      onPress={() => {
+                        onPress?.();
+                        hideAlert();
+                      }}
+                      style={({ pressed }) => [
+                        styles.button,
+                        primary && styles.primaryButton,
+                        primary && {
+                          backgroundColor: backgroundColor || colors.primary,
+                        },
+                        danger && { backgroundColor: "#b62000" },
+                        { opacity: pressed ? 0.6 : 1 },
+                      ]}
+                    >
+                      {icon &&
+                        React.cloneElement(icon, {
+                          color: primary ? "#ffffff" : colors.text,
+                          size: 24,
+                        })}
+                      <Text
+                        style={[
+                          styles.buttonText,
+                          { color: colors.text },
+                          primary && styles.primaryButtonText,
+                        ]}
+                      >
+                        {title}
+                      </Text>
+                    </Pressable>
+                  )
+                )}
               </View>
             </Reanimated.View>
           </Reanimated.View>
