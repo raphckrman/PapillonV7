@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { Image, useColorScheme } from "react-native";
 
 import * as SplashScreen from "expo-splash-screen";
+import { PrimaryAccount } from "@/stores/account/types";
 
 const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
   const colorScheme = useColorScheme();
@@ -28,9 +29,9 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
       }
 
       const selectedAccount =
-                accounts.find((account) => account.localID === lastOpenedAccountID) as PrimaryAccount
-                ?? accounts.find((account) => !account.isExternal) as PrimaryAccount;
-      switchTo(selectedAccount);
+                accounts.find((account) => account.localID === lastOpenedAccountID)
+                ?? accounts.find((account) => !account.isExternal);
+      switchTo(selectedAccount as PrimaryAccount);
     }();
   }, [accounts]);
 

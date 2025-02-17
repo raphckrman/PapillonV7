@@ -35,7 +35,7 @@ export const NativeList: React.FC<NativeListProps> = ({
   const theme = useTheme();
   const { colors } = theme;
 
-  const listStyle = useMemo(() => [
+  const listStyle: StyleProp<ViewStyle> = useMemo(() => [
     list_styles.list,
     {
       borderWidth: 0.5,
