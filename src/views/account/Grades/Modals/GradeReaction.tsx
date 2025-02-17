@@ -12,7 +12,7 @@ import { Reel } from "@/services/shared/Reel";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
 import { NativeText } from "@/components/Global/NativeComponents";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
-import Constants from "expo-constants";
+import { isExpoGo } from "@/utils/native/expoGoAlert";
 
 // Types
 interface SubjectData {
@@ -106,8 +106,7 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
 
   // Volume button to take picture
   useEffect(() => {
-    if (Constants.appOwnership === "expo") return;
-
+    if (isExpoGo()) return;
   }, []);
 
   useLayoutEffect(() => {
