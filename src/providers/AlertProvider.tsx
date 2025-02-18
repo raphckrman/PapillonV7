@@ -156,8 +156,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                           : styles.notPrimaryButton,
                         primary
                           ? {
-                            backgroundColor:
-                                backgroundColor || colors.primary,
+                            backgroundColor: backgroundColor ?? colors.primary,
                           }
                           : {
                             borderColor: "#CCC",

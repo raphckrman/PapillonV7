@@ -445,7 +445,6 @@ const SettingsTabs = () => {
                                       actions: [
                                         {
                                           title: "OK",
-                                          backgroundColor: theme.colors.card,
                                           primary: true,
                                           icon: <Undo2 />,
                                         },
