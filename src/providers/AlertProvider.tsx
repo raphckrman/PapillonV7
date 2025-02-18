@@ -123,7 +123,17 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                 </Text>
               </View>
 
-              <View style={[styles.buttons, { borderColor: colors.border }]}>
+              <View
+                style={[
+                  styles.buttons,
+                  {
+                    borderColor: colors.border,
+                    flexDirection:
+                      (alert.actions ?? []).length > 2 ? "column" : "row",
+                    alignItems: "stretch",
+                  },
+                ]}
+              >
                 {alert.actions?.map(
                   ({
                     title,
