@@ -13,8 +13,7 @@ import {
 
 import Reanimated, {
   FadeIn,
-  FadeOut,
-  ZoomIn
+  FadeOut
 } from "react-native-reanimated";
 
 import { useNavigation } from "@react-navigation/native";
@@ -22,7 +21,7 @@ import * as Haptics from "expo-haptics";
 
 import { useAccounts, useCurrentAccount } from "@/stores/account";
 import { AccountService } from "@/stores/account/types";
-import { animPapillon, PapillonContextEnter, PapillonContextExit } from "@/utils/ui/animations";
+import { PapillonContextEnter, PapillonContextExit } from "@/utils/ui/animations";
 import { defaultProfilePicture } from "@/utils/ui/default-profile-picture";
 import { useTheme } from "@react-navigation/native";
 import { BlurView } from "expo-blur";
@@ -55,6 +54,19 @@ const ContextMenu: React.FC<{
     }
   }, [shouldOpenContextMenu]);
 
+  // Fonction pour activer un effet haptique à l'ouverture du menu
+  const openEffects = () => {
+    playHaptics("impact", {
+      impact: Haptics.ImpactFeedbackStyle.Light,
+    });
+  };
+
+  const [touchLongPress, setTouchLongPress] = useState(false);
+
+  useEffect(() => {
+    setTouchLongPress(false);
+  }, [opened]);
+
   return (
     <>
       <View
@@ -69,11 +81,20 @@ const ContextMenu: React.FC<{
         {/* Différents comportements pour iOS et Android */}
         {Platform.OS === "ios" ? (
           <TouchableOpacity
-            onPress={() => {
-              setOpened(!opened);
-              playHaptics("impact", {
-                impact: Haptics.ImpactFeedbackStyle.Light,
-              });
+            onPressIn={() => {
+              if (!touchLongPress) {
+                setOpened(!opened);
+                openEffects();
+              }
+            }}
+            onLongPress={() => {
+              setTouchLongPress(true);
+            }}
+            onPressOut={() => {
+              if (touchLongPress) {
+                setOpened(false);
+                openEffects();
+              }
             }}
             // @ts-expect-error
             pointerEvents="auto"
@@ -228,8 +249,6 @@ const ContextMenu: React.FC<{
                           position: "absolute",
                           right: 15,
                         }}
-                        entering={animPapillon(ZoomIn)}
-                        exiting={FadeOut.duration(200)}
                       >
                         <Check
                           size={22}
