@@ -19,7 +19,7 @@ import {
 import { useCurrentAccount } from "@/stores/account";
 import { Recipient } from "@/services/shared/Recipient";
 import { createDiscussion, createDiscussionRecipients } from "@/services/chats";
-import { PenTool, Send, Tag, Undo2 } from "lucide-react-native";
+import { BadgeHelp, PenTool, Send, Tag, Undo2 } from "lucide-react-native";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import PapillonCheckbox from "@/components/Global/PapillonCheckbox";
 import { getProfileColorByName } from "@/services/local/default-personalization";
@@ -179,6 +179,7 @@ const ChatCreate: Screen<"ChatCreate"> = ({ navigation }) => {
             showAlert({
               title: "Veux-tu continuer sans objet ?",
               message: "Tu es sur le point de créer une discussion sans objet. Veux-tu continuer ?",
+              icon: <BadgeHelp />,
               actions: [
                 {
                   title: "Annuler",

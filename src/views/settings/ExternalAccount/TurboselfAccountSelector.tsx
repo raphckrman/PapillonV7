@@ -14,7 +14,7 @@ import uuid from "@/utils/uuid-v4";
 import DuoListPressable from "@/components/FirstInstallation/DuoListPressable";
 import { authenticateWithCredentials } from "turboself-api";
 import { useAlert } from "@/providers/AlertProvider";
-import { ArrowRightFromLine, Undo2 } from "lucide-react-native";
+import { ArrowRightFromLine, BadgeHelp, BadgeX, Undo2 } from "lucide-react-native";
 
 const TurboselfAccountSelector: Screen<"TurboselfAccountSelector"> = ({ navigation, route }) => {
   const theme = useTheme();
@@ -59,12 +59,14 @@ const TurboselfAccountSelector: Screen<"TurboselfAccountSelector"> = ({ navigati
         showAlert({
           title: "Erreur",
           message: error.message,
+          icon: <BadgeX />,
         });
       }
       else {
         showAlert({
           title: "Erreur",
           message: "Une erreur est survenue lors de la connexion.",
+          icon: <BadgeX />,
         });
       }
     }
@@ -138,6 +140,7 @@ const TurboselfAccountSelector: Screen<"TurboselfAccountSelector"> = ({ navigati
                 showAlert({
                   title: "Annuler",
                   message: "Es-tu sûr de vouloir annuler la connexion ?",
+                  icon: <BadgeHelp />,
                   actions: [
                     {
                       title: "Continuer la connexion",

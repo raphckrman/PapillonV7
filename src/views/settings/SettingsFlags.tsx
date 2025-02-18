@@ -2,7 +2,7 @@ import React, { Fragment, useRef } from "react";
 import { ScrollView, TextInput, KeyboardAvoidingView, StyleSheet } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { useTheme } from "@react-navigation/native";
-import { Code, Trash2, Undo2 } from "lucide-react-native";
+import { BadgeHelp, Code, Trash2, Undo2 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { NativeItem, NativeList, NativeListHeader, NativeText } from "@/components/Global/NativeComponents";
 import { useFlagsStore } from "@/stores/flags";
@@ -72,6 +72,7 @@ const SettingsFlags: Screen<"SettingsFlags"> = ({ navigation }) => {
     showAlert({
       title: "Supprimer le flag",
       message: `Veux-tu vraiment supprimer le flag "${flag}" ?`,
+      icon: <BadgeHelp />,
       actions: [
         {
           title: "Annuler",

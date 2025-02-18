@@ -9,7 +9,7 @@ import * as Haptics from "expo-haptics";
 
 import PapillonShineBubble from "@/components/FirstInstallation/PapillonShineBubble";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
-import { QrCode } from "lucide-react-native";
+import { BadgeX, QrCode } from "lucide-react-native";
 
 import Reanimated, { LinearTransition, FadeOutUp, FadeInUp } from "react-native-reanimated";
 import pronote from "pawnote";
@@ -66,6 +66,7 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
       showAlert({
         title: "Code invalide",
         message: "Entre un code à 4 chiffres.",
+        icon: <BadgeX />,
       });
       return;
     }
@@ -151,6 +152,7 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
       showAlert({
         title: "Erreur",
         message: "Une erreur est survenue lors de la connexion.",
+        icon: <BadgeX />,
       });
       return;
     }

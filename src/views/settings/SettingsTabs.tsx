@@ -17,6 +17,7 @@ import {
   SendToBack,
   Gift,
   Undo2,
+  BadgeInfo,
 } from "lucide-react-native";
 import {
   NestableDraggableFlatList,
@@ -442,6 +443,7 @@ const SettingsTabs = () => {
                                     showAlert({
                                       title: "Information",
                                       message: "Tu ne peux pas ajouter plus de 5 onglets sur la page d'accueil.",
+                                      icon: <BadgeInfo />,
                                       actions: [
                                         {
                                           title: "OK",

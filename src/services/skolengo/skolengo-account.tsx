@@ -9,6 +9,7 @@ import { useCurrentAccount } from "@/stores/account";
 import defaultSkolengoPersonalization from "./default-personalization";
 import { User } from "scolengo-api/types/models/Common";
 import { useAlert } from "@/providers/AlertProvider";
+import { BadgeX } from "lucide-react-native";
 
 const getSkolengoAxiosInstance = () => {
   const axioss = axios.create({
@@ -34,6 +35,7 @@ const getSkolengoAxiosInstance = () => {
       showAlert({
         title: "Skolengo - " + (e["title"].toString() || "Erreur"),
         message: htmlDecode(e["detail"]?.toString().replace(/<(\/)?([a-z0-9]+)>/g, "") || "Erreur inconnue")+"\n\nSi cette erreur persiste, contacte les équipes de Papillon.",
+        icon: <BadgeX />,
       });
     });
     return Promise.reject(error);

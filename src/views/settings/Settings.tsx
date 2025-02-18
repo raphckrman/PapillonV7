@@ -35,7 +35,8 @@ import {
   WandSparkles,
   X,
   Blocks,
-  HelpCircle
+  HelpCircle,
+  BadgeHelp
 } from "lucide-react-native";
 
 import { NativeIcon, NativeItem, NativeList, NativeListHeader, NativeText } from "@/components/Global/NativeComponents";
@@ -249,6 +250,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
             showAlert({
               title: "Se déconnecter",
               message: "Es-tu sûr de vouloir te déconnecter ?",
+              icon: <BadgeHelp />,
               actions: [
                 {
                   title: "Annuler",

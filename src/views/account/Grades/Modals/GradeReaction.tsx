@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Text, View, Linking, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { CameraView, useCameraPermissions, PermissionStatus } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
-import { Check, X } from "lucide-react-native";
+import { BadgeX, CameraOff, Check, X } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { captureRef } from "react-native-view-shot";
 import { Screen } from "@/router/helpers/types";
@@ -129,7 +129,8 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
     if (cameraPermission?.status !== PermissionStatus.GRANTED) {
       showAlert({
         title: "Accès à la caméra",
-        message: "L'autorisation d'accès à la caméra n'a pas été acceptée."
+        message: "L'autorisation d'accès à la caméra n'a pas été acceptée.",
+        icon: <CameraOff />,
       });
       return;
     }
@@ -162,6 +163,7 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
           showAlert({
             title: "Erreur",
             message: "Erreur lors de l'enregistrement de l'image",
+            icon: <BadgeX />
           });
         } finally {
           setIsLoading(false);
@@ -171,7 +173,8 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
       console.error("Failed to take picture:", error);
       showAlert({
         title: "Erreur",
-        message: "Impossible de capturer l'image."
+        message: "Impossible de capturer l'image.",
+        icon: <BadgeX />,
       });
     }
   };

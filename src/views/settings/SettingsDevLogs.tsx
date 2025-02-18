@@ -25,6 +25,7 @@ import {
   Calendar,
   Folder,
   X,
+  BadgeHelp,
 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
@@ -91,6 +92,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
                 showAlert({
                   title: "Supprimer les logs ?",
                   message: "Es-tu sûr de vouloir supprimer toutes les logs ?",
+                  icon: <BadgeHelp />,
                   actions: [
                     {
                       title: "Annuler",

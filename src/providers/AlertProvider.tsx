@@ -26,7 +26,7 @@ type AlertAction = {
 export type Alert = {
   title: string;
   message: string;
-  icon?: React.ReactElement | null;
+  icon: React.ReactElement;
   actions?: AlertAction[];
 };
 
@@ -58,7 +58,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
   const showAlert = ({
     title,
     message,
-    icon = null,
+    icon,
     actions = [
       {
         title: "Compris !",

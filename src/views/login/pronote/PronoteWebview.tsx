@@ -33,7 +33,7 @@ import extract_pronote_name from "@/utils/format/extract_pronote_name";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
 import { animPapillon } from "@/utils/ui/animations";
 import { useAlert } from "@/providers/AlertProvider";
-import { Undo2 } from "lucide-react-native";
+import { BadgeInfo, Undo2 } from "lucide-react-native";
 
 const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
   const theme = useTheme();
@@ -386,8 +386,8 @@ const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
                   if (!url.includes("identifiant")) {
                     showAlert({
                       title: "Attention",
-                      message:
-                          "Désolé, seuls les comptes élèves sont compatibles pour le moment.",
+                      message: "Désolé, seuls les comptes élèves sont compatibles pour le moment.",
+                      icon: <BadgeInfo />,
                       actions: [
                         {
                           title: "OK",

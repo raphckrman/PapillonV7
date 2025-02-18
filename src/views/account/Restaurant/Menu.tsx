@@ -12,6 +12,7 @@ import {
 import { useTheme } from "@react-navigation/native";
 import {
   AlertTriangle,
+  BadgeX,
   ChefHat,
   CookingPot,
   MapPin,
@@ -179,6 +180,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
       showAlert({
         title: "Erreur",
         message: "Une erreur est survenue lors de la réservation du repas",
+        icon: <BadgeX />,
       });
     }
   };

@@ -5,6 +5,7 @@ import React from "react";
 import {AddonPlacementManifest} from "@/addons/types";
 import {Screen} from "@/router/helpers/types";
 import { useAlert } from "@/providers/AlertProvider";
+import { BadgeX } from "lucide-react-native";
 
 const AddonPage: Screen<"AddonPage"> = ({ navigation, route }) => {
   const addon: AddonPlacementManifest = route.params?.addon;
@@ -47,6 +48,7 @@ const AddonPage: Screen<"AddonPage"> = ({ navigation, route }) => {
             showAlert({
               title: "Erreur",
               message: "La page accédée n'a pas été trouvée.",
+              icon: <BadgeX />,
             }); //TODO: transfer error to webview
             return;
           } else {

@@ -17,6 +17,7 @@ import React from "react";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {
+  BadgeX,
   Calendar,
   Camera, Carrot, Clock,
   Code, Cog,
@@ -297,6 +298,7 @@ const SettingsAddons: Screen<"SettingsAddons"> = () => {
                     showAlert({
                       title: `Impossible de charger le plugin "${addon.name}"`,
                       message: addon.error ?? "Erreur inconnue",
+                      icon: <BadgeX />,
                     });
                   }}
                 >

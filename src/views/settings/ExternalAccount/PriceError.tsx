@@ -1,7 +1,7 @@
 import React from "react";
 import type { Screen } from "@/router/helpers/types";
 import { useTheme } from "@react-navigation/native";
-import { CircleHelp } from "lucide-react-native";
+import { BadgeX, CircleHelp } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {View, StyleSheet, Text, Alert} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -54,6 +54,7 @@ const PriceError: Screen<"PriceError"> = ({ navigation, route }) => {
       return showAlert({
         title: "Erreur",
         message: "Impossible de déterminer le prix d'un repas",
+        icon: <BadgeX />,
       });
     }
     update<ExternalAccount>(accountId, "authentication", { "mealPrice": mealPrice });

@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView, View } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { useTheme } from "@react-navigation/native";
-import { GraduationCap, Utensils, BookOpen, School, BookmarkMinus, Compass, Check, Trash2, Undo2 } from "lucide-react-native";
+import { GraduationCap, Utensils, BookOpen, School, BookmarkMinus, Compass, Check, Trash2, Undo2, BadgeInfo, BadgeHelp } from "lucide-react-native";
 import ExternalServicesContainerCard from "@/components/Settings/ExternalServicesContainerCard";
 import {
   NativeList,
@@ -57,6 +57,7 @@ const SettingsExternalServices: Screen<"SettingsExternalServices"> = ({
     showAlert({
       title: "Informations du compte",
       message: info,
+      icon: <BadgeInfo />,
       actions: [
         {
           title: "OK",
@@ -77,6 +78,7 @@ const SettingsExternalServices: Screen<"SettingsExternalServices"> = ({
     showAlert({
       title: "Supprimer le compte",
       message: "Es-tu sûr de vouloir supprimer ce compte ?",
+      icon: <BadgeHelp />,
       actions: [
         {
           title: "Annuler",

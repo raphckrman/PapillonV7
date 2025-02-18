@@ -3,7 +3,7 @@ import { NativeItem, NativeList, NativeListHeader, NativeText } from "@/componen
 import { useCurrentAccount } from "@/stores/account";
 import { useTimetableStore } from "@/stores/timetable";
 import { useTheme } from "@react-navigation/native";
-import { Calendar, CalendarOff, ClipboardCopy, Info, QrCode, Undo2, X } from "lucide-react-native";
+import { BadgeInfo, BadgeX, Calendar, CalendarOff, ClipboardCopy, Info, QrCode, Undo2, X } from "lucide-react-native";
 import React, { useEffect } from "react";
 import { Modal, TextInput, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -88,6 +88,7 @@ const LessonsImportIcal: Screen<"LessonsImportIcal"> = ({ route, navigation }) =
         showAlert({
           title: "Erreur",
           message: "Impossible de récupérer les données du calendrier. Vérifie l'URL et réessaye.",
+          icon: <BadgeX />,
         });
       })
       .finally(() => {
@@ -237,6 +238,7 @@ const LessonsImportIcal: Screen<"LessonsImportIcal"> = ({ route, navigation }) =
                 showAlert({
                   title: url.name,
                   message: url.url,
+                  icon: <BadgeInfo />,
                   actions: [
                     {
                       title: "Annuler",
@@ -250,6 +252,7 @@ const LessonsImportIcal: Screen<"LessonsImportIcal"> = ({ route, navigation }) =
                         showAlert({
                           title: "Copié",
                           message: "L'URL a été copiée dans le presse-papiers.",
+                          icon: <ClipboardCopy />,
                         });
                       },
                       primary: true,

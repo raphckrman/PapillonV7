@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Text, ScrollView, View, TouchableOpacity, Image } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { useTheme } from "@react-navigation/native";
-import { Info, Sparkles } from "lucide-react-native";
+import { BadgeInfo, Sparkles } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { NativeList, NativeItem, NativeListHeader, NativeText } from "@/components/Global/NativeComponents";
 import IconsContainerCard from "@/components/Settings/IconsContainerCard";
@@ -110,9 +110,9 @@ const SettingsIcons: Screen<"SettingsIcons"> = ({ navigation }) => {
                     }}
                     onPress={() => {
                       showAlert({
-                        icon: <Info />,
                         title: "Icônes dynamiques",
                         message: "Les icônes dynamiques changent de couleur en fonction de ton thème.",
+                        icon: <BadgeInfo />,
                       });
                     }}
                   >
@@ -166,9 +166,9 @@ const SettingsIcons: Screen<"SettingsIcons"> = ({ navigation }) => {
                       <TouchableOpacity
                         onPress={() => {
                           showAlert({
-                            icon: <Info />,
                             title: "Icônes dynamiques",
                             message: "Les icônes dynamiques changent de couleur en fonction de ton thème.",
+                            icon: <BadgeInfo />,
                           });
                         }}
                       >

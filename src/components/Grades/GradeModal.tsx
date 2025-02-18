@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Dimensions
 } from "react-native";
-import { Download, Trash2, Ellipsis } from "lucide-react-native";
+import { Download, Trash2, Ellipsis, OctagonX, ImageDown } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BlurView } from "expo-blur";
 import * as FileSystem from "expo-file-system";
@@ -77,6 +77,7 @@ const GradeModal: React.FC<GradeModalProps> = ({
       showAlert({
         title: "Fonctionnalité indisponible",
         message: "Cette fonctionnalité n'est pas disponible dans Expo Go. Pour l'utiliser, tu peux tester l'application sur ton propre appareil.",
+        icon: <OctagonX />,
       });
       return;
     }
@@ -92,6 +93,7 @@ const GradeModal: React.FC<GradeModalProps> = ({
       showAlert({
         title: "Image sauvegardée",
         message: "L'image a été sauvegardée dans ta galerie.",
+        icon: <ImageDown />,
       });
     } catch (error) {
       console.error("Failed to save image:", error);
@@ -343,6 +345,7 @@ const GradeModal: React.FC<GradeModalProps> = ({
                   showAlert({
                     title: "Fonctionnalité indisponible",
                     message: "Cette fonctionnalité n'est pas disponible dans Expo Go. Pour l'utiliser, tu peux tester l'application sur ton propre appareil.",
+                    icon: <OctagonX />,
                   });
                   return;
                 }

@@ -13,7 +13,7 @@ import uuid from "@/utils/uuid-v4";
 
 import * as Linking from "expo-linking";
 import { useAlert } from "@/providers/AlertProvider";
-import { ArrowRightFromLine, Undo2 } from "lucide-react-native";
+import { ArrowRightFromLine, BadgeHelp, BadgeX, Undo2 } from "lucide-react-native";
 
 const IzlyActivation: Screen<"IzlyActivation"> = ({ navigation, route }) => {
   const theme = useTheme();
@@ -75,12 +75,14 @@ const IzlyActivation: Screen<"IzlyActivation"> = ({ navigation, route }) => {
         showAlert({
           title: "Erreur",
           message: error.message,
+          icon: <BadgeX />,
         });
       }
       else {
         showAlert({
           title: "Erreur",
           message: "Une erreur est survenue lors de l'activation.",
+          icon: <BadgeX />,
         });
       }
     }
@@ -130,6 +132,7 @@ const IzlyActivation: Screen<"IzlyActivation"> = ({ navigation, route }) => {
                 showAlert({
                   title: "Annuler",
                   message: "Es-tu sûr de vouloir annuler l'activation ?",
+                  icon: <BadgeHelp />,
                   actions: [
                     {
                       title: "Continuer l'activation",

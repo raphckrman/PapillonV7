@@ -11,7 +11,7 @@ import {
 import {useTheme} from "@react-navigation/native";
 import type {Screen} from "@/router/helpers/types";
 import {NativeItem, NativeList, NativeListHeader, NativeText} from "@/components/Global/NativeComponents";
-import {Camera, ChevronDown, CircleAlert, TextCursorInput, Trash2, Type, Undo2, User2} from "lucide-react-native";
+import {BadgeHelp, Camera, ChevronDown, CircleAlert, TextCursorInput, Trash2, Type, Undo2, User2} from "lucide-react-native";
 import {useAccounts} from "@/stores/account";
 import {AccountService, PrimaryAccount} from "@/stores/account/types";
 import * as ImagePicker from "expo-image-picker";
@@ -84,6 +84,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
     showAlert({
       title: "Es-tu sûr ?",
       message: "Cette action entrainera la suppression de ton espace multi-service.",
+      icon: <BadgeHelp />,
       actions: [
         {
           title: "Annuler",

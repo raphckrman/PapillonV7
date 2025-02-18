@@ -3,7 +3,7 @@ import { Screen } from "@/router/helpers/types";
 import { useCurrentAccount } from "@/stores/account";
 import { useTheme } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
-import { Camera, ChevronDown, ChevronUp, TextCursorInput, Undo2, User2, UserCircle2, WholeWord } from "lucide-react-native";
+import { BadgeX, Camera, ChevronDown, ChevronUp, ClipboardCopy, TextCursorInput, Undo2, User2, UserCircle2, WholeWord } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Image, KeyboardAvoidingView, ScrollView, Switch, TextInput } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -62,6 +62,7 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
       showAlert({
         title: "Erreur",
         message: "Impossible de récupérer de la photo de profil",
+        icon: <BadgeX />,
         actions: [
           {
             title: "OK",
@@ -358,7 +359,8 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
                   await Clipboard.setStringAsync(item.value);
                   showAlert({
                     title: "Copié",
-                    message: "L'informatio, a été copiée dans le presse-papier."
+                    message: "L'information a été copiée dans le presse-papier.",
+                    icon: <ClipboardCopy />,
                   });
                 }}
                 chevron={false}

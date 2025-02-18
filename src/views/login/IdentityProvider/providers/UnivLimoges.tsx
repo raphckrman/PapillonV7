@@ -12,7 +12,7 @@ import PapillonSpinner from "@/components/Global/PapillonSpinner";
 import { NativeText } from "@/components/Global/NativeComponents";
 import { log } from "@/utils/logger/logger";
 import { useAlert } from "@/providers/AlertProvider";
-import { Check } from "lucide-react-native";
+import { BadgeX, Check } from "lucide-react-native";
 
 const UnivLimoges_Login: Screen<"UnivLimoges_Login"> = ({ navigation }) => {
   const createStoredAccount = useAccounts(store => store.create);
@@ -87,6 +87,7 @@ const UnivLimoges_Login: Screen<"UnivLimoges_Login"> = ({ navigation }) => {
       showAlert({
         title: "Erreur lors de la connexion",
         message: "Une erreur est survenue lors de la connexion à ton compte Biome, réessaye plus tard.",
+        icon: <BadgeX />,
         actions: [
           {
             title: "OK",

@@ -4,7 +4,7 @@ import {useTheme} from "@react-navigation/native";
 import type {Screen} from "@/router/helpers/types";
 import MultiServiceContainerCard from "@/components/Settings/MultiServiceContainerCard";
 import {NativeIcon, NativeItem, NativeList, NativeListHeader, NativeText} from "@/components/Global/NativeComponents";
-import {Check, ImageIcon, PlugZap, Plus, Type, Undo2} from "lucide-react-native";
+import {BadgeInfo, Check, ImageIcon, PlugZap, Plus, ShieldAlert, Type, Undo2} from "lucide-react-native";
 import {useAccounts, useCurrentAccount} from "@/stores/account";
 import {useMultiService} from "@/stores/multiService";
 import BottomSheet from "@/components/Modals/PapillonBottomSheet";
@@ -63,6 +63,7 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
       showAlert({
         title: "Aucun titre défini",
         message: "Tu dois définir un titre à l'environnement multi service pour pouvoir le créer.",
+        icon: <BadgeInfo />,
       });
       return;
     }
@@ -156,6 +157,7 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
                   showAlert({
                     title: "Attention",
                     message: "La désactivation du multi-service entrainera la suppression de tes environnement multi-services créés.",
+                    icon: <ShieldAlert />,
                     actions: [
                       {
                         title: "Annuler",

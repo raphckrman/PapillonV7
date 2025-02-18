@@ -2,7 +2,7 @@ import {NativeItem, NativeList, NativeListHeader, NativeText} from "@/components
 import {useAccounts, useCurrentAccount} from "@/stores/account";
 import {defaultProfilePicture} from "@/utils/ui/default-profile-picture";
 import {useIsFocused, useTheme} from "@react-navigation/native";
-import {PlusIcon, Trash2, Undo2} from "lucide-react-native";
+import {BadgeHelp, PlusIcon, Trash2, Undo2} from "lucide-react-native";
 import {useEffect, useState} from "react";
 import {
   Dimensions,
@@ -393,6 +393,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
                       showAlert({
                         title: "Supprimer le compte",
                         message: "Es-tu sûr de vouloir supprimer ce compte ?",
+                        icon: <BadgeHelp />,
                         actions: [
                           {
                             title: "Annuler",
@@ -408,6 +409,7 @@ const AccountSelector: Screen<"AccountSelector"> = ({ navigation }) => {
                                 showAlert({
                                   title: "Es-tu sûr ?",
                                   message: `Veux-tu supprimer définitivement ${account.studentName.first} ${account.studentName.last} ?`,
+                                  icon: <BadgeHelp />,
                                   actions: [
                                     {
                                       title: "Annuler",

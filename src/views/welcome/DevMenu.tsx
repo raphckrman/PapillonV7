@@ -1,5 +1,5 @@
 import { useTheme } from "@react-navigation/native";
-import { ChevronRight, Eraser, Undo2 } from "lucide-react-native";
+import { BadgeHelp, ChevronRight, Eraser, Undo2 } from "lucide-react-native";
 import React, { useLayoutEffect } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import type { Screen } from "@/router/helpers/types";
@@ -184,6 +184,7 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
               showAlert({
                 title: "Réinitialisation de Papillon",
                 message: "Es-tu sûr de vouloir réinitialiser toutes les données de l'application ?",
+                icon: <BadgeHelp />,
                 actions: [
                   {
                     title: "Annuler",

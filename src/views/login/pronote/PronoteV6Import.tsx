@@ -3,7 +3,7 @@ import { View, StyleSheet, ActivityIndicator } from "react-native";
 import { Screen } from "@/router/helpers/types";
 import { ScrollView } from "react-native-gesture-handler";
 import { NativeItem, NativeList, NativeText } from "@/components/Global/NativeComponents";
-import { Info, PlugZap, Undo2 } from "lucide-react-native";
+import { BadgeX, Info, PlugZap, Undo2 } from "lucide-react-native";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import pronote from "pawnote";
 import { Account, AccountService } from "@/stores/account/types";
@@ -104,6 +104,7 @@ const PronoteV6Import: Screen<"PronoteV6Import"> = ({ route, navigation }) => {
       showAlert({
         title: "Impossible de te reconnecter automatiquement",
         message: "Tu peux cependant te connecter manuellement en indiquant ton identifiant et mot de passe.",
+        icon: <BadgeX />,
         actions: [
           {
             title: "Se connecter manuellement",

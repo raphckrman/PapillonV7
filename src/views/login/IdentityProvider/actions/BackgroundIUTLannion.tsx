@@ -12,7 +12,7 @@ import { NativeText } from "@/components/Global/NativeComponents";
 import { animPapillon } from "@/utils/ui/animations";
 import { FadeInDown, FadeOutUp } from "react-native-reanimated";
 import { useAlert } from "@/providers/AlertProvider";
-import { Undo2 } from "lucide-react-native";
+import { BadgeX, Undo2 } from "lucide-react-native";
 
 const providers = ["scodoc", "moodle", "ical"];
 
@@ -113,6 +113,7 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
       showAlert({
         title: "Erreur",
         message: "Impossible de récupérer les notes du l'IUT de Lannion. Vérifie ta connexion Internet et réessaye.",
+        icon: <BadgeX />,
         actions: [
           {
             title: "OK",
@@ -235,6 +236,7 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
       showAlert({
         title: "Erreur",
         message: "Impossible de se connecter au portail du l'IUT de Lannion. Vérifie tes identifiants et réessaye.",
+        icon: <BadgeX />,
         actions: [
           {
             title: "OK",
@@ -338,6 +340,7 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
           showAlert({
             title: "Erreur",
             message: "Impossible de se connecter au portail du l'IUT de Lannion. Vérifie ta connexion Internet et réessaye.",
+            icon: <BadgeX />,
             actions: [
               {
                 title: "OK",
