@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback, useLayoutEffect, useMemo } from "react";
 import {
-  Alert,
   FlatList,
   KeyboardAvoidingView,
   Text,
@@ -233,7 +232,10 @@ const SettingsSubjects: Screen<"SettingsSubjects"> = ({ navigation }) => {
                   handleSubjectTitleBlur(); // Update subject title when closing the bottom sheet
                 }
               } else {
-                Alert.alert("Aucun émoji défini", "Tu dois définir un émoji pour cette matière avant de pouvoir quitter cette page.");
+                showAlert({
+                  title: "Aucun émoji défini",
+                  message: "Tu dois définir un émoji pour cette matière avant de pouvoir quitter cette page.",
+                });
                 emojiInput.current?.focus();
               }
             }}

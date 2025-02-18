@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Text, View, StyleSheet, Modal, Alert, KeyboardAvoidingView, TextInput, Pressable } from "react-native";
+import { ActivityIndicator, Text, View, StyleSheet, Modal, KeyboardAvoidingView, TextInput, Pressable } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
@@ -19,6 +19,7 @@ import { Account, AccountService } from "@/stores/account/types";
 import { Audio } from "expo-av";
 import defaultPersonalization from "@/services/pronote/default-personalization";
 import extract_pronote_name from "@/utils/format/extract_pronote_name";
+import { useAlert } from "@/providers/AlertProvider";
 
 const makeUUID = (): string => {
   let dt = new Date().getTime();
@@ -55,12 +56,17 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
   const codeInput = React.createRef<TextInput>();
   const [QRData, setQRData] = useState<string | null>(null);
 
+  const { showAlert } = useAlert();
+
   async function loginQR () {
     setScanned(false);
     setLoadingModalVisible(true);
 
     if (QRValidationCode === "" || QRValidationCode.length !== 4) {
-      Alert.alert("Code invalide", "Entre un code à 4 chiffres.");
+      showAlert({
+        title: "Code invalide",
+        message: "Entre un code à 4 chiffres.",
+      });
       return;
     }
 
@@ -142,7 +148,10 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
     } catch (error) {
       console.error(error);
 
-      Alert.alert("Erreur", "Une erreur est survenue lors de la connexion.");
+      showAlert({
+        title: "Erreur",
+        message: "Une erreur est survenue lors de la connexion.",
+      });
       return;
     }
   }

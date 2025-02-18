@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Switch, Platform, Alert } from "react-native";
+import { View, Switch } from "react-native";
 import {
   NativeItem,
   NativeList,
@@ -439,27 +439,18 @@ const SettingsTabs = () => {
                                 checked={item.enabled}
                                 onPress={() => {
                                   if (!item.enabled && tabs.filter(t => t.enabled).length === 5) {
-                                    if (Platform.OS === "ios") {
-                                      Alert.alert("Information", "Tu ne peux pas ajouter plus de 5 onglets sur la page d'accueil.", [
+                                    showAlert({
+                                      title: "Information",
+                                      message: "Tu ne peux pas ajouter plus de 5 onglets sur la page d'accueil.",
+                                      actions: [
                                         {
-                                          text: "OK",
+                                          title: "OK",
+                                          backgroundColor: theme.colors.card,
+                                          primary: true,
+                                          icon: <Undo2 />,
                                         },
-                                      ]);
-                                    } else {
-                                      showAlert({
-                                        title: "Information",
-                                        message: "Tu ne peux pas ajouter plus de 5 onglets sur la page d'accueil.",
-                                        actions: [
-                                          {
-                                            title: "OK",
-                                            onPress: () => {},
-                                            backgroundColor: theme.colors.card,
-                                            primary: true,
-                                            icon: <Undo2 />,
-                                          },
-                                        ],
-                                      });
-                                    }
+                                      ],
+                                    });
                                   }
                                   toggleTab(item.tab);
                                 }}

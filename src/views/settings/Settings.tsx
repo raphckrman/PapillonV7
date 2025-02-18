@@ -1,6 +1,6 @@
 import type { Screen } from "@/router/helpers/types";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { Alert, Image, Platform, Text, View } from "react-native";
+import { Image, Platform, Text, View } from "react-native";
 import { useAccounts, useCurrentAccount } from "@/stores/account";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import PackageJSON from "../../../package.json";
@@ -246,15 +246,17 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           color: "#CF0029",
           label: "Se déconnecter",
           onPress: () => {
-            if (Platform.OS === "ios") {
-              Alert.alert("Se déconnecter", "Es-tu sûr de vouloir te déconnecter ?", [
+            showAlert({
+              title: "Se déconnecter",
+              message: "Es-tu sûr de vouloir te déconnecter ?",
+              actions: [
                 {
-                  text: "Annuler",
-                  style: "cancel",
+                  title: "Annuler",
+                  backgroundColor: colors.card,
+                  icon: <X color={colors.text} />,
                 },
                 {
-                  text: "Se déconnecter",
-                  style: "destructive",
+                  title: "Se déconnecter",
                   onPress: () => {
                     removeAccount(account.localID);
                     navigation.reset({
@@ -262,36 +264,13 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
                       routes: [{ name: "AccountSelector" }],
                     });
                   },
+                  primary: true,
+                  backgroundColor: "#CF0029",
+                  icon: <LogOut color="#FFFFFF" />,
                 },
-              ]);
-            } else {
-              showAlert({
-                title: "Se déconnecter",
-                message: "Es-tu sûr de vouloir te déconnecter ?",
-                actions: [
-                  {
-                    title: "Annuler",
-                    onPress: () => {},
-                    backgroundColor: colors.card,
-                    icon: <X color={colors.text} />,
-                  },
-                  {
-                    title: "Se déconnecter",
-                    onPress: () => {
-                      removeAccount(account.localID);
-                      navigation.reset({
-                        index: 0,
-                        routes: [{ name: "AccountSelector" }],
-                      });
-                    },
-                    primary: true,
-                    backgroundColor: "#CF0029",
-                    icon: <LogOut color="#FFFFFF" />,
-                  },
-                ],
-              });
-            }
-          },
+              ],
+            });
+          }
         },
       ]
     }

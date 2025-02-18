@@ -9,6 +9,7 @@ import { useAccounts } from "@/stores/account";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import {ExternalAccount} from "@/stores/account/types";
 import {detectMealPrice as ARDPriceDetector} from "@/views/settings/ExternalAccount/ARD";
+import { useAlert } from "@/providers/AlertProvider";
 
 type Props = {
   navigation: any;
@@ -22,6 +23,8 @@ const PriceError: Screen<"PriceError"> = ({ navigation, route }) => {
   const update = useAccounts(store => store.update);
   const account = route.params?.account;
   const accountId = route.params?.accountId;
+
+  const { showAlert } = useAlert();
 
   const manualInput = () => {
     Alert.prompt(
@@ -47,7 +50,12 @@ const PriceError: Screen<"PriceError"> = ({ navigation, route }) => {
 
   const reloadMealPrice = async () => {
     const mealPrice = await ARDPriceDetector(account);
-    if (!mealPrice) return Alert.alert("Erreur", "Impossible de déterminer le prix d'un repas");
+    if (!mealPrice) {
+      return showAlert({
+        title: "Erreur",
+        message: "Impossible de déterminer le prix d'un repas",
+      });
+    }
     update<ExternalAccount>(accountId, "authentication", { "mealPrice": mealPrice });
     navigation.pop();
     navigation.pop();

@@ -5,7 +5,6 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   Platform,
-  Alert,
 } from "react-native";
 
 import { WebView } from "react-native-webview";
@@ -385,32 +384,19 @@ const PronoteWebview: Screen<"PronoteWebview"> = ({ route, navigation }) => {
                 setLoading(false);
                 if (url.includes("pronote/mobile.eleve.html")) {
                   if (!url.includes("identifiant")) {
-                    if (Platform.OS === "ios") {
-                      Alert.alert(
-                        "Attention",
-                        "Désolé, seuls les comptes élèves sont compatibles pour le moment.",
-                        [
-                          {
-                            text: "OK",
-                            onPress: () => navigation.goBack(),
-                          },
-                        ]
-                      );
-                    } else {
-                      showAlert({
-                        title: "Attention",
-                        message:
+                    showAlert({
+                      title: "Attention",
+                      message:
                           "Désolé, seuls les comptes élèves sont compatibles pour le moment.",
-                        actions: [
-                          {
-                            title: "OK",
-                            primary: true,
-                            icon: <Undo2 />,
-                            onPress: () => navigation.goBack(),
-                          },
-                        ],
-                      });
-                    }
+                      actions: [
+                        {
+                          title: "OK",
+                          primary: true,
+                          icon: <Undo2 />,
+                          onPress: () => navigation.goBack(),
+                        },
+                      ],
+                    });
                   } else {
                     webViewRef.current?.injectJavaScript(
                       INJECT_PRONOTE_INITIAL_LOGIN_HOOK

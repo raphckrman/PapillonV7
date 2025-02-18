@@ -1,5 +1,5 @@
 import type { Screen } from "@/router/helpers/types";
-import { ActivityIndicator, Alert, Platform, ScrollView, TextInput, TouchableOpacity } from "react-native";
+import { ActivityIndicator, ScrollView, TextInput, TouchableOpacity } from "react-native";
 import {
   NativeIcon,
   NativeItem,
@@ -88,48 +88,27 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
           logs.length > 0 && (
             <TouchableOpacity
               onPress={() => {
-                if (Platform.OS === "ios") {
-                  Alert.alert(
-                    "Supprimer les logs ?",
-                    "Es-tu sûr de vouloir supprimer toutes les logs ?", [
-                      {
-                        text: "Annuler",
-                        style: "cancel",
+                showAlert({
+                  title: "Supprimer les logs ?",
+                  message: "Es-tu sûr de vouloir supprimer toutes les logs ?",
+                  actions: [
+                    {
+                      title: "Annuler",
+                      backgroundColor: colors.card,
+                      icon: <X color={colors.text} />,
+                    },
+                    {
+                      title: "Supprimer",
+                      primary: true,
+                      onPress: () => {
+                        delete_logs();
+                        setLogs([]);
                       },
-                      {
-                        text: "Supprimer",
-                        style: "destructive",
-                        onPress: () => {
-                          delete_logs();
-                          setLogs([]);
-                        },
-                      },
-                    ]
-                  );
-                } else {
-                  showAlert({
-                    title: "Supprimer les logs ?",
-                    message: "Es-tu sûr de vouloir supprimer toutes les logs ?",
-                    actions: [
-                      {
-                        title: "Annuler",
-                        onPress: () => {},
-                        backgroundColor: colors.card,
-                        icon: <X color={colors.text} />,
-                      },
-                      {
-                        title: "Supprimer",
-                        primary: true,
-                        onPress: () => {
-                          delete_logs();
-                          setLogs([]);
-                        },
-                        backgroundColor: "#CF0029",
-                        icon: <Trash2 color="#FFFFFF" />,
-                      },
-                    ],
-                  });
-                }
+                      backgroundColor: "#CF0029",
+                      icon: <Trash2 color="#FFFFFF" />,
+                    },
+                  ],
+                });
               }}
               style={{
                 padding: 5,

@@ -10,7 +10,6 @@ import {
   ScrollView,
   Image,
   Switch,
-  Alert,
   Platform,
   Modal,
 } from "react-native";
@@ -36,6 +35,7 @@ import {PressableScale} from "react-native-pressable-scale";
 import * as Linking from "expo-linking";
 import * as FileSystem from "expo-file-system";
 import {AddonManifest} from "@/addons/types";
+import { useAlert } from "@/providers/AlertProvider";
 
 const SettingsAddons: Screen<"SettingsAddons"> = () => {
   let [ opened, setOpened ] = React.useState(false);
@@ -63,6 +63,8 @@ const SettingsAddons: Screen<"SettingsAddons"> = () => {
   }, []);
 
   const insets = useSafeAreaInsets();
+  const { showAlert } = useAlert();
+
   return (
     <View>
       <Modal
@@ -292,7 +294,10 @@ const SettingsAddons: Screen<"SettingsAddons"> = () => {
               trailing={addon.error && (
                 <PressableScale
                   onPress={() => {
-                    Alert.alert(`Impossible de charger le plugin "${addon.name}"`, addon.error);
+                    showAlert({
+                      title: `Impossible de charger le plugin "${addon.name}"`,
+                      message: addon.error ?? "Erreur inconnue",
+                    });
                   }}
                 >
                   <TriangleAlert
