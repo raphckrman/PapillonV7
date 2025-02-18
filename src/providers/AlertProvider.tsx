@@ -52,7 +52,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
   const [alert, setAlert] = useState<Alert | null>(null);
   const [visible, setVisible] = useState(false);
 
-  const { colors } = useTheme();
+  const { dark, colors } = useTheme();
   const insets = useSafeAreaInsets();
 
   const showAlert = ({
@@ -100,7 +100,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
               style={[
                 styles.alertBox,
                 {
-                  backgroundColor: colors.card,
+                  backgroundColor: dark ? "#222" : colors.card,
                   marginBottom: 10 + insets.bottom,
                 },
               ]}
