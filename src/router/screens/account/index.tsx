@@ -43,6 +43,7 @@ export const screens = [
   createScreen("News", NewsScreen, {
     headerTitle: "Actualités",
     tabBarLabel: "Actualités",
+    headerShown: false,
     tabBarLottie: require("@/../assets/lottie/tab_news.json"),
   }),
   createScreen("Attendance", Attendance, {
