@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Image, StyleSheet, FlatList, ListRenderItem, View } from "react-native";
 import { Screen } from "@/router/helpers/types";
 import { updateNewsInCache } from "@/services/news";
@@ -13,13 +13,13 @@ import Reanimated, { FadeInUp, FadeOut, LinearTransition } from "react-native-re
 import { useTheme } from "@react-navigation/native";
 import { animPapillon } from "@/utils/ui/animations";
 import { categorizeMessages } from "@/utils/magic/categorizeMessages";
-import TabAnimatedTitle from "@/components/Global/TabAnimatedTitle";
 import { protectScreenComponent } from "@/router/helpers/protected-screen";
 import MissingItem from "@/components/Global/MissingItem";
 import {Information} from "@/services/shared/Information";
 import {AccountService} from "@/stores/account/types";
 import {hasFeatureAccountSetup} from "@/utils/multiservice";
 import {MultiServiceFeature} from "@/stores/multiService/types";
+import PapillonHeader, { PapillonHeaderInsetHeight } from "@/components/Global/PapillonHeader";
 import { OfflineWarning, useOnlineStatus } from "@/hooks/useOnlineStatus";
 
 type NewsItem = Omit<Information, "date"> & { date: string, important: boolean };
@@ -41,12 +41,6 @@ const NewsScreen: Screen<"News"> = ({ route, navigation }) => {
       setIsLoading(false);
     }
   }, [isOnline, isLoading]);
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      ...TabAnimatedTitle({ route, navigation }),
-    });
-  }, [navigation, route.params, theme.colors.text]);
 
   const fetchData = useCallback(async (hidden: boolean = false) => {
     if (!hidden) setIsLoading(true);
@@ -130,85 +124,91 @@ const NewsScreen: Screen<"News"> = ({ route, navigation }) => {
   const hasNews = importantMessages.length > 0 || sortedMessages.length > 0;
 
   return (
-    <Reanimated.ScrollView
-      contentContainerStyle={styles.scrollViewContent}
-      refreshControl={
-        <RefreshControl refreshing={isLoading} onRefresh={fetchData} />
-      }
-    >
-      {!isOnline && <OfflineWarning cache={true} />}
+    <>
+      <PapillonHeader route={route} navigation={navigation} />
+      <Reanimated.ScrollView
+        contentContainerStyle={styles.scrollViewContent}
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={fetchData}
+            progressViewOffset={100} />
+        }
+        scrollIndicatorInsets={{ top: 42 }}
+      >
+        <PapillonHeaderInsetHeight route={route} />
 
-      {importantMessages.length > 0 && (
-        <Reanimated.View
-          entering={animPapillon(FadeInUp)}
-          exiting={animPapillon(FadeOut)}
-          layout={animPapillon(LinearTransition)}
-        >
-          <NativeListHeader
-            label="Peut-être Important"
-            animated
-            leading={
-              <Image
-                source={require("@/../assets/images/magic/icon_magic.png")}
-                style={styles.magicIcon}
-                resizeMode="contain"
-              />
-            }
-            trailing={<BetaIndicator />}
-          />
+        {!isOnline && <OfflineWarning cache={true} />}
 
-          <NativeList animated>
-            <LinearGradient
-              colors={!theme.dark ? [theme.colors.card, "#BFF6EF"] : [theme.colors.card, "#2C2C2C"]}
-              start={[0, 0]}
-              end={[2, 0]}
-            >
-              <FlatList
-                data={importantMessages}
-                renderItem={renderItem}
-                keyExtractor={(_, index) => `important-${index}`}
-                scrollEnabled={false}
-              />
-            </LinearGradient>
-          </NativeList>
-        </Reanimated.View>
-      )}
-
-      {sortedMessages.length > 0 && (
-        <Reanimated.View
-          entering={animPapillon(FadeInUp)}
-          exiting={animPapillon(FadeOut)}
-          layout={animPapillon(LinearTransition)}
-        >
-          <NativeList animated inline>
-            <FlatList
-              data={sortedMessages}
-              renderItem={renderItem}
-              keyExtractor={(_, index) => `sorted-${index}`}
-              scrollEnabled={false}
-              initialNumToRender={6}
+        {importantMessages.length > 0 && (
+          <Reanimated.View
+            entering={animPapillon(FadeInUp)}
+            exiting={animPapillon(FadeOut)}
+            layout={animPapillon(LinearTransition)}
+          >
+            <NativeListHeader
+              label="Peut-être Important"
+              animated
+              leading={
+                <Image
+                  source={require("@/../assets/images/magic/icon_magic.png")}
+                  style={styles.magicIcon}
+                  resizeMode="contain"
+                />
+              }
+              trailing={<BetaIndicator />}
             />
-          </NativeList>
-        </Reanimated.View>
-      )}
 
-      {hasServiceSetup ?
-        !isLoading && !hasNews && <NoNewsMessage />
-        :
-        <MissingItem
-          title="Aucun service connecté"
-          description="Tu n'as pas encore paramétré de service pour cette fonctionnalité."
-          emoji="🤷"
-        />
-      }
-    </Reanimated.ScrollView>
+            <NativeList animated>
+              <LinearGradient
+                colors={!theme.dark ? [theme.colors.card, "#BFF6EF"] : [theme.colors.card, "#2C2C2C"]}
+                start={[0, 0]}
+                end={[2, 0]}
+              >
+                <FlatList
+                  data={importantMessages}
+                  renderItem={renderItem}
+                  keyExtractor={(_, index) => `important-${index}`}
+                  scrollEnabled={false}
+                />
+              </LinearGradient>
+            </NativeList>
+          </Reanimated.View>
+        )}
+
+        {sortedMessages.length > 0 && (
+          <Reanimated.View
+            entering={animPapillon(FadeInUp)}
+            exiting={animPapillon(FadeOut)}
+            layout={animPapillon(LinearTransition)}
+          >
+            <NativeList animated inline>
+              <FlatList
+                data={sortedMessages}
+                renderItem={renderItem}
+                keyExtractor={(_, index) => `sorted-${index}`}
+                scrollEnabled={false}
+                initialNumToRender={6}
+              />
+            </NativeList>
+          </Reanimated.View>
+        )}
+
+        {hasServiceSetup ?
+          !isLoading && !hasNews && <NoNewsMessage />
+          :
+          <MissingItem
+            title="Aucun service connecté"
+            description="Tu n'as pas encore paramétré de service pour cette fonctionnalité."
+            emoji="🤷"
+          />
+        }
+      </Reanimated.ScrollView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   scrollViewContent: {
     padding: 16,
-    paddingTop: 0,
   },
   magicIcon: {
     width: 26,
