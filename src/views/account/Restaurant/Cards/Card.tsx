@@ -62,7 +62,7 @@ const MenuCard = ({ card, onPress }: { card: ServiceCard, onPress?: () => void }
               { color: card?.theme?.colors?.text }
             ]}
           >
-            {formatCardIdentifier(card.account?.localID)}
+            {formatCardIdentifier(card.account?.localID as string)}
           </Text>
         )}
 

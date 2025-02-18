@@ -149,7 +149,7 @@ const Grades: Screen<"Grades"> = ({ route, navigation }) => {
             return {
               label: period.name,
               subtitle:
-              new Date(period.startTimestamp).toLocaleDateString(
+              new Date(period.startTimestamp as number).toLocaleDateString(
                 "fr-FR",
                 {
                   month: "long",

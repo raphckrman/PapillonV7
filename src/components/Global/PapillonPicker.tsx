@@ -18,7 +18,7 @@ export type PickerDataItem = string | {
   subtitle?: string,
   icon?: JSX.Element,
   sfSymbol?: string,
-  onPress?: () => unknown,
+  onPress?: () => {} | void,
   checked?: boolean
 };
 
@@ -65,11 +65,13 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
           const actionKey = event.nativeEvent.actionKey;
           const index = parseInt(actionKey.split("-")[1]);
 
-          const item = data[index];
+          const item: PickerDataItem = data[index];
           if (item !== null) {
+            // @ts-ignore
             if (!item.onPress) {
               handleSelectionChange(item);
             } else {
+              // @ts-ignore
               item.onPress();
             }
           }
@@ -80,7 +82,9 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
             return {
               actionKey: "action-"+index.toString(),
               actionTitle: typeof item === "string" ? item : item.label,
+              // @ts-ignore
               actionSubtitle: item.subtitle,
+              // @ts-ignore
               menuState: (item.checked || item === selected) ? "on" : "off",
               icon: {
                 type: typeof item !== "string" ? "IMAGE_SYSTEM" : "IMAGE_SYSTEM",

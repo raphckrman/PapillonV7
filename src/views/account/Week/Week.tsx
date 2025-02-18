@@ -252,6 +252,7 @@ const Week: Screen<"Week"> = ({ route, navigation }) => {
         event: event,
       }));
 
+    // @ts-ignore
     setEvents(nevts);
   }, [timetables]);
 

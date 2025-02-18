@@ -130,7 +130,7 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
                 letterSpacing: 3.5,
               }}
             >
-              {formatCardIdentifier(card.account?.localID, 12, "")}
+              {formatCardIdentifier(card.account?.localID as string, 12, "")}
             </Text>
           </View>
 
