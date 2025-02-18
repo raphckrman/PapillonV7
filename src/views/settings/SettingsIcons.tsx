@@ -65,7 +65,7 @@ const SettingsIcons: Screen<"SettingsIcons"> = ({ navigation }) => {
         setIconName(iconConstructName);
         setIcon(iconConstructName);
       } else {
-        alertExpoGo();
+        alertExpoGo(showAlert);
       };
     }
     else {
@@ -73,7 +73,7 @@ const SettingsIcons: Screen<"SettingsIcons"> = ({ navigation }) => {
         setIconName(icon.id);
         setIcon(icon.id);
       } else {
-        alertExpoGo();
+        alertExpoGo(showAlert);
       };
     }
   };

@@ -6,11 +6,10 @@ export const isExpoGo = () => {
   return Constants.executionEnvironment !== ExecutionEnvironment.Bare;
 };
 
-export const alertExpoGo = async () => {
-  const { showAlert } = useAlert();
-  showAlert({
+export const alertExpoGo = (showAlert: ReturnType<typeof useAlert>["showAlert"]) => {
+  return showAlert({
     title: "Tu développes à l'aide d'Expo Go",
     message: "Sous Expo Go, les appels aux API natives sont indisponibles. Utilise un build de développement pour accéder à toutes les fonctionnalités.",
-    icon: <MonitorSmartphone />
+    icon: <MonitorSmartphone />,
   });
 };
