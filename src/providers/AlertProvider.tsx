@@ -100,7 +100,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
               style={[
                 styles.alertBox,
                 {
-                  backgroundColor: dark ? "#222" : colors.card,
+                  backgroundColor: dark ? "#333" : colors.card,
                   marginBottom: 10 + insets.bottom,
                 },
               ]}
@@ -128,9 +128,8 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                   styles.buttons,
                   {
                     borderColor: colors.border,
-                    flexDirection:
-                      (alert.actions ?? []).length > 2 ? "column" : "row",
-                    alignItems: "stretch",
+                    flexDirection: (alert.actions ?? []).length > 2 ? "column" : "row",
+                    alignItems: "center",
                   },
                 ]}
               >
@@ -151,19 +150,17 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                       }}
                       style={({ pressed }) => [
                         styles.button,
+                        {
+                          width: (alert.actions ?? []).length > 2 ? "100%" : "auto",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          opacity: pressed ? 0.6 : 1,
+                        },
+                        primary ? styles.primaryButton : styles.notPrimaryButton,
                         primary
-                          ? styles.primaryButton
-                          : styles.notPrimaryButton,
-                        primary
-                          ? {
-                            backgroundColor: backgroundColor ?? colors.primary,
-                          }
-                          : {
-                            borderColor: "#CCC",
-                            borderWidth: 1,
-                          },
+                          ? { backgroundColor: backgroundColor ?? colors.primary }
+                          : { borderColor: "#CCC", borderWidth: 1 },
                         danger && { backgroundColor: "#FC1E0D" },
-                        { opacity: pressed ? 0.6 : 1 },
                       ]}
                     >
                       {icon &&
@@ -217,7 +214,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 20,
     paddingBottom: 5,
-    maxWidth: "85%",
+    maxWidth: "90%",
   },
   contentContainer: {
     gap: 6,
@@ -250,8 +247,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 5,
     alignItems: "center",
+    justifyContent: "center",
     borderRadius: 300,
-    paddingVertical: 5,
+    paddingVertical: 10,
+    width: "100%",
   },
   buttonText: {
     fontSize: 16,
