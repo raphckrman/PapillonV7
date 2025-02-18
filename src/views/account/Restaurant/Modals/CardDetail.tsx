@@ -17,12 +17,7 @@ import { QrCode } from "lucide-react-native";
 import { balanceFromExternal } from "@/services/balance";
 import { reservationHistoryFromExternal } from "@/services/reservation-history";
 import { Screen } from "@/router/helpers/types";
-
-const formatCardIdentifier = (identifier: string) => {
-  const visiblePart = identifier.slice(-6);
-  const maskedPart = identifier.slice(0, -6).replace(/./g, "•");
-  return maskedPart + " " + (visiblePart.match(/.{1,4}/g) ?? []).join(" ");
-};
+import { formatCardIdentifier } from "../Menu";
 
 const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigation }) => {
   try {
@@ -132,10 +127,10 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
                 opacity: 0.5,
                 textAlign: "center",
                 color: theme.colors.text,
-                letterSpacing: 1.5,
+                letterSpacing: 3.5,
               }}
             >
-              {formatCardIdentifier(route.params.card.identifier)}
+              {formatCardIdentifier(card.account?.localID as string, 12, "")}
             </Text>
           </View>
 

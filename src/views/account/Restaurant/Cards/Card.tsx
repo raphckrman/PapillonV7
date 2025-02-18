@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image } from "react-native";
-import { ServiceCard } from "../Menu";
+import { formatCardIdentifier, ServiceCard } from "../Menu";
 import { useTheme } from "@react-navigation/native";
 import { defaultProfilePicture } from "@/utils/ui/default-profile-picture";
 import { PressableScale } from "react-native-pressable-scale";
@@ -39,17 +39,20 @@ const MenuCard = ({ card, onPress }: { card: ServiceCard, onPress?: () => void }
           >
             {card?.theme?.name}
           </Text>
-
-          {card.balance[0] && card.balance[0].amount && (
-            <View style={[styles.cardBalance]}>
-              <Text style={[styles.cardBalanceTitle, { color: card?.theme?.colors?.accent }]}>
-                Solde
-              </Text>
-              <Text style={[styles.cardBalanceValue, { color: card?.theme?.colors?.text }]}>
-                {card.balance[0] ? card.balance[0].amount.toFixed(2) + " €" : "---"}
-              </Text>
-            </View>
-          )}
+          <View style={[styles.cardBalances]}>
+            {card.balance?.map((balance, index) =>
+              balance.amount && (
+                <View key={index} style={[styles.cardBalance]}>
+                  <Text style={[styles.cardBalanceTitle, { color: card?.theme?.colors?.accent }]}>
+                    {balance.label}
+                  </Text>
+                  <Text style={[styles.cardBalanceValue, { color: card?.theme?.colors?.text }]}>
+                    {balance.amount.toFixed(2) + " €"}
+                  </Text>
+                </View>
+              )
+            )}
+          </View>
         </View>
 
         {card.identifier && (
@@ -59,7 +62,7 @@ const MenuCard = ({ card, onPress }: { card: ServiceCard, onPress?: () => void }
               { color: card?.theme?.colors?.text }
             ]}
           >
-            •••• {card.identifier.slice(-4)}
+            {formatCardIdentifier(card.account?.localID as string)}
           </Text>
         )}
 
@@ -107,14 +110,18 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     flexDirection: "row",
-    alignItems: "center",
     gap: 10,
+  },
+
+  cardBalances: {
+    gap: 5
   },
 
   cardHeaderName: {
     fontSize: 16,
     fontFamily: "semibold",
     flex: 1,
+    marginTop: 9,
   },
 
   cardHeaderIcon: {

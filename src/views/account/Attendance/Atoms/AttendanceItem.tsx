@@ -89,16 +89,18 @@ const AttendanceItem: React.FC<AttendanceItemProps> = ({
         const not_justified = "justified" in item && !item.justified;
         const justification = "reasons" in item ? item.reasons || NO_JUSTICATION : "reason" in item ? item.reason.text : NO_JUSTICATION;
         const dateString = toTimestamp
-          ? `Du ${new Date(timestamp).toLocaleDateString("fr-FR", {
+          ? `du ${new Date(timestamp).toLocaleDateString("fr-FR", {
+            weekday: "long",
             day: "2-digit",
-            month: "2-digit",
+            month: "short",
             year: new Date(timestamp).getFullYear() !== new Date().getFullYear() ? "2-digit" : undefined,
           })} à ${new Date(timestamp).toLocaleTimeString("fr-FR", {
             hour: "2-digit",
             minute: "2-digit",
-          })}\nAu ${new Date(toTimestamp).toLocaleDateString("fr-FR", {
+          })}\nau ${new Date(toTimestamp).toLocaleDateString("fr-FR", {
+            weekday: "long",
             day: "2-digit",
-            month: "2-digit",
+            month: "short",
             year: new Date(toTimestamp).getFullYear() !== new Date().getFullYear() ? "2-digit" : undefined,
           })} à ${new Date(toTimestamp).toLocaleTimeString("fr-FR", {
             hour: "2-digit",

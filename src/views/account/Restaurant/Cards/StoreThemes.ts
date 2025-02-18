@@ -21,7 +21,7 @@ export const STORE_THEMES = [
     background: require("../../../../../assets/images/cards/Carte_Cover_Unknown.png"),
   },
   {
-    id: "izly",
+    id: "Izly",
     name: "Izly by Crous",
     colors: {
       text: "#FFFFFF",
@@ -31,7 +31,7 @@ export const STORE_THEMES = [
     background: require("../../../../../assets/images/cards/Carte_Cover_Izly.png"),
   },
   {
-    id: "turboself",
+    id: "Turboself",
     name: "TurboSelf",
     colors: {
       text: "#FFFFFF",
@@ -42,7 +42,7 @@ export const STORE_THEMES = [
   },
   {
     id: "ARD",
-    name: "Ard",
+    name: "ARD",
     colors: {
       text: "#FFFFFF",
       background: "#295888",

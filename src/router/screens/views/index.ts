@@ -78,6 +78,7 @@ export default [
     gestureDirection: "vertical",
     animation: "slide_from_bottom",
     headerShown: false,
+    sheetCornerRadius: 16,
   }),
   createScreen("HomeworksDocument", HomeworksDocument, {
     headerTitle: "Devoir",
@@ -85,12 +86,14 @@ export default [
     gestureDirection: "vertical",
     animation: "slide_from_bottom",
     headerShown: false,
+    sheetCornerRadius: 16,
   }),
   createScreen("GradeSubject", GradeSubjectScreen, {
     headerTitle: "Détail de la matière",
     presentation: "formSheet",
     gestureDirection: "vertical",
     animation: "slide_from_bottom",
+    sheetCornerRadius: 16,
   }),
   createScreen("GradeDocument", GradeDocument, {
     headerTitle: "Détail de la note",
