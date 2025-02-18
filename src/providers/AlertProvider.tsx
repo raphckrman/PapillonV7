@@ -73,8 +73,8 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
   };
 
   function hideAlert () {
+    setAlert(null);
     setVisible(false);
-    setTimeout(() => setAlert(null), 200);
   }
 
   return (
