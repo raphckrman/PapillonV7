@@ -163,7 +163,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                             borderColor: "#CCC",
                             borderWidth: 1,
                           },
-                        danger && { backgroundColor: "#b62000" },
+                        danger && { backgroundColor: "#FC1E0D" },
                         { opacity: pressed ? 0.6 : 1 },
                       ]}
                     >
