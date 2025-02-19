@@ -23,7 +23,7 @@ export default [
   createScreen("AccountStack", AccountScreen, {
     headerShown: false,
     gestureEnabled: false,
-    animation: Platform.OS === "android" ? "slide_from_right" : "default",
+    animation: Platform.OS === "android" ? "slide_from_right" : "none",
     animationDuration: 100,
   }),
 ] as const;

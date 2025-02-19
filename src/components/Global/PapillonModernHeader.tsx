@@ -41,21 +41,21 @@ const LinearGradientModernHeader: React.FC<ModernHeaderProps> = ({ children, out
   const theme = useTheme();
   const insets = useSafeAreaInsets();
 
-  console.log(Platform);
+  const enableBlur = Platform.OS === "ios" && !isExpoGo() && parseInt(Platform.Version) >= 18;
 
   return (
     <>
-
-      {Platform.OS === "ios" && !isExpoGo() && parseInt(Platform.Version) >= 18 ? (
+      {enableBlur ? (
         <CustomFilterView
           style={[
             {
+              backgroundColor: theme.colors.background + "00",
               position: "absolute",
               top: 0,
               left: 0,
               right: 0,
               width: Dimensions.get("window").width,
-              height: outsideNav ? height : insets.top + height,
+              height: (outsideNav ? height : insets.top + height) - 10,
               zIndex: 80,
             }
           ]}
@@ -83,7 +83,7 @@ const LinearGradientModernHeader: React.FC<ModernHeaderProps> = ({ children, out
                   startPointPreset: "topCenter",
                   endPointPreset: "bottomCenter",
                   size: {
-                    height: outsideNav ? height : insets.top + height,
+                    height: (outsideNav ? height : insets.top + height) - 10,
                     width: Dimensions.get("window").width,
                   },
                 }
@@ -91,20 +91,21 @@ const LinearGradientModernHeader: React.FC<ModernHeaderProps> = ({ children, out
             ]
           }}
         />
-      ) : (
-        <LinearGradient
-          colors={tint && tint !== "" ? [tint + "EE", tint + "00"] : [theme.colors.background + "EE", theme.colors.background + "00"]}
-          locations={[startLocation, 1]}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: outsideNav ? height : insets.top + height,
-            zIndex: 90,
-          }}
-        />
-      )}
+      ) : null}
+
+      <LinearGradient
+        colors={tint && tint !== "" ? [tint + "EE", tint + "00"] : [theme.colors.background + "EE", theme.colors.background + "00"]}
+        locations={[startLocation, 1]}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: outsideNav ? height : insets.top + height,
+          zIndex: 90,
+          opacity: enableBlur ? 0.5 : 1,
+        }}
+      />
 
       <Reanimated.View
         style={[{
@@ -158,7 +159,7 @@ const NativeModernHeader: React.FC<ModernHeaderProps> = ({ children, outsideNav 
           justifyContent: "space-between",
           alignItems: "center",
           gap: 8,
-          backgroundColor: tint ? tint : theme.colors.text + "10",
+          backgroundColor: tint ? tint : theme.colors.card + "10",
           borderBottomColor: theme.colors.border,
           borderBottomWidth: 0.5,
         }]}
