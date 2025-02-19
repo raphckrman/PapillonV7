@@ -254,8 +254,8 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
               actions: [
                 {
                   title: "Annuler",
-                  backgroundColor: colors.card,
-                  icon: <X color={colors.text} />,
+                  icon: <X />,
+                  primary: true,
                 },
                 {
                   title: "Se déconnecter",
@@ -266,9 +266,8 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
                       routes: [{ name: "AccountSelector" }],
                     });
                   },
-                  primary: true,
-                  backgroundColor: "#CF0029",
-                  icon: <LogOut color="#FFFFFF" />,
+                  danger: true,
+                  icon: <LogOut />,
                 },
               ],
             });
