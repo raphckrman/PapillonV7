@@ -258,7 +258,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
                   primary: true,
                 },
                 {
-                  title: "Se déconnecter",
+                  title: "Déconnexion",
                   onPress: () => {
                     removeAccount(account.localID);
                     navigation.reset({
