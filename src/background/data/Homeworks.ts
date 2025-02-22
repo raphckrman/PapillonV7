@@ -37,21 +37,23 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
     return currentHwSemaineActuelle;
   }
 
-  await papillonNotify(
-    {
-      id: "statusBackground",
-      title: account.name,
-      body: "Récupération des derniers devoirs...",
-      android: {
-        progress: {
-          max: 100,
-          current: (100 / 6) * 2,
-          indeterminate: false,
+  if (__DEV__) {
+    await papillonNotify(
+      {
+        id: "statusBackground",
+        title: account.name,
+        body: "Récupération des derniers devoirs...",
+        android: {
+          progress: {
+            max: 100,
+            current: (100 / 6) * 2,
+            indeterminate: false,
+          },
         },
       },
-    },
-    "Status"
-  );
+      "Status"
+    );
+  }
 
   const currentHwSemaineProchaine = getHomeworks()[SemaineAct + 1] ?? [];
 

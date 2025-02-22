@@ -61,21 +61,23 @@ const fetchAttendance = async (): Promise<Attendance> => {
     return attendances[defaultPeriod];
   }
 
-  await papillonNotify(
-    {
-      id: "statusBackground",
-      title: account.name,
-      body: "Récupération des dernières événement de la vie scolaire...",
-      android: {
-        progress: {
-          max: 100,
-          current: (100 / 6) * 5,
-          indeterminate: false,
+  if (__DEV__) {
+    await papillonNotify(
+      {
+        id: "statusBackground",
+        title: account.name,
+        body: "Récupération des dernières événement de la vie scolaire...",
+        android: {
+          progress: {
+            max: 100,
+            current: (100 / 6) * 5,
+            indeterminate: false,
+          },
         },
       },
-    },
-    "Status"
-  );
+      "Status"
+    );
+  }
 
   await updateAttendanceState(account, defaultPeriod);
   const updatedAttendance = getAttendance().attendances[defaultPeriod];

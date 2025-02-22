@@ -63,18 +63,21 @@ const backgroundFetch = async () => {
   }
 
   isBackgroundFetchRunning = true;
-  await papillonNotify(
-    {
-      id: "statusBackground",
-      body: "Récupération des données des comptes les plus récentes en arrière-plan...",
-      android: {
-        progress: {
-          indeterminate: true,
+
+  if (__DEV__) {
+    await papillonNotify(
+      {
+        id: "statusBackground",
+        body: "Récupération des données des comptes les plus récentes en arrière-plan...",
+        android: {
+          progress: {
+            indeterminate: true,
+          },
         },
       },
-    },
-    "Status"
-  );
+      "Status"
+    );
+  }
 
   try {
     const accounts = getAccounts();
@@ -108,7 +111,9 @@ const backgroundFetch = async () => {
     return BackgroundFetchResult.Failed;
   } finally {
     isBackgroundFetchRunning = false;
-    notifee.cancelNotification("statusBackground");
+    if (__DEV__) {
+      notifee.cancelNotification("statusBackground");
+    }
   }
 };
 

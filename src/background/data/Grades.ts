@@ -26,21 +26,23 @@ const fetchGrade = async (): Promise<Grade[]> => {
     return grades[defaultPeriod];
   }
 
-  await papillonNotify(
-    {
-      id: "statusBackground",
-      title: account.name,
-      body: "Récupération des dernières notes...",
-      android: {
-        progress: {
-          max: 100,
-          current: (100 / 6) * 3,
-          indeterminate: false,
+  if (__DEV__) {
+    await papillonNotify(
+      {
+        id: "statusBackground",
+        title: account.name,
+        body: "Récupération des dernières notes...",
+        android: {
+          progress: {
+            max: 100,
+            current: (100 / 6) * 3,
+            indeterminate: false,
+          },
         },
       },
-    },
-    "Status"
-  );
+      "Status"
+    );
+  }
 
   await updateGradeState(account, defaultPeriod);
   const updatedGrade = getGrades().grades[defaultPeriod];

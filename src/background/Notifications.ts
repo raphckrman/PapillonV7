@@ -36,14 +36,16 @@ const createChannelNotification = async () => {
     sound: "default",
   });
 
-  await notifee.createChannel({
-    id: "Status",
-    name: "Statut du background",
-    description: "Affiche quand le background est actuellement actif",
-    vibration: false,
-    importance: AndroidImportance.MIN,
-    badge: false,
-  });
+  if (__DEV__) {
+    await notifee.createChannel({
+      id: "Status",
+      name: "Statut du background",
+      description: "Affiche quand le background est actuellement actif",
+      vibration: false,
+      importance: AndroidImportance.MIN,
+      badge: false,
+    });
+  }
 
   await notifee.createChannelGroup({
     id: "Papillon",

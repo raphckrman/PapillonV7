@@ -27,21 +27,23 @@ const fetchNews = async (): Promise<Information[]> => {
     return currentNews;
   }
 
-  await papillonNotify(
-    {
-      id: "statusBackground",
-      title: account.name,
-      body: "Récupération des dernières actualités...",
-      android: {
-        progress: {
-          max: 100,
-          current: (100 / 6) * 1,
-          indeterminate: false,
+  if (__DEV__) {
+    await papillonNotify(
+      {
+        id: "statusBackground",
+        title: account.name,
+        body: "Récupération des dernières actualités...",
+        android: {
+          progress: {
+            max: 100,
+            current: (100 / 6) * 1,
+            indeterminate: false,
+          },
         },
       },
-    },
-    "Status"
-  );
+      "Status"
+    );
+  }
 
   await updateNewsState(account);
   const updatedNews = getNews();

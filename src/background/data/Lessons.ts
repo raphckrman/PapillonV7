@@ -45,21 +45,23 @@ const fetchLessons = async (): Promise<Timetable> => {
     return getAllLessonsForDay(currentLessons);
   }
 
-  await papillonNotify(
-    {
-      id: "statusBackground",
-      title: account.name,
-      body: "Récupération de l'emploi du temps...",
-      android: {
-        progress: {
-          max: 100,
-          current: (100 / 6) * 4,
-          indeterminate: false,
+  if (__DEV__) {
+    await papillonNotify(
+      {
+        id: "statusBackground",
+        title: account.name,
+        body: "Récupération de l'emploi du temps...",
+        android: {
+          progress: {
+            max: 100,
+            current: (100 / 6) * 4,
+            indeterminate: false,
+          },
         },
       },
-    },
-    "Status"
-  );
+      "Status"
+    );
+  }
 
   const weekNumber = dateToEpochWeekNumber(new Date());
   await updateLessonsState(account, weekNumber);

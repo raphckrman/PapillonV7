@@ -26,21 +26,23 @@ const fetchEvaluation = async (): Promise<Evaluation[]> => {
     return evaluation[defaultPeriod];
   }
 
-  await papillonNotify(
-    {
-      id: "statusBackground",
-      title: account.name,
-      body: "Récupération des dernières compétences...",
-      android: {
-        progress: {
-          max: 100,
-          current: (100 / 6) * 6,
-          indeterminate: false,
+  if (__DEV__) {
+    await papillonNotify(
+      {
+        id: "statusBackground",
+        title: account.name,
+        body: "Récupération des dernières compétences...",
+        android: {
+          progress: {
+            max: 100,
+            current: (100 / 6) * 6,
+            indeterminate: false,
+          },
         },
       },
-    },
-    "Status"
-  );
+      "Status"
+    );
+  }
 
   await updateEvaluationState(account, defaultPeriod);
   const updatedEvaluation = getEvaluation().evaluation[defaultPeriod];
