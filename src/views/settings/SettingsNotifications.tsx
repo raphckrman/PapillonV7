@@ -8,39 +8,45 @@ import {
   TrendingUp,
   Newspaper,
   NotepadText,
-  BookPlus
+  BookPlus,
 } from "lucide-react-native";
-import { FadeInDown, FadeOutUp, useSharedValue, withTiming } from "react-native-reanimated";
+import {
+  FadeInDown,
+  FadeOutUp,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import {
   NativeIcon,
   NativeItem,
   NativeList,
   NativeListHeader,
-  NativeText
+  NativeText,
 } from "@/components/Global/NativeComponents";
 import NotificationContainerCard from "@/components/Settings/NotificationContainerCard";
-import { createChannelNotification, requestNotificationPermission } from "@/background/Notifications";
+import {
+  createChannelNotification,
+  requestNotificationPermission,
+} from "@/background/Notifications";
 import { useCurrentAccount } from "@/stores/account";
-import { useAlert } from "@/providers/AlertProvider";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import { anim2Papillon } from "@/utils/ui/animations";
 
 const SettingsNotifications: Screen<"SettingsNotifications"> = ({
-  navigation
+  navigation,
 }) => {
   const theme = useTheme();
   const { colors } = theme;
 
   // User data
-  const account = useCurrentAccount(store => store.account!);
-  const mutateProperty = useCurrentAccount(store => store.mutateProperty);
+  const account = useCurrentAccount((store) => store.account!);
+  const mutateProperty = useCurrentAccount((store) => store.mutateProperty);
   const notifications = account.personalization.notifications;
 
   // Global state
   const [enabled, setEnabled] = useState<boolean | null>(
-    notifications?.enabled || false
+    notifications?.enabled ?? false
   );
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const handleNotificationPermission = async () => {
@@ -49,14 +55,14 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
         setEnabled(null);
         setTimeout(() => {
           mutateProperty("personalization", {
-            notifications: { ...notifications, enabled: false }
+            notifications: { ...notifications, enabled: false },
           });
         }, 1500);
       } else if (enabled !== null) {
         if (enabled) createChannelNotification();
         setTimeout(() => {
           mutateProperty("personalization", {
-            notifications: { ...notifications, enabled }
+            notifications: { ...notifications, enabled },
           });
         }, 1500);
       }
@@ -108,7 +114,8 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
     {
       icon: <NativeIcon icon={<Newspaper />} color={colors.primary} />,
       title: "Nouvelle actualité",
-      message: "Chers élèves, chers collègues, Dans le cadre du prix \"Non au harcèlement\", 9 affiches ont été réa...",
+      message:
+        "Chers élèves, chers collègues, Dans le cadre du prix \"Non au harcèlement\", 9 affiches ont été réa...",
       personalizationValue: "news",
     },
     {
@@ -124,8 +131,6 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
       personalizationValue: "evaluation",
     },
   ];
-
-  const { showAlert } = useAlert();
 
   return (
     <ScrollView
@@ -185,9 +190,7 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
                   />
                 }
               >
-                <NativeText variant="title">
-                  {notification.title}
-                </NativeText>
+                <NativeText variant="title">{notification.title}</NativeText>
                 <NativeText
                   style={{
                     color: colors.text + "80",
