@@ -33,11 +33,12 @@ type NotificationContainerCardProps = {
   >;
 };
 
-const openNotificationSettings = () => {
+const openNotificationSettings = async () => {
   if (Platform.OS === "ios") {
     Linking.openURL("app-settings:");
   } else {
-    Linking.openSettings();
+    const notifee = (await import("@notifee/react-native")).default;
+    notifee.openNotificationSettings();
   }
 };
 
