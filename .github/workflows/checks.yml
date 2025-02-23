@@ -27,7 +27,7 @@ jobs:
       - name: 🛠️ Commit and Push Fixes ESLint (Main)
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions@github.com"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           npx eslint . --fix
           if git diff --quiet; then
             echo "No changes to commit."
