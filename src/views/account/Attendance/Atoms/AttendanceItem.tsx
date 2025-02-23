@@ -101,32 +101,32 @@ const AttendanceItem: React.FC<AttendanceItemProps> = ({
             minute: "2-digit",
           })}`
           : toTimestamp
-          ? `du ${new Date(timestamp).toLocaleDateString("fr-FR", {
-            weekday: "long",
-            day: "2-digit",
-            month: "short",
-            year: new Date(timestamp).getFullYear() !== new Date().getFullYear() ? "numeric" : undefined,
-          })} à ${new Date(timestamp).toLocaleTimeString("fr-FR", {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}\nau ${new Date(toTimestamp).toLocaleDateString("fr-FR", {
-            weekday: "long",
-            day: "2-digit",
-            month: "short",
-            year: new Date(toTimestamp).getFullYear() !== new Date().getFullYear() ? "numeric" : undefined,
-          })} à ${new Date(toTimestamp).toLocaleTimeString("fr-FR", {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}`
-          : `${new Date(timestamp).toLocaleDateString("fr-FR", {
-            weekday: "long",
-            day: "2-digit",
-            month: "short",
-            year: new Date(timestamp).getFullYear() !== new Date().getFullYear() ? "numeric" : undefined,
-          })} à ${new Date(timestamp).toLocaleTimeString("fr-FR", {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}`;
+            ? `du ${new Date(timestamp).toLocaleDateString("fr-FR", {
+              weekday: "long",
+              day: "2-digit",
+              month: "short",
+              year: new Date(timestamp).getFullYear() !== new Date().getFullYear() ? "numeric" : undefined,
+            })} à ${new Date(timestamp).toLocaleTimeString("fr-FR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}\nau ${new Date(toTimestamp).toLocaleDateString("fr-FR", {
+              weekday: "long",
+              day: "2-digit",
+              month: "short",
+              year: new Date(toTimestamp).getFullYear() !== new Date().getFullYear() ? "numeric" : undefined,
+            })} à ${new Date(toTimestamp).toLocaleTimeString("fr-FR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}`
+            : `${new Date(timestamp).toLocaleDateString("fr-FR", {
+              weekday: "long",
+              day: "2-digit",
+              month: "short",
+              year: new Date(timestamp).getFullYear() !== new Date().getFullYear() ? "numeric" : undefined,
+            })} à ${new Date(timestamp).toLocaleTimeString("fr-FR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}`;
 
         return (
           <NativeItem
