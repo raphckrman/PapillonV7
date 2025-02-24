@@ -97,6 +97,10 @@ const SettingsAccessibility: Screen<"SettingsAccessibility"> = () => {
         <NativeItem
           trailing={
             <Switch
+              trackColor={{
+                false: theme.colors.border,
+                true: theme.colors.primary,
+              }}
               value={enableSon}
               onValueChange={(value) => setEnableSon(value)}
             />
@@ -120,6 +124,10 @@ const SettingsAccessibility: Screen<"SettingsAccessibility"> = () => {
         <NativeItem
           trailing={
             <Switch
+              trackColor={{
+                false: theme.colors.border,
+                true: theme.colors.primary,
+              }}
               value={enableHaptics}
               onValueChange={(value) => setEnableHaptics(value)}
             />
