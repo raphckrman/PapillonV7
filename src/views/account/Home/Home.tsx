@@ -244,7 +244,6 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
         ref={scrollRef}
         snapToEnd={false}
         snapToStart={false}
-        disableIntervalMomentum={true}
         style={scrollViewAnimatedStyle}
         snapToOffsets={[0, 265 + insets.top]}
         decelerationRate={modalFull || Platform.OS === "android" ? "normal" : 0}
