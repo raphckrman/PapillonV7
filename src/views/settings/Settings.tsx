@@ -29,13 +29,13 @@ import {
   Scroll,
   Settings as SettingsLucide,
   Sparkles,
-  SunMoon,
   Smile,
   SwatchBook,
   WandSparkles,
   X,
   Blocks,
-  HelpCircle
+  HelpCircle,
+  PersonStanding
 } from "lucide-react-native";
 
 import { NativeIcon, NativeItem, NativeList, NativeListHeader, NativeText } from "@/components/Global/NativeComponents";
@@ -157,12 +157,6 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
             }, 10);
           }
         },
-        {
-          icon: <SunMoon />,
-          color: "#1e316a",
-          label: "Mode d'affichage",
-          onPress: () => navigation.navigate("SettingsApparence"),
-        },
       ],
     },
     {
@@ -192,8 +186,14 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           },
         },
         {
-          icon: <Puzzle />,
+          icon: <PersonStanding />,
           color: "#bf547d",
+          label: "Accessibilité",
+          onPress: () => navigation.navigate("SettingsAccessibility"),
+        },
+        {
+          icon: <Puzzle />,
+          color: "#498c75",
           label: "Extensions",
           description: "Disponible prochainement",
           onPress: () => navigation.navigate("SettingsAddons"),

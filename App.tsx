@@ -12,6 +12,7 @@ import { log } from "@/utils/logger/logger";
 import { isExpoGo } from "@/utils/native/expoGoAlert";
 import { atobPolyfill, btoaPolyfill } from "js-base64";
 import { registerBackgroundTasks } from "@/background/BackgroundTasks";
+import { SoundHapticsProvider } from "@/hooks/Theme_Sound_Haptics";
 import { PapillonNavigation } from "@/router/refs";
 import { RouteParameters } from "@/router/helpers/types";
 import { findAccountByID, getSwitchToFunction } from "@/background/utils/accounts";
@@ -173,5 +174,9 @@ export default function App () {
     return null;
   }
 
-  return <Router />;
+  return (
+    <SoundHapticsProvider>
+      <Router />
+    </SoundHapticsProvider>
+  );
 }

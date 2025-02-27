@@ -34,7 +34,11 @@ export type RouteParameters = {
   PronoteAuthenticationSelector: undefined;
   PronoteGeolocation: undefined;
   PronoteManualLocation: undefined;
-  PronoteInstanceSelector: CurrentPosition;
+  PronoteInstanceSelector: {
+    longitude: number;
+    latitude: number;
+    hideDistance?: boolean;
+  };
   PronoteCredentials: { instanceURL: string; information: pronote.Instance };
   PronoteManualURL?: { url?: string; method?: string };
   PronoteQRCode: undefined;
@@ -139,7 +143,7 @@ export type RouteParameters = {
   SettingsDevLogs: undefined;
   SettingsDonorsList: undefined;
   SettingsReactions: undefined;
-  SettingsApparence: undefined;
+  SettingsAccessibility: undefined;
 
   Menu?: undefined;
   RestaurantQrCode: {
