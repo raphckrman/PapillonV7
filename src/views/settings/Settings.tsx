@@ -164,12 +164,6 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
       label: "Avancé",
       tabs: [
         {
-          icon: <PersonStanding />,
-          color: "#27CC58",
-          label: "Accessibilité",
-          onPress: () => navigation.navigate("SettingsAccessibility"),
-        },
-        {
           icon: click ? (
             <PapillonSpinner
               size={18}
@@ -192,8 +186,14 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           },
         },
         {
-          icon: <Puzzle />,
+          icon: <PersonStanding />,
           color: "#bf547d",
+          label: "Accessibilité",
+          onPress: () => navigation.navigate("SettingsAccessibility"),
+        },
+        {
+          icon: <Puzzle />,
+          color: "#498c75",
           label: "Extensions",
           description: "Disponible prochainement",
           onPress: () => navigation.navigate("SettingsAddons"),
