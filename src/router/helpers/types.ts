@@ -36,7 +36,7 @@ export type RouteParameters = {
   PronoteInstanceSelector: {
     longitude: number;
     latitude: number;
-    hideDistance: boolean;
+    hideDistance?: boolean;
   };
   PronoteCredentials: { instanceURL: string; information: pronote.Instance };
   PronoteManualURL?: { url?: string; method?: string };
