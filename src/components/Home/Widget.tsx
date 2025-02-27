@@ -55,7 +55,7 @@ const Widget: React.FC<WidgetContainerProps> = ({ widget: DynamicWidget, navigat
     <Reanimated.View
       layout={LinearTransition}
       style={{
-        opacity: loading ? 0.5 : 1,
+        opacity: hidden ? 0 : 1,
         display: hidden ? "none" : "flex",
       }}
       entering={animPapillon(ZoomIn).withInitialValues({ transform: [{ scale: 0.7 }], opacity: 0 })}
@@ -85,7 +85,7 @@ const Widget: React.FC<WidgetContainerProps> = ({ widget: DynamicWidget, navigat
                 justifyContent: "center",
                 alignItems: "center",
                 gap: 10,
-                backgroundColor: colors.card,
+                backgroundColor: colors.card + "CC",
                 zIndex: 100,
                 borderRadius: 17,
                 borderCurve: "continuous",
@@ -106,6 +106,7 @@ const Widget: React.FC<WidgetContainerProps> = ({ widget: DynamicWidget, navigat
               {
                 backgroundColor: theme.dark ? colors.primary + "09" : colors.primary + "11",
                 overflow: "hidden",
+                opacity: loading ? 0 : 1,
               }
             ]}
           >

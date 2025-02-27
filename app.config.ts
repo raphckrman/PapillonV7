@@ -85,6 +85,12 @@ export default (): ExpoConfig => ({
         }
       }
     ],
+    [
+      "expo-dev-client",
+      {
+        "launchMode": "most-recent"
+      }
+    ],
     "./plugins/notifee-mod.js",
     [
       "expo-font",

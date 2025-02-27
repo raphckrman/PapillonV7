@@ -1,4 +1,4 @@
-import type { StyleProp, TextStyle, ViewStyle } from "react-native";
+import { Platform, type StyleProp, type TextStyle, type ViewStyle } from "react-native";
 import { NativeText } from "@/components/Global/NativeComponents";
 import { animPapillon } from "@/utils/ui/animations";
 import Reanimated, {
@@ -28,7 +28,7 @@ const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
     }
   }, []);
 
-  const shouldAnimate = !isFirstRender.current;
+  const shouldAnimate = !isFirstRender.current && Platform.OS !== "android";
 
   return (
     <Reanimated.View
