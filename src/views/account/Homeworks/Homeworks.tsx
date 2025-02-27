@@ -39,6 +39,7 @@ import {NativeScrollEvent, ScrollViewProps} from "react-native/Libraries/Compone
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {hasFeatureAccountSetup} from "@/utils/multiservice";
 import {MultiServiceFeature} from "@/stores/multiService/types";
+import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 import useScreenDimensions from "@/hooks/useScreenDimensions";
 
 const formatDate = (date: string | number | Date): string => {
@@ -67,6 +68,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   }, [width, height]);
 
   const insets = useSafeAreaInsets();
+  const { playHaptics } = useSoundHapticsWrapper();
 
   const outsideNav = route.params?.outsideNav;
 
@@ -417,7 +419,9 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
             onPress={() => setShowPickerButtons(!showPickerButtons)}
             onLongPress={() => {
               setHideDone(!hideDone);
-              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+              playHaptics("notification", {
+                notification: Haptics.NotificationFeedbackType.Success,
+              });
             }}
             delayLongPress={200}
           >

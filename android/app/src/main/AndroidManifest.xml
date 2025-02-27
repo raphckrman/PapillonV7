@@ -40,6 +40,7 @@
         <data android:scheme="papillon"/>
         <data android:scheme="xyz.getpapillon.app"/>
         <data android:scheme="izly"/>
+        <data android:scheme="exp+papillonvex"/>
       </intent-filter>
       <intent-filter data-generated="true">
         <action android:name="android.intent.action.VIEW"/>

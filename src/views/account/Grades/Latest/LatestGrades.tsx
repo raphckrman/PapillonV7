@@ -8,6 +8,7 @@ import { Grade } from "@/services/shared/Grade";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteParameters } from "@/router/helpers/types";
 import * as Haptics from "expo-haptics";
+import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 
 interface GradesLatestListProps {
   latestGrades: Grade[]
@@ -17,6 +18,7 @@ interface GradesLatestListProps {
 
 const GradesLatestList = (props: GradesLatestListProps) => {
   const { latestGrades, navigation, allGrades } = props;
+  const { playHaptics } = useSoundHapticsWrapper();
 
   const renderItem = ({ item, index }: { item: Grade; index: number }) => (
     <GradesLatestItem
@@ -57,7 +59,11 @@ const GradesLatestList = (props: GradesLatestListProps) => {
         snapToInterval={240}
         decelerationRate="fast"
         onScroll={({ nativeEvent }) => {
-          if (nativeEvent.contentOffset.x % 240 === 0) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          if (nativeEvent.contentOffset.x % 240 === 0) {
+            playHaptics("impact", {
+              impact: Haptics.ImpactFeedbackStyle.Light,
+            });
+          }
         }}
       />
 
