@@ -9,20 +9,22 @@ import PapillonShineBubble from "@/components/FirstInstallation/PapillonShineBub
 import DuoListPressable from "@/components/FirstInstallation/DuoListPressable";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import MaskStars from "@/components/FirstInstallation/MaskStars";
-import { Audio } from "expo-av";
 import { useTheme } from "@react-navigation/native";
 import GetV6Data from "@/utils/login/GetV6Data";
 import { School } from "lucide-react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 
 const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
   const theme = useTheme();
   const { colors } = theme;
-  const [sound, setSound] = useState<Audio.Sound | null>(null);
   type Services = "pronote" | "ed" | "skolengo";
   const [service, setService] = useState<Services | null>(null);
 
   const [v6Data, setV6Data] = useState<any | null>(null);
+
+  const { playSound } = useSoundHapticsWrapper();
+  const LEson = require("@/../assets/sound/1.wav");
 
   useEffect(() => {
     setTimeout(async () => {
@@ -47,7 +49,7 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
       image: require("../../../assets/images/service_pronote.png"),
       login: () => {
         navigation.navigate("PronoteAuthenticationSelector");
-        playSound();
+        playSound(LEson);
       },
     },
     {
@@ -56,7 +58,7 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
       image: require("../../../assets/images/service_ed.png"),
       login: () => {
         navigation.navigate("EcoleDirecteCredentials");
-        playSound();
+        playSound(LEson);
       }
     },
     {
@@ -65,7 +67,7 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
       image: require("../../../assets/images/service_skolengo.png"),
       login: () => {
         navigation.navigate("SkolengoAuthenticationSelector");
-        playSound();
+        playSound(LEson);
       }
     },
     {
@@ -76,30 +78,10 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
       icon: <School />,
       login: () => {
         navigation.navigate("IdentityProviderSelector");
-        playSound();
+        playSound(LEson);
       }
     },
   ];
-
-  useEffect(() => {
-    const loadSound = async () => {
-      const { sound } = await Audio.Sound.createAsync(
-        require("@/../assets/sound/1.wav")
-      );
-
-      setSound(sound);
-    };
-
-    loadSound();
-
-    return () => {
-      if (sound) {
-        sound.unloadAsync();
-      }
-    };
-  }, []);
-
-  const playSound = () => sound?.replayAsync();
 
   return (
     <SafeAreaView style={styles.container}>
