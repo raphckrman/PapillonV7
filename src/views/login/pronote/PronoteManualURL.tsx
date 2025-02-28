@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import type { RouteParameters, Screen } from "@/router/helpers/types";
-import { TextInput, View, StyleSheet, TouchableOpacity, KeyboardEvent, Keyboard } from "react-native";
+import { View, StyleSheet, TouchableOpacity, KeyboardEvent, Keyboard } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import determinateAuthenticationView from "@/services/pronote/determinate-authentication-view";
 
@@ -15,6 +15,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Check, Link2, TriangleAlert, X } from "lucide-react-native";
 import { useAlert } from "@/providers/AlertProvider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import ResponsiveTextInput from "@/components/FirstInstallation/ResponsiveTextInput";
 
 const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => {
   const theme = useTheme();
@@ -136,7 +137,7 @@ const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => 
         >
           <Link2 size={24} color={colors.text + "55"} />
 
-          <TextInput
+          <ResponsiveTextInput
             keyboardType="url"
             autoCapitalize="none"
             placeholder="URL de l'instance Pronote"

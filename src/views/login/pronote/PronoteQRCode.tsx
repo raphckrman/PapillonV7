@@ -19,6 +19,7 @@ import { Account, AccountService } from "@/stores/account/types";
 import defaultPersonalization from "@/services/pronote/default-personalization";
 import extract_pronote_name from "@/utils/format/extract_pronote_name";
 import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
+import ResponsiveTextInput from "@/components/FirstInstallation/ResponsiveTextInput";
 
 const makeUUID = (): string => {
   let dt = new Date().getTime();
@@ -323,7 +324,7 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
                 borderCurve: "continuous",
               }}
             >
-              <TextInput
+              <ResponsiveTextInput
                 style={{
                   width: "100%",
                   paddingHorizontal: 10,

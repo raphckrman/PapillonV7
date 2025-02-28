@@ -12,6 +12,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
 import { Search, X } from "lucide-react-native";
 import DuoListPressable from "@/components/FirstInstallation/DuoListPressable";
+import ResponsiveTextInput from "@/components/FirstInstallation/ResponsiveTextInput";
 
 /**
  * Allows the get the location of the user manually.
@@ -145,7 +146,7 @@ const PronoteManualLocation: Screen<"PronoteManualLocation"> = ({ navigation }) 
         >
           <Search size={24} color={colors.text + "55"} />
 
-          <TextInput
+          <ResponsiveTextInput
             ref={searchInputRef}
             autoFocus={true}
             placeholder="Nom d'une ville, municipalité, etc."

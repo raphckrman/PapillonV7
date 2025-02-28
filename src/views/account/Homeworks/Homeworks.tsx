@@ -41,6 +41,7 @@ import {hasFeatureAccountSetup} from "@/utils/multiservice";
 import {MultiServiceFeature} from "@/stores/multiService/types";
 import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 import useScreenDimensions from "@/hooks/useScreenDimensions";
+import ResponsiveTextInput from "@/components/FirstInstallation/ResponsiveTextInput";
 
 const formatDate = (date: string | number | Date): string => {
   return new Date(date).toLocaleDateString("fr-FR", {
@@ -643,7 +644,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
             entering={FadeIn.duration(250).delay(20)}
             exiting={FadeOut.duration(100)}
           >
-            <TextInput
+            <ResponsiveTextInput
               placeholder={
                 (hideDone && !searchHasFocus) ? "Non terminé" :
                   "Rechercher"

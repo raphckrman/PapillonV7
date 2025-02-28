@@ -14,6 +14,7 @@ import { useAlert } from "@/providers/AlertProvider";
 import type { School } from "scolengo-api/types/models/School";
 import { Skolengo } from "scolengo-api";
 import { useDebounce } from "@/hooks/debounce";
+import ResponsiveTextInput from "@/components/FirstInstallation/ResponsiveTextInput";
 
 const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
   route: { params },
@@ -135,7 +136,7 @@ const SkolengoInstanceSelector: Screen<"SkolengoInstanceSelector"> = ({
       >
         <Search size={24} color={colors.text + "55"} />
 
-        <TextInput
+        <ResponsiveTextInput
           ref={searchInputRef}
           placeholder={params.pos ? "Recherche parmis ceux-là" : "Une ville, un établissement..."}
           placeholderTextColor={colors.text + "55"}

@@ -38,6 +38,7 @@ import getInstancesFromDataset from "@/services/pronote/dataset_geolocation";
 import * as WebBrowser from "expo-web-browser";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
 import { anim2Papillon } from "@/utils/ui/animations";
+import ResponsiveTextInput from "@/components/FirstInstallation/ResponsiveTextInput";
 
 const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
   route: { params },
@@ -227,7 +228,7 @@ const PronoteInstanceSelector: Screen<"PronoteInstanceSelector"> = ({
       >
         <Search size={24} color={colors.text + "55"} />
 
-        <TextInput
+        <ResponsiveTextInput
           ref={searchInputRef}
           placeholder="Rechercher un établissement"
           placeholderTextColor={colors.text + "55"}
