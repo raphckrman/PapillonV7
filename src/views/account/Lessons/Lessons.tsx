@@ -22,7 +22,7 @@ import { animPapillon } from "@/utils/ui/animations";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
 import AnimatedNumber from "@/components/Global/AnimatedNumber";
-import { CalendarPlus, Eye, MoreVertical } from "lucide-react-native";
+import { CalendarPlus, Eye, EyeOff, MoreVertical } from "lucide-react-native";
 import {
   PapillonHeaderAction,
   PapillonHeaderSelector,
@@ -389,9 +389,13 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
               }
             },
             {
-              icon: <Eye />,
-              label: "Afficher type sem.",
-              subtitle: "Afficher semaine paire / impaire",
+              icon: shouldShowWeekFrequency ? <EyeOff /> : <Eye />,
+              label: shouldShowWeekFrequency
+                ? "Masquer alternance semaine"
+                : "Afficher alternance semaine",
+              subtitle: shouldShowWeekFrequency
+                ? "Masquer semaine paire / impaire"
+                : "Afficher semaine paire / impaire",
               sfSymbol: "eye",
               onPress: () => {
                 setShouldShowWeekFrequency(!shouldShowWeekFrequency);
