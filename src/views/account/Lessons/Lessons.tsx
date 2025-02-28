@@ -388,7 +388,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
                 navigation.navigate("LessonsImportIcal", {});
               }
             },
-            ...(weekFrequency != null) ? [{
+            {
               icon: <Eye />,
               label: "Afficher type sem.",
               subtitle: "Afficher semaine paire / impaire",
@@ -397,7 +397,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
                 setShouldShowWeekFrequency(!shouldShowWeekFrequency);
               },
               checked: shouldShowWeekFrequency,
-            }] : []
+            },
           ]}
         >
           <PapillonHeaderAction
