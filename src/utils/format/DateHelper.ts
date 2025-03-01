@@ -1,6 +1,6 @@
 export const timestampToString = (timestamp: number) => {
 
-  if (!timestamp || isNaN(timestamp)) {
+  if (!timestamp || Number.isNaN(timestamp)) {
     return "Date invalide";
   }
 
