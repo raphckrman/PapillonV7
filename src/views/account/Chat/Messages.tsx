@@ -37,6 +37,7 @@ import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import { TabLocation } from "pawnote";
 import {hasFeatureAccountSetup} from "@/utils/multiservice";
 import {MultiServiceFeature} from "@/stores/multiService/types";
+import { timestampToString } from "@/utils/format/DateHelper";
 
 // Voir la documentation de `react-navigation`.
 //
