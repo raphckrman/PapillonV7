@@ -21,10 +21,13 @@ const createScreen = <ScreenName extends keyof RouteParameters>(
     tabBarLottie?: any
     tabEnabled?: boolean
   }) = {}
-) => ({
-  name,
-  component,
-  options
-});
+) => {
+  if (!options.animation && Platform.OS === "android") options.animation = "slide_from_bottom";
+  return {
+    name,
+    component,
+    options
+  };
+};
 
 export default createScreen;
