@@ -22,7 +22,9 @@ const createScreen = <ScreenName extends keyof RouteParameters>(
     tabEnabled?: boolean
   }) = {}
 ) => {
-  if (!options.animation && Platform.OS === "android") options.animation = "slide_from_bottom";
+  if (!options.animation && Platform.OS === "android") {
+    options.animation = options.presentation === "modal" ? "slide_from_bottom" : "slide_from_right";
+  }
   return {
     name,
     component,
