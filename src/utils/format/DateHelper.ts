@@ -6,8 +6,7 @@ export const timestampToString = (timestamp: number) => {
 
   const date = new Date(timestamp);
   const today = new Date();
-  
-  if (isNaN(date.getTime())) {
+  if (Number.isNaN(date.getTime())) {
     return "Date invalide";
   }
 
@@ -23,13 +22,11 @@ export const timestampToString = (timestamp: number) => {
   ];
 
   let yearDifference = dateDifference[0];
-  
   if (dateDifference[1] < 0 || (dateDifference[1] === 0 && dateDifference[2] < 0)) {
     yearDifference--;
   } else if (dateDifference[1] > 0 || (dateDifference[1] === 0 && dateDifference[2] > 0)) {
     yearDifference++;
   }
-  
   let monthDifference = dateDifference[0] * 12 + dateDifference[1];
 
   if (dateDifference[2] < 0) {
@@ -37,7 +34,6 @@ export const timestampToString = (timestamp: number) => {
   } else if (dateDifference[2] > 0) {
     monthDifference++;
   }
-  
   let dayDifference = Math.round(
     (date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
   );
