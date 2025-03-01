@@ -9,8 +9,7 @@ export const navigatorScreenOptions: NativeStackNavigationOptions = {
   headerTitleStyle: {
     fontFamily: "semibold",
   },
-  headerBackTitle: "Retour",
-  animation: Platform.OS === "android" ? "default" : "default",
+  headerBackTitle: "Retour"
 };
 
 const createScreen = <ScreenName extends keyof RouteParameters>(
