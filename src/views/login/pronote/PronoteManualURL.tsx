@@ -66,6 +66,7 @@ const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => 
           icon: <TriangleAlert />,
           onPress: () => determinateAuthenticationView(instanceURL, navigation, showAlert),
           danger: true,
+          delayDisable: 5,
         },
         {
           title: "Annuler",

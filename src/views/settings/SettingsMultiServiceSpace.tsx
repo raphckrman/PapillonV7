@@ -102,6 +102,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
             navigation.goBack();
           },
           danger: true,
+          delayDisable: 5,
         }
       ]
     });

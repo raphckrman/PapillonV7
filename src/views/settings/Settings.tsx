@@ -268,6 +268,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
                   },
                   danger: true,
                   icon: <LogOut />,
+                  delayDisable: 5,
                 },
               ],
             });

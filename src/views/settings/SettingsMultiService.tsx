@@ -172,6 +172,7 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
                           toggleMultiService();
                         },
                         danger: true,
+                        delayDisable: 5,
                       }
                     ]
                   });
