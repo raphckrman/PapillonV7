@@ -1,6 +1,6 @@
 import { CopyPlus } from "lucide-react-native";
 import React, { forwardRef, useEffect, useState } from "react";
-import { Dimensions, Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { useTheme } from "@react-navigation/native";
 
@@ -162,7 +162,7 @@ const Header: React.FC<{
                     text={defaultTab.label}
                     scrolled={scrolled}
                     onPress={() => {
-                      navigation.navigate(tab.name as RouteParameters[keyof RouteParameters], {outsideNav: Platform.OS !== "android"});
+                      navigation.navigate(tab.name as RouteParameters[keyof RouteParameters]);
                     }}
                   />
                 );
