@@ -159,9 +159,6 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                           opacity: pressed ? 0.6 : 1,
                         },
                         primary
-                          ? styles.primaryButton
-                          : styles.notPrimaryButton,
-                        primary
                           ? {
                             backgroundColor:
                                 backgroundColor ?? colors.primary,
@@ -173,13 +170,13 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                     >
                       {icon &&
                         React.cloneElement(icon, {
-                          color: primary ? "#ffffff" : colors.text,
+                          color: primary || danger ? "#ffffff" : colors.text,
                           size: 24,
                         })}
                       <Text
                         style={[
                           styles.buttonText,
-                          { color: colors.text },
+                          { color: danger ? "#ffffff" : colors.text },
                           primary && styles.primaryButtonText,
                         ]}
                       >
@@ -259,16 +256,11 @@ const styles = StyleSheet.create({
     borderRadius: 300,
     paddingVertical: 10,
     width: "100%",
+    paddingHorizontal: 14,
   },
   buttonText: {
     fontSize: 16,
     fontFamily: "medium",
-  },
-  primaryButton: {
-    paddingHorizontal: 14,
-  },
-  notPrimaryButton: {
-    paddingHorizontal: 5,
   },
   primaryButtonText: {
     color: "#ffffff",

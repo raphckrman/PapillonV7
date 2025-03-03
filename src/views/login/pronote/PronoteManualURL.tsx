@@ -63,15 +63,14 @@ const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => 
       actions: [
         {
           title: "Continuer",
-          primary: false,
           icon: <TriangleAlert />,
-          onPress: () => determinateAuthenticationView(instanceURL, navigation, showAlert)
+          onPress: () => determinateAuthenticationView(instanceURL, navigation, showAlert),
+          danger: true,
         },
         {
           title: "Annuler",
           icon: <Undo2 />,
           primary: true,
-          backgroundColor: "#29947A",
         }
       ]
     });
