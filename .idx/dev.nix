@@ -35,6 +35,7 @@ in
         # install JS dependencies from NPM
         npm-install = "npm ci";
         configure-git = "git config --global user.email $GIT_MAIL && git config --global user.name $GIT_USER";
+        install-tunnel-package = "npm i --save-dev @expo/ngrok@^4.1.0"; # Attention à ne pas l'inclure dans les commits git
       };
     };
   };
