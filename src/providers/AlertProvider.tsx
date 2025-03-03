@@ -1,6 +1,12 @@
 import { useTheme } from "@react-navigation/native";
 import { Check } from "lucide-react-native";
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  ReactNode,
+  useEffect,
+} from "react";
 import { Modal, View, Text, StyleSheet, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Reanimated, {
@@ -21,6 +27,7 @@ type AlertAction = {
   primary?: boolean;
   danger?: boolean;
   backgroundColor?: string;
+  delayDisable?: number;
 };
 
 export type Alert = {
@@ -51,6 +58,7 @@ type AlertProviderProps = {
 const AlertProvider = ({ children }: AlertProviderProps) => {
   const [alert, setAlert] = useState<Alert | null>(null);
   const [visible, setVisible] = useState(false);
+  const [delays, setDelays] = useState<{ [key: string]: number }>({});
 
   const { dark, colors } = useTheme();
   const insets = useSafeAreaInsets();
@@ -70,12 +78,38 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
   }: Alert) => {
     setAlert({ title, message, icon, actions });
     setVisible(true);
+
+    const initialDelays: { [key: string]: number } = {};
+    actions.forEach((action) => {
+      if (action.delayDisable) {
+        initialDelays[action.title] = action.delayDisable;
+      } else {
+        initialDelays[action.title] = 0;
+      }
+    });
+    setDelays(initialDelays);
   };
 
   function hideAlert () {
     setAlert(null);
     setVisible(false);
   }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDelays((prevDelays) => {
+        const newDelays = { ...prevDelays };
+        Object.keys(newDelays).forEach((key) => {
+          if (newDelays[key] > 0) {
+            newDelays[key] -= 1;
+          }
+        });
+        return newDelays;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <AlertContext.Provider value={{ showAlert }}>
@@ -149,6 +183,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                         hideAlert();
                         onPress?.();
                       }}
+                      disabled={delays[title] > 0}
                       style={({ pressed }) => [
                         styles.button,
                         {
@@ -156,7 +191,11 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                             (alert.actions ?? []).length > 2 ? "100%" : "auto",
                           justifyContent: "center",
                           alignItems: "center",
-                          opacity: pressed ? 0.6 : 1,
+                          opacity: pressed
+                            ? 0.6
+                            : delays[title] === 0
+                              ? 1
+                              : 0.5,
                         },
                         primary
                           ? {
@@ -181,6 +220,9 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                         ]}
                       >
                         {title}
+                        {delays[title] !== undefined && delays[title] > 0
+                          ? ` (${delays[title]})`
+                          : ""}
                       </Text>
                     </Pressable>
                   )
