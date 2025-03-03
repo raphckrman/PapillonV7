@@ -108,7 +108,9 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
       });
     }, 1000);
 
-    return () => clearInterval(interval);
+    setTimeout(() => {
+      return () => clearInterval(interval);
+    }, 1000);
   }, []);
 
   return (
