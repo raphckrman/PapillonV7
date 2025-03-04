@@ -171,6 +171,13 @@ jobs:
           ./gradlew clean assembleRelease
           ls app/build/outputs/apk/release/
 
+      - name: 🛠️ Rename APK files
+        run: |
+          cd android/app/build/outputs/apk/release/
+          for file in *.apk; do
+            mv "$file" "Papillon Dev-${file%-release.apk}.apk"
+          done
+
       - name: 🛜 Upload split APKs
         uses: actions/upload-artifact@v4
         with:
@@ -228,57 +235,31 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: split-apks
-          path: split-apks
+          path: .
 
       - name: 🔧 Prepare artifacts
         run: |
           mv ios-app/Papillon.ipa ./Papillon.ipa
           mv android-aab/app-release.aab ./Papillon.aab
 
-      - name: 🛜 Create GitHub Release
-        uses: comnoco/create-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 🛜 Create or Update GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ env.VERSION }}
-          release_name: "Version ${{ env.VERSION }}"
+          tag_name: ${{ env.VERSION }}
+          name: "ver. ${{ env.VERSION }}"
           body: |
-            ### Les nouveautés depuis la dernière version :
+            ### What's Changed
+            ---
+
             ${{ env.PULL_REQUESTS }}
 
-            [Pour plus de détails...](${{ env.COMPARE_URL }})
+            **Full Changelog**: ${{ env.COMPARE_URL }}
           draft: false
           prerelease: true
-
-      - name: 📥 Upload IPA to release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: Papillon.ipa
-          asset_name: Papillon.ipa
-          asset_content_type: application/octet-stream
-
-      - name: 📥 Upload AAB to release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: Papillon.aab
-          asset_name: Papillon.aab
-          asset_content_type: application/octet-stream
-
-      - name: 📥 Upload split APKs to release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: android/app/build/outputs/apk/release/*.apk
-          asset_name: Papillon-{arch}.apk
-          asset_content_type: application/octet-stream
+          files: |
+            *.apk 
+            Papillon.ipa
+            Papillon.aab
 
       - name: 📥 Upload to TestFlight
         env:
