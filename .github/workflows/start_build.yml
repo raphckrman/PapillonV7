@@ -256,7 +256,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ios-app/Papillon.ipa
+          asset_path: Papillon.ipa
           asset_name: Papillon.ipa
           asset_content_type: application/octet-stream
 
@@ -266,7 +266,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: android-aab/app-release.aab
+          asset_path: Papillon.aab
           asset_name: Papillon.aab
           asset_content_type: application/octet-stream
 
