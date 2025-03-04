@@ -1,4 +1,4 @@
-name: New Release (Build + Deploy)
+name: 🆕 New Release (Build + Deploy)
 
 on:
   workflow_dispatch:
