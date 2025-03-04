@@ -206,11 +206,9 @@ jobs:
       - name: 🔗 Generate comparison link
         id: comparison_link
         run: |
-          # Récupérer le dernier tag
           LAST_TAG=$(git describe --tags --abbrev=0 HEAD^)
           echo "LAST_TAG=$LAST_TAG" >> $GITHUB_ENV
 
-          # Construire le lien de comparaison
           COMPARE_URL="https://github.com/${{ github.repository }}/compare/$LAST_TAG...v${{ env.VERSION }}"
           echo "COMPARE_URL=$COMPARE_URL" >> $GITHUB_ENV
 
@@ -231,6 +229,11 @@ jobs:
         with:
           name: split-apks
           path: split-apks
+
+      - name: 🔧 Prepare artifacts
+        run: |
+          mv ios-app/Papillon.ipa ./Papillon.ipa
+          mv android-aab/app-release.aab ./Papillon.aab
 
       - name: 🛜 Create GitHub Release
         uses: comnoco/create-release@v2
@@ -276,3 +279,28 @@ jobs:
           asset_path: android/app/build/outputs/apk/release/*.apk
           asset_name: Papillon-{arch}.apk
           asset_content_type: application/octet-stream
+
+      - name: 📥 Upload to TestFlight
+        env:
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
+        run: |
+          echo "$APP_STORE_CONNECT_API_KEY_CONTENT" | base64 --decode > appstore_connect_api_key.p8
+          
+          xcrun notarytool submit Papillon.ipa --key appstore_connect_api_key.p8 \
+            --key-id "$APP_STORE_CONNECT_API_KEY_ID" \
+            --issuer "$APP_STORE_CONNECT_API_ISSUER_ID" \
+            --wait
+          
+          echo "iOS build uploaded to TestFlight for beta testing"
+
+      - name: 📥 Upload Android Release to Play Store Beta
+        uses: r0adkll/upload-google-play@v1.1.3
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_JSON_KEY }}
+          packageName: xyz.getpapillon.app
+          releaseFiles: Papillon.aab
+          track: beta
+          status: completed
+          changesNotSentForReview: false
