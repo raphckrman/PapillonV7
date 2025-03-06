@@ -96,32 +96,26 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
     );
   }
 
+  const hw2Semaines = hwSemaineActuelle
+    .concat(hwSemaineProchaine)
+    .filter((element) => !element.done);
+
   return (
     <>
-      <NativeListHeader animated label="Travail à faire"
+      <NativeListHeader
+        animated
+        label={
+          hw2Semaines.length > 7
+            ? `7 / ${hw2Semaines.length} Devoirs à faire`
+            : "Devoirs à faire"
+        }
         trailing={(
           <RedirectButton navigation={PapillonNavigation.current} redirect="Homeworks" />
         )}
       />
       <NativeList>
-        {hwSemaineActuelle
-          .filter((element) => !element.done)
-          .map((hw, index) => (
-            <HomeworkItem
-              navigation={navigation}
-              homework={hw}
-              key={index}
-              index={index}
-              total={
-                homeworks[dateToEpochWeekNumber(actualDay) + 1]?.length || 0
-              }
-              onDonePressHandler={() => {
-                handleDonePress(hw);
-              }}
-            />
-          ))}
-        {hwSemaineProchaine
-          .filter((element) => !element.done)
+        {hw2Semaines
+          .slice(0, 7)
           .map((hw, index) => (
             <HomeworkItem
               homework={hw}
