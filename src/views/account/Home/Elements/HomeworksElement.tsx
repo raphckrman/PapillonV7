@@ -115,30 +115,36 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
         )}
       />
       <NativeList>
-        {hwSemaineActuelle.map((hw, index) => (
-          <HomeworkItem
-            navigation={navigation}
-            homework={hw}
-            key={index}
-            index={index}
-            total={homeworks[dateToEpochWeekNumber(actualDay) + 1]?.length || 0}
-            onDonePressHandler={() => {
-              handleDonePress(hw);
-            }}
-          />
-        ))}
-        {hwSemaineProchaine.map((hw, index) => (
-          <HomeworkItem
-            homework={hw}
-            key={index}
-            index={index}
-            navigation={navigation}
-            total={homeworks[dateToEpochWeekNumber(actualDay) + 1].length}
-            onDonePressHandler={() => {
-              handleDonePress(hw);
-            }}
-          />
-        ))}
+        {hwSemaineActuelle
+          .filter((element) => !element.done)
+          .map((hw, index) => (
+            <HomeworkItem
+              navigation={navigation}
+              homework={hw}
+              key={index}
+              index={index}
+              total={
+                homeworks[dateToEpochWeekNumber(actualDay) + 1]?.length || 0
+              }
+              onDonePressHandler={() => {
+                handleDonePress(hw);
+              }}
+            />
+          ))}
+        {hwSemaineProchaine
+          .filter((element) => !element.done)
+          .map((hw, index) => (
+            <HomeworkItem
+              homework={hw}
+              key={index}
+              index={index}
+              navigation={navigation}
+              total={homeworks[dateToEpochWeekNumber(actualDay) + 1].length}
+              onDonePressHandler={() => {
+                handleDonePress(hw);
+              }}
+            />
+          ))}
       </NativeList>
     </>
   );
