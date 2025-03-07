@@ -336,16 +336,16 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
                 />
               )}
             />
-            <View style={{
-              minHeight: 90,
-              paddingVertical: 20,
-              paddingHorizontal: 20,
-              borderTopWidth: 0.5,
-              borderTopColor: colors.text + "22",
-              backgroundColor: theme.dark ? chatTheme?.darkModifier.inputBarBackgroundColor : chatTheme?.lightModifier.inputBarBackgroundColor,
-              flexDirection: "row",
-              alignItems: "flex-start",
-            }}
+            <View
+              style={{
+                paddingVertical: 20,
+                paddingHorizontal: 20,
+                borderTopWidth: 0.5,
+                borderTopColor: colors.text + "22",
+                backgroundColor: theme.dark ? chatTheme?.darkModifier.inputBarBackgroundColor : chatTheme?.lightModifier.inputBarBackgroundColor,
+                flexDirection: "row",
+                alignItems: "flex-start",
+              }}
             >
 
               <ResponsiveTextInput
@@ -364,22 +364,29 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
                 onChangeText={(text) => setText(text)}
                 value={text}
               />
-              <TouchableOpacity
+              <View
                 style={{
-                  backgroundColor: theme.dark ? chatTheme?.darkModifier.sendButtonBackgroundColor : chatTheme?.lightModifier.sendButtonBackgroundColor,
-                  width: 56,
-                  height: 40,
-                  borderRadius: 32,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginTop: -5
-                }}
-                onPress={() => {
-                  sendMessageInChat(account, route.params.handle, text);
+                  justifyContent: "flex-end",
+                  alignItems: "flex-end",
                 }}
               >
-                <Send color={"#FFF"} size={24} style={{marginTop: 1, marginLeft: -3}}/>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: theme.dark ? chatTheme?.darkModifier.sendButtonBackgroundColor : chatTheme?.lightModifier.sendButtonBackgroundColor,
+                    width: 56,
+                    height: 40,
+                    borderRadius: 32,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: -5
+                  }}
+                  onPress={() => {
+                    sendMessageInChat(account, route.params.handle, text);
+                  }}
+                >
+                  <Send color={"#FFF"} size={24} style={{marginTop: 1, marginLeft: -3}}/>
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{height: insets.bottom, backgroundColor: theme.dark ? chatTheme?.darkModifier.inputBarBackgroundColor : chatTheme?.lightModifier.inputBarBackgroundColor }}></View>
           </ImageBackground>
