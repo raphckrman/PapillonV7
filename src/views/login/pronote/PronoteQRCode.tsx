@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Text, View, StyleSheet, Modal, Alert, KeyboardAvoidingView, TextInput, Pressable } from "react-native";
+import { ActivityIndicator, Text, View, StyleSheet, Modal, Alert, KeyboardAvoidingView, TextInput, Pressable, Keyboard } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
@@ -45,7 +45,7 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanned, setScanned] = useState(false);
 
-  const [inputFocus, setInputFocus] = useState(false);
+  const [keyboardOpen, setKeyboardOpen] = useState(false);
 
   const [QRValidationCode, setQRValidationCode] = useState("");
   const [pinModalVisible, setPinModalVisible] = useState(false);
@@ -181,6 +181,19 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
     }
   }, [pinModalVisible]);
 
+  const keyboardDidShow = () => setKeyboardOpen(true);
+  const keyboardDidHide = () => setKeyboardOpen(false);
+
+  useEffect(() => {
+    Keyboard.addListener("keyboardDidShow", keyboardDidShow);
+    Keyboard.addListener("keyboardDidHide", keyboardDidHide);
+
+    return () => {
+      Keyboard.removeAllListeners("keyboardDidShow");
+      Keyboard.removeAllListeners("keyboardDidHide");
+    };
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <Modal
@@ -295,7 +308,7 @@ const PronoteQRCode: Screen<"PronoteQRCode"> = ({ navigation }) => {
 
             layout={LinearTransition}
           >
-            {!inputFocus && (
+            {!keyboardOpen && (
               <Reanimated.View
                 entering={FadeInUp.duration(250)}
                 exiting={FadeOutUp.duration(150)}
