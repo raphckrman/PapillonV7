@@ -6,12 +6,12 @@ import determinateAuthenticationView from "@/services/pronote/determinate-authen
 
 import * as Clipboard from "expo-clipboard";
 
-import Reanimated, { LinearTransition, ZoomIn, ZoomOut } from "react-native-reanimated";
+import Reanimated, { FadeInUp, FadeOutUp, LinearTransition, ZoomIn, ZoomOut } from "react-native-reanimated";
 
 import MaskStars from "@/components/FirstInstallation/MaskStars";
 import PapillonShineBubble from "@/components/FirstInstallation/PapillonShineBubble";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Check, Link2, TriangleAlert, X } from "lucide-react-native";
 import { useAlert } from "@/providers/AlertProvider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -97,80 +97,78 @@ const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => 
   };
 
   return (
-    <View style={[
-      styles.container,
-      {
-        paddingTop: "10%",
-        paddingBottom: insets.bottom + 0,
-      }
-    ]}>
+    <SafeAreaView style={styles.container}>
       <MaskStars />
 
-      <View style={{ height: 44 + 20 }} />
+      <View style={{ height: insets.top, marginTop: "10%" }} />
 
       {!keyboardOpen && (
-        <PapillonShineBubble
-          message={
-            !clipboardFound ?
-              "Indique moi l'adresse URL Pronote de ton établissement"
-              : "J'ai trouvé cette adresse dans ton presse-papier !"
-          }
-          numberOfLines={2}
-          width={250}
-          noFlex
-        />
+        <Reanimated.View
+          entering={FadeInUp.duration(250).delay(200)}
+          exiting={FadeOutUp.duration(150)}
+          style={{ zIndex: 9999 }}
+          layout={LinearTransition}
+        >
+          <PapillonShineBubble
+            message={
+              !clipboardFound ?
+                "Indique moi l'adresse URL Pronote de ton établissement"
+                : "J'ai trouvé cette adresse dans ton presse-papier !"
+            }
+            numberOfLines={2}
+            width={250}
+            noFlex
+          />
+        </Reanimated.View>
       )}
 
-      <View style={{
-        width: "100%",
-      }}>
-        <Reanimated.View
-          style={[
-            styles.searchContainer,
-            {
-              backgroundColor: colors.text + "15",
-              // @ts-expect-error
-              color: colors.text,
-              borderColor: colors.border,
-            }
-          ]}
-        >
-          <Link2 size={24} color={colors.text + "55"} />
 
-          <ResponsiveTextInput
-            keyboardType="url"
-            autoCapitalize="none"
-            placeholder="URL de l'instance Pronote"
+      <Reanimated.View
+        style={[
+          styles.searchContainer,
+          {
+            backgroundColor: colors.text + "15",
+            // @ts-expect-error
+            color: colors.text,
+            borderColor: colors.border,
+          }
+        ]}
+      >
+        <Link2 size={24} color={colors.text + "55"} />
 
-            style={[styles.searchInput, { color: theme.colors.text }]}
-            placeholderTextColor={theme.colors.text + "50"}
+        <ResponsiveTextInput
+          keyboardType="url"
+          autoCapitalize="none"
+          placeholder="URL de l'instance Pronote"
 
-            value={instanceURL}
-            onChangeText={setInstanceURL}
-            onSubmitEditing={() => {
-              if (instanceURL.length > 0) {
-                checkForDemoInstance(instanceURL, navigation, showAlert);
-              };
-            }}
-          />
+          style={[styles.searchInput, { color: theme.colors.text }]}
+          placeholderTextColor={theme.colors.text + "50"}
 
-          {instanceURL.length > 0 && (
-            <Reanimated.View
-              layout={LinearTransition}
-              entering={ZoomIn.springify()}
-              exiting={ZoomOut.springify()}
-            >
-              <TouchableOpacity onPress={() => {
-                setInstanceURL("");
-              }}>
-                <X size={24} color={colors.text + "55"} />
-              </TouchableOpacity>
-            </Reanimated.View>
-          )}
-        </Reanimated.View>
-      </View>
+          value={instanceURL}
+          onChangeText={setInstanceURL}
+          onSubmitEditing={() => {
+            if (instanceURL.length > 0) {
+              checkForDemoInstance(instanceURL, navigation, showAlert);
+            };
+          }}
+        />
 
-      <View style={{flex: 1}} />
+        {instanceURL.length > 0 && (
+          <Reanimated.View
+            layout={LinearTransition}
+            entering={ZoomIn.springify()}
+            exiting={ZoomOut.springify()}
+          >
+            <TouchableOpacity onPress={() => {
+              setInstanceURL("");
+            }}>
+              <X size={24} color={colors.text + "55"} />
+            </TouchableOpacity>
+          </Reanimated.View>
+        )}
+      </Reanimated.View>
+
+      <View style={{ flex: 1 }} />
 
       <View
         style={styles.buttons}
@@ -190,7 +188,7 @@ const PronoteManualURL: Screen<"PronoteManualURL"> = ({ route, navigation }) => 
             onPress={() => navigation.navigate("AccountSelector")}
           />)}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
