@@ -255,7 +255,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
                 {
                   title: "Annuler",
                   icon: <X />,
-                  primary: true,
+                  primary: false,
                 },
                 {
                   title: "Déconnexion",
