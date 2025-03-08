@@ -20,7 +20,7 @@ export type PickerDataItem = string | {
   sfSymbol?: string,
   onPress?: () => {} | void,
   checked?: boolean
-};
+} | null;
 
 type PickerData = PickerDataItem[];
 
