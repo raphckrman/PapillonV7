@@ -3,7 +3,7 @@ import { View, Platform, StyleSheet, type StyleProp, type ViewStyle } from "reac
 
 import { animPapillon, PapillonContextEnter, PapillonContextExit } from "@/utils/ui/animations";
 import { useTheme } from "@react-navigation/native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Pressable } from "react-native-gesture-handler";
 import Reanimated, { LinearTransition, type AnimatedStyle } from "react-native-reanimated";
 import { NativeText } from "./NativeComponents";
 
@@ -96,20 +96,16 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
           }),
         }}
       >
-        <TouchableOpacity
-          onPress={() => {}}
-        >
+        <Pressable onPress={() => {}}>
           {children}
-        </TouchableOpacity>
+        </Pressable>
       </ContextMenuButton>
     );
   }
 
   return (
     <Reanimated.View layout={animated && animPapillon(LinearTransition)} style={[styles.container, contentContainerStyle]}>
-      <TouchableOpacity
-        onPress={() => setOpened(!opened)}
-      >
+      <Pressable onPress={() => setOpened(!opened)}>
         <Reanimated.View
           layout={animated && animPapillon(LinearTransition)}
           style={styles.children}
@@ -120,7 +116,7 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
         >
           {children}
         </Reanimated.View>
-      </TouchableOpacity>
+      </Pressable>
 
       {opened && (
         <Reanimated.View
@@ -168,7 +164,7 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
 
               return (
                 <View key={index}>
-                  <TouchableOpacity
+                  <Pressable
                     key={index}
                     onPress={onPressItem ? () => {
                       setOpened(false);
@@ -191,8 +187,7 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
                       </View>
                     )}
 
-                    <NativeText
-                    >{label}</NativeText>
+                    <NativeText>{label}</NativeText>
 
                     <View style={{ flex: 1 }} />
 
@@ -204,7 +199,7 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
                         style={{ marginRight: 10}}
                       />
                     )}
-                  </TouchableOpacity>
+                  </Pressable>
 
                   {index === data.length - 1 ? null : (
                     <View
@@ -227,12 +222,8 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-
-  },
-  children: {
-
-  },
+  container: {},
+  children: {},
   picker: {
     position: "absolute",
     top: 0,
