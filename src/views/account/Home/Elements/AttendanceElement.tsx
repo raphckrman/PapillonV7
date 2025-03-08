@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
 import { NativeItem, NativeList, NativeListHeader } from "@/components/Global/NativeComponents";
-import { updateGradesPeriodsInCache } from "@/services/grades";
 import { useCurrentAccount } from "@/stores/account";
 import { useAttendanceStore } from "@/stores/attendance";
 import TotalMissed from "../../Attendance/Atoms/TotalMissed";
@@ -12,6 +11,7 @@ import { log } from "@/utils/logger/logger";
 import type { Attendance } from "@/services/shared/Attendance";
 import { FadeInDown, FadeOut } from "react-native-reanimated";
 import MissingItem from "@/components/Global/MissingItem";
+import { updateAttendanceInCache, updateAttendancePeriodsInCache } from "@/services/attendance";
 
 
 interface AttendanceElementProps {
@@ -38,9 +38,12 @@ const AttendanceElement: React.FC<AttendanceElementProps> = ({ onImportance }) =
 
   useEffect(() => {
     void (async () => {
-      log("update grades periods in cache", "attendance:updateGradesPeriodsInCache");
+      log("update attendance periods in cache", "attendance:updateAttendancePeriodsInCache");
       if (account?.instance) {
-        await updateGradesPeriodsInCache(account);
+        await updateAttendancePeriodsInCache(account);
+        if (defaultPeriod) {
+          await updateAttendanceInCache(account, defaultPeriod);
+        }
       }
       ImportanceHandler();
     })();
