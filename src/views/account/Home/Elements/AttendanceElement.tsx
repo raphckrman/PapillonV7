@@ -40,10 +40,12 @@ const AttendanceElement: React.FC<AttendanceElementProps> = ({ onImportance }) =
   useEffect(() => {
     void (async () => {
       if (account?.instance) {
+        setLoading(true);
         await updateAttendancePeriodsInCache(account);
         if (defaultPeriod) {
           await updateAttendanceInCache(account, defaultPeriod);
         }
+        setLoading(false);
       }
       ImportanceHandler();
     })();
