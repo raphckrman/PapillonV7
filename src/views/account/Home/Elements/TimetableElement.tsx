@@ -90,11 +90,8 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
   const fetchTimetable = async () => {
     if (account.instance) {
       setLoading(true);
-      try {
-        await updateTimetableForWeekInCache(account, currentWeekNumber);
-      } finally {
-        setLoading(false);
-      }
+      await updateTimetableForWeekInCache(account, currentWeekNumber);
+      setLoading(false);
     }
   };
 
