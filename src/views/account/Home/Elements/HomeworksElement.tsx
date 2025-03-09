@@ -23,7 +23,7 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
   const account = useCurrentAccount(store => store.account!);
   const homeworks = useHomeworkStore(store => store.homeworks);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const actualDay = useMemo(()=>new Date(), []);
   const nextWeek = useMemo(() => new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), []);
