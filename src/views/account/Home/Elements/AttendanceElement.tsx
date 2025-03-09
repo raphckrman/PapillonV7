@@ -7,7 +7,6 @@ import TotalMissed from "../../Attendance/Atoms/TotalMissed";
 import { PressableScale } from "react-native-pressable-scale";
 import RedirectButton from "@/components/Home/RedirectButton";
 import { PapillonNavigation } from "@/router/refs";
-import { log } from "@/utils/logger/logger";
 import type { Attendance } from "@/services/shared/Attendance";
 import { FadeInDown, FadeOut } from "react-native-reanimated";
 import MissingItem from "@/components/Global/MissingItem";
