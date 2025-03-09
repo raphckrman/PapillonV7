@@ -105,7 +105,7 @@ const AttendanceElement: React.FC<AttendanceElementProps> = ({ onImportance }) =
           />
           <NativeList
             animated
-            key="emptyAttendance"
+            key="loadingAttendance"
             entering={FadeInDown.springify().mass(1).damping(20).stiffness(300)}
             exiting={FadeOut.duration(300)}
           >
