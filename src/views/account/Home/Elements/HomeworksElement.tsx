@@ -46,6 +46,7 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
 
   const updateHomeworks = useCallback(async () => {
     if (account.instance) {
+      setLoading(true);
       await updateHomeworkForWeekInCache(account, actualDay);
       await updateHomeworkForWeekInCache(account, nextWeek);
       ImportanceHandler();
