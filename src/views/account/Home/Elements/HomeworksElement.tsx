@@ -100,7 +100,7 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
           />
           <NativeList
             animated
-            key="emptyHomeworks"
+            key="loadingHomeworks"
             entering={FadeInDown.springify().mass(1).damping(20).stiffness(300)}
             exiting={FadeOut.duration(300)}
           >
