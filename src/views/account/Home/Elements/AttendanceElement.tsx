@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { NativeItem, NativeList, NativeListHeader } from "@/components/Global/NativeComponents";
 import { useCurrentAccount } from "@/stores/account";
@@ -22,6 +22,8 @@ const AttendanceElement: React.FC<AttendanceElementProps> = ({ onImportance }) =
   const account = useCurrentAccount((store) => store.account);
   const defaultPeriod = useAttendanceStore((store) => store.defaultPeriod) as string | null;
   const attendances = useAttendanceStore((store) => store.attendances) as Record<string, Attendance> | null;
+
+  const [loading, setLoading] = useState(false);
 
   const ImportanceHandler = () => {
     if (attendances && defaultPeriod) {
@@ -92,6 +94,34 @@ const AttendanceElement: React.FC<AttendanceElementProps> = ({ onImportance }) =
       },
     };
   };
+
+  if (loading) {
+    return (
+      <>
+        <>
+          <NativeListHeader animated label="Vie scolaire"
+            trailing={(
+              <RedirectButton navigation={PapillonNavigation.current} redirect="Attendance" />
+            )}
+          />
+          <NativeList
+            animated
+            key="emptyAttendance"
+            entering={FadeInDown.springify().mass(1).damping(20).stiffness(300)}
+            exiting={FadeOut.duration(300)}
+          >
+            <NativeItem animated style={{ paddingVertical: 10 }}>
+              <MissingItem
+                emoji="⏳"
+                title="Chargement de la Vie Scolaire"
+                description="Patiente, s'il te plaît..."
+              />
+            </NativeItem>
+          </NativeList>
+        </>
+      </>
+    );
+  }
 
   if (!totalMissed || totalMissed.absences.length === 0) {
     return (
