@@ -45,10 +45,12 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
   };
 
   const updateHomeworks = useCallback(async () => {
-    await updateHomeworkForWeekInCache(account, actualDay);
-    await updateHomeworkForWeekInCache(account, nextWeek);
-    ImportanceHandler();
-    setLoading(false);
+    if (account.instance) {
+      await updateHomeworkForWeekInCache(account, actualDay);
+      await updateHomeworkForWeekInCache(account, nextWeek);
+      ImportanceHandler();
+      setLoading(false);
+    }
   }, [account, actualDay]);
 
   const debouncedUpdateHomeworks = useMemo(() => debounce(updateHomeworks, 500), [updateHomeworks]);
