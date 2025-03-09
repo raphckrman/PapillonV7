@@ -25,7 +25,7 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
 
   const [loading, setLoading] = useState(false);
 
-  const actualDay = useMemo(()=> new Date(), []);
+  const actualDay = useMemo(() => new Date(), []);
   const nextWeek = useMemo(() => new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), []);
 
   const ImportanceHandler = () => {
