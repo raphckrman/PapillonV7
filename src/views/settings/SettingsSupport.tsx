@@ -123,11 +123,11 @@ const SettingsSupport: Screen<"SettingsSupport"> = ({ navigation }) => {
               }}
             />
           }>
-          <NativeText>J’accepte de transmettre les journaux et les données du formulaire pour le traitement de ma demande</NativeText>
+          <NativeText>J’accepte de transmettre les journaux d'erreurs et les données du formulaire pour le traitement de ma demande</NativeText>
         </NativeItem>
       </NativeList>
       <View style={{padding: 20}}>
-        <ButtonCta primary value={"Envoyer mon message"} disabled={!(email)} onPress={() => handlePress()} />
+        <ButtonCta primary value={"Envoyer mon message"} disabled={!(email && subject && description && sendLogs)} onPress={() => handlePress()} />
       </View>
     </ScrollView>
   );
