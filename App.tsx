@@ -62,6 +62,7 @@ export default function App () {
 
   const [appState, setAppState] = useState<AppStateStatus>(AppState.currentState);
   const backgroundStartTime = useRef<number | null>(null);
+  const currentAccount = useCurrentAccount((store) => store.account);
   const switchTo = useCurrentAccount((store) => store.switchTo);
   const accounts: PrimaryAccount[] = useAccounts((store) => store.accounts)
     .filter(account => !account.isExternal) as PrimaryAccount[];
@@ -96,7 +97,7 @@ export default function App () {
         log(`Account type: ${serviceName}`, "RefreshToken");
         log(`Using ${BACKGROUND_LIMITS[account.service] ? "specific" : "default"} time limit`, "RefreshToken");
 
-        if (timeInBackground >= timeLimit) {
+        if (timeInBackground >= timeLimit && currentAccount === account) {
           log(`⚠️ Refreshing account ${account.studentName.first} ${account.studentName.last} after ${timeInBackgroundSeconds}s in background`, "RefreshToken");
 
           // Prevent React state updates during render
