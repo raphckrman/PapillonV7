@@ -115,12 +115,17 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
   }, [grades, account.instance]);
 
   const updateTo = useCallback(
-    (index: number) => {
-      if (index < 0 || index > gradesHistoryRef.current.length - 1) return;
-      if (!gradesHistoryRef.current[index]?.value) return;
+    (index: number, x: number, y: number) => {
+      try {
+        if (index < 0 || index > gradesHistoryRef.current.length - 1) return;
+        if (!gradesHistoryRef.current[index]?.value) return;
 
-      setSelectedDate(gradesHistoryRef.current[index].date);
-      setCurrentAvg(gradesHistoryRef.current[index].value);
+        setSelectedDate(gradesHistoryRef.current[index].date);
+        setCurrentAvg(gradesHistoryRef.current[index].value);
+      }
+      catch (e) {
+        console.error(e);
+      }
     },
     [gradesHistoryRef]
   );
@@ -247,10 +252,7 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
                   ref={graphRef}
                   animationDuration={400}
                   onGestureUpdate={(x, y, index) => {
-                    if (index < 0 || index > gradesHistory.length - 1) return;
-                    if (!gradesHistory[index]?.value) return;
-
-                    updateTo(index);
+                    updateTo(index, x, y);
                   }}
                   onGestureEnd={() => {
                     resetToOriginal();
