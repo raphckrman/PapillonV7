@@ -73,124 +73,129 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
   };
 
   function hideAlert () {
-    setAlert(null);
     setVisible(false);
+    setTimeout(() => setAlert(null), 150);
   }
 
   return (
     <AlertContext.Provider value={{ showAlert }}>
       {children}
 
-      {visible && alert && (
+      {alert && (
         <Modal transparent onRequestClose={hideAlert} animationType="none">
-          <Reanimated.View
-            entering={FadeIn.duration(150)}
-            exiting={FadeOut.duration(150)}
-            style={styles.overlay}
-          >
-            <BlurView intensity={10} style={styles.blur} />
-          </Reanimated.View>
-
-          <Reanimated.View
-            style={styles.modalContainer}
-            layout={LinearTransition}
-          >
-            <Pressable style={styles.pressable} onPress={hideAlert} />
-            <Reanimated.View
-              style={[
-                styles.alertBox,
-                {
-                  backgroundColor: dark ? "#333" : colors.card,
-                  marginBottom: 10 + insets.bottom,
-                },
-              ]}
-              entering={PapillonContextEnter}
-              exiting={PapillonContextExit}
-            >
-              <View style={styles.contentContainer}>
-                <View style={styles.titleContainer}>
-                  {alert.icon &&
-                    React.cloneElement(alert.icon, {
-                      color: colors.text,
-                      size: 24,
-                    })}
-                  <Text style={[styles.title, { color: colors.text }]}>
-                    {alert.title}
-                  </Text>
-                </View>
-                <Text style={[styles.message, { color: colors.text }]}>
-                  {alert.message}
-                </Text>
-              </View>
-
-              <View
-                style={[
-                  styles.buttons,
-                  {
-                    borderColor: colors.border,
-                    flexDirection:
-                      (alert.actions ?? []).length > 2 ? "column" : "row",
-                    alignItems: "center",
-                  },
-                ]}
+          {visible &&
+            <View style={{ flex: 1 }}>
+              <Reanimated.View
+                entering={FadeIn.duration(150)}
+                exiting={FadeOut.duration(150)}
+                style={styles.overlay}
               >
-                {alert.actions?.map(
-                  ({
-                    title,
-                    onPress,
-                    icon,
-                    primary,
-                    danger,
-                    backgroundColor,
-                  }) => (
-                    <Pressable
-                      key={title}
-                      onPress={() => {
-                        hideAlert();
-                        onPress?.();
-                      }}
-                      style={({ pressed }) => [
-                        styles.button,
-                        {
-                          width:
-                            (alert.actions ?? []).length > 2 ? "100%" : "auto",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          opacity: pressed ? 0.6 : 1,
-                        },
-                        primary
-                          ? styles.primaryButton
-                          : styles.notPrimaryButton,
-                        primary
-                          ? {
-                            backgroundColor:
-                                backgroundColor ?? colors.primary,
-                          }
-                          : danger
-                            ? { backgroundColor: "#FC1E0D" }
-                            : { borderColor: "#CCC", borderWidth: 1 },
-                      ]}
-                    >
-                      {icon &&
-                        React.cloneElement(icon, {
-                          color: primary ? "#ffffff" : colors.text,
-                          size: 24,
-                        })}
-                      <Text
-                        style={[
-                          styles.buttonText,
-                          { color: colors.text },
-                          primary && styles.primaryButtonText,
-                        ]}
-                      >
-                        {title}
+                <BlurView intensity={10} style={styles.blur} />
+              </Reanimated.View>
+
+              <Reanimated.View
+                style={styles.modalContainer}
+                layout={LinearTransition}
+              >
+                <Pressable style={styles.pressable} onPress={hideAlert} />
+                <Reanimated.View
+                  style={[
+                    styles.alertBox,
+                    {
+                      backgroundColor: dark ? "#333" : colors.card,
+                      marginBottom: 10 + insets.bottom,
+                    },
+                  ]}
+                  entering={PapillonContextEnter}
+                  exiting={PapillonContextExit}
+                >
+                  <View style={styles.contentContainer}>
+                    <View style={styles.titleContainer}>
+                      {alert.icon &&
+                      React.cloneElement(alert.icon, {
+                        color: colors.text,
+                        size: 24,
+                      })}
+                      <Text style={[styles.title, { color: colors.text }]}>
+                        {alert.title}
                       </Text>
-                    </Pressable>
-                  )
-                )}
-              </View>
-            </Reanimated.View>
-          </Reanimated.View>
+                    </View>
+                    <Text style={[styles.message, { color: colors.text }]}>
+                      {alert.message}
+                    </Text>
+                  </View>
+
+                  <View
+                    style={[
+                      styles.buttons,
+                      {
+                        backgroundColor: colors.text + "10",
+                        borderColor: colors.text + "20",
+                        flexDirection:
+                        (alert.actions ?? []).length > 2 ? "column" : "row",
+                        alignItems: "center",
+                      },
+                    ]}
+                  >
+                    {alert.actions?.map(
+                      ({
+                        title,
+                        onPress,
+                        icon,
+                        primary,
+                        danger,
+                        backgroundColor,
+                      }) => (
+                        <Pressable
+                          key={title}
+                          onPress={() => {
+                            hideAlert();
+                            onPress?.();
+                          }}
+                          style={({ pressed }) => [
+                            styles.button,
+                            {
+                              width:
+                              (alert.actions ?? []).length > 2 ? "100%" : "auto",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              opacity: pressed ? 0.6 : 1,
+                            },
+                            primary
+                              ? styles.primaryButton
+                              : styles.notPrimaryButton,
+                            primary
+                              ? {
+                                backgroundColor:
+                                  backgroundColor ?? colors.primary,
+                              }
+                              : danger
+                                ? { backgroundColor: "#FC1E0D" }
+                                : { borderColor: "#CCC", borderWidth: 1 },
+                          ]}
+                        >
+                          {icon &&
+                          React.cloneElement(icon, {
+                            color: primary ? "#ffffff" : colors.text,
+                            size: 24,
+                          })}
+                          <Text
+                            style={[
+                              styles.buttonText,
+                              { color: colors.text },
+                              primary && styles.primaryButtonText,
+                            ]}
+                          >
+                            {title}
+                          </Text>
+                        </Pressable>
+                      )
+                    )}
+                  </View>
+                </Reanimated.View>
+              </Reanimated.View>
+            </View>
+          }
         </Modal>
       )}
     </AlertContext.Provider>
@@ -213,19 +218,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
+    paddingHorizontal: 10,
   },
   pressable: {
     flex: 1,
     width: "100%",
   },
   alertBox: {
-    borderRadius: 16,
-    padding: 20,
-    paddingBottom: 5,
-    maxWidth: "90%",
+    borderRadius: 17,
+    borderCurve: "continuous",
+    width: "100%",
+    transformOrigin: "bottom center",
   },
   contentContainer: {
-    gap: 6,
+    gap: 10,
+    padding: 18,
   },
   titleContainer: {
     flexDirection: "row",
@@ -234,10 +241,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
+    lineHeight: 22,
     fontFamily: "semibold",
   },
   message: {
     fontSize: 16,
+    lineHeight: 20,
     fontFamily: "medium",
     opacity: 0.6,
   },
@@ -245,19 +254,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     paddingVertical: 12,
-    paddingHorizontal: 5,
-    marginTop: 16,
-    paddingTop: 10,
-    gap: 10,
+    paddingHorizontal: 12,
     borderTopWidth: 1,
+    gap: 10,
   },
   button: {
     flexDirection: "row",
-    gap: 5,
+    gap: 8,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 300,
-    paddingVertical: 10,
+    paddingVertical: 8,
     width: "100%",
   },
   buttonText: {
@@ -265,10 +272,10 @@ const styles = StyleSheet.create({
     fontFamily: "medium",
   },
   primaryButton: {
-    paddingHorizontal: 14,
+    paddingHorizontal: 16,
   },
   notPrimaryButton: {
-    paddingHorizontal: 5,
+    paddingHorizontal: 16,
   },
   primaryButtonText: {
     color: "#ffffff",
