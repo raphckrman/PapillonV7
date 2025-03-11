@@ -14,7 +14,7 @@ const SettingsSupport: Screen<"SettingsSupport"> = ({ navigation }) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
 
-  const [sendLogs, setSendLogs] = useState<boolean>(true);
+  const [sendLogs, setSendLogs] = useState<boolean>(false);
   const [email, setEmail] = useState<string>();
   const [subject, setSubject] = useState<string>();
   const [description, setDescription] = useState<string>();
@@ -100,9 +100,11 @@ const SettingsSupport: Screen<"SettingsSupport"> = ({ navigation }) => {
           <TextInput
             style={[{
               fontSize: 16,
+              lineHeight: 22,
+              marginVertical: -4,
               fontFamily: "semibold",
             }, { color: theme.colors.text }]}
-            placeholder="Expliquez votre problème de manière détaillé afin de nous aider à résoudre le problème rapidement."
+            placeholder="Expliquez votre problème de manière détaillée afin de nous aider à résoudre le problème rapidement."
             placeholderTextColor={theme.colors.text + "80"}
             value={description}
             multiline={true}
@@ -126,7 +128,7 @@ const SettingsSupport: Screen<"SettingsSupport"> = ({ navigation }) => {
           <NativeText>J’accepte de transmettre les journaux d'erreurs et les données du formulaire pour le traitement de ma demande</NativeText>
         </NativeItem>
       </NativeList>
-      <View style={{padding: 20}}>
+      <View style={{paddingVertical: 20}}>
         <ButtonCta primary value={"Envoyer mon message"} disabled={!(email && subject && description && sendLogs)} onPress={() => handlePress()} />
       </View>
     </ScrollView>
