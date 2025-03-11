@@ -36,6 +36,7 @@ import {
   Blocks,
   HelpCircle,
   PersonStanding,
+  Bug,
   BadgeHelp
 } from "lucide-react-native";
 
@@ -231,6 +232,12 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           color: "#0E7CCB",
           label: "Besoin d'aide ?",
           onPress: () => openUrl("https://support.papillon.bzh/"),
+        },
+        {
+          icon: <Bug />,
+          color: "#CF0029",
+          label: "Signaler un problème",
+          onPress: () => navigation.navigate("SettingsSupport"),
         },
         {
           icon: <Info />,
