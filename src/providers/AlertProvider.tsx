@@ -187,6 +187,9 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                       }) => (
                         <Reanimated.View
                           layout={anim2Papillon(LinearTransition)}
+                          style={[
+                            (alert.actions?.length === 1 || (alert.actions ?? []).length > 2) && styles.singleButtonContainer,
+                          ]}
                         >
                           <TouchableOpacity
                             key={title}
@@ -194,6 +197,9 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                               hideAlert();
                               onPress?.();
                             }}
+                            style={[
+                              (alert.actions?.length === 1 || (alert.actions ?? []).length > 2) && styles.singleButtonContainer,
+                            ]}
                           >
                             <Reanimated.View
                               layout={anim2Papillon(LinearTransition)}
@@ -204,6 +210,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                                   justifyContent: "center",
                                   alignItems: "center",
                                 },
+                                (alert.actions?.length === 1 || (alert.actions ?? []).length > 2) && styles.singleButton,
                                 primary && !danger
                                   ? {
                                     backgroundColor:
@@ -327,6 +334,12 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 14,
     overflow: "hidden",
+  },
+  singleButton: {
+    width: "100%",
+  },
+  singleButtonContainer: {
+    width: "100%",
   },
   buttonText: {
     fontSize: 16,
