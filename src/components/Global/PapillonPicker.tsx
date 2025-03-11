@@ -19,7 +19,8 @@ export type PickerDataItem = string | {
   icon?: JSX.Element,
   sfSymbol?: string,
   onPress?: () => {} | void,
-  checked?: boolean
+  checked?: boolean,
+  destructive?: boolean,
 };
 
 type PickerData = PickerDataItem[];
@@ -78,6 +79,7 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
         }}
         menuConfig={{
           menuTitle: "",
+          // @ts-ignore
           menuItems: data.filter((item) => item !== null).map((item, index) => {
             return {
               actionKey: "action-"+index.toString(),
@@ -86,6 +88,8 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
               actionSubtitle: item.subtitle,
               // @ts-ignore
               menuState: (item.checked || item === selected) ? "on" : "off",
+              // @ts-ignore
+              menuAttributes: [item.destructive ? "destructive" : "normal"],
               icon: {
                 type: typeof item !== "string" ? "IMAGE_SYSTEM" : "IMAGE_SYSTEM",
                 imageValue: {
@@ -98,6 +102,7 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
       >
         <TouchableOpacity
           onPress={() => {}}
+          activeOpacity={0.3}
         >
           {children}
         </TouchableOpacity>

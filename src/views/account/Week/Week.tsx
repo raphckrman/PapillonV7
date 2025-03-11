@@ -242,6 +242,8 @@ const Week: Screen<"Week"> = ({ route, navigation }) => {
   const [events, setEvents] = React.useState<CalendarKitEventItem[]>([]);
 
   useEffect(() => {
+    if(!timetables) return;
+
     const nevts = Object.values(timetables)
       .flat()
       .map(event => ({
@@ -427,7 +429,9 @@ const styles = StyleSheet.create({
   },
   canceledContainer: {
     borderColor: "red",
-    borderWidth: 2,
+    borderWidth: 4,
+    borderStyle: "dotted",
+    backgroundColor: "transparent",
   },
   alertBadge: {
     position: "absolute",
@@ -454,11 +458,12 @@ const styles = StyleSheet.create({
     borderWidth: 0,
   },
   canceledContent: {
-    opacity: 0.3,
+    opacity: 0.5,
     backgroundColor: "grey",
+    borderWidth: 0,
   },
   title: {
-    fontSize: 13,
+    fontSize: 11.5,
     letterSpacing: 0.2,
     fontFamily: "semibold",
     textTransform: "uppercase",
@@ -470,7 +475,7 @@ const styles = StyleSheet.create({
     textTransform: "none",
   },
   room: {
-    fontSize: 13,
+    fontSize: 11,
     letterSpacing: 0.2,
     fontFamily: "medium",
     opacity: 0.6,

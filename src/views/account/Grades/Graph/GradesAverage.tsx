@@ -109,8 +109,8 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
     hst = hst.filter((p) => isNaN(p.value) === false);
 
     graphRef.current?.updateData({
-      xAxis: hst.map((p, i) => new Date(p.date).getTime()),
-      yAxis: hst.map((p) => p.value),
+      xAxis: hst.length > 0 ? hst.map((p, i) => new Date(p.date).getTime()) : [Date.now()],
+      yAxis: hst.length > 0 ? hst.map((p) => p.value) : [10],
     });
   }, [grades, account.instance]);
 
@@ -132,17 +132,17 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
 
   const theoryAvgDisclaimer = useCallback(() => {
     showAlert({
-      icon: <TrendingUp />,
       title: "Moyenne théorique",
-      message: "La moyenne théorique est calculée en prenant en compte toutes les moyennes de tes matières. Elle est donc purement indicative et ne reflète pas la réalité des différentes options ou variations."
+      message: "La moyenne théorique est calculée en prenant en compte toutes les moyennes de tes matières. Elle est donc purement indicative et ne reflète pas la réalité des différentes options ou variations.",
+      icon: <TrendingUp />,
     });
   }, []);
 
   const estimatedAvgDisclaimer = useCallback(() => {
     showAlert({
-      icon: <PieChart />,
       title: "Moyenne générale estimée",
       message: "L'estimation automatique des moyennes n'est pas une information exacte, mais une approximation qui essaye de s'en rapprocher un maximum.",
+      icon: <PieChart />,
       actions: [
         {
           title: "En savoir plus",
