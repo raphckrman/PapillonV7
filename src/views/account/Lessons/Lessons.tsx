@@ -442,6 +442,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
       />
 
       <LessonsDateModal
+        topOffset={insets.top + 60}
         showDatePicker={showDatePicker}
         setShowDatePicker={setShowDatePicker}
         currentDate={pickerDate}
