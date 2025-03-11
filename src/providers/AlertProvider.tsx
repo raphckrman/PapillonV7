@@ -15,10 +15,12 @@ import Reanimated, {
   LinearTransition,
 } from "react-native-reanimated";
 import {
+  anim2Papillon,
   PapillonContextEnter,
   PapillonContextExit,
 } from "@/utils/ui/animations";
 import { BlurView } from "expo-blur";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 type AlertAction = {
   title: string;
@@ -138,7 +140,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                   style={[
                     styles.alertBox,
                     {
-                      backgroundColor: dark ? "#333" : colors.card,
+                      backgroundColor: colors.card,
                       marginBottom: 10 + insets.bottom,
                     },
                   ]}
@@ -165,7 +167,8 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                     style={[
                       styles.buttons,
                       {
-                        borderColor: colors.border,
+                        borderColor: colors.text + "20",
+                        backgroundColor: colors.text + "06",
                         flexDirection:
                       (alert.actions ?? []).length > 2 ? "column" : "row",
                         alignItems: "center",
@@ -180,55 +183,72 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                         primary,
                         danger,
                         backgroundColor,
+                        delayDisable,
                       }) => (
-                        <Pressable
-                          key={title}
-                          onPress={() => {
-                            hideAlert();
-                            onPress?.();
-                          }}
-                          disabled={delays[title] > 0}
-                          style={({ pressed }) => [
-                            styles.button,
-                            {
-                              width:
-                            (alert.actions ?? []).length > 2 ? "100%" : "auto",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              opacity: pressed
-                                ? 0.6
-                                : delays[title] === 0
-                                  ? 1
-                                  : 0.5,
-                            },
-                            primary
-                              ? {
-                                backgroundColor:
-                                backgroundColor ?? colors.primary,
-                              }
-                              : danger
-                                ? { backgroundColor: "#BE0B00" }
-                                : { borderColor: "#CCC", borderWidth: 1 },
-                          ]}
+                        <Reanimated.View
+                          layout={anim2Papillon(LinearTransition)}
                         >
-                          {icon &&
+                          <TouchableOpacity
+                            key={title}
+                            onPress={() => {
+                              hideAlert();
+                              onPress?.();
+                            }}
+                          >
+                            <Reanimated.View
+                              layout={anim2Papillon(LinearTransition)}
+                              disabled={delays[title] > 0}
+                              style={[
+                                styles.button,
+                                {
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                },
+                                primary && !danger
+                                  ? {
+                                    backgroundColor:
+                                (backgroundColor ?? colors.primary) + (delays[title] > 0 ? "99" : ""),
+                                  }
+                                  : danger
+                                    ? { backgroundColor: "#BE0B00" + (delays[title] > 0 ? "99" : "") }
+                                    : { borderColor: colors.text + "44", borderWidth: 1 },
+                              ]}
+                            >
+                              {icon &&
                         React.cloneElement(icon, {
                           color: primary || danger ? "#ffffff" : colors.text,
                           size: 24,
                         })}
-                          <Text
-                            style={[
-                              styles.buttonText,
-                              { color: danger ? "#ffffff" : colors.text },
-                              primary && styles.primaryButtonText,
-                            ]}
-                          >
-                            {title}
-                            {delays[title] !== undefined && delays[title] > 0
-                              ? ` (${delays[title]})`
-                              : ""}
-                          </Text>
-                        </Pressable>
+                              <Reanimated.Text
+                                layout={anim2Papillon(LinearTransition)}
+                                style={[
+                                  styles.buttonText,
+                                  { color: danger ? "#ffffff" : colors.text },
+                                  primary && styles.primaryButtonText,
+                                ]}
+                              >
+                                {title}
+                                {delays[title] !== undefined && delays[title] > 0
+                                  ? ` (${delays[title]})`
+                                  : ""}
+                              </Reanimated.Text>
+
+                              {delays[title] !== undefined &&
+                            <Reanimated.View
+                              layout={LinearTransition}
+                              style={{
+                                position: "absolute",
+                                top: 0,
+                                right: 0,
+                                width: parseInt((delays[title] / (delayDisable ? (delayDisable - 1) : 2)) * 120 + "%"),
+                                height: "200%",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                              }}
+                            />
+                              }
+                            </Reanimated.View>
+                          </TouchableOpacity>
+                        </Reanimated.View>
                       )
                     )}
                   </View>
@@ -305,8 +325,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 300,
     paddingVertical: 8,
-    width: "100%",
     paddingHorizontal: 14,
+    overflow: "hidden",
   },
   buttonText: {
     fontSize: 16,
