@@ -244,7 +244,8 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
               balance: balance,
               history: history,
               cardnumber: cardnumber,
-              theme: STORE_THEMES.find((theme) => theme.id === AccountService[account.service]) ?? STORE_THEMES[0],
+              // @ts-ignore
+              theme: STORE_THEMES.find((theme) => theme.id === AccountService[account.service]) ?? STORE_THEMES[0] as StoreTheme,
             };
 
             newCards.push(newCard);

@@ -193,6 +193,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                         >
                           <TouchableOpacity
                             key={title}
+                            disabled={delays[title] > 0}
                             onPress={() => {
                               hideAlert();
                               onPress?.();
@@ -203,7 +204,6 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                           >
                             <Reanimated.View
                               layout={anim2Papillon(LinearTransition)}
-                              disabled={delays[title] > 0}
                               style={[
                                 styles.button,
                                 {
