@@ -92,6 +92,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
 
   function hideAlert () {
     setVisible(false);
+    setTimeout(() => setAlert(null), 150);
   }
 
   useEffect(() => {
@@ -160,79 +161,81 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                     </Text>
                   </View>
 
-              <View
-                style={[
-                  styles.buttons,
-                  {
-                    borderColor: colors.border,
-                    flexDirection:
+                  <View
+                    style={[
+                      styles.buttons,
+                      {
+                        borderColor: colors.border,
+                        flexDirection:
                       (alert.actions ?? []).length > 2 ? "column" : "row",
-                    alignItems: "center",
-                  },
-                ]}
-              >
-                {alert.actions?.map(
-                  ({
-                    title,
-                    onPress,
-                    icon,
-                    primary,
-                    danger,
-                    backgroundColor,
-                  }) => (
-                    <Pressable
-                      key={title}
-                      onPress={() => {
-                        hideAlert();
-                        onPress?.();
-                      }}
-                      disabled={delays[title] > 0}
-                      style={({ pressed }) => [
-                        styles.button,
-                        {
-                          width:
+                        alignItems: "center",
+                      },
+                    ]}
+                  >
+                    {alert.actions?.map(
+                      ({
+                        title,
+                        onPress,
+                        icon,
+                        primary,
+                        danger,
+                        backgroundColor,
+                      }) => (
+                        <Pressable
+                          key={title}
+                          onPress={() => {
+                            hideAlert();
+                            onPress?.();
+                          }}
+                          disabled={delays[title] > 0}
+                          style={({ pressed }) => [
+                            styles.button,
+                            {
+                              width:
                             (alert.actions ?? []).length > 2 ? "100%" : "auto",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          opacity: pressed
-                            ? 0.6
-                            : delays[title] === 0
-                              ? 1
-                              : 0.5,
-                        },
-                        primary
-                          ? {
-                            backgroundColor:
+                              justifyContent: "center",
+                              alignItems: "center",
+                              opacity: pressed
+                                ? 0.6
+                                : delays[title] === 0
+                                  ? 1
+                                  : 0.5,
+                            },
+                            primary
+                              ? {
+                                backgroundColor:
                                 backgroundColor ?? colors.primary,
-                          }
-                          : danger
-                            ? { backgroundColor: "#BE0B00" }
-                            : { borderColor: "#CCC", borderWidth: 1 },
-                      ]}
-                    >
-                      {icon &&
+                              }
+                              : danger
+                                ? { backgroundColor: "#BE0B00" }
+                                : { borderColor: "#CCC", borderWidth: 1 },
+                          ]}
+                        >
+                          {icon &&
                         React.cloneElement(icon, {
                           color: primary || danger ? "#ffffff" : colors.text,
                           size: 24,
                         })}
-                      <Text
-                        style={[
-                          styles.buttonText,
-                          { color: danger ? "#ffffff" : colors.text },
-                          primary && styles.primaryButtonText,
-                        ]}
-                      >
-                        {title}
-                        {delays[title] !== undefined && delays[title] > 0
-                          ? ` (${delays[title]})`
-                          : ""}
-                      </Text>
-                    </Pressable>
-                  )
-                )}
-              </View>
-            </Reanimated.View>
-          </Reanimated.View>
+                          <Text
+                            style={[
+                              styles.buttonText,
+                              { color: danger ? "#ffffff" : colors.text },
+                              primary && styles.primaryButtonText,
+                            ]}
+                          >
+                            {title}
+                            {delays[title] !== undefined && delays[title] > 0
+                              ? ` (${delays[title]})`
+                              : ""}
+                          </Text>
+                        </Pressable>
+                      )
+                    )}
+                  </View>
+                </Reanimated.View>
+              </Reanimated.View>
+            </View>
+          }
         </Modal>
       )}
     </AlertContext.Provider>
