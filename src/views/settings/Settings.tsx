@@ -35,7 +35,8 @@ import {
   X,
   Blocks,
   HelpCircle,
-  PersonStanding
+  PersonStanding,
+  Bug
 } from "lucide-react-native";
 
 import { NativeIcon, NativeItem, NativeList, NativeListHeader, NativeText } from "@/components/Global/NativeComponents";
@@ -230,6 +231,12 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           color: "#0E7CCB",
           label: "Besoin d'aide ?",
           onPress: () => openUrl("https://support.papillon.bzh/"),
+        },
+        {
+          icon: <Bug />,
+          color: "#CF0029",
+          label: "Signaler un problème",
+          onPress: () => navigation.navigate("SettingsSupport"),
         },
         {
           icon: <Info />,
