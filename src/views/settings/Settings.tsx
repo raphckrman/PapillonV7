@@ -36,7 +36,8 @@ import {
   Blocks,
   HelpCircle,
   PersonStanding,
-  Bug
+  Bug,
+  BadgeHelp
 } from "lucide-react-native";
 
 import { NativeIcon, NativeItem, NativeList, NativeListHeader, NativeText } from "@/components/Global/NativeComponents";
