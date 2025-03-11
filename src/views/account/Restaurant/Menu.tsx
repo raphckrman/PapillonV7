@@ -73,6 +73,7 @@ export interface ServiceCard {
   balance: never[] | Balance[];
   history: never[] | ReservationHistory[];
   cardnumber: string | Blob | null;
+  // @ts-ignore
   theme: StoreTheme;
 }
 

@@ -68,6 +68,7 @@ const RestaurantQRCodeWidget = forwardRef(({
             balance: [],
             history: [],
             cardnumber: cardnumber,
+            // @ts-ignore
             theme: STORE_THEMES.find((theme) => theme.id === AccountService[account.service]) ?? STORE_THEMES[0],
           };
 
