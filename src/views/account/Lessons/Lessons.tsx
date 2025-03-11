@@ -44,7 +44,6 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const mutateProperty = useCurrentAccount((store) => store.mutateProperty);
 
   const timetables = useTimetableStore((store) => store.timetables);
-  const {isTablet} = useScreenDimensions();
 
   const outsideNav = route.params?.outsideNav;
   const insets = useSafeAreaInsets();
@@ -106,8 +105,6 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false);
 
   const [showDatePicker, setShowDatePicker] = useState(false);
-
-  const finalWidth = Dimensions.get("window").width - (isTablet ? 320 : 0);
 
   const loadTimetableWeek = async (weekNumber: number, force = false) => {
     if (
