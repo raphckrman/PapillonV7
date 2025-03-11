@@ -33,6 +33,7 @@ import { AlertTriangle, Check, ExternalLink, PieChart, TrendingUp } from "lucide
 import { useAlert } from "@/providers/AlertProvider";
 // Using require to set custom types bc module types are broken
 const ReanimatedGraph: React.ForwardRefExoticComponent<ReanimatedGraphProps & React.RefAttributes<ReanimatedGraphPublicMethods>> = require("@birdwingo/react-native-reanimated-graph").default;
+import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 
 interface GradesAverageGraphProps {
   grades: Grade[];
@@ -48,6 +49,7 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
   const theme = useTheme();
   const account = useCurrentAccount((store) => store.account!);
   const { showAlert } = useAlert();
+  const { playHaptics } = useSoundHapticsWrapper();
 
   const [gradesHistory, setGradesHistory] = useState<GradeHistory[]>([]);
   const [hLength, setHLength] = useState(0);
@@ -67,7 +69,9 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
 
   useEffect(() => {
     if (currentAvg !== originalCurrentAvg) {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      playHaptics("impact", {
+        impact: Haptics.ImpactFeedbackStyle.Light,
+      });
     }
   }, [currentAvg]);
 
@@ -105,8 +109,8 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
     hst = hst.filter((p) => isNaN(p.value) === false);
 
     graphRef.current?.updateData({
-      xAxis: hst.map((p, i) => new Date(p.date).getTime()),
-      yAxis: hst.map((p) => p.value),
+      xAxis: hst.length > 0 ? hst.map((p, i) => new Date(p.date).getTime()) : [Date.now()],
+      yAxis: hst.length > 0 ? hst.map((p) => p.value) : [10],
     });
   }, [grades, account.instance]);
 

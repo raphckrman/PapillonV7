@@ -77,13 +77,14 @@ const SettingsFlags: Screen<"SettingsFlags"> = ({ navigation }) => {
         {
           title: "Annuler",
           icon: <Undo2 />,
-          primary: true,
+          primary: false,
         },
         {
           title: "Supprimer",
           icon: <Trash2 />,
           onPress: () => remove(flag),
           danger: true,
+          delayDisable: 3,
         }
       ]
     });

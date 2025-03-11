@@ -11,11 +11,14 @@ import QRCode from "react-native-qrcode-svg";
 import * as Haptics from "expo-haptics";
 import { Screen } from "@/router/helpers/types";
 import { ExternalAccount } from "@/stores/account/types";
-
+import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
+import * as Brightness from "expo-brightness";
 
 const RestaurantQrCode: Screen<"RestaurantQrCode">  = ({ route, navigation }) => {
   const { card } = route.params;
   const [qrCode, setQrCode] = useState<string | null>(null);
+  const [defaultBrightness, setDefaultBrightness] = useState<number>(0.5);
+  const { playHaptics } = useSoundHapticsWrapper();
 
   const PollingBalance = async () => {
     balanceFromExternal(card.account as ExternalAccount).then((newBalance) => {
@@ -27,12 +30,40 @@ const RestaurantQrCode: Screen<"RestaurantQrCode">  = ({ route, navigation }) =>
   };
 
   const openFeedback = () => {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    playHaptics("notification", {
+      notification: Haptics.NotificationFeedbackType.Success,
+    });
     navigation.goBack();
     setTimeout(() => {
       navigation.navigate("RestaurantPaymentSuccess", { card, diff: 0 });
     }, 1000);
   };
+
+  useEffect(() => {
+    const handleBrightness = async () => {
+      const { status } = await Brightness.requestPermissionsAsync();
+      if (status === "granted") {
+        const currentBrightness = await Brightness.getBrightnessAsync();
+        setDefaultBrightness(currentBrightness);
+        Brightness.setSystemBrightnessAsync(1);
+      }
+    };
+
+    handleBrightness();
+
+    const handleBeforeRemove = async () => {
+      const { status } = await Brightness.requestPermissionsAsync();
+      if (status === "granted" && defaultBrightness !== undefined) {
+        Brightness.setSystemBrightnessAsync(defaultBrightness);
+      }
+    };
+
+    navigation.addListener("beforeRemove", handleBeforeRemove);
+
+    return () => {
+      navigation.removeListener("beforeRemove", handleBeforeRemove);
+    };
+  }, [defaultBrightness, navigation]);
 
   useEffect(() => {
     // Si Izly

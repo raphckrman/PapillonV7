@@ -22,7 +22,7 @@ import { animPapillon } from "@/utils/ui/animations";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
 import AnimatedNumber from "@/components/Global/AnimatedNumber";
-import { CalendarPlus, Eye, MoreVertical } from "lucide-react-native";
+import { CalendarPlus, Eye, EyeOff, MoreVertical } from "lucide-react-native";
 import {
   PapillonHeaderAction,
   PapillonHeaderSelector,
@@ -36,6 +36,7 @@ import {AccountService} from "@/stores/account/types";
 import {hasFeatureAccountSetup} from "@/utils/multiservice";
 import {MultiServiceFeature} from "@/stores/multiService/types";
 import { fetchIcalData } from "@/services/local/ical";
+import useScreenDimensions from "@/hooks/useScreenDimensions";
 
 const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const account = useCurrentAccount((store) => store.account!);
@@ -43,6 +44,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const mutateProperty = useCurrentAccount((store) => store.mutateProperty);
 
   const timetables = useTimetableStore((store) => store.timetables);
+  const {isTablet} = useScreenDimensions();
 
   const outsideNav = route.params?.outsideNav;
   const insets = useSafeAreaInsets();
@@ -98,6 +100,8 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false);
 
   const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const finalWidth = Dimensions.get("window").width - (isTablet ? 320 : 0);
 
   const loadTimetableWeek = async (weekNumber: number, force = false) => {
     if (
@@ -157,7 +161,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const renderItem = useCallback(({ item: date }: { item: Date }) => {
     const weekNumber = getWeekFromDate(date);
     return (
-      <View style={{ width: Dimensions.get("window").width }}>
+      <View style={{ width: finalWidth }}>
         <Page
           hasServiceSetup={hasServiceSetup}
           paddingTop={outsideNav ? 80 : insets.top + 56}
@@ -195,8 +199,8 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   );
 
   const getItemLayout = useCallback((_: any, index: number) => ({
-    length: Dimensions.get("window").width,
-    offset: Dimensions.get("window").width * index,
+    length: finalWidth,
+    offset: finalWidth * index,
     index,
   }),
   [],
@@ -388,16 +392,20 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
                 navigation.navigate("LessonsImportIcal", {});
               }
             },
-            ...(weekFrequency != null) ? [{
-              icon: <Eye />,
-              label: "Afficher type sem.",
-              subtitle: "Afficher semaine paire / impaire",
+            {
+              icon: shouldShowWeekFrequency ? <EyeOff /> : <Eye />,
+              label: shouldShowWeekFrequency
+                ? "Masquer alternance semaine"
+                : "Afficher alternance semaine",
+              subtitle: shouldShowWeekFrequency
+                ? "Masquer semaine paire / impaire"
+                : "Afficher semaine paire / impaire",
               sfSymbol: "eye",
               onPress: () => {
                 setShouldShowWeekFrequency(!shouldShowWeekFrequency);
               },
               checked: shouldShowWeekFrequency,
-            }] : []
+            },
           ]}
         >
           <PapillonHeaderAction
@@ -434,6 +442,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
       />
 
       <LessonsDateModal
+        topOffset={insets.top + 60}
         showDatePicker={showDatePicker}
         setShowDatePicker={setShowDatePicker}
         currentDate={pickerDate}

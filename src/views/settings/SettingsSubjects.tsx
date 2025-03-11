@@ -148,6 +148,7 @@ const SettingsSubjects: Screen<"SettingsSubjects"> = ({ navigation }) => {
                   icon: <Trash2 />,
                   primary: true,
                   danger: true,
+                  delayDisable: 3,
                   onPress: () => {
                     setSubjects([]);
                     setLocalSubjects([]);

@@ -29,13 +29,13 @@ import {
   Scroll,
   Settings as SettingsLucide,
   Sparkles,
-  SunMoon,
   Smile,
   SwatchBook,
   WandSparkles,
   X,
   Blocks,
   HelpCircle,
+  PersonStanding,
   BadgeHelp
 } from "lucide-react-native";
 
@@ -158,12 +158,6 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
             }, 10);
           }
         },
-        {
-          icon: <SunMoon />,
-          color: "#1e316a",
-          label: "Mode d'affichage",
-          onPress: () => navigation.navigate("SettingsApparence"),
-        },
       ],
     },
     {
@@ -193,8 +187,14 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
           },
         },
         {
-          icon: <Puzzle />,
+          icon: <PersonStanding />,
           color: "#bf547d",
+          label: "Accessibilité",
+          onPress: () => navigation.navigate("SettingsAccessibility"),
+        },
+        {
+          icon: <Puzzle />,
+          color: "#498c75",
           label: "Extensions",
           description: "Disponible prochainement",
           onPress: () => navigation.navigate("SettingsAddons"),
@@ -255,7 +255,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
                 {
                   title: "Annuler",
                   icon: <X />,
-                  primary: true,
+                  primary: false,
                 },
                 {
                   title: "Déconnexion",
@@ -268,6 +268,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
                   },
                   danger: true,
                   icon: <LogOut />,
+                  delayDisable: 5,
                 },
               ],
             });

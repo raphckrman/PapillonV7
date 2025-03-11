@@ -40,6 +40,7 @@ import {NativeScrollEvent, ScrollViewProps} from "react-native/Libraries/Compone
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {hasFeatureAccountSetup} from "@/utils/multiservice";
 import {MultiServiceFeature} from "@/stores/multiService/types";
+import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 
 type HomeworksPageProps = {
   index: number;
@@ -67,6 +68,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
       320
   ) : 0);
   const insets = useSafeAreaInsets();
+  const { playHaptics } = useSoundHapticsWrapper();
 
   const outsideNav = route.params?.outsideNav;
 
@@ -84,18 +86,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   }
   const firstDateEpoch = dateToEpochWeekNumber(firstDate);
 
-  // Function to get the current week number since epoch
-  const getCurrentWeekNumber = () => {
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
-    const start = new Date(1970, 0, 0);
-    start.setHours(0, 0, 0, 0);
-    const diff = now.getTime() - start.getTime();
-    const oneWeek = 1000 * 60 * 60 * 24 * 7;
-    return Math.floor(diff / oneWeek) + 1;
-  };
-
-  const currentWeek = getCurrentWeekNumber();
+  const currentWeek = dateToEpochWeekNumber(new Date());
   const [data, setData] = useState(Array.from({ length: 100 }, (_, i) => currentWeek - 50 + i));
 
   const [selectedWeek, setSelectedWeek] = useState(currentWeek);
@@ -417,7 +408,9 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
             onPress={() => setShowPickerButtons(!showPickerButtons)}
             onLongPress={() => {
               setHideDone(!hideDone);
-              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+              playHaptics("notification", {
+                notification: Haptics.NotificationFeedbackType.Success,
+              });
             }}
             delayLongPress={200}
           >

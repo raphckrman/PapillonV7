@@ -162,7 +162,7 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
                       {
                         title: "Annuler",
                         icon: <Undo2 />,
-                        primary: true,
+                        primary: false,
                       },
                       {
                         title: "Confirmer",
@@ -172,6 +172,7 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
                           toggleMultiService();
                         },
                         danger: true,
+                        delayDisable: 5,
                       }
                     ]
                   });

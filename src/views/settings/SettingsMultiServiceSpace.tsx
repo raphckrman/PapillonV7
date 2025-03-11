@@ -25,6 +25,7 @@ import PapillonBottomSheet from "@/components/Modals/PapillonBottomSheet";
 import * as Haptics from "expo-haptics";
 import AccountItem from "@/components/Global/AccountItem";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
+import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 import { useAlert } from "@/providers/AlertProvider";
 
 const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ navigation, route }) => {
@@ -36,6 +37,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
   const deleteMultiServiceSpace = useMultiService(store => store.remove);
   const updateMultiServiceSpace = useMultiService(store => store.update);
   const setMultiServiceSpaceAccountFeature = useMultiService(store => store.setFeatureAccount);
+  const { playHaptics } = useSoundHapticsWrapper();
 
   const linkedAccount = accounts.accounts.find(account => account.localID === space.accountLocalID) as PrimaryAccount | undefined;
 
@@ -89,7 +91,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
         {
           title: "Annuler",
           icon: <Undo2 />,
-          primary: true,
+          primary: false,
         },
         {
           title: "Confirmer",
@@ -100,6 +102,7 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
             navigation.goBack();
           },
           danger: true,
+          delayDisable: 5,
         }
       ]
     });
@@ -428,7 +431,9 @@ const SettingsMultiServiceSpace: Screen<"SettingsMultiServiceSpace"> = ({ naviga
                 <Pressable
                   key={index}
                   onPress={() => {
-                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+                    playHaptics("impact", {
+                      impact: Haptics.ImpactFeedbackStyle.Soft,
+                    });
                     setAccountFeature(account, featureSelection);
                   }}
                 >

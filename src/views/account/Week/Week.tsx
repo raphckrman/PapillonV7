@@ -242,6 +242,8 @@ const Week: Screen<"Week"> = ({ route, navigation }) => {
   const [events, setEvents] = React.useState<CalendarKitEventItem[]>([]);
 
   useEffect(() => {
+    if(!timetables) return;
+
     const nevts = Object.values(timetables)
       .flat()
       .map(event => ({
@@ -291,15 +293,7 @@ const Week: Screen<"Week"> = ({ route, navigation }) => {
   }, [account?.personalization?.icalURLs]);
 
   return (
-    <View style={{ flex: 1 }}>
-      {!outsideNav && (
-        <View
-          style={{
-            height: insets.top,
-          }}
-        />
-      )}
-
+    <View style={{ flex: 1, marginTop: insets.top }}>
       {account?.providers?.includes("ical") && Object.values(timetables).flat().length === 0 && (
         <View
           style={{
@@ -371,7 +365,7 @@ const Week: Screen<"Week"> = ({ route, navigation }) => {
           overflow: "visible",
           position: "absolute",
           left: 12,
-          top: !outsideNav ? (insets.top + 3) : 6,
+          top: 3,
         }}
       >
         <PapillonPicker
@@ -435,7 +429,9 @@ const styles = StyleSheet.create({
   },
   canceledContainer: {
     borderColor: "red",
-    borderWidth: 2,
+    borderWidth: 4,
+    borderStyle: "dotted",
+    backgroundColor: "transparent",
   },
   alertBadge: {
     position: "absolute",
@@ -462,11 +458,12 @@ const styles = StyleSheet.create({
     borderWidth: 0,
   },
   canceledContent: {
-    opacity: 0.3,
+    opacity: 0.5,
     backgroundColor: "grey",
+    borderWidth: 0,
   },
   title: {
-    fontSize: 13,
+    fontSize: 11.5,
     letterSpacing: 0.2,
     fontFamily: "semibold",
     textTransform: "uppercase",
@@ -478,7 +475,7 @@ const styles = StyleSheet.create({
     textTransform: "none",
   },
   room: {
-    fontSize: 13,
+    fontSize: 11,
     letterSpacing: 0.2,
     fontFamily: "medium",
     opacity: 0.6,

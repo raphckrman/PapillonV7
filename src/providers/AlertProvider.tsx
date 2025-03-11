@@ -1,6 +1,12 @@
 import { useTheme } from "@react-navigation/native";
 import { Check } from "lucide-react-native";
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  ReactNode,
+  useEffect,
+} from "react";
 import { Modal, View, Text, StyleSheet, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Reanimated, {
@@ -21,6 +27,7 @@ type AlertAction = {
   primary?: boolean;
   danger?: boolean;
   backgroundColor?: string;
+  delayDisable?: number;
 };
 
 export type Alert = {
@@ -51,6 +58,7 @@ type AlertProviderProps = {
 const AlertProvider = ({ children }: AlertProviderProps) => {
   const [alert, setAlert] = useState<Alert | null>(null);
   const [visible, setVisible] = useState(false);
+  const [delays, setDelays] = useState<{ [key: string]: number }>({});
 
   const { dark, colors } = useTheme();
   const insets = useSafeAreaInsets();
@@ -70,12 +78,39 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
   }: Alert) => {
     setAlert({ title, message, icon, actions });
     setVisible(true);
+
+    const initialDelays: { [key: string]: number } = {};
+    actions.forEach((action) => {
+      if (action.delayDisable) {
+        initialDelays[action.title] = action.delayDisable;
+      } else {
+        initialDelays[action.title] = 0;
+      }
+    });
+    setDelays(initialDelays);
   };
 
   function hideAlert () {
     setVisible(false);
-    setTimeout(() => setAlert(null), 150);
   }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDelays((prevDelays) => {
+        const newDelays = { ...prevDelays };
+        Object.keys(newDelays).forEach((key) => {
+          if (newDelays[key] > 0) {
+            newDelays[key] -= 1;
+          }
+        });
+        return newDelays;
+      });
+    }, 1000);
+
+    setTimeout(() => {
+      return () => clearInterval(interval);
+    }, 1000);
+  }, []);
 
   return (
     <AlertContext.Provider value={{ showAlert }}>
@@ -125,77 +160,79 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                     </Text>
                   </View>
 
-                  <View
-                    style={[
-                      styles.buttons,
-                      {
-                        backgroundColor: colors.text + "10",
-                        borderColor: colors.text + "20",
-                        flexDirection:
-                        (alert.actions ?? []).length > 2 ? "column" : "row",
-                        alignItems: "center",
-                      },
-                    ]}
-                  >
-                    {alert.actions?.map(
-                      ({
-                        title,
-                        onPress,
-                        icon,
-                        primary,
-                        danger,
-                        backgroundColor,
-                      }) => (
-                        <Pressable
-                          key={title}
-                          onPress={() => {
-                            hideAlert();
-                            onPress?.();
-                          }}
-                          style={({ pressed }) => [
-                            styles.button,
-                            {
-                              width:
-                              (alert.actions ?? []).length > 2 ? "100%" : "auto",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              opacity: pressed ? 0.6 : 1,
-                            },
-                            primary
-                              ? styles.primaryButton
-                              : styles.notPrimaryButton,
-                            primary
-                              ? {
-                                backgroundColor:
-                                  backgroundColor ?? colors.primary,
-                              }
-                              : danger
-                                ? { backgroundColor: "#FC1E0D" }
-                                : { borderColor: "#CCC", borderWidth: 1 },
-                          ]}
-                        >
-                          {icon &&
-                          React.cloneElement(icon, {
-                            color: primary ? "#ffffff" : colors.text,
-                            size: 24,
-                          })}
-                          <Text
-                            style={[
-                              styles.buttonText,
-                              { color: colors.text },
-                              primary && styles.primaryButtonText,
-                            ]}
-                          >
-                            {title}
-                          </Text>
-                        </Pressable>
-                      )
-                    )}
-                  </View>
-                </Reanimated.View>
-              </Reanimated.View>
-            </View>
-          }
+              <View
+                style={[
+                  styles.buttons,
+                  {
+                    borderColor: colors.border,
+                    flexDirection:
+                      (alert.actions ?? []).length > 2 ? "column" : "row",
+                    alignItems: "center",
+                  },
+                ]}
+              >
+                {alert.actions?.map(
+                  ({
+                    title,
+                    onPress,
+                    icon,
+                    primary,
+                    danger,
+                    backgroundColor,
+                  }) => (
+                    <Pressable
+                      key={title}
+                      onPress={() => {
+                        hideAlert();
+                        onPress?.();
+                      }}
+                      disabled={delays[title] > 0}
+                      style={({ pressed }) => [
+                        styles.button,
+                        {
+                          width:
+                            (alert.actions ?? []).length > 2 ? "100%" : "auto",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          opacity: pressed
+                            ? 0.6
+                            : delays[title] === 0
+                              ? 1
+                              : 0.5,
+                        },
+                        primary
+                          ? {
+                            backgroundColor:
+                                backgroundColor ?? colors.primary,
+                          }
+                          : danger
+                            ? { backgroundColor: "#BE0B00" }
+                            : { borderColor: "#CCC", borderWidth: 1 },
+                      ]}
+                    >
+                      {icon &&
+                        React.cloneElement(icon, {
+                          color: primary || danger ? "#ffffff" : colors.text,
+                          size: 24,
+                        })}
+                      <Text
+                        style={[
+                          styles.buttonText,
+                          { color: danger ? "#ffffff" : colors.text },
+                          primary && styles.primaryButtonText,
+                        ]}
+                      >
+                        {title}
+                        {delays[title] !== undefined && delays[title] > 0
+                          ? ` (${delays[title]})`
+                          : ""}
+                      </Text>
+                    </Pressable>
+                  )
+                )}
+              </View>
+            </Reanimated.View>
+          </Reanimated.View>
         </Modal>
       )}
     </AlertContext.Provider>
@@ -266,6 +303,7 @@ const styles = StyleSheet.create({
     borderRadius: 300,
     paddingVertical: 8,
     width: "100%",
+    paddingHorizontal: 14,
   },
   buttonText: {
     fontSize: 16,

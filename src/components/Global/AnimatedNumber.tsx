@@ -1,4 +1,4 @@
-import type { StyleProp, TextStyle, ViewStyle } from "react-native";
+import { Platform, type StyleProp, type TextStyle, type ViewStyle } from "react-native";
 import { NativeText } from "@/components/Global/NativeComponents";
 import { animPapillon } from "@/utils/ui/animations";
 import Reanimated, {
@@ -28,7 +28,7 @@ const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
     }
   }, []);
 
-  const shouldAnimate = !isFirstRender.current;
+  const shouldAnimate = !isFirstRender.current && Platform.OS !== "android";
 
   return (
     <Reanimated.View
@@ -45,7 +45,7 @@ const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
     >
       {value.toString().split("").map((n: string, i: number) => (
         <Reanimated.View
-          key={`${value}_${i}`}
+          key={`${n}_${i}`}
           entering={shouldAnimate ? animPapillon(FadeInDown).delay(i * 20 + 20).mass(1).damping(30).stiffness(700) : undefined}
           exiting={shouldAnimate ? animPapillon(FadeOutUp).delay(i * 30) : undefined}
           layout={shouldAnimate ? animPapillon(LinearTransition) : undefined}
