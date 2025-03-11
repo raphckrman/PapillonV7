@@ -23,6 +23,8 @@ import Reanimated, {
 } from "react-native-reanimated";
 import { anim2Papillon } from "@/utils/ui/animations";
 
+import { Text as SwiftUIText } from "swiftui-react-native";
+
 import * as Haptics from "expo-haptics";
 import { PressableScale } from "react-native-pressable-scale";
 import { ReanimatedGraphProps, ReanimatedGraphPublicMethods } from "@birdwingo/react-native-reanimated-graph/src/core/dto/graphDTO";
@@ -34,6 +36,7 @@ import { useAlert } from "@/providers/AlertProvider";
 // Using require to set custom types bc module types are broken
 const ReanimatedGraph: React.ForwardRefExoticComponent<ReanimatedGraphProps & React.RefAttributes<ReanimatedGraphPublicMethods>> = require("@birdwingo/react-native-reanimated-graph").default;
 import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
+import { isExpoGo } from "@/utils/native/expoGoAlert";
 
 interface GradesAverageGraphProps {
   grades: Grade[];
@@ -325,11 +328,24 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
                   style={[styles.gradeValue]}
                   layout={anim2Papillon(LinearTransition)}
                 >
-                  <AnimatedNumber
-                    value={currentAvg.toFixed(2)}
-                    style={styles.gradeNumber}
-                    contentContainerStyle={{ marginLeft: -2 }}
-                  />
+                  {Platform.OS === "ios" && !isExpoGo() ? (
+                    <SwiftUIText
+                      contentTransition="numericText"
+                      animation={{
+                        type: "spring",
+                        value: currentAvg.toFixed(2),
+                      }}
+                      fontSize={24}
+                      fontWeight="bold"
+                      style={{ marginVertical: -1 }}
+                    >
+                      {currentAvg.toFixed(2)}
+                    </SwiftUIText> ) : (
+                    <AnimatedNumber
+                      value={currentAvg.toFixed(2)}
+                      style={styles.gradeNumber}
+                      contentContainerStyle={{ marginLeft: -2 }}
+                    /> )}
 
                   <Reanimated.View layout={anim2Papillon(LinearTransition)}>
                     <NativeText style={[styles.gradeOutOf]}>/20</NativeText>
@@ -344,10 +360,24 @@ const GradesAverageGraph: React.FC<GradesAverageGraphProps> = ({
                 >
                   { !Number.isNaN(classAvg) ? (
                     <>
-                      <AnimatedNumber
-                        value={classAvg.toFixed(2)}
-                        style={styles.gradeNumberClass}
-                      />
+                      {Platform.OS === "ios" && !isExpoGo() ? (
+                        <SwiftUIText
+                          contentTransition="numericText"
+                          animation={{
+                            type: "spring",
+                            value: classAvg.toFixed(2),
+                          }}
+                          fontSize={24}
+                          fontWeight="regular"
+                          style={{ marginVertical: -1 }}
+                        >
+                          {classAvg.toFixed(2)}
+                        </SwiftUIText> ) : (
+                        <AnimatedNumber
+                          value={classAvg.toFixed(2)}
+                          style={styles.gradeNumber}
+                          contentContainerStyle={{ marginLeft: -2 }}
+                        /> )}
                       <Reanimated.View layout={anim2Papillon(LinearTransition)}>
                         <NativeText style={[styles.gradeOutOf]}>/20</NativeText>
                       </Reanimated.View>
