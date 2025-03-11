@@ -463,7 +463,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
   },
   title: {
-    fontSize: 13,
+    fontSize: 11.5,
     letterSpacing: 0.2,
     fontFamily: "semibold",
     textTransform: "uppercase",
@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
     textTransform: "none",
   },
   room: {
-    fontSize: 13,
+    fontSize: 11,
     letterSpacing: 0.2,
     fontFamily: "medium",
     opacity: 0.6,
