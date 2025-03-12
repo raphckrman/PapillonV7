@@ -100,6 +100,8 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
     .concat(hwSemaineProchaine)
     .filter((element) => !element.done);
 
+  console.log(hw2Semaines.length);
+
   return (
     <>
       <NativeListHeader
@@ -122,7 +124,7 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
               key={index}
               index={index}
               navigation={navigation}
-              total={homeworks[dateToEpochWeekNumber(actualDay) + 1].length}
+              total={hw2Semaines.length}
               onDonePressHandler={() => {
                 handleDonePress(hw);
               }}
