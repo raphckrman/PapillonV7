@@ -9,7 +9,6 @@ import PapillonShineBubble from "@/components/FirstInstallation/PapillonShineBub
 import DuoListPressable from "@/components/FirstInstallation/DuoListPressable";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import MaskStars from "@/components/FirstInstallation/MaskStars";
-import { useAlert } from "@/providers/AlertProvider";
 import { useTheme } from "@react-navigation/native";
 import GetV6Data from "@/utils/login/GetV6Data";
 import { School } from "lucide-react-native";
@@ -21,9 +20,6 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
   const theme = useTheme();
   const { colors } = theme;
   const { isOnline } = useOnlineStatus();
-
-  const { showAlert } = useAlert();
-
   type Services = "pronote" | "ed" | "skolengo";
   const [service, setService] = useState<Services | null>(null);
 
@@ -88,13 +84,6 @@ const ServiceSelector: Screen<"ServiceSelector"> = ({ navigation }) => {
       }
     },
   ];
-
-  const UnsupportedAlert = () => {
-    showAlert({
-      title: "Service non supporté",
-      message: "Désolé, ce service n'est pas encore supporté. Réessaye dans une prochaine version."
-    });
-  };
 
   return (
     <SafeAreaView style={styles.container}>
