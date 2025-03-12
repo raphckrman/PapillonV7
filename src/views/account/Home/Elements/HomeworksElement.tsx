@@ -124,7 +124,11 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
               navigation={navigation}
               total={hw2Semaines.length}
               onDonePressHandler={() => {
-                handleDonePress(hw);
+                try {
+                  handleDonePress(hw);
+                } catch (e) {
+                  console.error(e);
+                }
               }}
             />
           ))}
