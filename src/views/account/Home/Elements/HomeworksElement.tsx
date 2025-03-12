@@ -100,8 +100,6 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
     .concat(hwSemaineProchaine)
     .filter((element) => !element.done);
 
-  console.log(hw2Semaines.length);
-
   return (
     <>
       <NativeListHeader
