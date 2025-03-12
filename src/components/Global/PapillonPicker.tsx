@@ -19,7 +19,8 @@ export type PickerDataItem = string | {
   icon?: JSX.Element,
   sfSymbol?: string,
   onPress?: () => {} | void,
-  checked?: boolean
+  checked?: boolean,
+  destructive?: boolean,
 } | null;
 
 type PickerData = PickerDataItem[];
@@ -78,6 +79,7 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
         }}
         menuConfig={{
           menuTitle: "",
+          // @ts-ignore
           menuItems: data.filter((item) => item !== null).map((item, index) => {
             return {
               actionKey: "action-"+index.toString(),
@@ -86,6 +88,8 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
               actionSubtitle: item.subtitle,
               // @ts-ignore
               menuState: (item.checked || item === selected) ? "on" : "off",
+              // @ts-ignore
+              menuAttributes: [item.destructive ? "destructive" : "normal"],
               icon: {
                 type: typeof item !== "string" ? "IMAGE_SYSTEM" : "IMAGE_SYSTEM",
                 imageValue: {
@@ -96,7 +100,10 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
           }),
         }}
       >
-        <Pressable onPress={() => {}}>
+        <Pressable
+          onPress={() => {}}
+          style={{ opacity: opened ? 0.3 : 1 }}
+        >
           {children}
         </Pressable>
       </ContextMenuButton>
