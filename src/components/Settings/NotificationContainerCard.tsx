@@ -17,7 +17,7 @@ import Reanimated, {
   Easing,
 } from "react-native-reanimated";
 import { NativeItem, NativeList, NativeText } from "../Global/NativeComponents";
-import { Settings, X } from "lucide-react-native";
+import { BellOff, Settings, X } from "lucide-react-native";
 import { useAlert } from "@/providers/AlertProvider";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteParameters } from "@/router/helpers/types";
@@ -180,11 +180,10 @@ const NotificationContainerCard = ({
                     title: "Notifications désactivées",
                     message:
                       "Il faut activer les notifications dans les paramètres du téléphone pour pouvoir les activer dans Papillon.",
+                    icon: <BellOff />,
                     actions: [
                       {
                         title: "Annuler",
-                        onPress: () => {},
-                        backgroundColor: colors.card,
                         icon: <X size={24} color={colors.text} />,
                       },
                       {
