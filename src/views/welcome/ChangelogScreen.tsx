@@ -149,7 +149,7 @@ const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
               Impossible de trouver les notes de mise à jour
             </NativeText>
             <NativeText variant="subtitle">
-              Les nouveautés de la version n'ont pas du être renseignées ou
+              Les nouveautés de la version n'ont pas du être publiées ou
               alors une erreur est survenue...
             </NativeText>
           </NativeItem>
