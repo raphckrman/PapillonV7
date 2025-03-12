@@ -9,14 +9,16 @@ import { Information } from "@/services/shared/Information";
 import formatDate from "@/utils/format/format_date_complets";
 import { useTheme } from "@react-navigation/native";
 import {
+  Check,
   Eye,
   EyeOff,
   FileIcon,
   Link,
   MoreHorizontal,
+  WifiOff,
 } from "lucide-react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { View, Linking, TouchableOpacity, type GestureResponderEvent, StyleSheet, Platform, Alert } from "react-native";
+import { View, Linking, TouchableOpacity, type GestureResponderEvent, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import HTMLView from "react-native-htmlview";
 import { PapillonModernHeader } from "@/components/Global/PapillonModernHeader";
@@ -116,25 +118,17 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
                         read: !prev.read,
                       }));
                     } else {
-                      if (Platform.OS === "ios") {
-                        Alert.alert("Information", "Tu es hors ligne. Vérifie ta connexion Internet et réessaie", [
+                      showAlert({
+                        title: "Information",
+                        message: "Tu es hors ligne. Vérifie ta connexion Internet et réessaie",
+                        icon: <WifiOff />,
+                        actions: [
                           {
-                            text: "OK",
+                            title: "OK",
+                            icon: <Check />,
                           },
-                        ]);
-                      } else {
-                        showAlert({
-                          title: "Information",
-                          message: "Tu es hors ligne. Vérifie ta connexion Internet et réessaie",
-                          actions: [
-                            {
-                              title: "OK",
-                              onPress: () => {},
-                              backgroundColor: theme.colors.card,
-                            },
-                          ],
-                        });
-                      }
+                        ],
+                      });
                     }
                   },
                 },
@@ -205,25 +199,17 @@ const NewsItem: Screen<"NewsItem"> = ({ route, navigation }) => {
                             acknowledged: true,
                           }));
                         } else {
-                          if (Platform.OS === "ios") {
-                            Alert.alert("Information", "Tu es hors ligne. Vérifie ta connexion Internet et réessaie", [
+                          showAlert({
+                            title: "Information",
+                            message: "Tu es hors ligne. Vérifie ta connexion Internet et réessaie",
+                            icon: <WifiOff />,
+                            actions: [
                               {
-                                text: "OK",
+                                title: "OK",
+                                icon: <Check />,
                               },
-                            ]);
-                          } else {
-                            showAlert({
-                              title: "Information",
-                              message: "Tu es hors ligne. Vérifie ta connexion Internet et réessaie",
-                              actions: [
-                                {
-                                  title: "OK",
-                                  onPress: () => {},
-                                  backgroundColor: theme.colors.card,
-                                },
-                              ],
-                            });
-                          }
+                            ],
+                          });
                         }
                       }
                     }}

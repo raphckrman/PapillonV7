@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import type { Screen } from "@/router/helpers/types";
 import { useTheme } from "@react-navigation/native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
-import { Image, View, StyleSheet, Platform, Alert } from "react-native";
+import { Image, View, StyleSheet } from "react-native";
 import Reanimated, { LinearTransition, FlipInXDown } from "react-native-reanimated";
 import PapillonShineBubble from "@/components/FirstInstallation/PapillonShineBubble";
 import { AccountService } from "@/stores/account/types";
@@ -11,6 +11,7 @@ import DuoListPressable from "@/components/FirstInstallation/DuoListPressable";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import { useOnlineStatus } from "@/hooks/useOnlineStatus";
 import { useAlert } from "@/providers/AlertProvider";
+import { Check, WifiOff } from "lucide-react-native";
 
 const ExternalAccountSelector: Screen<"ExternalAccountSelector"> = ({ navigation, route }) => {
   const theme = useTheme();
@@ -111,30 +112,17 @@ const ExternalAccountSelector: Screen<"ExternalAccountSelector"> = ({ navigation
               if (isOnline) {
                 navigation.navigate("ExternalAccountSelectMethod", { service });
               } else {
-                if (Platform.OS === "ios") {
-                  Alert.alert(
-                    "Information",
-                    "Pour poursuivre la connexion, tu dois être connecté à Internet. Vérifie ta connexion Internet et réessaie",
-                    [
-                      {
-                        text: "OK",
-                      },
-                    ]
-                  );
-                } else {
-                  showAlert({
-                    title: "Information",
-                    message:
-                                        "Pour poursuivre la connexion, tu dois être connecté à Internet. Vérifie ta connexion Internet et réessaie",
-                    actions: [
-                      {
-                        title: "OK",
-                        onPress: () => {},
-                        backgroundColor: theme.colors.card,
-                      },
-                    ],
-                  });
-                }
+                showAlert({
+                  title: "Information",
+                  message: "Pour poursuivre la connexion, tu dois être connecté à Internet. Vérifie ta connexion Internet et réessaie",
+                  icon: <WifiOff />,
+                  actions: [
+                    {
+                      title: "OK",
+                      icon: <Check />,
+                    },
+                  ],
+                });
               }
             }
           }}

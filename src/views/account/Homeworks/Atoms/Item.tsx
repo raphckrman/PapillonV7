@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import {Clock, Paperclip, Sparkles} from "lucide-react-native";
+import {Check, Clock, Paperclip, Sparkles, WifiOff} from "lucide-react-native";
 import { getSubjectData } from "@/services/shared/Subject";
 import { useRoute, useTheme} from "@react-navigation/native";
 import { NativeItem, NativeText } from "@/components/Global/NativeComponents";
@@ -10,7 +10,7 @@ import { animPapillon } from "@/utils/ui/animations";
 import HTMLView from "react-native-htmlview";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteParameters } from "@/router/helpers/types";
-import { Alert, Platform, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Homework, HomeworkReturnType } from "@/services/shared/Homework";
 import detectCategory from "@/utils/magic/categorizeHomeworks";
 import { LinearGradient } from "expo-linear-gradient";
@@ -73,25 +73,17 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
       setIsLoading(true);
       onDonePressHandler();
     } else {
-      if (Platform.OS === "ios") {
-        Alert.alert("Information", "Tu es hors ligne. Vérifie ta connexion Internet et réessaie", [
+      showAlert({
+        title: "Information",
+        message: "Tu es hors ligne. Vérifie ta connexion Internet et réessaie",
+        icon: <WifiOff />,
+        actions: [
           {
-            text: "OK",
+            title: "OK",
+            icon: <Check />,
           },
-        ]);
-      } else {
-        showAlert({
-          title: "Information",
-          message: "Tu es hors ligne. Vérifie ta connexion Internet et réessaie",
-          actions: [
-            {
-              title: "OK",
-              onPress: () => {},
-              backgroundColor: theme.colors.card,
-            },
-          ],
-        });
-      }
+        ],
+      });
     }
   }, [onDonePressHandler]);
 
