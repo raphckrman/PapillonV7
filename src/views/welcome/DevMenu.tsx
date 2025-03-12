@@ -1,7 +1,7 @@
 import { useTheme } from "@react-navigation/native";
-import { CheckCircle2, ChevronRight, CircleAlert } from "lucide-react-native";
+import { BadgeHelp, CheckCircle2, ChevronRight, Eraser, Undo2, CircleAlert } from "lucide-react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import {
   NativeItem,
@@ -10,6 +10,7 @@ import {
   NativeText
 } from "@/components/Global/NativeComponents";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAlert } from "@/providers/AlertProvider";
 import PapillonSpinner from "@/components/Global/PapillonSpinner";
 import * as TaskManager from "expo-task-manager";
 import { error, log } from "@/utils/logger/logger";
@@ -21,6 +22,7 @@ import { papillonNotify } from "@/background/Notifications";
 const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
   const theme = useTheme();
   const { colors } = theme;
+  const { showAlert } = useAlert();
   const [loading, setLoading] = useState(false);
   const [isBackgroundActive, setIsBackgroundActive] = useState<null | boolean>(null);
 
@@ -311,24 +313,28 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
 
           <NativeItem
             onPress={() => {
-              Alert.alert(
-                "Réinitialisation de Papillon",
-                "Es-tu sûr de vouloir réinitialiser toutes les données de l'application ?",
-                [
+              showAlert({
+                title: "Réinitialisation de Papillon",
+                message: "Es-tu sûr de vouloir réinitialiser toutes les données de l'application ?",
+                icon: <BadgeHelp />,
+                actions: [
                   {
-                    text: "Annuler",
-                    style: "cancel",
+                    title: "Annuler",
+                    icon: <Undo2 />,
+                    primary: false,
                   },
                   {
-                    text: "Réinitialiser",
-                    style: "destructive",
+                    title: "Réinitialiser",
+                    icon: <Eraser />,
                     onPress: () => {
                       AsyncStorage.clear();
                       navigation.popToTop();
                     },
-                  },
-                ],
-              );
+                    danger: true,
+                    delayDisable: 10,
+                  }
+                ]
+              });
             }}
           >
             <NativeText
