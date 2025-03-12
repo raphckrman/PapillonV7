@@ -167,7 +167,6 @@ const NativeModernHeader: React.FC<ModernHeaderProps> = ({ children, outsideNav 
         layout={animPapillon(LinearTransition)}
       >
         <BlurView
-          experimentalBlurMethod="dimezisBlurView"
           intensity={100}
           style={{
             flex: 1,
