@@ -29,7 +29,6 @@ import {
   requestNotificationPermission,
 } from "@/background/Notifications";
 import { useCurrentAccount } from "@/stores/account";
-import { useAlert } from "@/providers/AlertProvider";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import { anim2Papillon } from "@/utils/ui/animations";
 
