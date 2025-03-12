@@ -58,7 +58,7 @@ const SettingsSupport: Screen<"SettingsSupport"> = ({ navigation }) => {
     setSendLogs(false);
     showAlert({
       title: "Merci de vos retours !",
-      message: "Nous avons reçu votre demande et allons la regardé avec la plus grande attention.",
+      message: "Nous avons reçu votre demande et allons la regarder avec la plus grande attention.",
       icon: <Check />,
     });
   };
