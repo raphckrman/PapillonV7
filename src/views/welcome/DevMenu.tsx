@@ -1,5 +1,5 @@
 import { useTheme } from "@react-navigation/native";
-import { BadgeHelp, CheckCircle2, ChevronRight, Eraser, Undo2, CircleAlert } from "lucide-react-native";
+import { AlertTriangle, BadgeHelp, CheckCheck, ChevronRight, Eraser, Undo2 } from "lucide-react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import type { Screen } from "@/router/helpers/types";
@@ -11,13 +11,12 @@ import {
 } from "@/components/Global/NativeComponents";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAlert } from "@/providers/AlertProvider";
-import PapillonSpinner from "@/components/Global/PapillonSpinner";
 import * as TaskManager from "expo-task-manager";
 import { error, log } from "@/utils/logger/logger";
-import ButtonCta from "@/components/FirstInstallation/ButtonCta";
-import { registerBackgroundTasks, unsetBackgroundFetch } from "@/background/BackgroundTasks";
 import { isExpoGo } from "@/utils/native/expoGoAlert";
 import { papillonNotify } from "@/background/Notifications";
+import PapillonSpinner from "@/components/Global/PapillonSpinner";
+import { registerBackgroundTasks, unsetBackgroundFetch } from "@/background/BackgroundTasks";
 
 const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
   const theme = useTheme();
@@ -203,108 +202,97 @@ const DevMenu: Screen<"DevMenu"> = ({ navigation }) => {
               Logs de l'application
             </NativeText>
           </NativeItem>
-          {!isExpoGo() && (
-            <>
-              <NativeItem
-                icon={
-                  isBackgroundActive ? (
-                    <CheckCircle2 />
-                  ) : isBackgroundActive === false ? (
-                    <CircleAlert />
-                  ) : (
-                    <PapillonSpinner />
-                  )
-                }
-              >
-                <NativeText variant="body">
-                  {isBackgroundActive === true
-                    ? "Le background est actuellement actif."
-                    : isBackgroundActive === false
-                      ? "Le background n'est pas actif."
-                      : "Vérification du background..."}
-                </NativeText>
-                {isBackgroundActive !== null && (
-                  <ButtonCta
-                    value={isBackgroundActive ? "Réinitialiser" : "Activer"}
-                    primary={true}
-                    style={{
-                      marginTop: 14,
-                      minWidth: null,
-                      maxWidth: null,
-                      width: "85%",
-                      alignSelf: "center",
-                    }}
-                    onPress={async () => {
-                      setLoading(true);
-                      setIsBackgroundActive(null);
-                      if (isBackgroundActive) {
-                        await unsetBackgroundFetch()
-                          .then(() => log("✅ Background task unregistered", "BACKGROUND"))
-                          .catch((ERRfatal) =>
-                            error(
-                              `❌ Failed to unregister background task: ${ERRfatal}`,
-                              "BACKGROUND"
-                            )
-                          );;
-                      }
+        </NativeList>
+      </View>
 
-                      await registerBackgroundTasks()
-                        .then(() => log("✅ Background task registered", "BACKGROUND"))
-                        .catch((ERRfatal) =>
-                          error(
-                            `❌ Failed to register background task: ${ERRfatal}`,
-                            "BACKGROUND"
-                          )
-                        );
-                      setTimeout(() => {
-                        setLoading(false);
-                      }, 500);
-                    }}
-                  />
-                )}
-              </NativeItem>
-              <ButtonCta
-                value="Test des notifications"
-                icon={
-                  loading ? (
-                    <View>
-                      <PapillonSpinner
-                        strokeWidth={3}
-                        size={22}
-                        color={theme.colors.text}
-                      />
-                    </View>
-                  ) : undefined
-                }
-                disabled={loading}
-                primary={!loading}
-                style={{
-                  marginTop: 14,
-                  minWidth: null,
-                  maxWidth: null,
-                  width: "75%",
-                  alignSelf: "center",
-                }}
+
+      {!isExpoGo() && (
+        <View>
+          <NativeListHeader label="Tâches en arrière-plan" />
+
+          <NativeList>
+            <NativeItem
+              leading={
+                isBackgroundActive ? (
+                  <CheckCheck color="#00bd55" />
+                ) : isBackgroundActive === false ? (
+                  <AlertTriangle color="#bd9100" />
+                ) : (
+                  <PapillonSpinner size={24} color={theme.colors.primary} />
+                )
+              }
+            >
+              <NativeText variant="body">
+                {isBackgroundActive === true
+                  ? "Le background est actuellement actif."
+                  : isBackgroundActive === false
+                    ? "Le background n'est pas actif."
+                    : "Vérification du background..."}
+              </NativeText>
+            </NativeItem>
+            {isBackgroundActive !== null && (
+              <NativeItem
+                title={isBackgroundActive ? "Réinitialiser" : "Activer"}
                 onPress={async () => {
                   setLoading(true);
-                  await papillonNotify(
-                    {
-                      id: "test",
-                      title: "Coucou, c'est Papillon 👋",
-                      subtitle: "Test",
-                      body: "Si tu me vois, c'est que tout fonctionne correctement !",
-                    },
-                    "Test"
-                  );
+                  setIsBackgroundActive(null);
+                  if (isBackgroundActive) {
+                    await unsetBackgroundFetch()
+                      .then(() => log("✅ Background task unregistered", "BACKGROUND"))
+                      .catch((ERRfatal) =>
+                        error(
+                          `❌ Failed to unregister background task: ${ERRfatal}`,
+                          "BACKGROUND"
+                        )
+                      );;
+                  }
+
+                  await registerBackgroundTasks()
+                    .then(() => log("✅ Background task registered", "BACKGROUND"))
+                    .catch((ERRfatal) =>
+                      error(
+                        `❌ Failed to register background task: ${ERRfatal}`,
+                        "BACKGROUND"
+                      )
+                    );
                   setTimeout(() => {
                     setLoading(false);
                   }, 500);
                 }}
               />
-            </>
-          )}
-        </NativeList>
-      </View>
+            )}
+            <NativeItem
+              title={"Test des notifications"}
+              trailing={
+                loading ? (
+                  <View>
+                    <PapillonSpinner
+                      strokeWidth={3}
+                      size={22}
+                      color={theme.colors.text}
+                    />
+                  </View>
+                ) : undefined
+              }
+              disabled={loading}
+              onPress={async () => {
+                setLoading(true);
+                await papillonNotify(
+                  {
+                    id: "test",
+                    title: "Coucou, c'est Papillon 👋",
+                    subtitle: "Test",
+                    body: "Si tu me vois, c'est que tout fonctionne correctement !",
+                  },
+                  "Test"
+                );
+                setTimeout(() => {
+                  setLoading(false);
+                }, 500);
+              }}
+            /></NativeList>
+        </View>
+      )}
 
       <View>
         <NativeListHeader label="Actions destructives" />
