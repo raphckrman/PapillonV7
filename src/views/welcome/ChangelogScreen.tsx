@@ -40,7 +40,7 @@ interface Version {
 }
 
 const currentVersion = PackageJSON.version;
-const changelogURL = datasets.changelog.replace("[version]", currentVersion);
+const changelogURL = datasets.changelog.replace("[version]", currentVersion.split(".").slice(0, 2).join("."));
 
 const ChangelogScreen: Screen<"ChangelogScreen"> = ({ route, navigation }) => {
   const theme = useTheme();
