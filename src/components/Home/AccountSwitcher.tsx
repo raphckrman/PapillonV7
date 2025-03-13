@@ -90,6 +90,7 @@ const AccountSwitcher: React.FC<{
       <ReanimatedBlurView
         tint={theme.dark ? "dark" : "light"}
         style={{
+          backgroundColor: colors.primary + "85",
           paddingHorizontal: 2,
           paddingVertical: 0,
           alignSelf: "flex-start",
