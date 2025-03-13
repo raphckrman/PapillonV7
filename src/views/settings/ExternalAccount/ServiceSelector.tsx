@@ -9,12 +9,17 @@ import { AccountService } from "@/stores/account/types";
 import { useCurrentAccount } from "@/stores/account";
 import DuoListPressable from "@/components/FirstInstallation/DuoListPressable";
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
+import { useOnlineStatus } from "@/hooks/useOnlineStatus";
+import { useAlert } from "@/providers/AlertProvider";
+import { Check, WifiOff } from "lucide-react-native";
 
 const ExternalAccountSelector: Screen<"ExternalAccountSelector"> = ({ navigation, route }) => {
   const theme = useTheme();
   const { colors } = theme;
   const insets = useSafeAreaInsets();
   const account = useCurrentAccount(store => store.account!);
+  const { isOnline } = useOnlineStatus();
+  const { showAlert } = useAlert();
 
   type Service = AccountService | "Other";
 
@@ -104,7 +109,21 @@ const ExternalAccountSelector: Screen<"ExternalAccountSelector"> = ({ navigation
           disabled={!service || service === "Other"}
           onPress={() => {
             if (service) {
-              navigation.navigate("ExternalAccountSelectMethod", { service });
+              if (isOnline) {
+                navigation.navigate("ExternalAccountSelectMethod", { service });
+              } else {
+                showAlert({
+                  title: "Information",
+                  message: "Pour poursuivre la connexion, tu dois être connecté à Internet. Vérifie ta connexion Internet et réessaie",
+                  icon: <WifiOff />,
+                  actions: [
+                    {
+                      title: "OK",
+                      icon: <Check />,
+                    },
+                  ],
+                });
+              }
             }
           }}
         />
