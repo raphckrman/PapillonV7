@@ -96,32 +96,40 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
       }
       else {
         Linking.getInitialURL().then((url) => {
-          if (url) {
-            const scheme = url.split(":")[0];
-            if (scheme === "izly") {
-              showAlert({
-                title: "Activation de compte Izly",
-                message: "Papillon gère la connexion au service Izly. Ouvrez les paramètres de services de cantine pour activer votre compte.",
-                icon: <Menu />,
-                actions: [
-                  {
-                    title: "Annuler",
-                    icon: <ArrowLeft />,
-                  },
-                  {
-                    title: "Ajouter mon compte",
-                    icon: <Plus />,
-                    onPress: () => navigation.navigate("SettingStack", { view: "IzlyActivation" }),
-                    primary: true,
-                  }
-                ],
-              });
-            }
-          }
+          manageIzlyLogin(url || "");
         });
       }
     }();
+
+    Linking.addEventListener("url", (event) => {
+      manageIzlyLogin(event.url);
+    });
   }, [accounts]);
+
+  const manageIzlyLogin = (url: string) => {
+    if (url) {
+      const scheme = url.split(":")[0];
+      if (scheme === "izly") {
+        showAlert({
+          title: "Activation de compte Izly",
+          message: "Papillon gère la connexion au service Izly. Ouvrez les paramètres de services de cantine pour activer votre compte.",
+          icon: <Menu />,
+          actions: [
+            {
+              title: "Annuler",
+              icon: <ArrowLeft />,
+            },
+            {
+              title: "Ajouter mon compte",
+              icon: <Plus />,
+              onPress: () => navigation.navigate("SettingStack", { view: "IzlyActivation" }),
+              primary: true,
+            }
+          ],
+        });
+      }
+    }
+  };
 
   const [shouldOpenContextMenu, setShouldOpenContextMenu] = useState(false);
 
