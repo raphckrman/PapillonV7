@@ -383,16 +383,18 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                   />
                 }
                 title="Commence par connecter un service externe de cantine"
-                description="Papillon te permet d’importer un compte depuis Turboself, ARD, Alize et Izly."
+                description="Papillon te permet d’importer un compte depuis Turboself, ARD, Alise et Izly."
                 entering={animPapillon(FadeInDown)}
                 exiting={animPapillon(FadeOut)}
                 trailing={
-                  <ButtonCta
-                    value="Ajouter un service"
-                    primary
-                    onPress={() => navigation.navigate("SettingStack", { view: "SettingsExternalServices" })}
-                    style={{ marginTop: 16 }}
-                  />
+                  <View>
+                    <ButtonCta
+                      value="Ajouter un service"
+                      primary
+                      onPress={() => navigation.navigate("SettingStack", { view: "SettingsExternalServices" })}
+                      style={{ marginTop: 16 }}
+                    />
+                  </View>
                 }
               />
             )}
