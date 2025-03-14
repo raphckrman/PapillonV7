@@ -14,8 +14,7 @@ const NativeTouchable: React.FC<NativeTouchableProps> = ({
 }) => {
   if(Platform.OS === "android") {
     return (
-      // @ts-expect-error
-      <TouchableNativeFeedback {...props} style={props.contentContainerStyle}>
+      <TouchableNativeFeedback {...props} style={contentContainerStyle}>
         <View style={props.style}>
           {children}
         </View>
