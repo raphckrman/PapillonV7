@@ -4,6 +4,7 @@ import { DiscoveryDocument } from "expo-auth-session";
 import { SkolengoAccount, AccountService } from "@/stores/account/types";
 import axios, { type AxiosResponse } from "axios";
 import { decode as b64decode, encode as b64encode} from "js-base64";
+import { decode as htmlDecode } from "html-entities";
 import { useCurrentAccount } from "@/stores/account";
 import defaultSkolengoPersonalization from "./default-personalization";
 import { User } from "scolengo-api/types/models/Common";
@@ -121,7 +122,3 @@ export const getSkolengoAccount = async (authConfig: SkolengoAuthConfig, userInf
   };
   return account;
 };
-function htmlDecode (arg0: any) {
-  throw new Error("Function not implemented.");
-}
-
