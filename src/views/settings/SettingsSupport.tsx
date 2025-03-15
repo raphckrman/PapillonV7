@@ -40,7 +40,7 @@ const SettingsSupport: Screen<"SettingsSupport"> = ({ navigation }) => {
     const data = {
       email: email,
       title: subject,
-      detail: `Description de mon problème:<br>${description} <br><br>Journaux: <br>${formattedLogs}`,
+      detail: `Description de mon problème:<br>${(description ?? "").replace(/\n/g, "<br>")} <br><br>Journaux: <br>${formattedLogs}`,
     };
 
     const response = await fetch("https://api-menthe-et-cristaux.papillon.bzh/api/v1/ticket/public/create", {
