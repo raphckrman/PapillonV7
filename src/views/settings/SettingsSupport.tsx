@@ -33,7 +33,7 @@ const SettingsSupport: Screen<"SettingsSupport"> = ({ navigation }) => {
         const logDate = new Date(log.date);
         if (isNaN(logDate.getTime())) return `[${log.type}] ${log.message}`;
 
-        return `[${log.date}] [${log.type}] ${log.message}`;
+        return `[${log.date}] [${log.type}] [${log.from}] ${log.message}`;
       })
       .join("<br>");
 
