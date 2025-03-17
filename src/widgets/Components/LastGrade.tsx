@@ -24,13 +24,26 @@ const LastGradeWidget = forwardRef(({
   const grades = useGradesStore((store) => store.grades);
   const defaultPeriod = useGradesStore((store) => store.defaultPeriod);
 
+  let lastPeriod = defaultPeriod;
+
+  // find last period with grades
+  if(grades[lastPeriod].length === 0) {
+    const periods = Object.keys(grades);
+    for(let i = periods.length - 1; i >= 0; i--) {
+      if(grades[periods[i]].length > 0) {
+        lastPeriod = periods[i];
+        break;
+      }
+    }
+  }
+
   useImperativeHandle(ref, () => ({
     handlePress: () => "Grades"
   }));
 
   const lastGrade = useMemo(() => {
     if (!grades || !defaultPeriod || !grades[defaultPeriod]) return null;
-    const periodGrades = grades[defaultPeriod];
+    const periodGrades = grades[lastPeriod];
     return periodGrades.length > 0 ? periodGrades[periodGrades.length - 1] : null;
   }, [grades, defaultPeriod]);
 
