@@ -27,7 +27,7 @@ const LastGradeWidget = forwardRef(({
   let lastPeriod = defaultPeriod;
 
   // find last period with grades
-  if(grades[lastPeriod].length === 0) {
+  if(!grades[lastPeriod] || grades[lastPeriod] && grades[lastPeriod].length === 0) {
     const periods = Object.keys(grades);
     for(let i = periods.length - 1; i >= 0; i--) {
       if(grades[periods[i]].length > 0) {
