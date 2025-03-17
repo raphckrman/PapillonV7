@@ -86,7 +86,7 @@ const AccountSwitcher: React.FC<{
       layout={animPapillon(LinearTransition)}
     >
       <ReanimatedBlurView
-        tint="systemUltraThinMaterialDark"
+        tint="default"
         experimentalBlurMethod="dimezisBlurView"
         style={{
           paddingHorizontal: 2,
