@@ -41,7 +41,7 @@ const HomeStackScreen = ({ accountScreens }: {
         tabData.options = {
           ...tabData.options,
           tabEnabled: tab.enabled,
-          presentation: "formSheet",
+          presentation: "modal",
           animation: Platform.OS === "android" ? "slide_from_bottom" : "default",
 
           sheetCornerRadius: 24,
