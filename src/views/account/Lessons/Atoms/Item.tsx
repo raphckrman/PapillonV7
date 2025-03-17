@@ -62,12 +62,12 @@ export const TimetableItem: React.FC<{
             </View>
           )}
 
-          <View style={[{ flex: 1, flexDirection: "row", padding: 10 }]}>
+          <View style={[{ flex: 1, flexDirection: "row", padding: 0 }]}>
             <View style={styles.colorIndicator}>
               <ColorIndicator color={subjectData.color} />
             </View>
 
-            <View style={{ flexDirection: "column", flexShrink: 1, gap: 6, flex: 1 }}>
+            <View style={{ flexDirection: "column", flexShrink: 1, gap: 6, flex: 1, padding: 10, paddingLeft: 3 }}>
               <Text numberOfLines={2} style={[styles.titleText, { color: colors.text }]}>{subjectData.pretty || "Cours inconnu"}</Text>
 
               {item.itemType && (
