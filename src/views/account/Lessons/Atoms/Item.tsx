@@ -203,7 +203,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   statusText: {
-    fontSize: 14.5,
+    fontSize: 15,
+    letterSpacing: 0.2,
     fontFamily: "semibold",
   },
 });
