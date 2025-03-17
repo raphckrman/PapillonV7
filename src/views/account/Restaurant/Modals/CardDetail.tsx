@@ -278,60 +278,63 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
 
           {card?.history.length > 0 && (
             <NativeList inline>
-              {card.history.sort((a: any, b: any) => b.timestamp - a.timestamp).map((history, i) => (
-                <NativeItem
-                  key={"cardhistory-"+i}
-                  leading={
-                    <Image
-                      source={defaultProfilePicture(card.service as AccountService)}
-                      style={{
-                        width: 36,
-                        height: 36,
-                        borderRadius: 6,
-                        overflow: "hidden",
-                        borderWidth: 1,
-                        borderColor: theme.colors.border,
-                      }}
-                    />
-                  }
-                  trailing={
-                    <View
-                      style={{
-                        paddingRight: 10,
-                      }}
-                    >
-                      {history.amount > 0 ? (
-                        <NativeText
-                          variant="title"
-                          style={{
-                            fontFamily: "medium",
-                            color: "#00C853",
-                          }}
-                        >
-                          +{history.amount.toFixed(2)} €
-                        </NativeText>
-                      ) : (
-                        <NativeText
-                          variant="title"
-                          style={{
-                            fontFamily: "medium",
-                            color: "#FF1744",
-                          }}
-                        >
-                          -{(-history.amount).toFixed(2)} €
-                        </NativeText>
-                      )}
-                    </View>
-                  }
-                >
-                  <NativeText variant="title">
-                    {history.label}
-                  </NativeText>
-                  <NativeText variant="subtitle">
-                    il y a {formatDistance(new Date(history.timestamp), new Date(), { locale: fr })}
-                  </NativeText>
-                </NativeItem>
-              ))}
+              {card.history
+                .filter((event) => !isNaN(new Date(event.timestamp).getTime()))
+                .sort((a: any, b: any) => b.timestamp - a.timestamp)
+                .map((history, i) => (
+                  <NativeItem
+                    key={"cardhistory-"+i}
+                    leading={
+                      <Image
+                        source={defaultProfilePicture(card.service as AccountService)}
+                        style={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 6,
+                          overflow: "hidden",
+                          borderWidth: 1,
+                          borderColor: theme.colors.border,
+                        }}
+                      />
+                    }
+                    trailing={
+                      <View
+                        style={{
+                          paddingRight: 10,
+                        }}
+                      >
+                        {history.amount > 0 ? (
+                          <NativeText
+                            variant="title"
+                            style={{
+                              fontFamily: "medium",
+                              color: "#00C853",
+                            }}
+                          >
+                            +{history.amount.toFixed(2)} €
+                          </NativeText>
+                        ) : (
+                          <NativeText
+                            variant="title"
+                            style={{
+                              fontFamily: "medium",
+                              color: "#FF1744",
+                            }}
+                          >
+                            -{(-history.amount).toFixed(2)} €
+                          </NativeText>
+                        )}
+                      </View>
+                    }
+                  >
+                    <NativeText variant="title">
+                      {history.label}
+                    </NativeText>
+                    <NativeText variant="subtitle">
+                      il y a {formatDistance(new Date(history.timestamp), new Date(), { locale: fr })}
+                    </NativeText>
+                  </NativeItem>
+                ))}
             </NativeList>
           )}
 
