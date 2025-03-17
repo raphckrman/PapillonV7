@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     opacity: 0.5,
     flex: 1,
-    fontFamily: "semibold",
+    fontFamily: "medium",
   },
   durationText: {
     fontSize: 15,
