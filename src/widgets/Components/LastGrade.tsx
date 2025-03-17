@@ -1,5 +1,5 @@
 import { useTheme } from "@react-navigation/native";
-import { FileCheck } from "lucide-react-native";
+import { TrendingUp } from "lucide-react-native";
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo } from "react";
 import { Text, View } from "react-native";
 import Reanimated, { LinearTransition } from "react-native-reanimated";
@@ -93,7 +93,7 @@ const LastGradeWidget = forwardRef(({
           opacity: 0.5,
         }}
       >
-        <FileCheck size={20} color={colors.text} />
+        <TrendingUp size={20} color={colors.text} />
         <Text
           style={{
             color: colors.text,
