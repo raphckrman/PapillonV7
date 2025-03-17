@@ -18,6 +18,7 @@ import NativeTouchable from "@/components/Global/NativeTouchable";
 import { getSubjectData } from "@/services/shared/Subject";
 import { animPapillon } from "@/utils/ui/animations";
 import { getDuration } from "@/utils/format/course_duration";
+import { MapPin } from "lucide-react-native";
 
 export const TimetableItem: React.FC<{
   item: TimetableClass
@@ -77,6 +78,8 @@ export const TimetableItem: React.FC<{
               )}
 
               <View style={[styles.roomTextContainer, { backgroundColor: subjectData.color + "33" }]}>
+                <MapPin size={18} strokeWidth={2.5} color={subjectData.color} />
+
                 <Text
                   numberOfLines={1}
                   style={[styles.roomText, { color: subjectData.color }]}
@@ -126,11 +129,13 @@ const styles = StyleSheet.create({
   timeText: {
     fontSize: 17,
     fontFamily: "semibold",
+    letterSpacing: 0.2,
   },
   timeTextSec: {
     fontSize: 15,
     fontFamily: "medium",
     opacity: 0.5,
+    letterSpacing: 0.2,
   },
   detailsContainer: {
     flex: 1,
@@ -169,6 +174,10 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     alignSelf: "flex-start",
     maxWidth: "100%",
+    flexDirection: "row",
+    gap: 4,
+    alignItems: "center",
+    justifyContent: "center",
   },
   roomText: {
     color: "#91003F",
@@ -178,13 +187,16 @@ const styles = StyleSheet.create({
     maxWidth: "100%",
   },
   locationText: {
-    fontSize: 14,
+    fontSize: 15,
+    opacity: 0.5,
     flex: 1,
+    fontFamily: "semibold",
   },
   durationText: {
-    fontSize: 14,
+    fontSize: 15,
     opacity: 0.5,
     alignSelf: "flex-end",
+    fontFamily: "medium",
   },
   statusContainer: {
     paddingVertical: 6,
