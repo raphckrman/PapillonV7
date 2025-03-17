@@ -39,6 +39,7 @@ const NewsListItem: React.FC<NewsListItemProps> = ({ index, message, navigation,
         gap: 10,
         marginBottom: 2,
         justifyContent: "space-between",
+        marginRight: 10,
       }}>
         {message.title !== "" && (
           <NativeText
