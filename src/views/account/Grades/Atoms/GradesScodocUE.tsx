@@ -209,10 +209,10 @@ const GradesScodocUE = ({ account, navigation, selectedPeriod }: { account: Prim
                       >
                         <Reanimated.View
                           key={"openUE-" + opened}
-                          entering={FadeIn.duration(200).delay(100)}
+                          entering={FadeIn.duration(100)}
                           exiting={FadeOut.duration(100)}
                         >
-                          {opened ? <ChevronUp size={24} color={colors.text} /> : <ChevronDown size={24} color={colors.text} />}
+                          {opened ? <ChevronUp opacity={0.7} size={24} color={colors.text} /> : <ChevronDown opacity={0.7} size={24} color={colors.text} />}
                         </Reanimated.View>
                       </TouchableOpacity>
                     </View>
