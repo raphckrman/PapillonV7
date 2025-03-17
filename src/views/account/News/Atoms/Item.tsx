@@ -46,7 +46,7 @@ const NewsListItem: React.FC<NewsListItemProps> = ({ index, message, navigation,
             numberOfLines={1}
             variant="title"
           >
-            {message.title}
+            {message.title ?? "Sans titre"}
           </NativeText>)
         }
         {!message.read && !isED && (
