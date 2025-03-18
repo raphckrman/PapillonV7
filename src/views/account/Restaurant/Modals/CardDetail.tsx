@@ -4,7 +4,7 @@ import Reanimated from "react-native-reanimated";
 import React, { useState } from "react";
 import { NativeItem, NativeList, NativeText } from "@/components/Global/NativeComponents";
 
-import { formatDistance } from "date-fns";
+import { differenceInDays, formatDistance } from "date-fns";
 import { fr } from "date-fns/locale";
 import { defaultProfilePicture } from "@/utils/ui/default-profile-picture";
 import { useTheme } from "@react-navigation/native";
@@ -358,9 +358,25 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
                     <NativeText variant="title">
                       {history.label}
                     </NativeText>
-                    <NativeText variant="subtitle">
-                      il y a {formatDistance(new Date(history.timestamp), new Date(), { locale: fr })}
-                    </NativeText>
+
+                    {differenceInDays(new Date(), new Date(history.timestamp)) < 30 ? (
+                      <NativeText variant="subtitle">
+                        il y a {formatDistance(new Date(history.timestamp), new Date(), { locale: fr })} • {new Date(history.timestamp).toLocaleDateString("fr-FR", {
+                          day: "numeric",
+                          weekday: "short",
+                          month: "short",
+                        })}
+                      </NativeText>
+                    ) : (
+                      <NativeText variant="subtitle">
+                        {new Date(history.timestamp).toLocaleDateString("fr-FR", {
+                          day: "numeric",
+                          weekday: "long",
+                          month: "long",
+                          year: new Date(history.timestamp).getFullYear() !== new Date().getFullYear() ? "numeric" : undefined,
+                        })}
+                      </NativeText>
+                    )}
                   </NativeItem>
                 ))}
             </NativeList>

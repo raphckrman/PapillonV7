@@ -16,11 +16,11 @@ export const balance = async (account: IzlyAccount): Promise<Balance[]> => {
     const payments = await operations(
       account.instance!,
       ezly.OperationKind.Payment,
-      10
+      5
     );
 
-    const paysFullPrice = payments.filter((payment) => payment.amount === 3.30).length > 5;
-    const paysBoursePrice = payments.filter((payment) => payment.amount === 1).length > 5;
+    const paysFullPrice = payments.filter((payment) => payment.amount === 3.30).length > 4;
+    const paysBoursePrice = payments.filter((payment) => payment.amount === 1).length > 4;
 
     if (paysFullPrice) {
       remainingDividedBy = 3.30;
