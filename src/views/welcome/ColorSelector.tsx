@@ -195,8 +195,10 @@ const ColorSelector: Screen<"ColorSelector"> = ({ route, navigation }) => {
                 playSound(LEson6);
               }
             }
-
-            navigation.navigate("AccountStack", {onboard: true});
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "AccountStack" }],
+            });
           }}
           disabled={!account?.personalization?.color}
           style={{

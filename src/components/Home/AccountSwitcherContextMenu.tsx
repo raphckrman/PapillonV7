@@ -82,6 +82,10 @@ const ContextMenu: React.FC<{
             impact: Haptics.ImpactFeedbackStyle.Soft,
           });
           setOpened(false);
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "AccountStack" as never }],
+          });
           requestAnimationFrame(() => {
             switchTo(account);
           });
