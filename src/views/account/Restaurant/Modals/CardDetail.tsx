@@ -359,7 +359,7 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
                       {history.label}
                     </NativeText>
 
-                    {differenceInDays(new Date(), new Date(history.timestamp)) < 30 ? (
+                    {new Date(history.timestamp) && differenceInDays(new Date(), new Date(history.timestamp)) < 30 ? (
                       <NativeText variant="subtitle">
                         il y a {formatDistance(new Date(history.timestamp), new Date(), { locale: fr })} • {new Date(history.timestamp).toLocaleDateString("fr-FR", {
                           day: "numeric",
