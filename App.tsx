@@ -14,6 +14,8 @@ import { registerBackgroundTasks } from "@/background/BackgroundTasks";
 import { SoundHapticsProvider } from "@/hooks/Theme_Sound_Haptics";
 import { PapillonNavigation } from "@/router/refs";
 import { findAccountByID } from "@/background/utils/accounts";
+import * as Device from "expo-device";
+import * as ScreenOrientation from "expo-screen-orientation";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -38,6 +40,19 @@ export default function App () {
     semibold: require("./assets/fonts/FixelText-SemiBold.ttf"),
     bold: require("./assets/fonts/FixelText-Bold.ttf"),
   });
+
+  useEffect(() => {
+    const configureOrientation = async () => {
+      const deviceType = await Device.getDeviceTypeAsync();
+      if (deviceType === Device.DeviceType.TABLET) {
+        await ScreenOrientation.unlockAsync();
+      } else {
+        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+      }
+    };
+
+    configureOrientation();
+  }, []);
 
   const handleNotificationPress = async (notification) => {
     if (notification?.data) {
