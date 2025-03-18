@@ -1,4 +1,4 @@
-import { formatDistanceToNow, isToday } from "date-fns";
+import { formatDistanceToNow, isYesterday, isToday, isTomorrow } from "date-fns";
 import { fr } from "date-fns/locale";
 
 function formatDate (date: string): string {
@@ -9,15 +9,16 @@ function formatDate (date: string): string {
   }
   let formattedDate = formatDistanceToNow(messageDate, { addSuffix: true, locale: fr });
 
-  if (formattedDate === "dans 1 jour") {
-    return "demain";
-  }
-  if (formattedDate === "il y a 1 jour") {
+  if (isYesterday(messageDate)) {
     return "hier";
   }
 
   if (isToday(messageDate)) {
     return "aujourd’hui";
+  }
+
+  if (isTomorrow(messageDate)) {
+    return "demain";
   }
 
   return formattedDate;
