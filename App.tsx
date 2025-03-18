@@ -21,7 +21,7 @@ const DEFAULT_BACKGROUND_TIME = 15 * 60 * 1000; // 15 minutes
 
 const BACKGROUND_LIMITS = {
   [AccountService.EcoleDirecte]: 15 * 60 * 1000,    // 15 minutes
-  [AccountService.Pronote]: 3 * 1000,         // 5 minutes
+  [AccountService.Pronote]: 5 * 60 * 1000,         // 5 minutes
   [AccountService.Skolengo]: 60 * 60 * 1000,  // 1 heure
 };
 
