@@ -137,7 +137,7 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
 
     try {
       const photo = await cameraRef.current?.takePictureAsync({
-        quality: 0.5,
+        quality: 0.75,
         skipProcessing: true,
       });
       if (!photo?.uri) return;
@@ -147,7 +147,7 @@ const GradeReaction: Screen<"GradeReaction"> = ({ navigation, route }) => {
         try {
           const compositeUri = await captureRef(composerRef, {
             format: "png",
-            quality: 0.5,
+            quality: 0.75,
           });
           const reel = await createReel(grade, compositeUri, photo.uri);
           useGradesStore.setState((state) => ({
