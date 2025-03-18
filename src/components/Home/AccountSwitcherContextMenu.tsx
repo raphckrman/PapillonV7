@@ -162,6 +162,10 @@ const ContextMenu: React.FC<{
                     });
                     setOpened(false);
 
+                    navigation.reset({
+                      index: 0,
+                      routes: [{ name: "AccountStack" as never }],
+                    });
                     requestAnimationFrame(() => {
                       switchTo(account);
                     });
