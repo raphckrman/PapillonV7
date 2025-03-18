@@ -1,4 +1,4 @@
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, isToday } from "date-fns";
 import { fr } from "date-fns/locale";
 
 function formatDate (date: string): string {
