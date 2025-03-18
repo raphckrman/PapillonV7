@@ -284,7 +284,7 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
                     variant="titleLarge"
                     style={{
                       marginRight: 10,
-                      fontFamily: "medium",
+                      fontFamily: "semibold",
                       fontSize: 26,
                       lineHeight: 28,
                       color: card.balance[0].remaining > 1 ? "#00C853" : "#FF1744",

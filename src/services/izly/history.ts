@@ -3,8 +3,12 @@ import type { ReservationHistory } from "../shared/ReservationHistory";
 import { operations, OperationKind} from "ezly";
 
 export const history = async (account: IzlyAccount): Promise<ReservationHistory[]> => {
-  const payments = await operations(account.instance!, OperationKind.Payment, 60);
-  const topup = await operations(account.instance!, OperationKind.TopUp, 60);
+  const payments = await operations(
+    account.instance!,
+    OperationKind.Payment,
+    200
+  );
+  const topup = await operations(account.instance!, OperationKind.TopUp, 200);
   const currency = account.authentication.configuration.currency;
 
   return [
