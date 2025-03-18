@@ -199,6 +199,7 @@ const ContextMenu: React.FC<{
             onPressIn={handlePress}
             onLongPress={handleLongPress}
             onPressOut={handlePressOut}
+            // @ts-ignore
             pointerEvents="auto"
             style={{
               elevation: opened ? 3 : 0,
@@ -253,6 +254,7 @@ const ContextMenu: React.FC<{
               <Pressable
                 onPress={() => {
                   setOpened(false);
+                  // @ts-ignore
                   navigation.navigate("ServiceSelector");
                 }}
                 style={({ pressed }) => [
@@ -297,6 +299,7 @@ const ContextMenu: React.FC<{
               <Pressable
                 onPress={() => {
                   setOpened(false);
+                  // @ts-ignore
                   navigation.navigate("SettingStack");
                 }}
                 style={({ pressed }) => [

@@ -54,7 +54,7 @@ export default function App () {
     configureOrientation();
   }, []);
 
-  const handleNotificationPress = async (notification) => {
+  const handleNotificationPress = async (notification: any) => {
     if (notification?.data) {
       const accountID = notification.data.accountID;
       const account = findAccountByID(accountID);

@@ -283,7 +283,8 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
       label: "Soutenir Papillon",
       onPress: () => openUrl("https://papillon.bzh/donate"),
       android: true,
-      description: ""
+      description: "",
+      disabled: false,
     });
   }
 
@@ -310,6 +311,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
         }, 10);
       },
       description: "",
+      disabled: false,
     });
   }
 
@@ -426,6 +428,7 @@ const Settings: Screen<"Settings"> = ({ route, navigation }) => {
                       />
                     }
                     trailing={
+                      // @ts-expect-error : on ignore la condition
                       subtab.beta && (
                         <View
                           style={{
