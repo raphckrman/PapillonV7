@@ -14,7 +14,10 @@ export const timestampToString = (timestamp: number) => {
     return "Demain";
   }
 
-  return formatDistance(new Date(timestamp), new Date(), {
+  const mtn = new Date();
+  mtn.setHours(0, 0, 0, 0);
+
+  return formatDistance(new Date(timestamp), mtn, {
     locale: fr,
     addSuffix: true,
   });
