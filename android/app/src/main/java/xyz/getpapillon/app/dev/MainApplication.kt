@@ -1,4 +1,4 @@
-package xyz.getpapillon.app
+package xyz.getpapillon.app.dev
 
 import android.app.Application
 import android.content.res.Configuration

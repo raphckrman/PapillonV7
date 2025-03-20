@@ -2,7 +2,7 @@ import { ExpoConfig } from "expo/config";
 import PackageJSON from "./package.json";
 
 export default (): ExpoConfig => ({
-  name: "Papillon",
+  name: "Papillon Dev",
   slug: PackageJSON.name,
   scheme: "papillon",
   version: PackageJSON.version,
@@ -70,7 +70,7 @@ export default (): ExpoConfig => ({
         resizeMode: "cover",
       },
     },
-    package: "xyz.getpapillon.app",
+    package: "xyz.getpapillon.app.dev",
     permissions: [
       "android.permission.ACCESS_COARSE_LOCATION",
       "android.permission.ACCESS_FINE_LOCATION",
