@@ -114,7 +114,10 @@ const fetchLessons = async (): Promise<Timetable> => {
             body: `${differencesTimestamp[0].subject} (${dateLessonsDebut}-${dateLessonsFin}) : Horaire du cours modifié`,
             data: {
               accountID: account.localID,
-              page: "Lessons"
+              page: "LessonsDocument",
+              parameters: {
+                lesson: differencesTimestamp[0],
+              }
             }
           },
           "Lessons"
@@ -168,7 +171,10 @@ const fetchLessons = async (): Promise<Timetable> => {
             body: `${differencesStatus[0].subject} (${dateLessonsDebut}-${dateLessonsFin}) : ${statut}`,
             data: {
               accountID: account.localID,
-              page: "Lessons"
+              page: "LessonsDocument",
+              parameters: {
+                lesson: differencesStatus[0],
+              }
             }
           },
           "Lessons"
