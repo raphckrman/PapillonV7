@@ -49,7 +49,7 @@ const fetchNews = async (): Promise<Information[]> => {
   await updateNewsState(account);
   const updatedNews = getNews();
 
-  const differences = getDifferences(currentNews.slice(0, 144), updatedNews);
+  const differences = getDifferences(currentNews, updatedNews);
 
   switch (differences.length) {
     case 0:
