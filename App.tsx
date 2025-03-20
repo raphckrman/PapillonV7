@@ -70,7 +70,10 @@ export default function App () {
           routes: [{ name: "AccountStack" }],
         });
         setTimeout(() => {
-          PapillonNavigation.current?.navigate(notification.data.page);
+          PapillonNavigation.current?.navigate(
+            notification.data.page,
+            notification.data.parameters,
+          );
         }, 500);
       }
     }
