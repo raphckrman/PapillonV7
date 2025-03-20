@@ -30,7 +30,7 @@ const SettingsSupport: Screen<"SettingsSupport"> = ({ navigation }) => {
 
   const cantineAccounts = useAccounts((state) =>
     state.accounts.filter((acc) =>
-      [AccountService.WebResto, AccountService.Turboself, AccountService.ARD, AccountService.Izly, AccountService.Alise].includes(acc.service)
+      [AccountService.Turboself, AccountService.ARD, AccountService.Izly, AccountService.Alise].includes(acc.service)
     )
   );
 
