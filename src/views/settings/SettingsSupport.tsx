@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { KeyboardAvoidingView, ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import type { Screen } from "@/router/helpers/types";
 import { useTheme } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -13,6 +13,7 @@ import { useAlert } from "@/providers/AlertProvider";
 import { modelName, osName, osVersion } from "expo-device";
 import { useCurrentAccount, useAccounts } from "@/stores/account";
 import { AccountService } from "@/stores/account/types";
+import PackageJSON from "../../../package.json";
 
 const SettingsSupport: Screen<"SettingsSupport"> = ({ navigation }) => {
   const theme = useTheme();
@@ -66,7 +67,7 @@ const SettingsSupport: Screen<"SettingsSupport"> = ({ navigation }) => {
     const data = {
       email: email,
       title: subject,
-      detail: `<br>💬 𝗗𝗲𝘀𝗰𝗿𝗶𝗽𝘁𝗶𝗼𝗻 𝗱𝘂 𝗽𝗿𝗼𝗯𝗹𝗲̀𝗺𝗲:<br>${(description ?? "").replace(/\n/g, "<br>")} <br><br>🔒 𝗜𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻𝘀 𝘀𝘂𝗿 𝗹'𝗮𝗽𝗽𝗮𝗿𝗲𝗶𝗹:<br>📱 Modèle de l'appareil: ${modelName}<br>🌐 OS: ${osName} ${osVersion}<br><br>⌛ 𝗦𝗲𝗿𝘃𝗶𝗰𝗲𝘀 𝘂𝘁𝗶𝗹𝗶𝘀𝗲́𝘀:<br>⚡ Service scolaire: ${AccountType}<br>🍴 Service de cantine: ${cantineServices}<br><br>❌ 𝗝𝗼𝘂𝗿𝗻𝗮𝘂𝘅 𝗱'𝗲𝗿𝗿𝗲𝘂𝗿𝘀: <br>${formattedLogs}<br>`,
+      detail: `<br>💬 𝗗𝗲𝘀𝗰𝗿𝗶𝗽𝘁𝗶𝗼𝗻 𝗱𝘂 𝗽𝗿𝗼𝗯𝗹𝗲̀𝗺𝗲:<br>${(description ?? "").replace(/\n/g, "<br>")} <br><br>🔒 𝗜𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻𝘀 𝘀𝘂𝗿 𝗹'𝗮𝗽𝗽𝗮𝗿𝗲𝗶𝗹:<br>📱 Modèle de l'appareil: ${modelName}<br>🌐 OS: ${osName} ${osVersion}<br>🦋 Version de Papillon: ${PackageJSON.version} ${Platform.OS}<br><br>⌛ 𝗦𝗲𝗿𝘃𝗶𝗰𝗲𝘀 𝘂𝘁𝗶𝗹𝗶𝘀𝗲́𝘀:<br>⚡ Service scolaire: ${AccountType}<br>🍴 Service de cantine: ${cantineServices}<br><br>❌ 𝗝𝗼𝘂𝗿𝗻𝗮𝘂𝘅 𝗱'𝗲𝗿𝗿𝗲𝘂𝗿𝘀: <br>${formattedLogs}<br>`,
     };
 
     const response = await fetch("https://api-menthe-et-cristaux.papillon.bzh/api/v1/ticket/public/create", {
