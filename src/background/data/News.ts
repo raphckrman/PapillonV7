@@ -3,6 +3,7 @@ import { getCurrentAccount } from "../utils/accounts";
 import { papillonNotify } from "../Notifications";
 import parse_news_resume from "@/utils/format/format_pronote_news";
 import { Information } from "@/services/shared/Information";
+import { AccountService } from "@/stores/account/types";
 
 const getDifferences = (
   currentNews: Information[],
@@ -48,7 +49,7 @@ const fetchNews = async (): Promise<Information[]> => {
   await updateNewsState(account);
   const updatedNews = getNews();
 
-  const differences = getDifferences(currentNews, updatedNews);
+  const differences = getDifferences(currentNews.slice(0, 144), updatedNews);
 
   switch (differences.length) {
     case 0:
@@ -68,7 +69,12 @@ const fetchNews = async (): Promise<Information[]> => {
                 : "Aucun résumé disponible.",
           data: {
             accountID: account.localID,
-            page: "News",
+            page: "NewsItem",
+            parameters: {
+              important: false,
+              isED: account.service === AccountService.EcoleDirecte,
+              message: JSON.stringify(differences[0]),
+            }
           }
         },
         "News"
