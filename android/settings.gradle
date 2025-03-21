@@ -1,4 +1,4 @@
-rootProject.name = 'Papillon Dev'
+rootProject.name = 'Papillon'
 
 dependencyResolutionManagement {
   versionCatalogs {

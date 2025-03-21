@@ -83,9 +83,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'xyz.getpapillon.app.dev'
+    namespace 'xyz.getpapillon.app'
     defaultConfig {
-        applicationId 'xyz.getpapillon.app.dev'
+        applicationId 'xyz.getpapillon.app'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 71050
