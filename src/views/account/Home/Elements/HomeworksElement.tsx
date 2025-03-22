@@ -23,6 +23,7 @@ interface HomeworksElementProps {
 const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImportance }) => {
   const account = useCurrentAccount(store => store.account!);
   const homeworks = useHomeworkStore(store => store.homeworks);
+  const homeworksPersonalized = account.homeworks ?? [];
 
   const [loading, setLoading] = useState(false);
 
@@ -75,12 +76,29 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
   const startTime = mtn.getTime() / 1000;
   const endTime = startTime + 7 * 24 * 60 * 60 * 1000;
 
-  const hwSemaineActuelle = homeworks[dateToEpochWeekNumber(actualDay)]?.filter(
-    (hw) => hw.due / 1000 >= startTime && hw.due / 1000 <= endTime
-  ) ?? [];
-  const hwSemaineProchaine = homeworks[dateToEpochWeekNumber(actualDay) + 1]?.filter(
-    (hw) => hw.due / 1000 >= startTime && hw.due / 1000 <= endTime
-  ) ?? [];
+  const allHwSemaineActuelle =
+    homeworks[dateToEpochWeekNumber(actualDay)] ?? [];
+  const personalizedForSemaineActuelle = homeworksPersonalized.filter(
+    (element) => {
+      const weekHomework = dateToEpochWeekNumber(new Date(element.due));
+      return weekHomework === dateToEpochWeekNumber(actualDay);
+    }
+  );
+  const hwSemaineActuelle = allHwSemaineActuelle
+    .concat(personalizedForSemaineActuelle)
+    .filter((hw) => hw.due / 1000 >= startTime && hw.due / 1000 <= endTime);
+
+  const allHwSemaineProchaine =
+    homeworks[dateToEpochWeekNumber(actualDay) + 1] ?? [];
+  const personalizedForSemaineProchaine = homeworksPersonalized.filter(
+    (element) => {
+      const weekHomework = dateToEpochWeekNumber(new Date(element.due));
+      return weekHomework === dateToEpochWeekNumber(actualDay) + 1;
+    }
+  );
+  const hwSemaineProchaine = allHwSemaineProchaine
+    .concat(personalizedForSemaineProchaine)
+    .filter((hw) => hw.due / 1000 >= startTime && hw.due / 1000 <= endTime);
 
   if (loading) {
     return (
