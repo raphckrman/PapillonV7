@@ -21,7 +21,7 @@ import * as StoreReview from "expo-store-review";
 
 import HomeworkItem from "./Atoms/Item";
 import { PressableScale } from "react-native-pressable-scale";
-import { Book, CheckSquare, ChevronLeft, ChevronRight, CircleDashed, Search, X } from "lucide-react-native";
+import { Book, BookPlus, CheckSquare, ChevronLeft, ChevronRight, CircleDashed, Search, X } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BlurView } from "expo-blur";
 
@@ -546,6 +546,41 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
           />
         }
 
+        {!searchHasFocus && (
+          <Reanimated.View
+            layout={animPapillon(LinearTransition)}
+            entering={animPapillon(FadeInLeft).delay(100)}
+            exiting={animPapillon(FadeOutLeft)}
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: theme.colors.background + "ff",
+              borderColor: theme.colors.border + "dd",
+              borderWidth: 1,
+              borderRadius: 800,
+              height: 40,
+              width: 40,
+              gap: 4,
+              shadowColor: "#00000022",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.6,
+              shadowRadius: 4,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                // Afficher la modal pour créer un devoir personnalisé
+              }}
+            >
+              <BookPlus
+                size={20}
+                color={theme.colors.text}
+                strokeWidth={2.5}
+              />
+            </TouchableOpacity>
+          </Reanimated.View>
+        )}
+
         {showPickerButtons && !searchHasFocus && width > 330 &&
         <Reanimated.View
           layout={animPapillon(LinearTransition)}
@@ -584,6 +619,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         </Reanimated.View>
         }
 
+        {!showPickerButtons &&
         <Reanimated.View
           layout={
             LinearTransition.duration(250).easing(Easing.bezier(0.5, 0, 0, 1).factory())
@@ -627,7 +663,6 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
             />
           </TouchableOpacity>
 
-          {!showPickerButtons &&
           <Reanimated.View
             layout={animPapillon(LinearTransition)}
             style={{
@@ -660,7 +695,6 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
               ref={SearchRef}
             />
           </Reanimated.View>
-          }
 
           {searchTerms.length > 0 && searchHasFocus &&
           <TouchableOpacity
@@ -683,6 +717,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
           </TouchableOpacity>
           }
         </Reanimated.View>
+        }
       </PapillonModernHeader>
 
       <FlatList
