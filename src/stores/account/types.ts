@@ -311,4 +311,11 @@ export interface AccountsStore {
     key: T,
     value: A[T]
   ) => Account | null
+  addHomework: (localID: string, homework: Homework) => void;
+  updateHomework: (
+    localID: string,
+    homeworkID: string,
+    homework: Homework
+  ) => void;
+  removeHomework: (localID: string, homeworkID: string) => void;
 }

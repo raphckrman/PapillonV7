@@ -20,7 +20,6 @@ import { useAttendanceStore } from "../attendance";
 import {error, info, log} from "@/utils/logger/logger";
 import {useMultiService} from "@/stores/multiService";
 import {MultiServiceFeature, MultiServiceSpace} from "@/stores/multiService/types";
-import { Homework } from "@/services/shared/Homework";
 
 /**
  * Store for the currently selected account.
@@ -317,7 +316,7 @@ export const useAccounts = create<AccountsStore>()(
        * @param localID ID Account where homework must be added
        * @param homework Homework create by user
        */
-      addHomework: (localID: string, homework: Homework) => {
+      addHomework: (localID, homework) => {
         set((state) => ({
           accounts: state.accounts.map((account) =>
             account.localID === localID && !account.isExternal
@@ -337,9 +336,9 @@ export const useAccounts = create<AccountsStore>()(
        * @param updatedHomework Homework updated by user
        */
       updateHomework: (
-        localID: string,
-        homeworkID: string,
-        updatedHomework: Homework
+        localID,
+        homeworkID,
+        updatedHomework
       ) => {
         set((state) => ({
           accounts: state.accounts.map((account) =>
@@ -362,7 +361,7 @@ export const useAccounts = create<AccountsStore>()(
        * @param localID ID Account where homework must be remove
        * @param homeworkID ID Homework to remove a specific homework
        */
-      removeHomework: (localID: string, homeworkID: string) => {
+      removeHomework: (localID, homeworkID) => {
         set((state) => ({
           accounts: state.accounts.map((account) =>
             account.localID === localID && !account.isExternal
