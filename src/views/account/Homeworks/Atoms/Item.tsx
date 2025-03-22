@@ -236,17 +236,15 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
                 />
               </MaskedView>
             </View>
-            {route.name === "HomeScreen" && (
-              <View style={{ flex: 1, flexDirection: "row", gap: 4, paddingBottom: 4, paddingTop: 8, alignItems: "center", alignSelf: "flex-start" }}>
-                <Clock
-                  size={18}
-                  strokeWidth={2.5}
-                  opacity={0.6}
-                  color={theme.colors.text}
-                />
-                <NativeText style={{color: theme.colors.text, opacity:0.5}}>{timestampToString(homework.due)}</NativeText>
-              </View>
-            )}
+            <View style={{ flexDirection: "row", gap: 4, paddingBottom: 4, paddingTop: 8, alignItems: "center", alignSelf: "flex-start" }}>
+              <Clock
+                size={18}
+                strokeWidth={2.5}
+                opacity={0.6}
+                color={theme.colors.text}
+              />
+              <NativeText style={{color: theme.colors.text, opacity:0.5}}>{timestampToString(homework.due)}</NativeText>
+            </View>
           </Reanimated.View>
           {homework.attachments.length > 0 && (
             <Reanimated.View
