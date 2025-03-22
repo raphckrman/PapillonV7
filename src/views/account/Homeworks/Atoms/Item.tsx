@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import {Check, Clock, Paperclip, Sparkles, WifiOff} from "lucide-react-native";
+import {Check, Clock, Paperclip, PencilLine, Sparkles, WifiOff} from "lucide-react-native";
 import { getSubjectData } from "@/services/shared/Subject";
 import { useRoute, useTheme} from "@react-navigation/native";
 import { NativeItem, NativeText } from "@/components/Global/NativeComponents";
@@ -195,6 +195,9 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
       >
         <Reanimated.View style={{ flex: 1, gap: 4 }} layout={animPapillon(LinearTransition)}>
           <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
+            {homework.personalizate && (
+              <PencilLine color={theme.colors.text} />
+            )}
             <NativeText variant="overtitle" style={{ color: subjectData.color, flex: 1 }} numberOfLines={1}>
               {subjectData.pretty}
             </NativeText>

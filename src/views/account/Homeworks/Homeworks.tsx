@@ -1,5 +1,5 @@
-import { NativeList, NativeListHeader } from "@/components/Global/NativeComponents";
-import { useCurrentAccount } from "@/stores/account";
+import { NativeItem, NativeList, NativeListHeader, NativeText } from "@/components/Global/NativeComponents";
+import { useAccounts, useCurrentAccount } from "@/stores/account";
 import { useHomeworkStore } from "@/stores/homework";
 import { useTheme } from "@react-navigation/native";
 import React, { useRef, useState, useCallback, useEffect } from "react";
@@ -13,7 +13,9 @@ import {
   StyleSheet,
   TextInput,
   ListRenderItem,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator,
+  Alert
 } from "react-native";
 import { dateToEpochWeekNumber, epochWNToDate } from "@/utils/epochWeekNumber";
 
@@ -21,7 +23,7 @@ import * as StoreReview from "expo-store-review";
 
 import HomeworkItem from "./Atoms/Item";
 import { PressableScale } from "react-native-pressable-scale";
-import { Book, BookPlus, CheckSquare, ChevronLeft, ChevronRight, CircleDashed, Search, X } from "lucide-react-native";
+import { Book, BookPlus, CalendarClock, CheckSquare, ChevronLeft, ChevronRight, CircleDashed, Search, X } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BlurView } from "expo-blur";
 
@@ -33,7 +35,7 @@ import * as Haptics from "expo-haptics";
 import MissingItem from "@/components/Global/MissingItem";
 import { PapillonModernHeader } from "@/components/Global/PapillonModernHeader";
 import {Homework} from "@/services/shared/Homework";
-import {Account, AccountService} from "@/stores/account/types";
+import {AccountService} from "@/stores/account/types";
 import {Screen} from "@/router/helpers/types";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
 import {NativeScrollEvent, ScrollViewProps} from "react-native/Libraries/Components/ScrollView/ScrollView";
@@ -42,17 +44,15 @@ import {hasFeatureAccountSetup} from "@/utils/multiservice";
 import {MultiServiceFeature} from "@/stores/multiService/types";
 import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 import { OfflineWarning, useOnlineStatus } from "@/hooks/useOnlineStatus";
+import ResponsiveTextInput from "@/components/FirstInstallation/ResponsiveTextInput";
+import BottomSheet from "@/components/Modals/PapillonBottomSheet";
+import ButtonCta from "@/components/FirstInstallation/ButtonCta";
+import { Picker } from "@react-native-picker/picker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
-type HomeworksPageProps = {
-  index: number;
-  isActive: boolean;
-  loaded: boolean;
-  homeworks: Record<number, Homework[]>;
-  account: Account;
-  updateHomeworks: () => Promise<void>;
-  loading: boolean;
-  getDayName: (date: string | number | Date) => string;
-};
+const MemoizedNativeItem = React.memo(NativeItem);
+const MemoizedNativeList = React.memo(NativeList);
+const MemoizedNativeText = React.memo(NativeText);
 
 const formatDate = (date: string | number | Date): string => {
   return new Date(date).toLocaleDateString("fr-FR", {
@@ -75,6 +75,10 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   const account = useCurrentAccount(store => store.account!);
   const hasServiceSetup = account.service === AccountService.PapillonMultiService ? hasFeatureAccountSetup(MultiServiceFeature.Homeworks, account.localID) : true;
   const homeworks = useHomeworkStore(store => store.homeworks);
+  const localSubjects = account.personalization.subjects ?? {};
+  const [selectedPretty, setSelectedPretty] = useState(
+    Object.entries(localSubjects || {})[0]?.[1] ?? null
+  );
 
   // @ts-expect-error
   let firstDate = account?.instance?.instance?.firstDate || null;
@@ -93,6 +97,13 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   const [oldSelectedWeek, setOldSelectedWeek] = useState(selectedWeek);
 
   const [hideDone, setHideDone] = useState(false);
+
+  // Création de devoirs personnalisés
+  const [showCreateHomework, setShowCreateHomework] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [idHomework, setIdHomework] = useState(NaN);
+  const [contentHomework, setContentHomework] = useState<string | null>(null);
+  const [dateHomework, setDateHomework] = useState(Date.now());
 
   const getItemLayout = useCallback((_: any, index: number) => ({
     length: finalWidth,
@@ -156,9 +167,19 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   const [searchTerms, setSearchTerms] = useState("");
 
   const renderWeek: ListRenderItem<number> = ({ item }) => {
-    const homeworksInWeek = homeworks[item] ?? [];
+    const homeworksInWeek = [...(homeworks[item] ?? [])];
+    const homeworksPersonalized = account.homeworks ?? [];
 
-    const sortedHomework = homeworksInWeek.sort((a, b) => new Date(a.due).getTime() - new Date(b.due).getTime());
+    const personalizedForWeek = homeworksPersonalized.filter((element) => {
+      const weekHomework = dateToEpochWeekNumber(new Date(element.due));
+      return weekHomework === item;
+    });
+
+    const combinedHomeworks = [...homeworksInWeek, ...personalizedForWeek];
+
+    const sortedHomework = combinedHomeworks.sort(
+      (a, b) => new Date(a.due).getTime() - new Date(b.due).getTime()
+    );
 
     const groupedHomework = sortedHomework.reduce((acc, curr) => {
       const dayName = getDayName(curr.due);
@@ -569,7 +590,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
           >
             <TouchableOpacity
               onPress={() => {
-                // Afficher la modal pour créer un devoir personnalisé
+                setIdHomework(Math.random() * 1000 + 1);
+                setShowCreateHomework(true);
               }}
             >
               <BookPlus
@@ -719,6 +741,223 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         </Reanimated.View>
         }
       </PapillonModernHeader>
+
+      <BottomSheet
+        key={idHomework}
+        opened={showCreateHomework}
+        setOpened={(bool: boolean) => {
+          setShowCreateHomework(bool);
+          if (!bool) {
+            setSelectedPretty(Object.entries(localSubjects || {})[0]?.[1] ?? null);
+            setIdHomework(NaN);
+            setContentHomework(null);
+            setContentHomework(null);
+            setDateHomework(Date.now());
+            setLoading(false);
+          }
+        }}
+        contentContainerStyle={{
+          paddingHorizontal: 16,
+          borderColor: theme.colors.border,
+          borderWidth: 1,
+        }}
+      >
+        <View style={{ alignSelf: "center", marginTop: 15, flexDirection: "row", gap: 16 }}>
+          <MemoizedNativeText variant="titleLarge" numberOfLines={2}>
+            Créer un devoir
+          </MemoizedNativeText>
+        </View>
+
+        <MemoizedNativeList style={{ marginTop: 16 }}>
+          <MemoizedNativeItem>
+            <MemoizedNativeText variant="subtitle" numberOfLines={1}>
+              Aperçu
+            </MemoizedNativeText>
+            <View style={{ marginHorizontal: -20, marginTop: 5, marginBottom: -10 }}>
+              <HomeworkItem
+                homework={{
+                  attachments: [],
+                  color: selectedPretty.color,
+                  content: contentHomework ?? "Écris le contenu du devoir juste en-dessous :)",
+                  done: false,
+                  due: dateHomework,
+                  id: String(idHomework),
+                  personalizate: true,
+                  subject: selectedPretty.pretty,
+                  exam: false,
+                }}
+                index={idHomework}
+                key={idHomework}
+                navigation={navigation}
+                onDonePressHandler={() => undefined}
+                total={1}
+              />
+            </View>
+          </MemoizedNativeItem>
+        </MemoizedNativeList>
+
+        <View style={{ flexDirection: "row", gap: 16 }}>
+          <MemoizedNativeList style={{ marginTop: 16, width: "49%" }}>
+            <MemoizedNativeItem
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onPress={() => setShowDatePicker(true)}
+              chevron={false}
+            >
+              <MemoizedNativeText variant="subtitle" numberOfLines={1}>
+                Date du devoir
+              </MemoizedNativeText>
+              <View
+                style={{
+                  flexDirection: "row",
+                  gap: 10,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  paddingTop: "10%",
+                }}
+              >
+                <CalendarClock color={theme.colors.text} />
+                <MemoizedNativeText>
+                  {new Date(dateHomework).toLocaleDateString(
+                    "fr-FR",
+                    {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    }
+                  )}
+                </MemoizedNativeText>
+              </View>
+            </MemoizedNativeItem>
+          </MemoizedNativeList>
+
+          <MemoizedNativeList style={{ marginTop: 16, flex: 1, width: "50%" }}>
+            <MemoizedNativeItem>
+              <MemoizedNativeText variant="subtitle" numberOfLines={1}>
+                Nom de la matière
+              </MemoizedNativeText>
+              <View
+                style={{
+                  marginTop: 5,
+                  borderWidth: 1,
+                  borderColor: theme.colors.border,
+                  borderRadius: 8,
+                  overflow: "hidden",
+                }}
+              >
+                <Picker
+                  selectedValue={selectedPretty?.pretty}
+                  onValueChange={(itemValue) => {
+                    const selectedSubject = Object.entries(localSubjects).find(
+                      ([, subject]) => subject.pretty === itemValue
+                    );
+
+                    if (selectedSubject) {
+                      setSelectedPretty(selectedSubject[1]);
+                    }
+                  }}
+                  style={{
+                    color: theme.colors.text,
+                  }}
+                >
+                  {Object.entries(localSubjects).map(([key, subject]) => (
+                    <Picker.Item
+                      key={key}
+                      label={subject.pretty}
+                      value={subject.pretty}
+                    />
+                  ))}
+                </Picker>
+              </View>
+            </MemoizedNativeItem>
+          </MemoizedNativeList>
+        </View>
+
+        <MemoizedNativeList style={{ marginTop: 16 }}>
+          <MemoizedNativeItem>
+            <MemoizedNativeText variant="subtitle" numberOfLines={3}>
+              Contenu du devoir
+            </MemoizedNativeText>
+            <ResponsiveTextInput
+              style={{
+                fontFamily: "medium",
+                fontSize: 16,
+                color: theme.colors.text,
+              }}
+              value={contentHomework ?? ""}
+              onChangeText={(input) => {
+                if (input === "") {
+                  setContentHomework(null);
+                } else {
+                  setContentHomework(input);
+                }
+              }}
+            />
+          </MemoizedNativeItem>
+        </MemoizedNativeList>
+
+        {showDatePicker && (
+          <DateTimePicker
+            value={new Date(dateHomework)}
+            mode="date"
+            display="default"
+            onChange={(_event, selectedDate) => {
+              setShowDatePicker(false);
+              if (selectedDate) {
+                selectedDate.setHours(0, 0, 0, 0);
+                setDateHomework(selectedDate.getTime());
+              }
+            }}
+          />
+        )}
+
+        <ButtonCta
+          value="Valider"
+          onPress={() => {
+            setLoading(true);
+
+            if (!selectedPretty || !contentHomework) {
+              Alert.alert("Veuillez remplir tous les champs avant de valider.");
+              setLoading(false);
+              return;
+            }
+
+            // Créez un objet représentant le devoir
+            const newHomework: Homework = {
+              id: String(idHomework),
+              subject: selectedPretty.pretty,
+              color: selectedPretty.color,
+              content: contentHomework,
+              due: dateHomework,
+              done: false,
+              personalizate: true,
+              attachments: [],
+              exam: false,
+            };
+
+            useAccounts.getState().addHomework(account.localID, newHomework);
+
+            setShowCreateHomework(false);
+            setSelectedPretty(Object.entries(localSubjects || {})[0]?.[1] ?? null);
+            setIdHomework(NaN);
+            setContentHomework(null);
+            setDateHomework(Date.now());
+            setLoading(false);
+          }}
+          primary={!loading}
+          icon={loading ? <ActivityIndicator /> : void 0}
+          disabled={loading}
+          style={{
+            minWidth: undefined,
+            maxWidth: undefined,
+            width: "50%",
+            alignSelf: "center",
+            marginTop: 15,
+          }}
+        />
+      </BottomSheet>
 
       <FlatList
         ref={flatListRef}
