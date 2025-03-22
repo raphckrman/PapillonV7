@@ -172,6 +172,7 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
       <NativeList>
         {hw2Semaines
           .slice(0, 7)
+          .sort((a, b) => a.due - b.due)
           .map((hw, index) => (
             <HomeworkItem
               homework={hw}
