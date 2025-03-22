@@ -45,7 +45,7 @@ export default [
     presentation: Platform.OS == "android" ? "modal" : "formSheet",
     headerShown: true,
     headerLargeTitle: true,
-    headerTransparent: Platform.OS == "android" ? false : true,
+    headerTransparent: Platform.OS !== "android",
     sheetCornerRadius: 16,
     sheetGrabberVisible: true,
     sheetExpandsWhenScrolledToEdge: true,
