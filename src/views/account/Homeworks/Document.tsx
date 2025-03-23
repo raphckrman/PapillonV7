@@ -272,6 +272,7 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ navigation, route }) =
                 }}
                 index={idHomework}
                 key={idHomework}
+                // @ts-expect-error
                 navigation={navigation}
                 onDonePressHandler={() => undefined}
                 total={1}
