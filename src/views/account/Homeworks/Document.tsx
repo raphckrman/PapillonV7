@@ -165,9 +165,7 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ navigation, route }) =
                           : "Ce devoir est à rendre",
                       homework.returnType === "file_upload"
                         ? "Papillon ne permet pas de rendre des devoirs sur l'ENT. Tu dois le faire sur l'ENT de ton établissement"
-                        : homework.returnType === "paper"
-                          ? "Ton professeur t'indiquera comment rendre ce devoir"
-                          : "Ton professeur t'indiquera comment rendre ce devoir",
+                        : "Ton professeur t'indiquera comment rendre ce devoir",
                     );
                   }}
                 >
@@ -267,7 +265,7 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ navigation, route }) =
                   ...homework,
                   subject: selectedPretty.pretty,
                   color: selectedPretty.color,
-                  content: contentHomework ?? "Écris le contenu du devoir juste en-dessous :)",
+                  content: contentHomework ?? "Écris le contenu du devoir juste en-dessous",
                   due: dateHomework,
                 }}
                 index={idHomework}
@@ -400,18 +398,13 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ navigation, route }) =
 
         <ButtonCta
           value="Valider"
+          disabled={!selectedPretty || !contentHomework}
           onPress={() => {
-            if (!selectedPretty || !contentHomework) {
-              Alert.alert("Veuillez remplir tous les champs avant de valider.");
-              return;
-            }
-
-            // Créez un objet représentant le devoir
             const newHomework: Homework = {
               ...homework,
               subject: selectedPretty.pretty,
               color: selectedPretty.color,
-              content: contentHomework,
+              content: contentHomework ?? "",
               due: dateHomework,
             };
 
