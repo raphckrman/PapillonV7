@@ -58,11 +58,6 @@ export async function updateHomeworkForWeekInCache <T extends Account> (account:
         console.info(`[updateHomeworkForWeekInCache]: updating to empty since ${account.service} not implemented.`);
     }
 
-    homeworks = homeworks.map((homework) => ({
-      ...homework,
-      personalizate: false,
-    }));
-
     useHomeworkStore.getState().updateHomeworks(dateToEpochWeekNumber(date), homeworks);
   }
   catch (err) {
