@@ -277,11 +277,19 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
                   total={groupedHomework[day].length}
                   homework={homework}
                   onDonePressHandler={async () => {
-                    if (account.service !== AccountService.Skolengo) {
-                      await toggleHomeworkState(account, homework);
+                    if (homework.personalizate) {
+                      useHomeworkStore
+                        .getState()
+                        .updateHomework(item, homework.id,
+                          {... homework, done: !homework.done }
+                        );
+                    } else {
+                      if (account.service !== AccountService.Skolengo) {
+                        await toggleHomeworkState(account, homework);
+                      }
+                      await updateHomeworks(true, false, false);
+                      await countCheckForReview();
                     }
-                    await updateHomeworks(true, false, false);
-                    await countCheckForReview();
                   }}
                 />
               ))}
