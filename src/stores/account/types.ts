@@ -9,7 +9,6 @@ import type MultiAPI from "esup-multi.js";
 import { SkolengoAuthConfig } from "@/services/skolengo/skolengo-types";
 import { User as ScolengoAPIUser } from "scolengo-api/types/models/Common";
 import { OnlinePayments } from "pawrd/dist";
-import { Homework } from "@/services/shared/Homework";
 
 export interface Tab {
   name: string
@@ -135,7 +134,6 @@ interface BaseAccount {
     last: string;
   };
   personalization: Partial<Personalization>;
-  homeworks?: Array<Homework>;
 }
 
 interface BaseExternalAccount {
@@ -312,11 +310,4 @@ export interface AccountsStore {
     key: T,
     value: A[T]
   ) => Account | null
-  addHomework: (localID: string, homework: Homework) => void;
-  updateHomework: (
-    localID: string,
-    homeworkID: string,
-    homework: Homework
-  ) => void;
-  removeHomework: (localID: string, homeworkID: string) => void;
 }

@@ -1,5 +1,5 @@
 import { NativeItem, NativeList, NativeListHeader, NativeText } from "@/components/Global/NativeComponents";
-import { useAccounts, useCurrentAccount } from "@/stores/account";
+import { useCurrentAccount } from "@/stores/account";
 import { useHomeworkStore } from "@/stores/homework";
 import { useTheme } from "@react-navigation/native";
 import React, { useRef, useState, useCallback, useEffect } from "react";
@@ -162,16 +162,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
 
   const renderWeek: ListRenderItem<number> = useCallback(({ item }) => {
     const homeworksInWeek = [...(homeworks[item] ?? [])];
-    const homeworksPersonalized = account.homeworks ?? [];
 
-    const personalizedForWeek = homeworksPersonalized.filter((element) => {
-      const weekHomework = dateToEpochWeekNumber(new Date(element.due));
-      return weekHomework === item;
-    });
-
-    const combinedHomeworks = [...homeworksInWeek, ...personalizedForWeek];
-
-    const sortedHomework = combinedHomeworks.sort(
+    const sortedHomework = homeworksInWeek.sort(
       (a, b) => new Date(a.due).getTime() - new Date(b.due).getTime()
     );
 
@@ -337,7 +329,6 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
     );
   }, [
     homeworks,
-    account.homeworks,
     searchTerms,
     hideDone,
     updateHomeworks,
@@ -894,7 +885,12 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
               exam: false,
             };
 
-            useAccounts.getState().addHomework(account.localID, newHomework);
+            useHomeworkStore
+              .getState()
+              .addHomework(
+                dateToEpochWeekNumber(new Date(dateHomework)),
+                newHomework
+              );
 
             setShowCreateHomework(false);
             setSelectedPretty(Object.entries(localSubjects || {})[0]?.[1] ?? null);

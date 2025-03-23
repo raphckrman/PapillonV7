@@ -316,69 +316,6 @@ export const useAccounts = create<AccountsStore>()(
         // Return the updated account (to reuse the account directly)
         return accountMutated;
       },
-
-      /**
-       * Add a personalized homework to account
-       * @param localID ID Account where homework must be added
-       * @param homework Homework create by user
-       */
-      addHomework: (localID, homework) => {
-        set((state) => ({
-          accounts: state.accounts.map((account) =>
-            account.localID === localID && !account.isExternal
-              ? {
-                ...account,
-                homeworks: [...(account.homeworks || []), homework],
-              }
-              : account
-          ),
-        }));
-      },
-
-      /**
-       * Update a personalized homework to account
-       * @param localID ID Account where homework must be updated
-       * @param homeworkID ID Homework to modify a specific homework
-       * @param updatedHomework Homework updated by user
-       */
-      updateHomework: (
-        localID,
-        homeworkID,
-        updatedHomework
-      ) => {
-        set((state) => ({
-          accounts: state.accounts.map((account) =>
-            account.localID === localID && !account.isExternal
-              ? {
-                ...account,
-                homeworks: account.homeworks?.map((devoir) =>
-                  devoir.id === homeworkID ? updatedHomework : devoir
-                ),
-              }
-              : account
-          ),
-        }));
-      },
-
-      /**
-       * Remove a personalized homework to account
-       * @param localID ID Account where homework must be remove
-       * @param homeworkID ID Homework to remove a specific homework
-       */
-      removeHomework: (localID, homeworkID) => {
-        set((state) => ({
-          accounts: state.accounts.map((account) =>
-            account.localID === localID && !account.isExternal
-              ? {
-                ...account,
-                homeworks: account.homeworks?.filter(
-                  (devoir) => devoir.id !== homeworkID
-                ),
-              }
-              : account
-          ),
-        }));
-      },
     }),
     {
       name: "accounts-storage",

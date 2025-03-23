@@ -22,7 +22,7 @@ import HTMLView from "react-native-htmlview";
 import { Screen } from "@/router/helpers/types";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PapillonModernHeader } from "@/components/Global/PapillonModernHeader";
-import { useAccounts, useCurrentAccount } from "@/stores/account";
+import { useCurrentAccount } from "@/stores/account";
 import { AccountService } from "@/stores/account/types";
 import getAndOpenFile from "@/utils/files/getAndOpenFile";
 import { AutoFileIcon } from "@/components/Global/FileIcon";
@@ -38,6 +38,8 @@ import ResponsiveTextInput from "@/components/FirstInstallation/ResponsiveTextIn
 import ButtonCta from "@/components/FirstInstallation/ButtonCta";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { getSubjectData } from "@/services/shared/Subject";
+import { useHomeworkStore } from "@/stores/homework";
+import { dateToEpochWeekNumber } from "@/utils/epochWeekNumber";
 
 const MemoizedNativeItem = React.memo(NativeItem);
 const MemoizedNativeList = React.memo(NativeList);
@@ -210,7 +212,12 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ navigation, route }) =
                           text: "Continuer",
                           style: "destructive",
                           onPress: () => {
-                            useAccounts.getState().removeHomework(account.localID, homework.id);
+                            useHomeworkStore
+                              .getState()
+                              .removeHomework(
+                                dateToEpochWeekNumber(new Date(dateHomework)),
+                                homework.id
+                              );
                             navigation.goBack();
                           }
                         }
@@ -408,7 +415,13 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ navigation, route }) =
               due: dateHomework,
             };
 
-            useAccounts.getState().updateHomework(account.localID, homework.id, newHomework);
+            useHomeworkStore
+              .getState()
+              .updateHomework(
+                dateToEpochWeekNumber(new Date(dateHomework)),
+                homework.id,
+                newHomework
+              );
 
             setShowCreateHomework(false);
             setSelectedPretty(Object.entries(localSubjects || {})[0]?.[1] ?? null);
