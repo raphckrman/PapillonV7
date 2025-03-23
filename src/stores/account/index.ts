@@ -346,9 +346,7 @@ export const useAccounts = create<AccountsStore>()(
               ? {
                 ...account,
                 homeworks: account.homeworks?.map((devoir) =>
-                  devoir.id === homeworkID
-                    ? { ...devoir, ...updatedHomework }
-                    : devoir
+                  devoir.id === homeworkID ? updatedHomework : devoir
                 ),
               }
               : account
