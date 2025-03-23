@@ -23,7 +23,7 @@ import * as StoreReview from "expo-store-review";
 
 import HomeworkItem from "./Atoms/Item";
 import { PressableScale } from "react-native-pressable-scale";
-import { BookPlus, CalendarClock, CheckSquare, ListFilter, Search, X } from "lucide-react-native";
+import { BookPlus, CalendarClock, CheckSquare, Funnel, FunnelPlus, Search, WandSparkles, X } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BlurView } from "expo-blur";
 
@@ -536,11 +536,19 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
               setShowFilter(true);
             }}
           >
-            <ListFilter
-              size={20}
-              color={theme.colors.text}
-              strokeWidth={2.5}
-            />
+            {searchTerms.length > 0 || hideDone ? (
+              <FunnelPlus
+                size={20}
+                color={theme.colors.text}
+                strokeWidth={2.5}
+              />
+            ) : (
+              <Funnel
+                size={20}
+                color={theme.colors.text}
+                strokeWidth={2.5}
+              />
+            )}
           </TouchableOpacity>
         </Reanimated.View>
       </PapillonModernHeader>
@@ -564,7 +572,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         <MemoizedNativeList style={{ marginTop: 16 }}>
           <MemoizedNativeItem>
             <MemoizedNativeText variant="subtitle" numberOfLines={1}>
-              Via Recherche
+              Recherche
             </MemoizedNativeText>
             <Reanimated.View
               layout={
@@ -612,7 +620,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
                 <ResponsiveTextInput
                   placeholder={
                     (hideDone && !searchHasFocus) ? "Uniquement devoirs non terminés" :
-                      "Rechercher"
+                      "Rechercher une matière, des mots"
                   }
                   value={searchTerms}
                   onChangeText={setSearchTerms}
@@ -654,6 +662,11 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         </MemoizedNativeList>
 
         <MemoizedNativeList style={{ marginTop: 16 }}>
+          <MemoizedNativeItem>
+            <MemoizedNativeText variant="subtitle" numberOfLines={1}>
+              Options
+            </MemoizedNativeText>
+          </MemoizedNativeItem>
           <MemoizedNativeItem
             leading={(
               <Reanimated.View
@@ -693,6 +706,45 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
           >
             <MemoizedNativeText numberOfLines={3}>
               {hideDone ? "Afficher tous les devoirs" : "Afficher uniquement les devoirs non faits"}
+            </MemoizedNativeText>
+          </MemoizedNativeItem>
+          <MemoizedNativeItem
+            leading={(
+              <Reanimated.View
+                layout={animPapillon(LinearTransition)}
+                entering={animPapillon(FadeInLeft).delay(100)}
+                exiting={animPapillon(FadeOutLeft)}
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "#58A3C3",
+                  borderColor: theme.colors.border + "dd",
+                  borderWidth: 1,
+                  borderRadius: 800,
+                  height: 40,
+                  width: 40,
+                  gap: 4,
+                  shadowColor: "#00000022",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.6,
+                  shadowRadius: 4,
+                }}
+              >
+                <WandSparkles
+                  size={20}
+                  color="#fff"
+                  strokeWidth={2.5}
+                  opacity={1}
+                />
+              </Reanimated.View>
+            )}
+            onPress={() => {
+              setShowFilter(false);
+              navigation.navigate("SettingStack", { screen: "SettingsMagic" });
+            }}
+          >
+            <MemoizedNativeText numberOfLines={3}>
+              Configurer Papillon Magic pour les devoirs
             </MemoizedNativeText>
           </MemoizedNativeItem>
         </MemoizedNativeList>
