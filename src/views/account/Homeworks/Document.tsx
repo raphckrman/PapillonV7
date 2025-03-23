@@ -166,8 +166,8 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ navigation, route }) =
                           ? "Tu dois rendre ce devoir en classe"
                           : "Ce devoir est à rendre",
                       homework.returnType === "file_upload"
-                        ? "Papillon ne permet pas de rendre des devoirs sur l'ENT. Tu dois le faire sur l'ENT de ton établissement"
-                        : "Ton professeur t'indiquera comment rendre ce devoir",
+                        ? "Papillon ne permet pas de rendre des devoirs sur l'ENT. Tu dois le faire sur l'ENT de ton établissement."
+                        : "Ton professeur t'indiquera comment rendre ce devoir.",
                     );
                   }}
                 >
