@@ -274,7 +274,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
           >
             <NativeListHeader animated label={day} />
 
-            <NativeList animated>
+            <MemoizedNativeList animated>
               {groupedHomework[day].map((homework, idx) => (
                 <MemoizedHomeworkItem
                   key={homework.id}
@@ -291,7 +291,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
                   }}
                 />
               ))}
-            </NativeList>
+            </MemoizedNativeList>
           </Reanimated.View>
         ))}
 
