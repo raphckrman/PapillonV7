@@ -263,7 +263,7 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
             )}
           </View>
 
-          {card?.balance[0].remaining !== null && (
+          {card?.balance[0].remaining !== null && card?.balance[0].remaining !== Infinity && (
             <NativeList inline>
               <NativeItem
                 trailing={
