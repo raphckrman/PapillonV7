@@ -17,7 +17,7 @@ import {
   ActivityIndicator,
   Alert
 } from "react-native";
-import { dateToEpochWeekNumber, epochWNToDate } from "@/utils/epochWeekNumber";
+import { dateToEpochWeekNumber, epochWNToDate, weekNumberToMiddleDate } from "@/utils/epochWeekNumber";
 
 import * as StoreReview from "expo-store-review";
 
@@ -95,6 +95,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   const [selectedWeek, setSelectedWeek] = useState(currentWeek);
 
   // Filtrer les devoirs
+  const [showDatePickerWeek, setShowDatePickerWeek] = useState(false);
   const [hideDone, setHideDone] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
 
@@ -376,7 +377,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         >
           <PressableScale
             style={[styles.weekPickerContainer]}
-            onPress={() => undefined} // Afficher DatePicker
+            onPress={() => setShowDatePickerWeek(true)}
             onLongPress={() => {
               setHideDone(!hideDone);
               playHaptics("notification", {
@@ -438,6 +439,27 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
             </Reanimated.View>
           </PressableScale>
         </Reanimated.View>
+
+        {showDatePickerWeek && (
+          <DateTimePicker
+            value={weekNumberToMiddleDate(selectedWeek)}
+            mode="date"
+            display="default"
+            onChange={(_event, selectedDate) => {
+              setShowDatePickerWeek(false);
+              if (selectedDate) {
+                selectedDate.setHours(0, 0, 0, 0);
+
+                const weekNumber = dateToEpochWeekNumber(selectedDate);
+                const index = data.findIndex((week) => week === weekNumber);
+                if (index !== -1) {
+                  flatListRef.current?.scrollToIndex({ index, animated: true });
+                  setSelectedWeek(weekNumber);
+                }
+              }
+            }}
+          />
+        )}
 
         <Reanimated.View
           layout={animPapillon(LinearTransition)}
