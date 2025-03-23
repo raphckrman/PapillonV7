@@ -38,7 +38,7 @@ import {Homework} from "@/services/shared/Homework";
 import {AccountService} from "@/stores/account/types";
 import {Screen} from "@/router/helpers/types";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
-import {NativeScrollEvent, ScrollViewProps} from "react-native/Libraries/Components/ScrollView/ScrollView";
+import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {hasFeatureAccountSetup} from "@/utils/multiservice";
 import {MultiServiceFeature} from "@/stores/multiService/types";
@@ -54,13 +54,6 @@ const MemoizedHomeworkItem = React.memo(HomeworkItem);
 const MemoizedNativeItem = React.memo(NativeItem);
 const MemoizedNativeList = React.memo(NativeList);
 const MemoizedNativeText = React.memo(NativeText);
-
-const formatDate = (date: string | number | Date): string => {
-  return new Date(date).toLocaleDateString("fr-FR", {
-    day: "numeric",
-    month: "long"
-  });
-};
 
 const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   const flatListRef: React.MutableRefObject<FlatList> = useRef(null) as any as React.MutableRefObject<FlatList>;
@@ -95,9 +88,11 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   const [selectedWeek, setSelectedWeek] = useState(currentWeek);
 
   // Filtrer les devoirs
+  const SearchRef: React.MutableRefObject<TextInput> = useRef(null) as any as React.MutableRefObject<TextInput>;
   const [showDatePickerWeek, setShowDatePickerWeek] = useState(false);
   const [hideDone, setHideDone] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
+  const [searchHasFocus, setSearchHasFocus] = useState(false);
 
   // Création de devoirs personnalisés
   const [showCreateHomework, setShowCreateHomework] = useState(false);
@@ -113,11 +108,6 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   }), [width]);
 
   const keyExtractor = useCallback((item: any) => item.toString(), []);
-
-  const getDayName = (date: string | number | Date): string => {
-    const days = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
-    return days[new Date(date).getDay()];
-  };
 
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -158,7 +148,19 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
 
   const [searchTerms, setSearchTerms] = useState("");
 
-  const renderWeek: ListRenderItem<number> = ({ item }) => {
+  const getDayName = useCallback((date: string | number | Date): string => {
+    const days = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+    return days[new Date(date).getDay()];
+  }, []);
+
+  const formatDate = useCallback((date: string | number | Date): string => {
+    return new Date(date).toLocaleDateString("fr-FR", {
+      day: "numeric",
+      month: "long",
+    });
+  }, []);
+
+  const renderWeek: ListRenderItem<number> = useCallback(({ item }) => {
     const homeworksInWeek = [...(homeworks[item] ?? [])];
     const homeworksPersonalized = account.homeworks ?? [];
 
@@ -333,22 +335,34 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         }
       </ScrollView>
     );
-  };
+  }, [
+    homeworks,
+    account.homeworks,
+    searchTerms,
+    hideDone,
+    updateHomeworks,
+    navigation,
+    getDayName,
+    formatDate,
+    insets,
+    outsideNav,
+    isOnline,
+  ]);
 
-  const onEndReached = () => {
+  const onEndReached = useCallback(() => {
     const lastWeek = data[data.length - 1];
     const newWeeks = Array.from({ length: 50 }, (_, i) => lastWeek + i + 1);
-    setData(prevData => [...prevData, ...newWeeks]);
-  };
+    setData((prevData) => [...prevData, ...newWeeks]);
+  }, [data]);
 
-  const onStartReached = () => {
+  const onStartReached = useCallback(() => {
     const firstWeek = data[0];
     const newWeeks = Array.from({ length: 50 }, (_, i) => firstWeek - 50 + i);
-    setData(prevData => [...newWeeks, ...prevData]);
+    setData((prevData) => [...newWeeks, ...prevData]);
     flatListRef.current?.scrollToIndex({ index: 50, animated: false });
-  };
+  }, [data]);
 
-  const onScroll: ScrollViewProps["onScroll"] = useCallback(({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
+  const onScroll = useCallback(({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (nativeEvent.contentOffset.x < width) {
       onStartReached();
     }
@@ -362,10 +376,6 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
     const index = Math.round(nativeEvent.contentOffset.x / width);
     setSelectedWeek(data[index]);
   }, [width, data]);
-
-  const [searchHasFocus, setSearchHasFocus] = useState(false);
-
-  const SearchRef: React.MutableRefObject<TextInput> = useRef(null) as any as React.MutableRefObject<TextInput>;
 
   return (
     <>
