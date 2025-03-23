@@ -12,14 +12,15 @@ import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import { PressableScale } from "react-native-pressable-scale";
 import { useAccounts, useCurrentAccount } from "@/stores/account";
 import { AccountService, ExternalAccount } from "@/stores/account/types";
-import { ExternalLink, MoreHorizontal, QrCode, Trash2 } from "lucide-react-native";
+import { ExternalLink, MoreVertical, QrCode, Trash2 } from "lucide-react-native";
 import { balanceFromExternal } from "@/services/balance";
 import { reservationHistoryFromExternal } from "@/services/reservation-history";
 import { Screen } from "@/router/helpers/types";
 import { LinearGradient } from "expo-linear-gradient";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import PapillonPicker from "@/components/Global/PapillonPicker";
 import { formatCardIdentifier } from "@/utils/external/restaurant";
+import PapillonHeader, { PapillonHeaderInsetHeight } from "@/components/Global/PapillonHeader";
+import PapillonPicker from "@/components/Global/PapillonPicker";
+import { PapillonHeaderAction } from "@/components/Global/PapillonModernHeader";
 
 const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigation }) => {
   try {
@@ -67,21 +68,13 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
       return unsubscribe;
     }, []);
 
-    React.useLayoutEffect(() => {
-      navigation.setOptions({
-        headerTitle: cardName ?? "Détail de la carte",
-        headerLargeTitleStyle: {
-          color: "transparent",
-        },
-        headerLargeStyle: {
-          backgroundColor: "transparent",
-        },
-        headerStyle: {
-          backgroundColor: Platform.OS === "android" ? theme.colors.card : theme.colors.card + "55",
-        },
-        headerBlurEffect: "regular",
-        headerRight: () => (
+    return (
+      <>
+        <PapillonHeader route={route} navigation={navigation} title={cardName ?? "Détail de la carte"}>
           <PapillonPicker
+            animated
+            direction="right"
+            delay={0}
             data={[
               ...card.theme.links?.map((link) => ({
                 label: link.label,
@@ -120,18 +113,11 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
               }
             ]}
           >
-            <TouchableOpacity
-              activeOpacity={0.5}
-            >
-              <MoreHorizontal opacity={0.7} size={24} color={theme.colors.text} />
-            </TouchableOpacity>
+            <PapillonHeaderAction
+              icon={<MoreVertical />}
+            />
           </PapillonPicker>
-        ),
-      });
-    }, [navigation, theme]);
-
-    return (
-      <>
+        </PapillonHeader>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={{
@@ -141,6 +127,7 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
             padding: 16,
           }}
         >
+          <PapillonHeaderInsetHeight route={route} />
           <PressableScale
             weight="light"
             activeScale={0.95}

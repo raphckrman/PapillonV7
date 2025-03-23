@@ -407,7 +407,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                       key={index}
                       card={card}
                       onPress={() => {
-                        navigation.navigate("RestaurantCardDetail", { card });
+                        navigation.navigate("RestaurantCardDetail", { card, outsideNav: true });
                       }}
                     />
                   </Reanimated.View>
