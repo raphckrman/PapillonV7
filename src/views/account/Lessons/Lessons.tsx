@@ -69,7 +69,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   }, [timetables]);
 
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  today.setUTCHours(0, 0, 0, 0);
 
   const [pickerDate, setPickerDate] = useState(new Date(today));
 
@@ -139,11 +139,11 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
     const timetable = timetables[week] || [];
 
     const newDate = new Date(date);
-    newDate.setHours(0, 0, 0, 0);
+    newDate.setUTCHours(0, 0, 0, 0);
 
     const day = timetable.filter((lesson) => {
       const lessonDate = new Date(lesson.startTimestamp);
-      lessonDate.setHours(0, 0, 0, 0);
+      lessonDate.setUTCHours(0, 0, 0, 0);
 
       return lessonDate.getTime() === newDate.getTime();
     });
@@ -157,7 +157,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
     if (flatListRef.current) {
       const normalizeDate = (date: Date) => {
         const newDate = new Date(date);
-        newDate.setHours(0, 0, 0, 0);
+        newDate.setUTCHours(0, 0, 0, 0);
         return newDate;
       };
 
@@ -179,7 +179,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
     return Array.from({ length: 100 }, (_, i) => {
       const date = new Date(today);
       date.setUTCDate(today.getUTCDate() - 50 + i);
-      date.setHours(0, 0, 0, 0);
+      date.setUTCHours(0, 0, 0, 0);
       return date;
     });
   });
@@ -274,7 +274,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
 
   const onDateSelect = (date: Date | undefined) => {
     const newDate = new Date(date || 0);
-    newDate.setHours(0, 0, 0, 0);
+    newDate.setUTCHours(0, 0, 0, 0);
     setPickerDate(newDate);
 
     const firstDate = data[0];
@@ -321,7 +321,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
           onPress={() => setShowDatePicker(true)}
           onLongPress={() => {
             const today = new Date();
-            today.setHours(0, 0, 0, 0);
+            today.setUTCHours(0, 0, 0, 0);
             onDateSelect(today);
           }}
         >
