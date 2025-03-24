@@ -144,7 +144,7 @@ const NextCourseLesson: React.FC<{
       // Schedule next update at the start of the next minute
       const nextMinute = new Date(now);
       nextMinute.setSeconds(0);
-      nextMinute.setMilliseconds(0);
+      nextMinute.setUTCMilliseconds(0);
       nextMinute.setMinutes(nextMinute.getUTCMinutes() + 1);
       const delay = nextMinute.getTime() - now;
       return setTimeout(updateRemainingTime, delay);
