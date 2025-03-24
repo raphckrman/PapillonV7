@@ -424,7 +424,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                 >
                   <PressableScale
                     onPress={() => {
-                      onDatePickerSelect(new Date(pickerDate.setDate(pickerDate.getUTCDate() - 1)));
+                      onDatePickerSelect(new Date(pickerDate.setUTCDate(pickerDate.getUTCDate() - 1)));
                       setRefreshCount(refreshCount + 1);
                     }}
                     activeScale={0.8}
@@ -468,7 +468,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                 >
                   <PressableScale
                     onPress={() => {
-                      onDatePickerSelect(new Date(pickerDate.setDate(pickerDate.getUTCDate() + 1)));
+                      onDatePickerSelect(new Date(pickerDate.setUTCDate(pickerDate.getUTCDate() + 1)));
                       setRefreshCount(refreshCount + 1);
                     }}
                     activeScale={0.8}
