@@ -58,5 +58,5 @@ export const toSkolengoDate = (date: Date): string =>
   }-${
     (date.getMonth()+1).toString().padStart(2, "0")
   }-${
-    (date.getDate()).toString().padStart(2, "0")
+    (date.getUTCDate()).toString().padStart(2, "0")
   }`;

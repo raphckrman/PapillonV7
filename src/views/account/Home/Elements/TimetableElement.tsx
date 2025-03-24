@@ -43,7 +43,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     const today = new Date();
     const date = new Date(timestamp);
     return (
-      date.getDate() === today.getDate() &&
+      date.getUTCDate() === today.getUTCDate() &&
       date.getMonth() === today.getMonth() &&
       date.getFullYear() === today.getFullYear()
     );
@@ -51,10 +51,10 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
 
   const isTomorrow = (timestamp: number) => {
     const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setDate(tomorrow.getUTCDate() + 1);
     const date = new Date(timestamp);
     return (
-      date.getDate() === tomorrow.getDate() &&
+      date.getUTCDate() === tomorrow.getUTCDate() &&
       date.getMonth() === tomorrow.getMonth() &&
       date.getFullYear() === tomorrow.getFullYear()
     );
@@ -200,7 +200,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
 
     const isTodayCourse = courseDate.toDateString() === today.toDateString();
     const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
+    tomorrow.setDate(today.getUTCDate() + 1);
 
     const isTomorrowCourse = courseDate.toDateString() === tomorrow.toDateString();
 

@@ -178,7 +178,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
     const today = new Date();
     return Array.from({ length: 100 }, (_, i) => {
       const date = new Date(today);
-      date.setDate(today.getDate() - 50 + i);
+      date.setDate(today.getUTCDate() - 50 + i);
       date.setHours(0, 0, 0, 0);
       return date;
     });
@@ -285,7 +285,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
 
     if (newDate < firstDate) {
       const dates = [];
-      for (let d = new Date(firstDate); d >= newDate; d.setDate(d.getDate() - 1)) {
+      for (let d = new Date(firstDate); d >= newDate; d.setDate(d.getUTCDate() - 1)) {
         if (!uniqueDates.has(d.getTime())) {
           dates.unshift(new Date(d));
           uniqueDates.add(d.getTime());
@@ -294,7 +294,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
       updatedData = [...dates, ...data];
     } else if (newDate > lastDate) {
       const dates = [];
-      for (let d = new Date(lastDate); d <= newDate; d.setDate(d.getDate() + 1)) {
+      for (let d = new Date(lastDate); d <= newDate; d.setDate(d.getUTCDate() + 1)) {
         if (!uniqueDates.has(d.getTime())) {
           dates.push(new Date(d));
           uniqueDates.add(d.getTime());
@@ -346,7 +346,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
           </Reanimated.View>
 
           <AnimatedNumber
-            value={pickerDate.getDate().toString()}
+            value={pickerDate.getUTCDate().toString()}
             style={[
               styles.weekPickerText,
               styles.weekPickerTextNbr,
@@ -462,7 +462,7 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
           const lastDate = data[data.length - 1];
           const newDates = Array.from({ length: 34 }, (_, i) => {
             const date = new Date(lastDate);
-            date.setDate(lastDate.getDate() + i + 1);
+            date.setDate(lastDate.getUTCDate() + i + 1);
             return date;
           });
           setData((prevData) => [...prevData, ...newDates]);

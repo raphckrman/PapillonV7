@@ -424,7 +424,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                 >
                   <PressableScale
                     onPress={() => {
-                      onDatePickerSelect(new Date(pickerDate.setDate(pickerDate.getDate() - 1)));
+                      onDatePickerSelect(new Date(pickerDate.setDate(pickerDate.getUTCDate() - 1)));
                       setRefreshCount(refreshCount + 1);
                     }}
                     activeScale={0.8}
@@ -456,7 +456,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                       </Reanimated.Text>
                     </Reanimated.View>
                   </Reanimated.View>
-                  <AnimatedNumber value={pickerDate.getDate().toString()} style={[styles.weekPickerText, { color: theme.colors.text }]} />
+                  <AnimatedNumber value={pickerDate.getUTCDate().toString()} style={[styles.weekPickerText, { color: theme.colors.text }]} />
                   <Reanimated.Text style={[styles.weekPickerText, { color: theme.colors.text }]} layout={animPapillon(LinearTransition)}>
                     {pickerDate.toLocaleDateString("fr-FR", { month: "long" })}
                   </Reanimated.Text>
@@ -468,7 +468,7 @@ const Menu: Screen<"Menu"> = ({ route, navigation }) => {
                 >
                   <PressableScale
                     onPress={() => {
-                      onDatePickerSelect(new Date(pickerDate.setDate(pickerDate.getDate() + 1)));
+                      onDatePickerSelect(new Date(pickerDate.setDate(pickerDate.getUTCDate() + 1)));
                       setRefreshCount(refreshCount + 1);
                     }}
                     activeScale={0.8}
