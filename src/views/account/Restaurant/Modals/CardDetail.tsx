@@ -263,33 +263,37 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
             )}
           </View>
 
-          {card?.balance[0].remaining !== null && card?.balance[0].remaining !== Infinity && (
-            <NativeList inline>
-              <NativeItem
-                trailing={
-                  <NativeText
-                    variant="titleLarge"
-                    style={{
-                      marginRight: 10,
-                      fontFamily: "semibold",
-                      fontSize: 26,
-                      lineHeight: 28,
-                      color: card.balance[0].remaining > 1 ? "#00C853" : "#FF1744",
-                    }}
-                  >
-                    {card.balance[0].remaining.toFixed(0)}
+          {card?.balance[0] &&
+           card?.balance[0].remaining !== null &&
+           card?.balance[0].remaining !== Infinity &&
+            (
+              <NativeList inline>
+                <NativeItem
+                  trailing={
+                    <NativeText
+                      variant="titleLarge"
+                      style={{
+                        marginRight: 10,
+                        fontFamily: "semibold",
+                        fontSize: 26,
+                        lineHeight: 28,
+                        color: card.balance[0].remaining > 1 ? "#00C853" : "#FF1744",
+                      }}
+                    >
+                      {card.balance[0].remaining.toFixed(0)}
+                    </NativeText>
+                  }
+                >
+                  <NativeText variant="title">
+                    Repas restants
                   </NativeText>
-                }
-              >
-                <NativeText variant="title">
-                  Repas restants
-                </NativeText>
-                <NativeText variant="subtitle">
-                  Tarif estimé à {card.balance[0].price?.toFixed(2)} €
-                </NativeText>
-              </NativeItem>
-            </NativeList>
-          )}
+                  <NativeText variant="subtitle">
+                    Tarif estimé à {card.balance[0].price?.toFixed(2)} €
+                  </NativeText>
+                </NativeItem>
+              </NativeList>
+            )
+          }
 
           {card?.history.length > 0 && (
             <NativeList inline>
