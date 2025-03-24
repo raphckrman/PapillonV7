@@ -145,7 +145,7 @@ const NextCourseLesson: React.FC<{
       const nextMinute = new Date(now);
       nextMinute.setSeconds(0);
       nextMinute.setMilliseconds(0);
-      nextMinute.setMinutes(nextMinute.getMinutes() + 1);
+      nextMinute.setMinutes(nextMinute.getUTCMinutes() + 1);
       const delay = nextMinute.getTime() - now;
       return setTimeout(updateRemainingTime, delay);
     };
