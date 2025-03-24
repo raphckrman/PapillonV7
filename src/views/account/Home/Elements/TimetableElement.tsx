@@ -61,7 +61,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
   };
 
   const isWeekend = (courses: TimetableClass[]) => {
-    const today = new Date().getDay();
+    const today = new Date().getUTCDay();
     return (today === 6 || today === 0) && courses.length === 0;
   };
 

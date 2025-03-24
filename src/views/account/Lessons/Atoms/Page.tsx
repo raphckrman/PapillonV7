@@ -100,7 +100,7 @@ export const Page = ({ day, date, current, paddingTop, refreshAction, loading, w
       )}
 
       {hasServiceSetup && day && day.length === 0 && current && !loading && (
-        weekExists && (new Date(date).getDay() == 6 || new Date(date).getDay() == 0) ? (
+        weekExists && (new Date(date).getUTCDay() == 6 || new Date(date).getUTCDay() == 0) ? (
           <MissingItem
             emoji="🌴"
             title="C'est le week-end !"

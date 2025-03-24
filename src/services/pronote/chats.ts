@@ -27,7 +27,7 @@ export const getChats = async (account: PronoteAccount): Promise<Array<Chat>> =>
     }
 
     const today = new Date();
-    const todayIndex = today.getDay();
+    const todayIndex = today.getUTCDay();
     const dayName = parts[0].toLowerCase();
     const targetIndex = days.indexOf(dayName);
 
