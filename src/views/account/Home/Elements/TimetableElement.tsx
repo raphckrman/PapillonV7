@@ -29,7 +29,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
 
   const ImportanceHandler = (nextCourses: TimetableClass[]) => {
     if (nextCourses.length > 0) {
-      let difference = new Date(nextCourses[0].startTimestamp).getHours() - new Date().getHours();
+      let difference = new Date(nextCourses[0].startTimestamp).getUTCHours() - new Date().getUTCHours();
       if (difference < 0) {
         difference = 0;
       }

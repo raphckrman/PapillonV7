@@ -51,7 +51,7 @@ const RestaurantQRCodeWidget = forwardRef(({
       setHidden(true);
       setLoading(true);
       const newCards: Array<ServiceCard> = [];
-      const currentHour = new Date().getHours();
+      const currentHour = new Date().getUTCHours();
       const accountPromises = linkedAccounts.map(async (account) => {
         try {
           const [cardnumber] = await Promise.all([

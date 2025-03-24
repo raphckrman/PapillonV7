@@ -209,7 +209,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
                 >
                   <NativeText variant="title">{log.message}</NativeText>
                   <NativeText variant="subtitle">
-                    {formatDate(log.date)} à {new Date(log.date).getHours()}:
+                    {formatDate(log.date)} à {new Date(log.date).getUTCHours()}:
                     {new Date(log.date).getUTCMinutes()}:
                     {new Date(log.date).getSeconds()}
                   </NativeText>

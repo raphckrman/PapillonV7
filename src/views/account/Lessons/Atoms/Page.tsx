@@ -144,7 +144,7 @@ const SeparatorCourse: React.FC<{
   end: number
 }> = ({ i, start, end }) => {
   const { colors } = useTheme();
-  const startHours = new Date(start).getHours();
+  const startHours = new Date(start).getUTCHours();
   return (
     <Reanimated.View
       style={{
