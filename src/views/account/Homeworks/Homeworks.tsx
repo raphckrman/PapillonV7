@@ -786,7 +786,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
                 homework={{
                   attachments: [],
                   color: selectedPretty.color,
-                  content: contentHomework ?? "Écris le contenu du devoir juste en-dessous :)",
+                  content: contentHomework ?? "Écris le contenu du devoir juste en-dessous",
                   done: false,
                   due: dateHomework,
                   id: String(idHomework),
