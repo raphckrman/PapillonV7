@@ -44,7 +44,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     const date = new Date(timestamp);
     return (
       date.getUTCDate() === today.getUTCDate() &&
-      date.getMonth() === today.getMonth() &&
+      date.getUTCMonth() === today.getUTCMonth() &&
       date.getFullYear() === today.getFullYear()
     );
   };
@@ -55,7 +55,7 @@ const TimetableElement: React.FC<TimetableElementProps> = ({ onImportance }) => 
     const date = new Date(timestamp);
     return (
       date.getUTCDate() === tomorrow.getUTCDate() &&
-      date.getMonth() === tomorrow.getMonth() &&
+      date.getUTCMonth() === tomorrow.getUTCMonth() &&
       date.getFullYear() === tomorrow.getFullYear()
     );
   };

@@ -80,8 +80,8 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
         (b) =>
           new Date(b.date).getUTCDate() ===
             new Date(lesson.startTimestamp).getUTCDate() &&
-          new Date(b.date).getMonth() ===
-            new Date(lesson.startTimestamp).getMonth() &&
+          new Date(b.date).getUTCMonth() ===
+            new Date(lesson.startTimestamp).getUTCMonth() &&
           lesson.subject === b.subject,
       ) ?? [],
     );
