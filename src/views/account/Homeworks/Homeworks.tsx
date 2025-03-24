@@ -103,7 +103,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   const keyExtractor = useCallback((item: any) => item.toString(), []);
 
   const getDayName = (date: string | number | Date): string => {
-    const days = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+    const days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
     return days[new Date(date).getUTCDay()];
   };
 
