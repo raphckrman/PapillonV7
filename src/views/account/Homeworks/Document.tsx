@@ -177,7 +177,12 @@ const HomeworksDocument: Screen<"HomeworksDocument"> = ({ navigation, route }) =
                   icon: <PencilLine />,
                   label: "Modifier le devoir",
                   sfSymbol: "pencil",
-                  onPress: () => setShowCreateHomework(true),
+                  onPress: () => {
+                    navigation.navigate("AddHomework", {
+                      hwid: homework.id,
+                      modal: true,
+                    });
+                  },
                 },
                 {
                   icon: <Trash2 />,

@@ -12,7 +12,8 @@ import {
   RefreshControl,
   StyleSheet,
   TextInput,
-  ListRenderItem
+  ListRenderItem,
+  Pressable
 } from "react-native";
 import { dateToEpochWeekNumber, epochWNToDate } from "@/utils/epochWeekNumber";
 
@@ -20,7 +21,7 @@ import * as StoreReview from "expo-store-review";
 
 import { PressableScale } from "react-native-pressable-scale";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Book, CheckSquare, ChevronLeft, ChevronRight, CircleDashed, Search, X } from "lucide-react-native";
+import { Book, CheckSquare, ChevronLeft, ChevronRight, CircleDashed, Plus, Search, X } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BlurView } from "expo-blur";
 
@@ -42,6 +43,7 @@ import {MultiServiceFeature} from "@/stores/multiService/types";
 import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 import { OfflineWarning, useOnlineStatus } from "@/hooks/useOnlineStatus";
 import HomeworkItem from "./Atoms/Item";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const MemoizedHomeworkItem = React.memo(HomeworkItem);
 const MemoizedNativeItem = React.memo(NativeItem);
@@ -334,6 +336,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
           </Reanimated.View>
         }
       </ScrollView>
+
     );
   }, [
     homeworks,
@@ -714,6 +717,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         </Reanimated.View>
       </PapillonModernHeader>
 
+      <AddHomeworkButton onPress={() => navigation.navigate("AddHomework")} />
+
       <FlatList
         ref={flatListRef}
         data={data}
@@ -737,6 +742,50 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         }}
       />
     </View>
+  );
+};
+
+const AddHomeworkButton: React.FC<{ onPress: () => void }> = ({ onPress }) => {
+  const theme = useTheme();
+  const insets = useSafeAreaInsets();
+  const tabBarHeight = useBottomTabBarHeight();
+
+  return (
+    <Pressable
+      onPress={() => onPress()}
+      style={({ pressed }) => [
+        {
+          position: "absolute",
+          zIndex: 999999,
+          bottom: 16,
+          right: 16,
+          transform: [{ scale: pressed ? 0.95 : 1 }],
+          opacity: pressed ? 0.8 : 1,
+          shadowColor: "#000000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.2,
+          shadowRadius: 3,
+          overflow: "visible",
+        }
+      ]}
+    >
+      <View
+        style={{
+          width: 60,
+          height: 60,
+          borderRadius: 30,
+          backgroundColor: theme.colors.primary,
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <Plus
+          color={"#fff"}
+          size={28}
+          strokeWidth={2.5}
+        />
+      </View>
+    </Pressable>
   );
 };
 

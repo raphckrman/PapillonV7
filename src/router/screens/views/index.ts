@@ -21,6 +21,7 @@ import ChatDetails from "@/views/account/Chat/Modals/ChatDetails";
 import ChatThemes from "@/views/account/Chat/Modals/ChatThemes";
 import RestaurantCardDetail from "@/views/account/Restaurant/Modals/CardDetail";
 import RestaurantPaymentSuccess from "@/views/account/Restaurant/Modals/PaymentSuccess";
+import AddHomeworkScreen from "@/views/account/Homeworks/AddHomework";
 
 export default [
   createScreen("GradeReaction", GradeReaction, {
@@ -84,6 +85,15 @@ export default [
     presentation: "modal",
     headerShown: false,
     sheetCornerRadius: 16,
+  }),
+  createScreen("AddHomework", AddHomeworkScreen, {
+    headerTitle: "Ajouter un devoir",
+    presentation: "formSheet",
+    headerShown: true,
+    sheetCornerRadius: 16,
+    sheetAllowedDetents: [0.5, 1],
+    sheetGrabberVisible: true,
+    sheetInitialDetentIndex: 0,
   }),
   createScreen("GradeSubject", GradeSubjectScreen, {
     headerTitle: "Détail de la matière",
