@@ -43,7 +43,6 @@ import {MultiServiceFeature} from "@/stores/multiService/types";
 import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 import { OfflineWarning, useOnlineStatus } from "@/hooks/useOnlineStatus";
 import HomeworkItem from "./Atoms/Item";
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const MemoizedHomeworkItem = React.memo(HomeworkItem);
 const MemoizedNativeItem = React.memo(NativeItem);
@@ -717,7 +716,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
         </Reanimated.View>
       </PapillonModernHeader>
 
-      <AddHomeworkButton onPress={() => navigation.navigate("AddHomework")} />
+      <AddHomeworkButton onPress={() => navigation.navigate("AddHomework")} outsideNav={route.params?.outsideNav} />
 
       <FlatList
         ref={flatListRef}
@@ -745,10 +744,9 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   );
 };
 
-const AddHomeworkButton: React.FC<{ onPress: () => void }> = ({ onPress }) => {
+const AddHomeworkButton: React.FC<{ onPress: () => void, outsideNav: boolean }> = ({ onPress, outsideNav }) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
-  const tabBarHeight = useBottomTabBarHeight();
 
   return (
     <Pressable
@@ -757,7 +755,7 @@ const AddHomeworkButton: React.FC<{ onPress: () => void }> = ({ onPress }) => {
         {
           position: "absolute",
           zIndex: 999999,
-          bottom: 16,
+          bottom: 16 + (outsideNav ? insets.bottom : 0),
           right: 16,
           transform: [{ scale: pressed ? 0.95 : 1 }],
           opacity: pressed ? 0.8 : 1,
