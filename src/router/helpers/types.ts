@@ -156,6 +156,7 @@ export type RouteParameters = {
   };
   RestaurantCardDetail: {
     card: ServiceCard;
+    outsideNav?: boolean;
   };
   RestaurantPaymentSuccess: {
     card: ServiceCard;
