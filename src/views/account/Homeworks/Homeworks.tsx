@@ -80,8 +80,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   let firstDate = account?.instance?.instance?.firstDate || null;
   if (!firstDate) {
     firstDate = new Date();
-    firstDate.setMonth(8);
-    firstDate.setDate(1);
+    firstDate.setUTCMonth(8);
+    firstDate.setUTCDate(1);
   }
   const firstDateEpoch = dateToEpochWeekNumber(firstDate);
 
@@ -103,8 +103,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
   const keyExtractor = useCallback((item: any) => item.toString(), []);
 
   const getDayName = (date: string | number | Date): string => {
-    const days = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
-    return days[new Date(date).getDay()];
+    const days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+    return days[new Date(date).getUTCDay()];
   };
 
   const [loading, setLoading] = useState(false);
