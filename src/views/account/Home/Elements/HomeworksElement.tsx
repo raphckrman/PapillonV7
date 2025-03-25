@@ -39,7 +39,7 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
       .filter(hw => !hw.done);
 
     const date = new Date();
-    if (date.getHours() >= 17 && date.getHours() < 22)
+    if (date.getUTCHours() >= 17 && date.getUTCHours() < 22)
       score += 4;
     if (hw.length > 0)
       score += 3;
@@ -83,7 +83,7 @@ const HomeworksElement: React.FC<HomeworksElementProps> = ({ navigation, onImpor
   );
 
   const mtn = new Date();
-  mtn.setHours(0, 0, 0, 0);
+  mtn.setUTCHours(1, 0, 0, 0);
 
   const startTime = mtn.getTime() / 1000;
   const endTime = startTime + 7 * 24 * 60 * 60 * 1000;
