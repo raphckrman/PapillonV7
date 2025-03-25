@@ -126,7 +126,10 @@ export default [
   }),
   createScreen("BackgroundIUTLannion", BackgroundIUTLannion, {
     headerTitle: "IUT de Lannion",
-    presentation: "modal",
+    presentation: "transparentModal",
+    headerShown: false,
+    animation: "fade",
+    animationDuration: 100,
   }),
   createScreen("EvaluationDocument", EvaluationDocument, {
     headerTitle: "Compétence",
