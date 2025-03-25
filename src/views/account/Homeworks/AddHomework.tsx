@@ -127,7 +127,14 @@ const AddHomeworkScreen: Screen<"AddHomework"> = ({ route, navigation }) => {
         <NativeItem
           icon={<BookOpen size={22} strokeWidth={2} />}
           trailing={
-            <View>
+            <View
+              style={[
+                Platform.OS === "android" && {
+                  width: "50%",
+                  minWidth: 200,
+                }
+              ]}
+            >
               {Platform.OS === "ios" ? (
                 <PapillonPicker
                   data={Object.entries(localSubjects).map(([key, subject]) => ({
