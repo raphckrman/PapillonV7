@@ -7,7 +7,7 @@ import { useHomeworkStore } from "@/stores/homework";
 import { useCurrentAccount } from "@/stores/account";
 
 import { useTheme } from "@react-navigation/native";
-import { ActivityIndicator, Alert, Platform, TextInput, View } from "react-native";
+import { ActivityIndicator, Alert, Dimensions, Platform, TextInput, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import PapillonPicker from "@/components/Global/PapillonPicker";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -132,6 +132,9 @@ const AddHomeworkScreen: Screen<"AddHomework"> = ({ route, navigation }) => {
                 Platform.OS === "android" && {
                   width: "50%",
                   minWidth: 200,
+                },
+                {
+                  maxWidth: Dimensions.get("window").width - 200,
                 }
               ]}
             >
@@ -150,6 +153,7 @@ const AddHomeworkScreen: Screen<"AddHomework"> = ({ route, navigation }) => {
                       gap: 8,
                       paddingVertical: 9,
                       paddingHorizontal: 6,
+                      alignSelf: "flex-end",
                     }}
                   >
                     <View
@@ -161,7 +165,7 @@ const AddHomeworkScreen: Screen<"AddHomework"> = ({ route, navigation }) => {
                       }}
                     />
 
-                    <NativeText variant="overtitle">
+                    <NativeText variant="overtitle" numberOfLines={1}>
                       {selectedPretty?.pretty}
                     </NativeText>
                   </Pressable>
