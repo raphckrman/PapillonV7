@@ -1,4 +1,4 @@
-import { Alert, Image, Linking, Platform, ScrollView, Text, View } from "react-native";
+import { Alert, Image, Linking, Platform, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import MenuCard from "../Cards/Card";
 import Reanimated from "react-native-reanimated";
 import React, { useState } from "react";
@@ -12,7 +12,7 @@ import InsetsBottomView from "@/components/Global/InsetsBottomView";
 import { PressableScale } from "react-native-pressable-scale";
 import { useAccounts, useCurrentAccount } from "@/stores/account";
 import { AccountService, ExternalAccount } from "@/stores/account/types";
-import { ExternalLink, MoreVertical, QrCode, Trash2 } from "lucide-react-native";
+import { ExternalLink, MoreHorizontal, MoreVertical, QrCode, Trash2 } from "lucide-react-native";
 import { balanceFromExternal } from "@/services/balance";
 import { reservationHistoryFromExternal } from "@/services/reservation-history";
 import { Screen } from "@/router/helpers/types";
@@ -33,6 +33,68 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
     const removeAccount = useAccounts((state) => state.remove);
 
     const cardName = `Carte ${AccountService[route.params.card.service as AccountService]} ${account?.identity?.firstName ? "de " + account.identity.firstName : ""}`;
+
+    React.useLayoutEffect(() => {
+      if(Platform.OS === "ios") {
+        navigation.setOptions({
+          headerTitle: cardName ?? "Détail de la carte",
+          headerLargeTitleStyle: {
+            color: "transparent",
+          },
+          headerLargeStyle: {
+            backgroundColor: "transparent",
+          },
+          headerBlurEffect: "regular",
+          headerRight: () => (
+            <PapillonPicker
+              data={[
+                ...card.theme.links?.map((link) => ({
+                  label: link.label,
+                  subtitle: link.subtitle,
+                  sfSymbol: link.sfSymbol,
+                  icon: <ExternalLink />,
+                  onPress: () => Linking.openURL(link.url),
+                })) ?? [],
+                {
+                  label: "Supprimer",
+                  icon: <Trash2 />,
+                  sfSymbol: "trash",
+                  destructive: true,
+                  onPress: () => {
+                    Alert.alert(
+                      "Supprimer la carte",
+                      "Veux-tu vraiment supprimer la " + (cardName ?? "carte") + " ?",
+                      [
+                        { text: "Annuler", style: "cancel" },
+                        {
+                          text: "Supprimer",
+                          style: "destructive",
+                          onPress: () => {
+                            try {
+                              removeAccount(card.account?.localID as string);
+                              navigation.goBack();
+                            }
+                            catch (e) {
+                              console.log(e);
+                            }
+                          }
+                        }
+                      ]
+                    );
+                  }
+                }
+              ]}
+            >
+              <TouchableOpacity
+                activeOpacity={0.5}
+              >
+                <MoreHorizontal opacity={0.7} size={24} color={theme.colors.text} />
+              </TouchableOpacity>
+            </PapillonPicker>
+          ),
+        });
+      }
+    }, [navigation, theme]);
 
     const updateCardData = async () => {
       try {
@@ -70,54 +132,56 @@ const RestaurantCardDetail: Screen<"RestaurantCardDetail"> = ({ route, navigatio
 
     return (
       <>
-        <PapillonHeader route={route} navigation={navigation} title={cardName ?? "Détail de la carte"}>
-          <PapillonPicker
-            animated
-            direction="right"
-            delay={0}
-            data={[
-              ...card.theme.links?.map((link) => ({
-                label: link.label,
-                subtitle: link.subtitle,
-                sfSymbol: link.sfSymbol,
-                icon: <ExternalLink />,
-                onPress: () => Linking.openURL(link.url),
-              })) ?? [],
-              {
-                label: "Supprimer",
-                icon: <Trash2 />,
-                sfSymbol: "trash",
-                destructive: true,
-                onPress: () => {
-                  Alert.alert(
-                    "Supprimer la carte",
-                    "Veux-tu vraiment supprimer la " + (cardName ?? "carte") + " ?",
-                    [
-                      { text: "Annuler", style: "cancel" },
-                      {
-                        text: "Supprimer",
-                        style: "destructive",
-                        onPress: () => {
-                          try {
-                            removeAccount(card.account?.localID as string);
-                            navigation.goBack();
-                          }
-                          catch (e) {
-                            console.log(e);
+        {Platform.OS === "android" && (
+          <PapillonHeader route={route} navigation={navigation} title={cardName ?? "Détail de la carte"}>
+            <PapillonPicker
+              animated
+              direction="right"
+              delay={0}
+              data={[
+                ...card.theme.links?.map((link) => ({
+                  label: link.label,
+                  subtitle: link.subtitle,
+                  sfSymbol: link.sfSymbol,
+                  icon: <ExternalLink />,
+                  onPress: () => Linking.openURL(link.url),
+                })) ?? [],
+                {
+                  label: "Supprimer",
+                  icon: <Trash2 />,
+                  sfSymbol: "trash",
+                  destructive: true,
+                  onPress: () => {
+                    Alert.alert(
+                      "Supprimer la carte",
+                      "Veux-tu vraiment supprimer la " + (cardName ?? "carte") + " ?",
+                      [
+                        { text: "Annuler", style: "cancel" },
+                        {
+                          text: "Supprimer",
+                          style: "destructive",
+                          onPress: () => {
+                            try {
+                              removeAccount(card.account?.localID as string);
+                              navigation.goBack();
+                            }
+                            catch (e) {
+                              console.log(e);
+                            }
                           }
                         }
-                      }
-                    ]
-                  );
+                      ]
+                    );
+                  }
                 }
-              }
-            ]}
-          >
-            <PapillonHeaderAction
-              icon={<MoreVertical />}
-            />
-          </PapillonPicker>
-        </PapillonHeader>
+              ]}
+            >
+              <PapillonHeaderAction
+                icon={<MoreVertical />}
+              />
+            </PapillonPicker>
+          </PapillonHeader>
+        )}
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={{
