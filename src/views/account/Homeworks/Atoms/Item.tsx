@@ -196,7 +196,7 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total }
         <Reanimated.View style={{ flex: 1, gap: 4 }} layout={animPapillon(LinearTransition)}>
           <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
             {homework.personalizate && (
-              <PencilLine color={theme.colors.text} />
+              <PencilLine color={subjectData.color} size={20} strokeWidth={2} style={{marginRight: -4}} />
             )}
             <NativeText variant="overtitle" style={{ color: subjectData.color, flex: 1 }} numberOfLines={1}>
               {subjectData.pretty}
