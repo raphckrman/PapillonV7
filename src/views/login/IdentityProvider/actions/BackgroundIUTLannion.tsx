@@ -210,7 +210,7 @@ const BackgroundIUTLannion: Screen<"BackgroundIUTLannion"> = ({ route, navigatio
       personalization: await defaultPersonalization({
         tabs: [
           { name: "Home", enabled: true },
-          { name: "Week", enabled: true },
+          { name: "Lessons", enabled: true },
           { name: "Grades", enabled: true },
           { name: "Attendance", enabled: true },
           { name: "Menu", enabled: true }
