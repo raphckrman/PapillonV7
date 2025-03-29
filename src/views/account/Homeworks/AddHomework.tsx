@@ -41,11 +41,13 @@ const AddHomeworkScreen: Screen<"AddHomework"> = ({ route, navigation }) => {
       const homework = allHomeworks.find(hw => hw.id === route.params?.hwid);
       if (homework) {
         setSelectedPretty(localSubjects[homework.subject]);
-        setIdHomework(Number(homework.id));
+        setIdHomework(parseInt(homework.id));
         setContentHomework(homework.content);
         setDateHomework(homework.due);
         setCurrentHw(homework);
       }
+    } else {
+      setIdHomework(Math.random() * 1000 + 1);
     }
   }, [route.params?.hwid]);
 
