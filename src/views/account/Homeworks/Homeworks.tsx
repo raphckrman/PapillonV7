@@ -169,7 +169,10 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
     );
 
     const groupedHomework = sortedHomework.reduce((acc, curr) => {
-      const dayName = getDayName(curr.due);
+      const dayName = getDayName(curr.personalizate
+        ? curr.due - 86400
+        : curr.due
+      );
       const formattedDate = formatDate(curr.due);
       const day = `${dayName} ${formattedDate}`;
 
