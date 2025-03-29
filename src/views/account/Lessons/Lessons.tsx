@@ -138,14 +138,21 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
     const week = getWeekFromDate(date);
     const timetable = timetables[week] || [];
 
-    const newDate = new Date(date);
-    newDate.setUTCHours(0, 0, 0, 0);
+    const newDate = Date.UTC(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+    );
 
     const day = timetable.filter((lesson) => {
-      const lessonDate = new Date(lesson.startTimestamp);
-      lessonDate.setUTCHours(0, 0, 0, 0);
+      const startTimetableDate = new Date(lesson.startTimestamp);
+      const lessonDate = Date.UTC(
+        startTimetableDate.getFullYear(),
+        startTimetableDate.getMonth(),
+        startTimetableDate.getDate(),
+      );
 
-      return lessonDate.getTime() === newDate.getTime();
+      return lessonDate === newDate;
     });
 
     return day;
