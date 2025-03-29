@@ -219,8 +219,12 @@ const AddHomeworkScreen: Screen<"AddHomework"> = ({ route, navigation }) => {
                 onChange={(_event, selectedDate) => {
                   setShowDatePicker(false);
                   if (selectedDate) {
-                    selectedDate.setHours(0, 0, 0, 0);
-                    setDateHomework(selectedDate.getTime());
+                    const dateSelected = Date.UTC(
+                      selectedDate.getFullYear(),
+                      selectedDate.getMonth(),
+                      selectedDate.getDate(),
+                    );
+                    setDateHomework(dateSelected);
                   }
                 }}
               />
