@@ -350,7 +350,7 @@ const Home: Screen<"HomeScreen"> = ({ navigation }) => {
             setCanHaptics(true);
           }
 
-          setModalOpen(scrollY >= 180 + insets.top);
+          setModalOpen(scrollY >= 170 + insets.top);
           setModalFull(scrollY >= 265 + insets.top);
         }}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => setRefreshing(true)} style={{ zIndex: 100 }} progressViewOffset={285 + insets.top} />}
