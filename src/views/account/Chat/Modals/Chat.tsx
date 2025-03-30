@@ -67,8 +67,7 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
 
   useEffect(() => {
     setDisabled(text.trim() === "" || account.service === AccountService.EcoleDirecte);
-  }, [text]);
-
+  }, [text, account.service]);
   const creatorName = route.params.handle.creator === account.name ? route.params.handle.recipient : route.params.handle.creator;
   const backgroundImage = theme.dark
     ? { uri: `${chatTheme?.darkModifier.chatBackgroundImage}` }
