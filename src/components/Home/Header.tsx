@@ -130,7 +130,7 @@ const Header: React.FC<{
               showsHorizontalScrollIndicator={false}
               style={[styles.part, styles.buttons]}
               contentContainerStyle={{
-                gap: 10,
+                gap: 7,
                 paddingHorizontal: 16,
                 overflow: "visible",
               }}
@@ -182,8 +182,8 @@ const Header: React.FC<{
                   flexDirection: "row",
                   backgroundColor: "#ffffff00",
                   borderColor: "#ffffff50",
-                  borderWidth: 1.5,
-                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderRadius: 100,
                   borderCurve: "continuous",
                   gap: 12,
                   paddingHorizontal: 12,
@@ -327,9 +327,8 @@ const HeaderButton: React.FC<{
             style={[
               styles.headerButton,
               {
-                backgroundColor: "#ffffff20",
+                backgroundColor: "#ffffff22",
                 borderColor: "#ffffff50",
-                borderWidth: 1,
               }
             ]}
           >
@@ -352,6 +351,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     paddingVertical: 16,
+    paddingTop: 14,
     gap: 12,
 
     justifyContent: "flex-start",
@@ -394,9 +394,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     gap: 12,
-    borderRadius: 10,
+    borderRadius: 120,
     borderCurve: "continuous",
     borderWidth: 1,
   },

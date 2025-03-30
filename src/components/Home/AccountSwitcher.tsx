@@ -95,27 +95,29 @@ const AccountSwitcher: React.FC<{
   return (
     <Reanimated.View
       style={{
-        backgroundColor: opened
-          ? theme.dark && !modalOpen
-            ? "#00000044"
-            : "#FFFFFF22"
-          : modalOpen
-            ? colors.text + "10"
-            : "#FFFFFF12",
+        backgroundColor:
+          theme.dark ? colors.background : colors.card,
         borderRadius: 12,
         borderCurve: "continuous",
-        overflow: "hidden",
+        overflow: "visible",
         alignSelf: "flex-start",
+        shadowColor: "black",
+        shadowOffset: { width: 0, height: 1 },
+        shadowRadius: 4,
+        shadowOpacity: 0.12,
+        borderColor: modalOpen ? colors.border : "transparent",
+        borderWidth: 1,
       }}
       layout={animPapillon(LinearTransition)}
     >
-      <ReanimatedBlurView
-        tint="default"
-        experimentalBlurMethod="dimezisBlurView"
+      <Reanimated.View
         style={{
           paddingHorizontal: 2,
           paddingVertical: 0,
           alignSelf: "flex-start",
+          borderRadius: 12,
+          borderCurve: "continuous",
+          overflow: "hidden",
         }}
         layout={animPapillon(LinearTransition)}
       >
@@ -126,7 +128,6 @@ const AccountSwitcher: React.FC<{
             loading && { shadowOpacity: 0 },
             small && {
               paddingHorizontal: 0,
-              shadowOpacity: 0,
               elevation: 0,
               borderRadius: 0,
               paddingVertical: 0,
@@ -141,7 +142,7 @@ const AccountSwitcher: React.FC<{
             {renderProfilePicture()}
             <Reanimated.Text
               style={{
-                color: modalOpen && !opened ? colors.text : "#FFF",
+                color: colors.text,
                 fontSize: 16,
                 fontFamily: "semibold",
                 maxWidth: 140,
@@ -157,7 +158,7 @@ const AccountSwitcher: React.FC<{
               <PapillonSpinner
                 size={20}
                 strokeWidth={3}
-                color={modalOpen && !opened ? colors.text : "#FFF"}
+                color={colors.text}
                 animated
                 entering={animPapillon(ZoomIn)}
                 exiting={animPapillon(ZoomOut)}
@@ -168,12 +169,12 @@ const AccountSwitcher: React.FC<{
                 size={24}
                 strokeWidth={2.3}
                 style={iconAnimatedStyle}
-                color={modalOpen && !opened ? colors.text : "#FFF"}
+                color={colors.text}
               />
             </Reanimated.View>
           </Reanimated.View>
         </Reanimated.View>
-      </ReanimatedBlurView>
+      </Reanimated.View>
     </Reanimated.View>
   );
 };
