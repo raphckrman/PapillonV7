@@ -63,6 +63,11 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
   const [text, setText] = useState<string>("");
   const [recipients, setRecipients] = useState<ChatRecipient[]>([]);
   const [chatTheme, setActualTheme] = useState<Theme>();
+  const [disabled, setDisabled] = useState<boolean>(false);
+
+  useEffect(() => {
+    setDisabled(text.trim() === "" || account.service === AccountService.EcoleDirecte);
+  }, [text]);
 
   const creatorName = route.params.handle.creator === account.name ? route.params.handle.recipient : route.params.handle.creator;
   const backgroundImage = theme.dark
@@ -373,7 +378,7 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
               >
                 <TouchableOpacity
                   style={{
-                    backgroundColor: theme.dark ? chatTheme?.darkModifier.sendButtonBackgroundColor : chatTheme?.lightModifier.sendButtonBackgroundColor,
+                    backgroundColor: disabled ? colors.text + "70" : theme.dark ? chatTheme?.darkModifier.sendButtonBackgroundColor : chatTheme?.lightModifier.sendButtonBackgroundColor,
                     width: 56,
                     height: 40,
                     borderRadius: 32,
@@ -384,8 +389,9 @@ const Chat: Screen<"Chat"> = ({ navigation, route }) => {
                   onPress={() => {
                     sendMessageInChat(account, route.params.handle, text);
                   }}
+                  disabled={disabled}
                 >
-                  <Send color={"#FFF"} size={24} style={{marginTop: 1, marginLeft: -3}}/>
+                  <Send color={disabled ? "#FFFFFF90" : "#FFF"} size={24} style={{marginTop: 1, marginLeft: -3}}/>
                 </TouchableOpacity>
               </View>
             </View>
