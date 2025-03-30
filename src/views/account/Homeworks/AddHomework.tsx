@@ -48,7 +48,7 @@ const AddHomeworkScreen: Screen<"AddHomework"> = ({ route, navigation }) => {
         setCurrentHw(homework);
       }
     } else {
-      setIdHomework(Math.floor(Math.random() * 1000 + 1));
+      setIdHomework(Math.floor(Math.random() * 100000 + 1));
     }
   }, [route.params?.hwid]);
 
