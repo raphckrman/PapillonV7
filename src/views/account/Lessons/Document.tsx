@@ -12,6 +12,7 @@ import {
   Platform,
   Linking,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { getSubjectData } from "@/services/shared/Subject";
 import { Screen } from "@/router/helpers/types";
@@ -58,6 +59,7 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
   const lesson = route.params.lesson as unknown as TimetableClass;
   const subjects = useClassSubjectStore();
   const [classSubjects, setClassSubjects] = useState<ClassSubject[]>([]);
+  const [loading, setLoading] = useState(true);
   const [ressource, setRessource] = useState<TimetableRessource[] | undefined>(undefined);
   const account = useCurrentAccount((store) => store.account!);
 
@@ -89,6 +91,8 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
             lesson.subject === b.subject,
         ) ?? [],
       );
+
+      setLoading(false);
     };
 
     fetchData();
@@ -273,6 +277,13 @@ const LessonDocument: Screen<"LessonDocument"> = ({ route, navigation }) => {
             </View>
           );
         })}
+        {loading && (
+          <ActivityIndicator
+            size="large"
+            color={theme.colors.primary}
+            style={{ marginTop: 10 }}
+          />
+        )}
         {(classSubjects.length > 0 || (ressource?.length ?? 0) > 0) && (
           <View>
             <NativeListHeader label="Contenu de séance" />
