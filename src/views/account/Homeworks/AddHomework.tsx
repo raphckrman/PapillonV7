@@ -48,7 +48,25 @@ const AddHomeworkScreen: Screen<"AddHomework"> = ({ route, navigation }) => {
         setCurrentHw(homework);
       }
     } else {
-      setIdHomework(Math.floor(Math.random() * 100000 + 1));
+      let createId: number = Math.floor(Math.random() * 100000 + 1);
+      let idAlreadyExist = useHomeworkStore
+        .getState()
+        .existsHomework(
+          dateToEpochWeekNumber(new Date(dateHomework)),
+          String(createId)
+        );
+
+      while (idAlreadyExist) {
+        createId = Math.floor(Math.random() * 100000 + 1);
+        idAlreadyExist = useHomeworkStore
+          .getState()
+          .existsHomework(
+            dateToEpochWeekNumber(new Date(dateHomework)),
+            String(createId)
+          );
+      }
+
+      setIdHomework(createId);
     }
   }, [route.params?.hwid]);
 
