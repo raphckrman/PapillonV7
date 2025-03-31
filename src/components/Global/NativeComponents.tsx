@@ -6,11 +6,6 @@ import { ChevronRight } from "lucide-react-native";
 import { animPapillon } from "@/utils/ui/animations";
 import { LinearGradient } from "expo-linear-gradient";
 
-/**
- * Pour une raison quelconque, Reanimated n'epxose
- * pas ce type donc on doit aller le chercher
- * manuellement.
- */
 type EntryOrExitLayoutType = NonNullable<AnimatedProps<{}>["entering"]>;
 
 interface NativeListProps {
@@ -23,7 +18,7 @@ interface NativeListProps {
   exiting?: EntryOrExitLayoutType;
 }
 
-export const NativeList: React.FC<NativeListProps> = ({
+const NativeList: React.FC<NativeListProps> = ({
   children,
   style,
   inline,
@@ -35,7 +30,7 @@ export const NativeList: React.FC<NativeListProps> = ({
   const theme = useTheme();
   const { colors } = theme;
 
-  const listStyle: StyleProp<ViewStyle> = useMemo(() => [
+  const listStyle = useMemo(() => [
     list_styles.list,
     {
       borderWidth: 0.5,
@@ -55,7 +50,7 @@ export const NativeList: React.FC<NativeListProps> = ({
   const childrenWithProps = useMemo(() => Children.map(children, (child, index) => {
     if (!isValidElement(child)) return null;
 
-    const newChild = child && React.cloneElement(child as React.ReactElement<any>, {
+    const newChild = React.cloneElement(child as React.ReactElement<any>, {
       separator: (child.props.separator !== false) && index < (React.Children.count(children) - 1),
     });
 
@@ -103,15 +98,15 @@ interface NativeListHeaderProps {
   style?: StyleProp<ViewStyle>
 }
 
-export const NativeListHeader: React.FC<NativeListHeaderProps> = ({ icon, label, leading, trailing, animated, layout, entering, exiting, style }) => {
+const NativeListHeader: React.FC<NativeListHeaderProps> = ({ icon, label, leading, trailing, animated, layout, entering, exiting, style }) => {
   const theme = useTheme();
   const { colors } = theme;
 
-  let newIcon = useMemo(() => icon && React.cloneElement(icon as React.ReactElement<any>, {
+  const newIcon = useMemo(() => icon && React.cloneElement(icon as React.ReactElement<any>, {
     size: 20,
     strokeWidth: 2.2,
     color: colors.text,
-  }), [icon]);
+  }), [icon, colors]);
 
   return (
     <Reanimated.View
@@ -121,15 +116,11 @@ export const NativeListHeader: React.FC<NativeListHeaderProps> = ({ icon, label,
       exiting={exiting}
     >
       {icon && (
-        <View
-          style={list_header_styles.icon}
-        >
+        <View style={list_header_styles.icon}>
           {newIcon}
         </View>
       )}
-
       {leading}
-
       <Text
         style={[
           { color: colors.text },
@@ -139,13 +130,7 @@ export const NativeListHeader: React.FC<NativeListHeaderProps> = ({ icon, label,
       >
         {label}
       </Text>
-
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "flex-end",
-        }}
-      >
+      <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
         {trailing}
       </View>
     </Reanimated.View>
@@ -156,16 +141,11 @@ type NativePressableProps = React.ComponentProps<typeof Pressable> & {
   androidStyle?: StyleProp<ViewStyle>
 };
 
-export const NativePressable: React.FC<NativePressableProps> = (props) => {
+const NativePressable: React.FC<NativePressableProps> = (props) => {
   if (Platform.OS === "android") {
     return (
       <TouchableNativeFeedback {...props as React.ComponentProps<typeof TouchableNativeFeedback>}>
-        <View
-          style={[{
-            flexDirection: "row",
-            alignItems: "center",
-          }, props.style as StyleProp<ViewStyle>, props.androidStyle]}
-        >
+        <View style={[{ flexDirection: "row", alignItems: "center" }, props.style as StyleProp<ViewStyle>, props.androidStyle]}>
           {props.children as ReactNode}
         </View>
       </TouchableNativeFeedback>
@@ -204,7 +184,7 @@ interface NativeItemProps {
   pointerEvents?: any;
 }
 
-export const NativeItem: React.FC<NativeItemProps> = ({
+const NativeItem: React.FC<NativeItemProps> = ({
   children,
   onPress,
   onLongPress,
@@ -234,13 +214,13 @@ export const NativeItem: React.FC<NativeItemProps> = ({
   return (
     <Reanimated.View
       layout={animated && animPapillon(LinearTransition)}
-      entering={entering && entering}
-      exiting={exiting && exiting}
+      entering={entering}
+      exiting={exiting}
       pointerEvents={pointerEvents}
     >
       <NativePressable
-        onPress={!disabled ? onPress : () => {}}
-        onLongPress={!disabled ? onLongPress : () => {}}
+        onPress={!disabled ? onPress : undefined}
+        onLongPress={!disabled ? onLongPress : undefined}
         delayLongPress={delayLongPress}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
@@ -258,22 +238,20 @@ export const NativeItem: React.FC<NativeItemProps> = ({
       >
         <View style={[item_styles.part, item_styles.leading]}>
           {leading && !icon && leading}
-
           {icon && React.isValidElement(icon) && (
             React.cloneElement(icon as React.ReactElement<any>, {
               size: icon.props.size || 24,
               color: icon.props.color || colors.text,
-              style: icon.props.style || {
+              style: {
                 ...icon.props.style,
                 marginRight: 16,
                 opacity: 0.8,
                 marginLeft: 0,
+                ...iconStyle,
               },
-              ...iconStyle
             })
           )}
         </View>
-
         <View style={[
           {
             flex: 1,
@@ -287,32 +265,22 @@ export const NativeItem: React.FC<NativeItemProps> = ({
           },
           !leading && { marginLeft: -15 },
         ]}>
-
-          <View style={[
-            item_styles.part,
-            item_styles.content
-          ]}>
+          <View style={[item_styles.part, item_styles.content]}>
             {title && (
               <NativeText variant="title">
                 {title}
               </NativeText>
             )}
-
             {subtitle && (
               <NativeText variant="subtitle">
                 {subtitle}
               </NativeText>
             )}
-
             {children}
           </View>
-
-          <View style={[item_styles.part, item_styles.trailing, {
-            paddingRight: endPadding ?? 9,
-          }]}>
+          <View style={[item_styles.part, item_styles.trailing, { paddingRight: endPadding ?? 9 }]}>
             {trailing}
           </View>
-
           {onPress && chevron !== false && (
             <ChevronRight
               size={24}
@@ -336,18 +304,16 @@ interface NativeIconProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export const NativeIcon: React.FC<NativeIconProps> = ({ icon, color, style }) => {
+const NativeIcon: React.FC<NativeIconProps> = ({ icon, color, style }) => {
   return (
-    <View
-      style={[{
-        backgroundColor: color,
-        borderRadius: 9,
-        width: 36,
-        height: 36,
-        justifyContent: "center",
-        alignItems: "center",
-      }, style]}
-    >
+    <View style={[{
+      backgroundColor: color,
+      borderRadius: 9,
+      width: 36,
+      height: 36,
+      justifyContent: "center",
+      alignItems: "center",
+    }, style]}>
       {React.cloneElement(icon as React.ReactElement<any>, {
         size: 22,
         strokeWidth: 2.4,
@@ -364,7 +330,7 @@ interface NativeIconGradientprops {
   style?: StyleProp<ViewStyle>;
 }
 
-export const NativeIconGradient: React.FC<NativeIconGradientprops> = ({ icon, colors, locations, style }) => {
+const NativeIconGradient: React.FC<NativeIconGradientprops> = ({ icon, colors, locations, style }) => {
   return (
     <LinearGradient
       colors={colors || ["#000", "#000"]}
@@ -399,56 +365,26 @@ interface NativeTextProps {
   exiting?: EntryOrExitLayoutType;
 }
 
-export const NativeText: React.FC<NativeTextProps> = (props) => {
+const NativeText: React.FC<NativeTextProps> = (props) => {
   const theme = useTheme();
   const { colors } = theme;
 
-  let fontStyle: TextStyle = {};
-
-  switch (props.variant) {
-    case "title":
-      fontStyle = {
-        fontFamily: "semibold",
-        fontSize: 17,
-        lineHeight: 20,
-      };
-      break;
-    case "titleLarge":
-      fontStyle = {
-        fontFamily: "semibold",
-        fontSize: 19,
-        lineHeight: 24,
-      };
-      break;
-    case "titleLarge2":
-      fontStyle = {
-        fontFamily: "bold",
-        fontSize: 24,
-        lineHeight: 28,
-      };
-      break;
-    case "subtitle":
-      fontStyle = {
-        fontFamily: "medium",
-        fontSize: 15,
-        lineHeight: 18,
-        opacity: 0.6,
-      };
-      break;
-    case "overtitle":
-      fontStyle = {
-        fontFamily: "semibold",
-        fontSize: 16,
-        lineHeight: 18,
-      };
-      break;
-    default:
-      fontStyle = {
-        fontFamily: "medium",
-        fontSize: 16,
-        lineHeight: 19,
-      };
-  }
+  const fontStyle = useMemo(() => {
+    switch (props.variant) {
+      case "title":
+        return { fontFamily: "semibold", fontSize: 17, lineHeight: 20 };
+      case "titleLarge":
+        return { fontFamily: "semibold", fontSize: 19, lineHeight: 24 };
+      case "titleLarge2":
+        return { fontFamily: "bold", fontSize: 24, lineHeight: 28 };
+      case "subtitle":
+        return { fontFamily: "medium", fontSize: 15, lineHeight: 18, opacity: 0.6 };
+      case "overtitle":
+        return { fontFamily: "semibold", fontSize: 16, lineHeight: 18 };
+      default:
+        return { fontFamily: "medium", fontSize: 16, lineHeight: 19 };
+    }
+  }, [props.variant]);
 
   return (
     <Reanimated.Text
@@ -522,3 +458,5 @@ const item_styles = StyleSheet.create({
     paddingVertical: 10,
   }
 });
+
+export { NativeList, NativeListHeader, NativePressable, NativeItem, NativeIcon, NativeIconGradient, NativeText };
