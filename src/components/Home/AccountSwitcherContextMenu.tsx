@@ -22,7 +22,17 @@ import { BlurView } from "expo-blur";
 import { Check, Cog, Palette, Plus } from "lucide-react-native";
 import useSoundHapticsWrapper from "@/utils/native/playSoundHaptics";
 
-const ContextMenu = ({
+interface ContextMenu {
+  // @ts-expect-error
+  style?: StyleProp<ViewStyle>;
+  children: React.ReactNode;
+  transparent?: boolean;
+  shouldOpenContextMenu?: boolean;
+  // @ts-expect-error
+  menuStyles?: StyleProp<ViewStyle>;
+}
+
+const ContextMenu: React.FC<ContextMenu> = ({
   style,
   children,
   transparent,

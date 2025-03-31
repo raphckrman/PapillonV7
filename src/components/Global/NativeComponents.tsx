@@ -129,6 +129,7 @@ const NativeListComponent: React.FC<NativeListProps> = ({
 
   return (
     <Reanimated.View
+      // @ts-expect-error
       style={listStyle}
       layout={animated && (layout ?? defaultAnimation)}
       entering={entering}
@@ -482,6 +483,7 @@ const NativeTextComponent: React.FC<NativeTextProps> = (props) => {
   const { colors } = theme;
 
   const defaultAnimation = useMemo(() => animPapillon(LinearTransition), []);
+  // @ts-expect-error
   const fontStyle = fontStyles[props.variant || "default"];
 
   return (

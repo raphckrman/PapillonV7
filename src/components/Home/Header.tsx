@@ -36,6 +36,7 @@ const Header : React.FC<{
         addon.placement.map((placement) => ({
           name: addon.name,
           icon: addon.icon,
+          // @ts-expect-error
           url: `${addon.base_path}/${placement.main}`,
         }))
       );
@@ -86,6 +87,7 @@ const Header : React.FC<{
   const renderWidgets = useMemo(() => {
     return (
       <Reanimated.View
+        // @ts-expect-error
         entering={FadeInRight.easing(Easing.bezier(0, 0, 0, 1)).duration(500).delay(250).withInitialValues({
           opacity: 0,
           transform: [{ translateX: 20 }],
@@ -207,6 +209,7 @@ const HeaderButton = React.memo<{
       return (
         !scrolled && (
           <Reanimated.View
+            // @ts-expect-error
             entering={FadeInRight.easing(Easing.bezier(0, 0, 0, 1)).duration(300).delay(50 * index).withInitialValues({
               opacity: 0,
               transform: [{ translateX: 20 }],

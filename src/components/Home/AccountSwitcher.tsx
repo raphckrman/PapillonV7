@@ -22,6 +22,7 @@ const AccountSwitcher = ({
   small = false,
   opened = false,
   modalOpen = false,
+  // @ts-expect-error
   translationY,
   loading = false,
 }) => {

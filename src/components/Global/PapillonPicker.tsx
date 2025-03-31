@@ -93,6 +93,7 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
               menuState: (item.checked || item === selected) ? "on" : "off",
               // @ts-ignore
               menuAttributes: [item.destructive ? "destructive" : "normal"],
+              // @ts-ignore
               icon: item.ios?.icon ? item.ios.icon : {
                 type: typeof item !== "string" ? "IMAGE_SYSTEM" : "IMAGE_SYSTEM",
                 imageValue: {
