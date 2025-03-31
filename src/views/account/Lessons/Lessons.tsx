@@ -59,24 +59,29 @@ const Lessons: Screen<"Lessons"> = ({ route, navigation }) => {
   const [maxEndTime, setMaxEndTime] = useState(0);
 
   useEffect(() => {
-    const lessons = Object.values(timetables).flat();
+    try {
+      const lessons = Object.values(timetables).flat();
 
-    if (lessons.length > 0) {
-      const startTimes = lessons.map((lesson) => {
-        const startDate = new Date(lesson.startTimestamp);
-        return startDate.getHours() * 60 + startDate.getMinutes();
-      });
+      if (lessons.length > 0) {
+        const startTimes = lessons.map((lesson) => {
+          const startDate = new Date(lesson.startTimestamp);
+          return startDate.getHours() * 60 + startDate.getMinutes();
+        });
 
-      const endTimes = lessons.map((lesson) => {
-        const endDate = new Date(lesson.endTimestamp);
-        return endDate.getHours() * 60 + endDate.getMinutes();
-      });
+        const endTimes = lessons.map((lesson) => {
+          const endDate = new Date(lesson.endTimestamp);
+          return endDate.getHours() * 60 + endDate.getMinutes();
+        });
 
-      const maxStart = Math.min(...startTimes);
-      const maxEnd = Math.max(...endTimes);
+        const maxStart = Math.min(...startTimes);
+        const maxEnd = Math.max(...endTimes);
 
-      setMaxStartTime(maxStart);
-      setMaxEndTime(maxEnd);
+        setMaxStartTime(maxStart);
+        setMaxEndTime(maxEnd);
+      }
+    }
+    catch (e) {
+      console.log("Error calculating max start and end times:", e);
     }
   }, [timetables]);
 
