@@ -185,7 +185,7 @@ const SeparatorCourse: React.FC<{
   icon?: React.FC<any>
   label?: string,
   showDuration?: boolean
-}> = ({ i, start, end, icon, label, showDuration }) => {
+}> = ({ i, start, end, icon, label, showDuration= true }) => {
   const { colors } = useTheme();
   const startHours = new Date(start).getUTCHours();
   return (
@@ -258,8 +258,8 @@ const SeparatorCourse: React.FC<{
             color: colors.text,
           }}
         >
-          {label ? label : startHours >= 11 &&
-            startHours < 14
+          {label ? label : startHours >= 9 &&
+            startHours < 12
             ? "Pause méridienne"
             : "Pas de cours"}
         </Text>
