@@ -21,6 +21,9 @@ export type PickerDataItem = string | {
   onPress?: () => {} | void,
   checked?: boolean,
   destructive?: boolean,
+  ios?: {
+    icon?: any
+  },
 } | null;
 
 type PickerData = PickerDataItem[];
@@ -90,7 +93,7 @@ const PapillonPicker: React.FC<PapillonPickerProps> = ({
               menuState: (item.checked || item === selected) ? "on" : "off",
               // @ts-ignore
               menuAttributes: [item.destructive ? "destructive" : "normal"],
-              icon: {
+              icon: item.ios?.icon ? item.ios.icon : {
                 type: typeof item !== "string" ? "IMAGE_SYSTEM" : "IMAGE_SYSTEM",
                 imageValue: {
                   systemName: typeof item !== "string" ? (item.sfSymbol ? item.sfSymbol : "") : "",

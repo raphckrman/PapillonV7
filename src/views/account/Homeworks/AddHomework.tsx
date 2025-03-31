@@ -198,6 +198,17 @@ const AddHomeworkScreen: Screen<"AddHomework"> = ({ route, navigation }) => {
                   data={Object.entries(localSubjects).map(([key, subject]) => ({
                     label: subject.pretty,
                     onPress: () => setSelectedPretty(subject),
+                    checked: selectedPretty?.pretty === subject.pretty,
+                    ios: {
+                      icon: {
+                        type: "IMAGE_SYSTEM" ,
+                        imageValue: {
+                          systemName: "circle.fill",
+                          pointSize: 12,
+                          hierarchicalColor: subject?.color,
+                        },
+                      }
+                    }
                   }))}
                   selected={selectedPretty?.pretty}
                 >
