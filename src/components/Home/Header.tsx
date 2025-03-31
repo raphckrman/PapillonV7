@@ -214,6 +214,7 @@ const HeaderButton = React.memo<{
               opacity: 0,
               transform: [{ translateX: 20 }],
             })}
+            key={text+":headerBtn"}
           >
             <TouchableOpacity onPress={onPress} style={[styles.headerButton, { backgroundColor: "#ffffff22", borderColor: "#ffffff50" }]}>
               {newIcon}
