@@ -337,6 +337,8 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
             )}
           </Reanimated.View>
         }
+
+        <View style={{ height: 82 }} />
       </ScrollView>
 
     );
@@ -761,7 +763,7 @@ const AddHomeworkButton: React.FC<{ onPress: () => void, outsideNav: boolean }> 
         {
           position: "absolute",
           zIndex: 999999,
-          bottom: 16 + (outsideNav ? insets.bottom : 0),
+          bottom: -16 + (outsideNav ? insets.bottom : 0),
           right: 16,
           transform: [{ scale: pressed ? 0.95 : 1 }],
           opacity: pressed ? 0.8 : 1,

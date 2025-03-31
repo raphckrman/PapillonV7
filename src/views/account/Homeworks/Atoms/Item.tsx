@@ -61,10 +61,7 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total, 
   useEffect(() => {
     if (account.personalization?.MagicHomeworks) {
       const data = getSubjectData(homework.subject);
-      setSubjectData({
-        ...data,
-        color: data.color,
-      });
+      setSubjectData(data);
       const detectedCategory = detectCategory(homework.content);
       setCategory(detectedCategory);
     } else {

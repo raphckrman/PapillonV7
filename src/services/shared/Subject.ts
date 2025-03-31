@@ -81,7 +81,10 @@ export const getSubjectData = (subject: string) => {
     };
   }
 
-  if (account.personalization.subjects && subject in account.personalization.subjects) {
+  if (
+    account.personalization.subjects &&
+    subject in account.personalization.subjects
+  ) {
     return account.personalization.subjects[subject];
   }
 
