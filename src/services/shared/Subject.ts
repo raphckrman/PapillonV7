@@ -100,9 +100,6 @@ const getClosestGradeEmoji = (subjectName) => {
   return gradeEmojiList[closest];
 };
 
-// Cache to store results of previous calls
-const subjectDataCache = new Map();
-
 export const getSubjectData = (entry) => {
   const state = useCurrentAccount.getState();
   const { account, mutateProperty } = state;
@@ -116,18 +113,9 @@ export const getSubjectData = (entry) => {
     return { color: "#888888", pretty: "Matière inconnue", emoji: "❓" };
   }
 
-  // Check cache first
-  const cacheKey = `${subject}-${JSON.stringify(
-    account.personalization.subjects
-  )}`;
-  if (subjectDataCache.has(cacheKey)) {
-    return subjectDataCache.get(cacheKey);
-  }
-
   // Check if the subject already exists
   const existingSubject = account.personalization.subjects?.[subject];
   if (existingSubject) {
-    subjectDataCache.set(cacheKey, existingSubject);
     return existingSubject;
   }
 
@@ -145,7 +133,6 @@ export const getSubjectData = (entry) => {
     (subj) => subj.pretty === formattedCoursName.pretty
   );
   if (existing) {
-    subjectDataCache.set(cacheKey, existing);
     return existing;
   }
 
@@ -153,6 +140,5 @@ export const getSubjectData = (entry) => {
     subjects: { ...account.personalization.subjects, [subject]: newSubject },
   });
 
-  subjectDataCache.set(cacheKey, newSubject);
   return newSubject;
 };
