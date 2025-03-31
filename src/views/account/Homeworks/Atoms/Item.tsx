@@ -37,7 +37,7 @@ interface HomeworkItemProps {
 }
 
 
-const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total, contentOpacity, entering, exiting }: HomeworkItemProps) => {
+const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total, contentOpacity=1, entering, exiting }: HomeworkItemProps) => {
   const theme = useTheme();
   const [subjectData, setSubjectData] = useState(getSubjectData(homework.subject));
   const [category, setCategory] = useState<string | null>(null);
@@ -63,7 +63,7 @@ const HomeworkItem = ({ homework, navigation, onDonePressHandler, index, total, 
       const data = getSubjectData(homework.subject);
       setSubjectData({
         ...data,
-        color: homework.color || data.color,
+        color: data.color,
       });
       const detectedCategory = detectCategory(homework.content);
       setCategory(detectedCategory);
