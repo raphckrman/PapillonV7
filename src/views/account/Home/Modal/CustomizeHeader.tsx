@@ -7,7 +7,7 @@ import { useCurrentAccount } from "@/stores/account";
 import { NativeList, NativeListHeader } from "@/components/Global/NativeComponents";
 import { COLORS_LIST } from "@/services/shared/Subject";
 import { PersonalizationHeaderGradient } from "@/stores/account/types";
-import { useTheme } from "@react-navigation/native";
+import { usePapillonTheme as useTheme } from "@/utils/ui/theme";
 import { Dice5, Moon, Palette, PictureInPicture } from "lucide-react-native";
 import InsetsBottomView from "@/components/Global/InsetsBottomView";
 

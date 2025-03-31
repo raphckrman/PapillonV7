@@ -1,7 +1,7 @@
 import React, { type ReactNode, isValidElement, Children, useMemo, memo } from "react";
 import { View, Text, Pressable, StyleSheet, type StyleProp, type ViewStyle, type TextStyle, Platform, TouchableNativeFeedback } from "react-native";
 import Reanimated, { type AnimatedProps, LayoutAnimation, LinearTransition } from "react-native-reanimated";
-import { useTheme } from "@react-navigation/native";
+import { usePapillonTheme as useTheme } from "@/utils/ui/theme";
 import { ChevronRight } from "lucide-react-native";
 import { animPapillon } from "@/utils/ui/animations";
 import { LinearGradient } from "expo-linear-gradient";

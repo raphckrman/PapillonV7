@@ -1,7 +1,7 @@
 import { CopyPlus } from "lucide-react-native";
 import React, { forwardRef, useEffect, useState, useCallback, useMemo, memo } from "react";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useTheme } from "@react-navigation/native";
+import { usePapillonTheme as useTheme } from "@/utils/ui/theme";
 import { useCurrentAccount } from "@/stores/account";
 import Reanimated, { Easing, FadeInRight, ZoomIn, ZoomOut } from "react-native-reanimated";
 import { get_home_widgets } from "@/addons/addons";

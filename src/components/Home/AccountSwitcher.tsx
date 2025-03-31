@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { Image, StyleSheet, View } from "react-native";
-import { useTheme } from "@react-navigation/native";
+import { usePapillonTheme as useTheme } from "@/utils/ui/theme";
 import { ChevronDown } from "lucide-react-native";
 import Reanimated, {
   interpolateColor,

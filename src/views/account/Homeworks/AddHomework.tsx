@@ -6,7 +6,7 @@ import { NativeItem, NativeList, NativeText } from "@/components/Global/NativeCo
 import { useHomeworkStore } from "@/stores/homework";
 import { useCurrentAccount } from "@/stores/account";
 
-import { useTheme } from "@react-navigation/native";
+import { usePapillonTheme as useTheme } from "@/utils/ui/theme";
 import { ActivityIndicator, Alert, Dimensions, Platform, TextInput, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import PapillonPicker from "@/components/Global/PapillonPicker";

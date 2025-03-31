@@ -1,4 +1,4 @@
-import { useTheme } from "@react-navigation/native";
+import { usePapillonTheme as useTheme } from "@/utils/ui/theme";
 import { Check } from "lucide-react-native";
 import React, { createContext, useState, useContext, useEffect, useCallback, ReactNode, memo } from "react";
 import { Modal, View, Text, StyleSheet, Pressable } from "react-native";

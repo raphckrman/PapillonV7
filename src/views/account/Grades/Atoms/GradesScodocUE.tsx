@@ -6,7 +6,7 @@ import { anim2Papillon } from "@/utils/ui/animations";
 import { adjustColor } from "@/utils/ui/colors";
 
 import { defaultProfilePicture } from "@/utils/ui/default-profile-picture";
-import { useTheme } from "@react-navigation/native";
+import { usePapillonTheme as useTheme } from "@/utils/ui/theme";
 import { ChevronDown, ChevronUp, Info } from "lucide-react-native";
 import { memo, useState } from "react";
 import { Image, View } from "react-native";

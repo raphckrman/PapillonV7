@@ -20,7 +20,7 @@ import Reanimated, {
 } from "react-native-reanimated";
 import { animPapillon } from "@/utils/ui/animations";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useTheme } from "@react-navigation/native";
+import { usePapillonTheme as useTheme } from "@/utils/ui/theme";
 import AnimatedNumber from "@/components/Global/AnimatedNumber";
 import { CalendarPlus, Eye, EyeOff, MoreVertical } from "lucide-react-native";
 import {
