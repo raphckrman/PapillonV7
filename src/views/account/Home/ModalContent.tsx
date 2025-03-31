@@ -15,7 +15,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteParameters } from "@/router/helpers/types";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { OfflineWarning, useOnlineStatus } from "@/hooks/useOnlineStatus";
-import WebBrowser from "expo-web-browser";
 
 
 interface ModalContentProps {
@@ -132,7 +131,6 @@ const ModalContent: React.FC<ModalContentProps> = ({ navigation, refresh, endRef
       {(new Date).getMonth() == 3 && (new Date).getDate() == 1 && (
         <NativeList animated entering={animPapillon(FadeInUp)} exiting={animPapillon(FadeOutDown)}>
           <TouchableOpacity
-            onPress={() => {WebBrowser.openBrowserAsync("https://archive.org/download/Rick_Astley_Never_Gonna_Give_You_Up/Rick_Astley_Never_Gonna_Give_You_Up.mp4");}}
             style={{
               flex: 1,
               flexDirection: "column",
