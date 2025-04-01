@@ -86,6 +86,19 @@ const RestaurantQRCodeWidget = forwardRef(({
   }, [linkedAccounts, setHidden]);
 
   useEffect(() => {
+    const updateVisibility = () => {
+      const currentHour = new Date().getUTCHours();
+      const shouldShow = allCards?.some(card => card.cardnumber) && currentHour >= 11 && currentHour < 14;
+      setHidden(!shouldShow);
+    };
+
+    updateVisibility();
+    const interval = setInterval(updateVisibility, 60000);
+
+    return () => clearInterval(interval);
+  }, [linkedAccounts, allCards]);
+
+  useEffect(() => {
     if (allCards && allCards.length > 1) {
       const interval = setInterval(() => {
         setCurrentCardIndex((prevIndex) => (prevIndex + 1) % allCards.length);
