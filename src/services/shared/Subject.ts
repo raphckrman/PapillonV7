@@ -117,17 +117,17 @@ export const getSubjectData = (entry) => {
     return { color: "#888888", pretty: "Matière inconnue", emoji: "❓" };
   }
 
+  const allSubjects = account?.personalization?.subjects || {};
+
   // Check if the subject already exists
-  // @ts-expect-error
-  const existingSubject = account.personalization.subjects?.[subject];
+  const existingSubject = allSubjects[subject];
   if (existingSubject) {
     return existingSubject;
   }
 
   const formattedCoursName = findObjectByPronoteString(subject);
   const usedColors = new Set(
-    // @ts-expect-error
-    Object.values(account.personalization.subjects).map((subj) => subj.color)
+    Object.values(allSubjects).map((subj) => subj.color)
   );
   const color = getRandColor(Array.from(usedColors));
   const emoji = getClosestGradeEmoji(subject);
@@ -135,8 +135,7 @@ export const getSubjectData = (entry) => {
   const newSubject = { color, pretty: formattedCoursName.pretty, emoji };
 
   // Check for existing subject with the same pretty name
-  // @ts-expect-error
-  const existing = Object.values(account.personalization.subjects).find(
+  const existing = Object.values(allSubjects).find(
     (subj) => subj.pretty === formattedCoursName.pretty
   );
   if (existing) {
@@ -144,8 +143,7 @@ export const getSubjectData = (entry) => {
   }
 
   mutateProperty("personalization", {
-    // @ts-expect-error
-    subjects: { ...account.personalization.subjects, [subject]: newSubject },
+    subjects: { ...allSubjects, [subject]: newSubject },
   });
 
   return newSubject;
