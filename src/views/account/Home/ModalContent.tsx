@@ -143,7 +143,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ navigation, refresh, endRef
             <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
               <Sparkles size={22} strokeWidth={2} color={colors.text} />
               <NativeText variant="title" style={{ flex: 1 }}>
-                Nouvele police d'écriture !
+                Nouvelle police d'écriture !
               </NativeText>
             </View>
             <NativeText variant="subtitle">
