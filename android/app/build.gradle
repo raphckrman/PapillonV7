@@ -89,7 +89,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 71220
-        versionName "7.12.2"
+        versionName "7.12.3"
     }
     signingConfigs {
         debug {
