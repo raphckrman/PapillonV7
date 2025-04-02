@@ -37,11 +37,10 @@ import { animPapillon } from "@/utils/ui/animations";
 import { usePapillonTheme as useTheme } from "@/utils/ui/theme";
 import { useAlert } from "@/providers/AlertProvider";
 import MissingItem from "@/components/Global/MissingItem";
+import formatDate from "@/utils/format/format_date_complets";
 import ResponsiveTextInput from "@/components/FirstInstallation/ResponsiveTextInput";
-import { formatDistanceToNow } from "date-fns";
-import { fr } from "date-fns/locale";
 
-const SettingsDevLogs: Screen<"SettingsDevLogs"> = () => {
+const SettingsDevLogs: Screen<"SettingsDevLogs"> = ({ navigation }) => {
   const { colors } = useTheme();
   const [logs, setLogs] = useState<Log[]>([]);
   const [searchTerms, setSearchTerms] = useState<string>("");
@@ -59,7 +58,7 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = () => {
       );
       setLoading(false);
     });
-  }, []);
+  }, [navigation]);
 
   return (
     <ScrollView
@@ -151,8 +150,6 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = () => {
           exiting={animPapillon(FadeOutUp)}
         >
           {logs.slice().reverse().map((log, index) => {
-            if (Number.isNaN(new Date(log.date).getTime())) return;
-
             if (log.message.toLowerCase().includes(searchTerms.toLowerCase())) {
               return (
                 <NativeItem
@@ -212,11 +209,9 @@ const SettingsDevLogs: Screen<"SettingsDevLogs"> = () => {
                 >
                   <NativeText variant="title">{log.message}</NativeText>
                   <NativeText variant="subtitle">
-                    {formatDistanceToNow(log.date, {
-                      addSuffix: true,
-                      includeSeconds: true,
-                      locale: fr,
-                    })}
+                    {formatDate(log.date)} à {new Date(log.date).getHours()}:
+                    {new Date(log.date).getMinutes()}:
+                    {new Date(log.date).getSeconds()}
                   </NativeText>
                   <NativeText variant="subtitle">{log.from}</NativeText>
                 </NativeItem>
