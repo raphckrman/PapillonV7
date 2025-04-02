@@ -25,9 +25,7 @@ const fetchHomeworks = async (): Promise<Homework[]> => {
   // @ts-expect-error
   let firstDate = account.instance?.instance?.firstDate || null;
   if (!firstDate) {
-    firstDate = new Date();
-    firstDate.setMonth(8);
-    firstDate.setDate(1);
+    firstDate = new Date(Date.UTC(new Date().getFullYear(), 8, 1));
   }
   const firstDateEpoch = dateToEpochWeekNumber(firstDate);
 
