@@ -15,7 +15,7 @@ import {
   ListRenderItem,
   Pressable
 } from "react-native";
-import { dateToEpochWeekNumber, epochWNToDate } from "@/utils/epochWeekNumber";
+import { calculateWeekNumber, dateToEpochWeekNumber, epochWNToDate } from "@/utils/epochWeekNumber";
 
 import * as StoreReview from "expo-store-review";
 
@@ -518,7 +518,7 @@ const WeekView: Screen<"Homeworks"> = ({ route, navigation }) => {
                   layout={animPapillon(LinearTransition)}
                 >
                   <AnimatedNumber
-                    value={((selectedWeek - firstDateEpoch % 52) % 52 + 1).toString()}
+                    value={calculateWeekNumber(epochWNToDate(selectedWeek))}
                     style={[styles.weekPickerText, styles.weekPickerTextNbr,
                       {
                         color: showPickerButtons ? theme.colors.primary : theme.colors.text,

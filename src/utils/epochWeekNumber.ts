@@ -31,12 +31,13 @@ const EPOCH_WN_CONFIG = {
 
 const dayToWeekCommonDay = (date: Date): Date => {
   const _date = new Date(date);
+  const day = _date.getDay();
   _date.setHours(EPOCH_WN_CONFIG.setHour, 0, 0, 0);
-  _date.setDate(_date.getDate() - ( (7 + _date.getDay() - 1) %7 ) + EPOCH_WN_CONFIG.setMiddleDay - 1);
-  // the (7+ ... -1 ) %7 is to have Monday as the first day (0) of the week and Sunday as last day (7) cause JS start the week on Sunday ¯\_(ツ)_/¯
-  // In details : the 7+ is to avoid negative value, the -1 is to have Monday as the first day of the week and the %7 is to have the right day number (0 to 6)
-  // In details : setMiddleDay - 1 is to have the middle day of the week, aka Wednesday
-  // Its to avoid the fact that Sunday is in the next week with simpler JS code.
+  _date.setDate(
+    _date.getDate() -
+      ((7 + day - EPOCH_WN_CONFIG.setStartDay) % 7) +
+      EPOCH_WN_CONFIG.setMiddleDay
+  );
   return _date;
 };
 
@@ -55,7 +56,7 @@ export const epochWNToPronoteWN = (
 export const dateToEpochWeekNumber = (date: Date): number => {
   const commonDay = dayToWeekCommonDay(date);
   return Math.floor(
-    (commonDay.getTime() + EPOCH_WN_CONFIG.adjustEpochInitialDate - 172800000) /
+    (commonDay.getTime() + EPOCH_WN_CONFIG.adjustEpochInitialDate) /
       EPOCH_WN_CONFIG.numberOfMsInAWeek
   );
 };
@@ -120,4 +121,16 @@ export const epochWMToCalendarWeekNumber = (
   date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
   const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
   return Math.ceil(((date.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+};
+
+export const calculateWeekNumber = (date: Date): number => {
+  const epochWeekNumber = dateToEpochWeekNumber(date);
+  const firstSeptemberEpochWeekNumber = dateToEpochWeekNumber(
+    new Date(Date.UTC(date.getUTCFullYear(), 8, 1))
+  );
+
+  const relativeWeekNumber =
+    ((epochWeekNumber - firstSeptemberEpochWeekNumber + 52) % 52) + 1;
+
+  return relativeWeekNumber;
 };
