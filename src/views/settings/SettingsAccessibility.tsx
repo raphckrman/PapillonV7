@@ -15,6 +15,7 @@ import PapillonCheckbox from "@/components/Global/PapillonCheckbox";
 import { useThemeSoundHaptics } from "@/hooks/Theme_Sound_Haptics";
 import { Switch } from "react-native-gesture-handler";
 import AccessibilityContainerCard from "@/components/Settings/AccesilityContainerCard";
+import { th } from "date-fns/locale";
 
 const SettingsAccessibility: Screen<"SettingsAccessibility"> = () => {
   const theme = useTheme();
@@ -101,6 +102,7 @@ const SettingsAccessibility: Screen<"SettingsAccessibility"> = () => {
                 false: theme.colors.border,
                 true: theme.colors.primary,
               }}
+              thumbColor={theme.colors.text}
               value={enableSon}
               onValueChange={(value) => setEnableSon(value)}
             />
@@ -128,6 +130,7 @@ const SettingsAccessibility: Screen<"SettingsAccessibility"> = () => {
                 false: theme.colors.border,
                 true: theme.colors.primary,
               }}
+              thumbColor={theme.colors.text}
               value={enableHaptics}
               onValueChange={(value) => setEnableHaptics(value)}
             />

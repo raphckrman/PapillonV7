@@ -305,8 +305,12 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
               <Switch
                 value={!hideNameOnHomeScreen}
                 onValueChange={() => setHideNameOnHomeScreen(!hideNameOnHomeScreen)}
-                trackColor={{false: theme.colors.border, true: theme.colors.primary}}
-                thumbColor={theme.colors.background}
+                trackColor={
+                  {
+                    false: theme.colors.border, true: theme.colors.primary
+                  }
+                }
+                thumbColor={theme.colors.text}
               />
             }
           >
@@ -326,8 +330,12 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
               <Switch
                 value={!hideProfilePicOnHomeScreen}
                 onValueChange={() => setHideProfilePicOnHomeScreen(!hideProfilePicOnHomeScreen)}
-                trackColor={{false: theme.colors.border, true: theme.colors.primary}}
-                thumbColor={theme.colors.background}
+                trackColor={
+                  {
+                    false: theme.colors.border, true: theme.colors.primary
+                  }
+                }
+                thumbColor={theme.colors.text}
               />
             }
           >

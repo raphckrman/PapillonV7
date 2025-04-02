@@ -29,6 +29,12 @@ const SettingsMagic: Screen<"SettingsMagic"> = ({ navigation }) => {
         <NativeItem
           trailing={
             <Switch
+              trackColor={
+                {
+                  false: theme.colors.border, true: theme.colors.primary
+                }
+              }
+              thumbColor={theme.colors.text}
               value={account?.personalization?.MagicNews ?? false}
               onValueChange={(value) => mutateProperty("personalization", { MagicNews: value })}
             />
@@ -54,6 +60,12 @@ const SettingsMagic: Screen<"SettingsMagic"> = ({ navigation }) => {
         <NativeItem
           trailing={
             <Switch
+              trackColor={
+                {
+                  false: theme.colors.border, true: theme.colors.primary
+                }
+              }
+              thumbColor={theme.colors.text}
               value={account?.personalization?.MagicHomeworks ?? false}
               onValueChange={(value) => mutateProperty("personalization", { MagicHomeworks: value })}
             />
