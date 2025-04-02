@@ -310,7 +310,7 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
                     false: theme.colors.border, true: theme.colors.primary
                   }
                 }
-                thumbColor={theme.colors.text}
+                thumbColor={theme.dark ? theme.colors.text : theme.colors.background}
               />
             }
           >
@@ -335,7 +335,7 @@ const SettingsProfile: Screen<"SettingsProfile"> = ({ navigation }) => {
                     false: theme.colors.border, true: theme.colors.primary
                   }
                 }
-                thumbColor={theme.colors.text}
+                thumbColor={theme.dark ? theme.colors.text : theme.colors.background}
               />
             }
           >

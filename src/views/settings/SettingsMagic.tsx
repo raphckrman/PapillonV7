@@ -34,7 +34,7 @@ const SettingsMagic: Screen<"SettingsMagic"> = ({ navigation }) => {
                   false: theme.colors.border, true: theme.colors.primary
                 }
               }
-              thumbColor={theme.colors.text}
+              thumbColor={theme.dark ? theme.colors.text : theme.colors.background}
               value={account?.personalization?.MagicNews ?? false}
               onValueChange={(value) => mutateProperty("personalization", { MagicNews: value })}
             />
@@ -65,7 +65,7 @@ const SettingsMagic: Screen<"SettingsMagic"> = ({ navigation }) => {
                   false: theme.colors.border, true: theme.colors.primary
                 }
               }
-              thumbColor={theme.colors.text}
+              thumbColor={theme.dark ? theme.colors.text : theme.colors.background}
               value={account?.personalization?.MagicHomeworks ?? false}
               onValueChange={(value) => mutateProperty("personalization", { MagicHomeworks: value })}
             />

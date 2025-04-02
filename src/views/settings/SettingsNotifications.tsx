@@ -181,7 +181,7 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
                         false: theme.colors.border, true: theme.colors.primary
                       }
                     }
-                    thumbColor={theme.colors.text}
+                    thumbColor={theme.dark ? theme.colors.text : theme.colors.background}
                     value={
                       account.personalization.notifications?.[
                         notification.personalizationValue as keyof typeof notifications

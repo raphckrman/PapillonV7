@@ -515,7 +515,7 @@ const SettingsTabs = () => {
                       false: theme.colors.border, true: theme.colors.primary
                     }
                   }
-                  thumbColor={theme.colors.text}
+                  thumbColor={theme.dark ? theme.colors.text : theme.colors.background}
                   value={!hideTabTitles}
                   onValueChange={() => {
                     setHideTabTitles(!hideTabTitles);
@@ -542,7 +542,7 @@ const SettingsTabs = () => {
                       false: theme.colors.border, true: theme.colors.primary
                     }
                   }
-                  thumbColor={theme.colors.text}
+                  thumbColor={theme.dark ? theme.colors.text : theme.colors.background}
                   value={showTabBackground}
                   onValueChange={() => {
                     setShowTabBackground(!showTabBackground);
