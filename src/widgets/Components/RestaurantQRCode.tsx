@@ -87,7 +87,7 @@ const RestaurantQRCodeWidget = forwardRef(({
 
   useEffect(() => {
     const updateVisibility = () => {
-      const currentHour = new Date().getUTCHours();
+      const currentHour = new Date().getHours();
       const shouldShow = allCards?.some(card => card.cardnumber) && currentHour >= 11 && currentHour < 14;
       setHidden(!shouldShow);
     };
