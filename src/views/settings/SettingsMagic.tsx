@@ -63,7 +63,8 @@ const SettingsMagic: Screen<"SettingsMagic"> = ({ navigation }) => {
             <Switch
               trackColor={
                 {
-                  false: colors.border, true: colors.primary
+                  false: colors.border,
+                  true: colors.primary
                 }
               }
               thumbColor={theme.dark ? colors.text : colors.background}
