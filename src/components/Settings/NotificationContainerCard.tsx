@@ -140,10 +140,11 @@ const NotificationContainerCard = ({
             <Switch
               trackColor={
                 {
-                  false: theme.colors.border, true: theme.colors.primary
+                  false: colors.border,
+                  true: colors.primary
                 }
               }
-              thumbColor={theme.dark ? theme.colors.text : theme.colors.background}
+              thumbColor={theme.dark ? colors.text : colors.background}
               style={{
                 marginRight: 10,
               }}
