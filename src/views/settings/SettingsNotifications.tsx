@@ -178,10 +178,11 @@ const SettingsNotifications: Screen<"SettingsNotifications"> = ({
                   <Switch
                     trackColor={
                       {
-                        false: theme.colors.border, true: theme.colors.primary
+                        false: colors.border,
+                        true: theme.colors.primary
                       }
                     }
-                    thumbColor={theme.dark ? theme.colors.text : theme.colors.background}
+                    thumbColor={theme.dark ? colors.text : colors.background}
                     value={
                       account.personalization.notifications?.[
                         notification.personalizationValue as keyof typeof notifications
