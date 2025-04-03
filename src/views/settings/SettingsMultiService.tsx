@@ -154,7 +154,8 @@ const SettingsMultiService: Screen<"SettingsMultiService"> = ({ navigation }) =>
             <Switch
               trackColor={
                 {
-                  false: theme.colors.border, true: theme.colors.primary
+                  false: theme.colors.border,
+                  true: theme.colors.primary
                 }
               }
               thumbColor={theme.dark ? theme.colors.text : theme.colors.background}
