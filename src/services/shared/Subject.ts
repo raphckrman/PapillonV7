@@ -103,8 +103,7 @@ const getClosestGradeEmoji = (subjectName) => {
   const closest =
     sortedKeys.find((key) => subjectNameFormatted.includes(key)) || "default";
 
-  // @ts-expect-error
-  return gradeEmojiList[closest];
+  return gradeEmojiList[closest as keyof typeof gradeEmojiList];
 };
 
 // @ts-expect-error
