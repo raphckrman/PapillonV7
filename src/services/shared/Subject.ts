@@ -41,8 +41,7 @@ export const getRandColor = (usedColors?: string[]): string => {
   );
 };
 
-// @ts-expect-error
-const getClosestGradeEmoji = (subjectName) => {
+const getClosestGradeEmoji = (subjectName: string) => {
   const gradeEmojiList = {
     numerique: "💻",
     SI: "💻",
@@ -106,8 +105,7 @@ const getClosestGradeEmoji = (subjectName) => {
   return gradeEmojiList[closest as keyof typeof gradeEmojiList];
 };
 
-// @ts-expect-error
-export const getSubjectData = (entry) => {
+export const getSubjectData = (entry: string) => {
   try {
     const state = useCurrentAccount.getState();
     const { account, mutateProperty } = state;
