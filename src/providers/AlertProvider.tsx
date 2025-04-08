@@ -151,8 +151,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                       {
                         borderColor: colors.text + "20",
                         backgroundColor: colors.text + "06",
-                        // @ts-expect-error
-                        flexDirection: alert.actions?.length > 2 ? "column" : "row",
+                        flexDirection: alert.actions && alert.actions?.length > 2 ? "column" : "row",
                         alignItems: "center",
                       },
                     ]}
