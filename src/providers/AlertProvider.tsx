@@ -170,8 +170,7 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
                           key={title}
                           layout={anim2Papillon(LinearTransition)}
                           style={[
-                            // @ts-expect-error
-                            alert.actions?.length === 1 || alert.actions?.length > 2
+                            (alert.actions?.length ?? 0) === 1 || (alert.actions?.length ?? 0) > 2
                               ? styles.singleButtonContainer
                               : null,
                             { borderRadius: 300, overflow: "hidden" },
