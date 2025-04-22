@@ -155,7 +155,7 @@ const RestaurantQrCode: Screen<"RestaurantQrCode">  = ({ route, navigation }) =>
 
         {qrCode && (
           <Reanimated.View
-            entering={anim2Papillon(ZoomIn)}
+            entering={anim2Papillon(ZoomIn).delay(100)}
           >
             <PressableScale
               style={{
@@ -185,7 +185,7 @@ const RestaurantQrCode: Screen<"RestaurantQrCode">  = ({ route, navigation }) =>
               activeScale={0.9}
             >
               <Reanimated.View
-                entering={anim2Papillon(ZoomIn).delay(100)}
+                entering={anim2Papillon(ZoomIn).delay(200)}
               >
                 <QRCode
                   value={qrCode}
