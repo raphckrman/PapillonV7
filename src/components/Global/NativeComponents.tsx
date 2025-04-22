@@ -13,7 +13,7 @@ const listStyles = StyleSheet.create({
   list: {
     borderRadius: 16,
     flexDirection: "column",
-    overflow: "hidden",
+    overflow: "visible",
     marginTop: 24,
   },
   item: {}
